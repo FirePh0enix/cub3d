@@ -1,0 +1,7 @@
+*.o
+*.d
+
+cub3D
+gmon.out
+profile.txt
+cub3d.S

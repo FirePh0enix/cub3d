@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:23:34 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/01 00:50:07 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/01 23:57:27 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static float	q_rsqrt(float number)
 {
-	int		i; // int -> float : long was 32-bits during Quake III era
+	int		i; // int -> long : long was 32-bits during Quake III era
 	float	x2;
 	float	y;
 
@@ -48,7 +48,8 @@ t_v3	v3_norm(t_v3 v)
 	//const float	length = v3_length(v);
 	const float	inv_length = q_rsqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 
-	return ((t_v3){v.x / inv_length, v.y / inv_length, v.z / inv_length});
+	return ((t_v3){v.x * inv_length, v.y * inv_length, v.z * inv_length});
+	//return ((t_v3){v.x * length, v.y * length, v.z * length});
 }
 
 float	v3_dot(t_v3 a, t_v3 b)

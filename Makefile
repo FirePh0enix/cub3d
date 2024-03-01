@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/03/01 00:40:41 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/03/02 00:11:20 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,15 @@ SOURCES=\
 	src/render/init.c \
 	src/render/mesh.c \
 	src/render/draw_mesh.c \
+	src/render/draw_scene.c \
 
 OBJECTS=$(SOURCES:.c=.o)
-NAME=cub3d
+NAME=cub3D
 CC=clang
-CFLAGS=-Imlx -MMD -g3 -Wall -Wextra #-Werror
+
+# -ffast-math : Makes math goes faster but less accurate (~1ms gain for 1 triangle)
+OPTS=-O2 -fno-builtin -ffast-math
+CFLAGS=-Imlx -MMD -g3 -O2 $(OPTS) -Wall -Wextra #-Werror
 
 all: $(NAME)
 

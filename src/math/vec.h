@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:06:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/02/28 22:53:09 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/01 22:47:04 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ typedef struct s_v3
 	float	x;
 	float	y;
 	float	z;
-}	t_v3;
+} __attribute__((aligned(8)))	t_v3;
 
 t_v3	v3_add(t_v3 a, t_v3 b);
 t_v3	v3_sub(t_v3 a, t_v3 b);
