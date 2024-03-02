@@ -6,23 +6,22 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/03/02 14:59:33 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/03/02 16:01:30 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
 	src/main.c \
 	src/render/init.c \
+	src/render/clear.c \
 	src/render/mesh.c \
-	src/render/draw_scene.c \
+	src/render/draw_mesh.c \
 
 OBJECTS=$(SOURCES:.c=.o)
 NAME=cub3D
 CC=clang
 
-OPTS=-O2 -fno-builtin \
-	-fno-honor-nans \
-	-fno-honor-infinities
+OPTS=-O2 -fno-builtin
 CFLAGS=-Imlx -MMD -g3 $(OPTS) -Wall -Wextra #-Werror
 
 all: $(NAME)
@@ -42,7 +41,7 @@ perf: $(OBJECTS) mlx/libmlx.a
 	gprof cub3d gmon.out > profile.txt
 
 clean:
-	rm -rf $(OBJECTS) $(OBJECTS:.c=.d)
+	rm -rf $(OBJECTS) $(OBJECTS:.o=.d)
 
 fclean: clean
 	rm -f cub3d
