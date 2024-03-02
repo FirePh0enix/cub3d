@@ -6,29 +6,15 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:06:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/01 22:47:04 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/02 12:24:20 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VEC_H
 # define VEC_H
 
-typedef struct s_v3
-{
-	float	x;
-	float	y;
-	float	z;
-} __attribute__((aligned(8)))	t_v3;
-
-t_v3	v3_add(t_v3 a, t_v3 b);
-t_v3	v3_sub(t_v3 a, t_v3 b);
-t_v3	v3_scale(t_v3 v, float scale);
-
-float	v3_length(t_v3 v);
-t_v3	v3_norm(t_v3 v);
-t_v3	v3_cross(t_v3 a, t_v3 b);
-float	v3_dot(t_v3 a, t_v3 b);
-
-t_v3	triangle_normal(t_v3 v0, t_v3 v1, t_v3 v2);
+# include "v3.h"
+# include "v3_basic.h"
+# include "v3_complex.h"
 
 #endif

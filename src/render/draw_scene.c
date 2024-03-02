@@ -6,14 +6,15 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 20:53:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/02 00:25:34 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/02 15:08:21 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 #include <math.h>
+#include <stdbool.h>
 
-static void	put_pixel(t_r3d *r3d, t_color color, int sx, int sy)
+inline void	put_pixel(t_r3d *r3d, t_color color, int sx, int sy)
 {
 	int	x;
 	int	y;

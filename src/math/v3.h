@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   v3.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 23:27:18 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/02 12:55:51 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/03/02 12:20:07 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/03/02 14:41:55 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
-#include "render.h"
+#ifndef V3_H
+# define V3_H
 
-void	r3d_init(t_r3d *r3d, void *mlx, int width, int height)
+typedef struct s_v3
 {
-	r3d->buffer = mlx_new_image(mlx, width, height);
-	r3d->data = (unsigned int *) r3d->buffer->data;
-	r3d->width = width;
-	r3d->height = height;
-	r3d->camera_pos = (t_v3){};
-	r3d->fov = 51.52;
-	r3d->scale = 1;
-}
+	float	x;
+	float	y;
+	float	z;
+} __attribute__((aligned(16))) t_v3;
+
+#endif
