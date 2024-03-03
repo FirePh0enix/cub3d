@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/03/03 13:49:37 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/03/03 15:56:02 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ SOURCES=\
 	src/render/init.c \
 	src/render/clear.c \
 	src/render/mesh.c \
+	src/render/mesh_loader.c \
 	src/render/color.c \
 	src/render/draw_mesh.c \
 	src/render/fill_triangle.c \
@@ -24,21 +25,24 @@ NAME=cub3D
 CC=clang
 
 OPTS=-O2 -fno-builtin
-CFLAGS=-Imlx -MMD -g3 $(OPTS) -Wall -Wextra #-Werror
+CFLAGS=-Imlx -Ilibft -MMD -g3 $(OPTS) -Wall -Wextra #-Werror
 
 all: $(NAME)
 
 -include $(OBJECTS:.o=.d)
 
+libft/libft.a:
+	make -C libft
+
 mlx/libmlx.a:
 	make -C mlx
 
-$(NAME): $(OBJECTS) mlx/libmlx.a
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) mlx/libmlx.a -lm -lX11 -lXext
+$(NAME): $(OBJECTS) libft/libft.a mlx/libmlx.a
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext
 
 perf: CFLAGS+=-pg
 perf: $(OBJECTS) mlx/libmlx.a
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) mlx/libmlx.a -lm -lX11 -lXext
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext
 	./cub3d
 	gprof cub3d gmon.out > profile.txt
 
