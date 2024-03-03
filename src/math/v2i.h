@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec.h                                              :+:      :+:    :+:   */
+/*   v2i.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 20:06:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/03 11:52:03 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/03/03 11:50:33 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/03/03 11:51:08 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VEC_H
-# define VEC_H
+#ifndef V2I_H
+# define V2I_H
 
-# include "v3.h"
-# include "v3_basic.h"
-# include "v3_complex.h"
-
-# include "v2i.h"
+typedef struct s_v2i
+{
+	int	x;
+	int	y;
+}	t_v2i;
 
 #endif

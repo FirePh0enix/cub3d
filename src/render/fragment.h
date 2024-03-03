@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec.h                                              :+:      :+:    :+:   */
+/*   fragment.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 20:06:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/03 11:52:03 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/03/03 13:39:38 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/03/03 13:51:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VEC_H
-# define VEC_H
+#ifndef FRAGMENT_H
+# define FRAGMENT_H
 
-# include "v3.h"
-# include "v3_basic.h"
-# include "v3_complex.h"
+#include "render.h"
 
-# include "v2i.h"
+inline t_color	r3d_fragment(t_color in, t_v2i spos)
+{
+	return (in);
+}
 
 #endif

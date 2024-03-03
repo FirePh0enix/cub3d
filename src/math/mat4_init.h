@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 15:41:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/02 22:14:43 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/03 00:06:47 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ inline t_mat4	mat4_projection(float fov, int w, int h)
 	m.d[0][0] = aspect * fov_rad;
 	m.d[1][1] = fov_rad;
 	m.d[2][2] = Z_FAR / (Z_FAR - Z_NEAR);
-	m.d[2][3] = -1.0; // TODO or 1.0 not sure what is the best
+	// Camera forward is -Z axis, 1.0 would means +Z axis
+	m.d[2][3] = -1.0;
 	m.d[3][2] = (-Z_FAR * Z_NEAR) / (Z_FAR - Z_NEAR);
 	return (m);
 }

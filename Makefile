@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/03/02 16:01:30 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/03/03 13:49:37 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ SOURCES=\
 	src/render/init.c \
 	src/render/clear.c \
 	src/render/mesh.c \
+	src/render/color.c \
 	src/render/draw_mesh.c \
+	src/render/fill_triangle.c \
 
 OBJECTS=$(SOURCES:.c=.o)
 NAME=cub3D

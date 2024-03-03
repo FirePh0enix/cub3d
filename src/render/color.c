@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   triangle.c                                         :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 20:18:16 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/02/28 20:36:18 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/03/03 00:20:58 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/03/03 00:22:58 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vec.h"
+#include "render.h"
 
-t_v3	triangle_normal(t_v3 v0, t_v3 v1, t_v3 v2)
+t_color	hex(unsigned int hex)
 {
-	t_v3	a;
-	t_v3	b;
-	t_v3	c;
+	return ((t_color){hex});
+}
 
-	a = v3_sub(v1, v0);
-	b = v3_sub(v2, v0);
-	c = v3_norm(v3_cross(a, b));
-	return (c);
+t_color	color_scale(t_color col, float f)
+{
+	col.r *= f;
+	col.g *= f;
+	col.b *= f;
+	return (col);
 }

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/02 22:21:46 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/03 13:47:05 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,22 @@
 # include <stdbool.h>
 # include <stddef.h>
 
-typedef struct s_triangle
+typedef struct s_tri
 {
 	t_v3	v0;
 	t_v3	v1;
 	t_v3	v2;
-}	t_triangle;
+}	t_tri;
+
+typedef struct s_stri
+{
+	t_v2i	v0;
+	t_v2i	v1;
+	t_v2i	v2;
+	float	d0;
+	float	d1;
+	float	d2;
+}	t_stri;
 
 typedef struct s_mesh
 {
@@ -31,7 +41,20 @@ typedef struct s_mesh
 	size_t	vertex_count;
 }	t_mesh;
 
-typedef unsigned int	t_color;
+typedef union s_color
+{
+	unsigned int		raw;
+	struct
+	{
+		unsigned char	r;
+		unsigned char	g;
+		unsigned char	b;
+		unsigned char	t;
+	};
+}	t_color;
+
+t_color	hex(unsigned int hex);
+t_color	color_scale(t_color col, float f);
 
 typedef struct s_r3d
 {
@@ -40,7 +63,7 @@ typedef struct s_r3d
 	
 	t_v3			camera_pos;
 	
-	unsigned int	*color_buffer;
+	t_color			*color_buffer;
 	float			*depth_buffer;
 	
 	int				width;
@@ -55,6 +78,15 @@ void	mesh_destroy(t_mesh *mesh);
 void	r3d_init(t_r3d *r3d, void *mlx, int width, int height);
 void	r3d_clear_depth_buffer(t_r3d *r3d);
 void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
-void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh);
+
+typedef struct s_opts
+{
+	bool	draw_wireframe;
+	t_color	wireframe_color;
+}	t_opts;
+
+void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts);
+void	r3d_fill_triangle(t_r3d *r3d, t_stri tri, t_color color);
+t_color	r3d_fragment(t_color in, t_v2i spos);
 
 #endif
