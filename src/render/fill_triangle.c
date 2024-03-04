@@ -6,12 +6,40 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/03 23:43:04 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:42:39 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 #include "fragment.h"
+
+inline int	_max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
+inline int	_min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+inline float	_maxf(float a, float b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
+inline float	_minf(float a, float b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
 
 inline void	sort_ascend(t_v3 *v0, t_v3 *v1, t_v3 *v2)
 {
@@ -98,7 +126,8 @@ inline void	fill_bottom_flat_triangle(t_r3d *r3d, t_stri tri, t_color color)
 			scanline_y++;
 			continue ;
 		}
-		draw_hline(r3d, curx1, curx2, scanline_y, z1, (z1 - z2) / (curx2 - curx1), color);
+		float z_step = (_maxf(z1, z2) - _min(z1, z2)) / (_maxf(curx1, curx2) - _minf(curx1, curx2));
+		draw_hline(r3d, curx1, curx2, scanline_y, z1, z_step, color);
 		curx1 += x_step1;
 		curx2 += x_step2;
 		z1 -= z_step1;
@@ -131,7 +160,8 @@ inline void	fill_top_flat_triangle(t_r3d *r3d, t_stri tri, t_color color)
 			scanline_y--;
 			continue ;
 		}
-		draw_hline(r3d, curx1, curx2, scanline_y, z1, (z1 - z2) / (curx2 - curx1), color);
+		float z_step = (_maxf(z1, z2) - _minf(z1, z2)) / (_maxf(curx1, curx2) - _minf(curx1, curx2));
+		draw_hline(r3d, curx1, curx2, scanline_y, z1, z_step, color);
 		curx1 -= x_step1;
 		curx2 -= x_step2;
 		z1 += z_step1; // TODO: maybe += here

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/03 19:33:05 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/04 14:19:51 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 static void *mlx;
 static void *win;
-static t_mesh *cube, *teapot;
+static t_mesh *cube, *teapot, *dragon;
 
 static void	close_hook(void *p)
 {
@@ -69,6 +69,7 @@ int	main(int argc, char *argv[])
 	
 	cube = mesh_load_from_data(vertices, 36, indices, 36);
 	teapot = mesh_load_from_file("teapot.obj");
+	//dragon = mesh_load_from_file("dragon.obj");
 
 	mlx_hook(win, DestroyNotify, 0, (void *) close_hook, mlx);
 	mlx_loop_hook(mlx, (void *) loop_hook, &r3d);

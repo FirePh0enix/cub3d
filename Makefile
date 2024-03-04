@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/03/03 15:56:02 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/03/04 13:39:20 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ $(NAME): $(OBJECTS) libft/libft.a mlx/libmlx.a
 perf: CFLAGS+=-pg
 perf: $(OBJECTS) mlx/libmlx.a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext
-	./cub3d
+	./cub3D
 	gprof cub3d gmon.out > profile.txt
 
 clean:

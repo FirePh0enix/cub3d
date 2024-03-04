@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:19:24 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/03 17:52:06 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:41:57 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*read_to_string(const char *filename)
 		n = read(fd, buffer, 4096);
 		if (n == -1)
 			return (NULL);
-		str = ft_realloc(str, str_size + 1, str_size + n + 1);
+		str = realloc(str, /*str_size + 1,*/ str_size + n + 1);
 		if (!str)
 			return (close(fd), NULL);
 		ft_memcpy(str + str_size, buffer, n);
@@ -59,7 +59,8 @@ static size_t	count_vertices(char **lines)
 static void	read_vertices(t_mesh *mesh, char **lines)
 {
 	int		i;
-	char	**parts;
+	char	*part;
+	t_v3	v;
 
 	i = 0;
 	while (*lines)
@@ -69,8 +70,14 @@ static void	read_vertices(t_mesh *mesh, char **lines)
 			lines++;
 			continue ;
 		}
-		parts = ft_split(*lines, ' ');
-		mesh->vertices[i] = (t_v3){ atof(parts[1]), atof(parts[2]), atof(parts[3]) };
+		part = strtok(*lines, " ");
+		part = strtok(NULL, " ");
+		v.x = atof(part);
+		part = strtok(NULL, " ");
+		v.y = atof(part);
+		part = strtok(NULL, " ");
+		v.z = atof(part);
+		mesh->vertices[i] = v;
 		lines++;
 		i++;
 	}
@@ -93,7 +100,7 @@ static size_t	count_indices(char **lines)
 static void	read_indices(t_mesh *mesh, char **lines)
 {
 	int		i;
-	char	**parts;
+	char	*part;
 
 	i = 0;
 	while (*lines)
@@ -103,10 +110,13 @@ static void	read_indices(t_mesh *mesh, char **lines)
 			lines++;
 			continue ;
 		}
-		parts = ft_split(*lines, ' ');
-		mesh->indices[i] = ft_atoi(parts[1]) - 1;
-		mesh->indices[i + 1] = ft_atoi(parts[2]) - 1;
-		mesh->indices[i + 2] = ft_atoi(parts[3]) - 1;
+		part = strtok(*lines, " ");
+		part = strtok(NULL, " ");
+		mesh->indices[i] = ft_atoi(part) - 1;
+		part = strtok(NULL, " ");
+		mesh->indices[i + 1] = ft_atoi(part) - 1;
+		part = strtok(NULL, " ");
+		mesh->indices[i + 2] = ft_atoi(part) - 1;
 		lines++;
 		i += 3;
 	}
