@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:26:39 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/03 22:49:22 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/14 13:34:13 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	draw_line(t_r3d *r3d, t_v3 v1, t_v3 v2, t_color color)
 	i = 0;
 	while (i <= step)
 	{
-		// This test is costing ~0.2 ms for the teapot !
+		// FIXME This test is costing ~0.2 ms for the teapot !
 		if ((int)x < 0 || (int)x >= r3d->width || (int)y < 0 || (int)y >= r3d->height)
 		{
 			i++;
@@ -62,7 +62,7 @@ void	draw_triangle_wireframe(t_r3d *r3d, t_tri tri, t_color color)
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 {
 	const t_mat4	rotation = mat4_z_rot(0.0);
-	const t_mat4	translation = mat4_translation((t_v3){0.0, -2.0, -5.0});
+	const t_mat4	translation = mat4_translation((t_v3){0.0, -1.0, -3.0});
 	size_t			i;
 	t_tri			tri;
 
@@ -119,10 +119,12 @@ void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 		tri.v1.x *= 0.5 * r3d->width; tri.v1.y *= 0.5 * r3d->height;
 		tri.v2.x *= 0.5 * r3d->width; tri.v2.y *= 0.5 * r3d->height;
 
+		//printf("v0.z = %f | v1.z = %f | v2.z = %f\n", tri.v0.z, tri.v1.z, tri.v2.z);
+
 		if (opts->draw_wireframe)
 			draw_triangle_wireframe(r3d, tri, opts->wireframe_color);
 		else
-			r3d_fill_triangle(r3d, tri, color);
+			r3d_fill_triangle(r3d, tri, color, opts);
 		i += 3;
 	}
 }

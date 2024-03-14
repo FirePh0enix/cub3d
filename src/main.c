@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/04 14:19:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/14 12:06:55 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	loop_hook(t_r3d *r3d)
 	t_opts	opts;
 
 	opts.draw_wireframe = false;
+	opts.draw_depthbuffer = true;
 	opts.wireframe_color = hex(0xFF00FFFF);
 	opts.solid_color = hex(0xFFFFFFFF);
 	r3d_clear_color_buffer(r3d, hex(0x0));

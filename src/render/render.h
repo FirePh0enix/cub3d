@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/03 22:35:23 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/14 12:01:51 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef union s_color
 }	t_color;
 
 t_color	hex(unsigned int hex);
+t_color	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char t);
+t_color	grayscalef(float f);
 t_color	color_scale(t_color col, float f);
 
 typedef struct s_r3d
@@ -86,13 +88,13 @@ void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 typedef struct s_opts
 {
 	bool	draw_wireframe;
+	bool	draw_depthbuffer;
 	t_color	wireframe_color;
 	t_color	solid_color;
 	t_v3	offset;
 }	t_opts;
 
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts);
-void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_color color);
-t_color	r3d_fragment(t_color in, t_v2i spos);
+void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_color color, t_opts *opts);
 
 #endif
