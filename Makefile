@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/03/15 00:42:58 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/03/15 15:29:52 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SOURCES=\
 	src/render/clear.c \
 	src/render/mesh.c \
 	src/render/mesh_loader.c \
+	src/render/material_loader.c \
 	src/render/color.c \
 	src/render/draw_mesh.c \
 	src/render/fill_triangle.c \

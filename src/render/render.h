@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/15 00:33:41 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:30:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,6 @@ typedef struct s_stri
 	float	d2;
 }	t_stri;
 
-typedef struct s_mesh
-{
-	t_v3	*vertices;
-	size_t	vertex_count;
-	int		*indices;
-	size_t	index_count;
-}	t_mesh;
-
 typedef union s_color
 {
 	unsigned int		raw;
@@ -60,6 +52,27 @@ t_color	hex(unsigned int hex);
 t_color	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char t);
 t_color	grayscalef(float f);
 t_color	color_scale(t_color col, float f);
+
+typedef struct s_material
+{
+	t_color	color;
+	t_img	*image;
+}	t_material;
+
+t_material	*material_load(char *filename);
+
+typedef struct s_mesh
+{
+	t_v3		*vertices;
+	size_t		vertex_count;
+	int			*indices;
+	size_t		index_count;
+	t_material	*material;
+}	t_mesh;
+
+t_mesh	*mesh_load_from_data(t_v3 *vertices, size_t vertex_count, int *indices, size_t index_count);
+t_mesh	*mesh_load_from_file(const char *filename);
+void	mesh_destroy(t_mesh *mesh);
 
 typedef enum e_mode
 {
@@ -83,11 +96,8 @@ typedef struct s_r3d
 	int				height;
 
 	t_mat4			projection_matrix;
+	float			rot_z;
 }	t_r3d;
-
-t_mesh	*mesh_load_from_data(t_v3 *vertices, size_t vertex_count, int *indices, size_t index_count);
-t_mesh	*mesh_load_from_file(const char *filename);
-void	mesh_destroy(t_mesh *mesh);
 
 void	r3d_init(t_r3d *r3d, void *mlx, int width, int height);
 void	r3d_clear_depth_buffer(t_r3d *r3d);

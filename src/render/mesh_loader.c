@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:19:24 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/04 13:41:57 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/15 16:01:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ static void	read_indices(t_mesh *mesh, char **lines)
 			continue ;
 		}
 		part = strtok(*lines, " ");
+		// TODO Faces can be `<v>`, `<v>/<vn>` or `<v>/<vn>/<vt>`. For now this
+		// will still works.
 		part = strtok(NULL, " ");
 		mesh->indices[i] = ft_atoi(part) - 1;
 		part = strtok(NULL, " ");
@@ -122,18 +124,31 @@ static void	read_indices(t_mesh *mesh, char **lines)
 	}
 }
 
+static void	convert_path(char *in, char *out)
+{
+	const size_t	sz = ft_strlen(in);
+
+	ft_memcpy(out, in, sz + 1);
+	out[sz - 3] = 'm';
+	out[sz - 2] = 't';
+	out[sz - 1] = 'l';
+}
+
 t_mesh	*mesh_load_from_file(const char *filename)
 {
 	const char	*str = read_to_string(filename);
 	char		**lines;
 	t_mesh		*mesh;
+	char		mtl[32];
 
+	convert_path((char *)filename, mtl);
 	if (!str)
 		return (NULL);
 	lines = ft_split(str, '\n');
 	if (!lines)
 		return (NULL);
 	mesh = malloc(sizeof(t_mesh));
+	mesh->material = material_load(mtl);
 	mesh->vertex_count = count_vertices(lines);
 	mesh->vertices = malloc(sizeof(t_v3) * mesh->vertex_count);
 	read_vertices(mesh, lines);
