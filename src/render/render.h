@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/14 12:01:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/15 00:33:41 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,19 @@ t_color	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char t)
 t_color	grayscalef(float f);
 t_color	color_scale(t_color col, float f);
 
+typedef enum e_mode
+{
+	MODE_NORMAL,
+	MODE_WIREFRAME,
+	MODE_DEPTH,
+}	t_mode;
+
 typedef struct s_r3d
 {
-	t_img			*img;
+	t_img			*canvas;
+	t_mode			mode;
+
 	float			fov;
-	
 	t_v3			camera_pos;
 	
 	t_color			*color_buffer;
@@ -85,10 +93,10 @@ void	r3d_init(t_r3d *r3d, void *mlx, int width, int height);
 void	r3d_clear_depth_buffer(t_r3d *r3d);
 void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 
+int		r3d_key_hook(int keycode, t_r3d *r3d);
+
 typedef struct s_opts
 {
-	bool	draw_wireframe;
-	bool	draw_depthbuffer;
 	t_color	wireframe_color;
 	t_color	solid_color;
 	t_v3	offset;

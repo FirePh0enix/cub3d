@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/14 12:06:55 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/15 00:44:41 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,12 @@ static void	loop_hook(t_r3d *r3d)
 {
 	t_opts	opts;
 
-	opts.draw_wireframe = false;
-	opts.draw_depthbuffer = true;
 	opts.wireframe_color = hex(0xFF00FFFF);
 	opts.solid_color = hex(0xFFFFFFFF);
 	r3d_clear_color_buffer(r3d, hex(0x0));
 	r3d_clear_depth_buffer(r3d);
-	BENCH(r3d_draw_mesh, r3d_draw_mesh(r3d, teapot, &opts), 1);
-	mlx_put_image_to_window(mlx, win, r3d->img, 0, 0);
+	r3d_draw_mesh(r3d, teapot, &opts);
+	mlx_put_image_to_window(mlx, win, r3d->canvas, 0, 0);
 }
 
 int	main(int argc, char *argv[])
@@ -73,6 +71,7 @@ int	main(int argc, char *argv[])
 	//dragon = mesh_load_from_file("dragon.obj");
 
 	mlx_hook(win, DestroyNotify, 0, (void *) close_hook, mlx);
+	mlx_hook(win, KeyPress, KeyPressMask, r3d_key_hook, &r3d);
 	mlx_loop_hook(mlx, (void *) loop_hook, &r3d);
 	r3d_init(&r3d, mlx, 1280, 720);
 	//r3d.rot_z = M_PI;

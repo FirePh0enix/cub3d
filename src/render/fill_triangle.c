@@ -6,35 +6,27 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/14 15:57:13 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/15 01:16:01 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 #include "fragment.h"
 
-inline int	_max(int a, int b)
+/*
+ * FIXME:
+ * - The depth testing is not 100% perfect, some artifacts can be seen when
+ *   using the `Depth buffer` rendering mode.
+ */
+
+static inline float	_maxf(float a, float b)
 {
 	if (a > b)
 		return (a);
 	return (b);
 }
 
-inline int	_min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
-}
-
-inline float	_maxf(float a, float b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
-
-inline float	_minf(float a, float b)
+static inline float	_minf(float a, float b)
 {
 	if (a < b)
 		return (a);
@@ -70,8 +62,7 @@ inline void	draw_hline(
 		int sx, int mx,
 		int y,
 		float z1, float z2,
-		t_color color,
-		t_opts *opts)
+		t_color color)
 {
 	int		i;
 	int		min;
@@ -99,20 +90,20 @@ inline void	draw_hline(
 	while (i <= max)
 	{
 		index = i + y * r3d->width;
-		if (i < 0 || i >= r3d->width /*|| r3d->depth_buffer[index] < z*/)
+		if (i < 0 || i >= r3d->width || r3d->depth_buffer[index] > z)
 		{
 			z += z_step;
 			i++;
 			continue ;
 		}
 		r3d->depth_buffer[index] = z;
-		r3d->color_buffer[index] = r3d_fragment(color, opts, z, (t_v2i){i, y});
+		r3d->color_buffer[index] = r3d_fragment(r3d, color, z, (t_v2i){i, y});
 		z += z_step;
 		i++;
 	}
 }
 
-inline void	fill_bottom_flat_triangle(t_r3d *r3d, t_stri tri, t_color color, t_opts *opts)
+inline void	fill_bottom_flat_triangle(t_r3d *r3d, t_stri tri, t_color color)
 {
 	float	x_step1, x_step2;
 	float	z_step1, z_step2;
@@ -128,15 +119,15 @@ inline void	fill_bottom_flat_triangle(t_r3d *r3d, t_stri tri, t_color color, t_o
 	curx2 = tri.v0.x + 0.5;
 	z1 = tri.d0;
 	z2 = tri.d0;
-	scanline_y = tri.v0.y;
+	scanline_y = _minf(tri.v0.y, r3d->height);
 	while (scanline_y <= tri.v1.y)
 	{
-		if (scanline_y < 0 || scanline_y >= r3d->height)
+		if (scanline_y < 0)
 		{
-			scanline_y++; // FIXME performance maybe idk (scanline_y >= r3d->height can break the loop instead of continuing)
+			scanline_y++;
 			continue ;
 		}
-		draw_hline(r3d, curx1, curx2, scanline_y, z1, z2, color, opts);
+		draw_hline(r3d, curx1, curx2, scanline_y, z1, z2, color);
 		curx1 += x_step1;
 		curx2 += x_step2;
 		z1 += z_step1;
@@ -145,7 +136,7 @@ inline void	fill_bottom_flat_triangle(t_r3d *r3d, t_stri tri, t_color color, t_o
 	}
 }
 
-inline void	fill_top_flat_triangle(t_r3d *r3d, t_stri tri, t_color color, t_opts *opts)
+inline void	fill_top_flat_triangle(t_r3d *r3d, t_stri tri, t_color color)
 {
 	float	x_step1, x_step2;
 	float	z_step1, z_step2;
@@ -161,7 +152,7 @@ inline void	fill_top_flat_triangle(t_r3d *r3d, t_stri tri, t_color color, t_opts
 	curx2 = tri.v2.x + 0.5;
 	z1 = tri.d2;
 	z2 = tri.d2;
-	scanline_y = tri.v2.y;
+	scanline_y = _maxf(tri.v2.y, 0);
 	while (scanline_y > tri.v0.y)
 	{
 		if (scanline_y < 0 || scanline_y >= r3d->height)
@@ -169,11 +160,11 @@ inline void	fill_top_flat_triangle(t_r3d *r3d, t_stri tri, t_color color, t_opts
 			scanline_y--;
 			continue ;
 		}
-		draw_hline(r3d, curx1, curx2, scanline_y, z1, z2, color, opts);
+		draw_hline(r3d, curx1, curx2, scanline_y, z1, z2, color);
 		curx1 -= x_step1;
 		curx2 -= x_step2;
-		z1 += z_step1;
-		z2 += z_step2;
+		z1 -= z_step1;
+		z2 -= z_step2;
 		scanline_y--;
 	}
 }
@@ -190,18 +181,17 @@ void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_color color, t_opts *opts)
 		tri.v0.z, tri.v1.z, tri.v2.z,
 	};
 	if (stri.v1.y == stri.v2.y)
-		fill_bottom_flat_triangle(r3d, stri, hex(0xFF0000FF), opts);
+		fill_bottom_flat_triangle(r3d, stri, color);
 	else if (stri.v0.y == stri.v1.y)
-		fill_top_flat_triangle(r3d, stri, hex(0xFF00FF00), opts);
+		fill_top_flat_triangle(r3d, stri, color);
 	else
 	{
 		v3 = (t_v2i){
 			((float)stri.v0.x + ((float)(stri.v1.y - stri.v0.y) / (float)(stri.v2.y - stri.v0.y)) * (float)(stri.v2.x - stri.v0.x)),
 			stri.v1.y
 		};
-		//d3 = ((float)stri.v0.x + ((stri.d1 - stri.d0) / (stri.d2 - stri.d0)) * (float)(stri.v2.x - stri.v0.x));
-		d3 = stri.d0 + (float)(stri.v2.y - stri.v0.y) / (float)(v3.y - stri.v0.y) * (float)(stri.d2 - stri.d0);
-		fill_bottom_flat_triangle(r3d, (t_stri){stri.v0, stri.v1, v3, tri.v0.z, tri.v1.z, d3}, hex(0xFF0000FF), opts);
-		fill_top_flat_triangle(r3d, (t_stri){stri.v1, v3, stri.v2, tri.v1.z, d3, tri.v2.z}, hex(0xFF00FF00), opts);
+		d3 = stri.d0 + (float)(stri.v2.y - stri.v0.y) / (float)(stri.v2.y - stri.v0.y) * (float)(stri.d2 - stri.d0);
+		fill_bottom_flat_triangle(r3d, (t_stri){stri.v0, stri.v1, v3, tri.v0.z, tri.v1.z, d3}, color);
+		fill_top_flat_triangle(r3d, (t_stri){stri.v1, v3, stri.v2, tri.v1.z, d3, tri.v2.z}, color);
 	}
 }
