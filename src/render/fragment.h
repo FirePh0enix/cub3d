@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:39:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/16 17:35:46 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/17 00:35:50 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ inline t_color	sample(t_mtl *mtl, t_v2 pos)
 	// FIXME Some pixels are off, but 99% percent working
 	x = clampf(pos.x, 0.0, 1.0) * mtl->image->width;
 	y = clampf(pos.y, 0.0, 1.0) * mtl->image->height;
+	// x = pos.x * mtl->image->width;
+	// y = pos.y * mtl->image->height;
 	return (((t_color *) mtl->image->data)[x + y * mtl->image->width]);
 }
 

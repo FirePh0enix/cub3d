@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/16 11:34:54 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/17 00:36:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void	loop_hook(t_vars *vars)
 	if (getms() - vars->last_update < 16)
 		return ;
 	vars->last_update = getms();
+
+	vars->r3d->rot_z -= 0.03;
 	opts.wireframe_color = hex(0xFF00FFFF);
 	opts.solid_color = hex(0xFFFFFFFF);
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
@@ -70,7 +72,7 @@ int	main(int argc, char *argv[])
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_hook, &vars);
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 	r3d_init(vars.r3d, vars.mlx, 1280, 720);
-	vars.r3d->rot_z = 0;
+	vars.r3d->rot_z = M_PI / 3;
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);
 	mlx_destroy_display(vars.mlx);
