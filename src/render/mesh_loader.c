@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:19:24 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/15 16:01:38 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/15 20:13:29 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,31 @@ static size_t	count_indices(char **lines)
 	return (n * 3);
 }
 
+/*
+ * Each index has an format of `<v>/<vn>/<vt>`.
+ * The first one is required, but others can be omitted so `<v>`, `<v>/<vn>`,
+ * `<v>//<vt>` are all valids.
+ */
+static t_index	read_index(char *s)
+{
+	char	*part;
+	t_index	index;
+
+	index.normal = -1;
+	index.texture = -1;
+	part = strtok(s, "/");
+	index.vertex = ft_atoi(part) - 1;
+	part = strtok(NULL, "/");
+	if (part == NULL)
+		return (index);
+	index.normal = ft_atoi(part) - 1;
+	part = strtok(NULL, "/");
+	if (part == NULL)
+		return (index);
+	index.texture = ft_atoi(part) - 1;
+	return (index);
+}
+
 static void	read_indices(t_mesh *mesh, char **lines)
 {
 	int		i;
@@ -111,14 +136,12 @@ static void	read_indices(t_mesh *mesh, char **lines)
 			continue ;
 		}
 		part = strtok(*lines, " ");
-		// TODO Faces can be `<v>`, `<v>/<vn>` or `<v>/<vn>/<vt>`. For now this
-		// will still works.
 		part = strtok(NULL, " ");
-		mesh->indices[i] = ft_atoi(part) - 1;
+		mesh->indices[i] = read_index(part);
 		part = strtok(NULL, " ");
-		mesh->indices[i + 1] = ft_atoi(part) - 1;
+		mesh->indices[i + 1] = read_index(part);
 		part = strtok(NULL, " ");
-		mesh->indices[i + 2] = ft_atoi(part) - 1;
+		mesh->indices[i + 2] = read_index(part);
 		lines++;
 		i += 3;
 	}
@@ -134,7 +157,7 @@ static void	convert_path(char *in, char *out)
 	out[sz - 1] = 'l';
 }
 
-t_mesh	*mesh_load_from_file(const char *filename)
+t_mesh	*mesh_load_from_file(t_vars *vars, const char *filename)
 {
 	const char	*str = read_to_string(filename);
 	char		**lines;
@@ -148,7 +171,7 @@ t_mesh	*mesh_load_from_file(const char *filename)
 	if (!lines)
 		return (NULL);
 	mesh = malloc(sizeof(t_mesh));
-	mesh->material = material_load(mtl);
+	mesh->material = material_load(vars, mtl);
 	mesh->vertex_count = count_vertices(lines);
 	mesh->vertices = malloc(sizeof(t_v3) * mesh->vertex_count);
 	read_vertices(mesh, lines);

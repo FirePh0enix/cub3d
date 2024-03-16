@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   v2_complex.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/15 19:31:51 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/03/16 10:53:30 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/03/16 10:56:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef V2_COMPLEX_H
+# define V2_COMPLEX_H
 
-# include "render/render.h"
+# include "v2.h"
+#include <math.h>
 
-typedef struct s_vars
+inline float	v2_length(t_v2 v)
 {
-	void		*mlx;
-	void		*win;
-	t_r3d		*r3d;
-	suseconds_t	last_update;
-}	t_vars;
+	return (sqrtf(v.x * v.x + v.y * v.y));
+}
 
 #endif

@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   v2_basic.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/15 19:31:51 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/03/16 10:36:37 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/03/16 10:57:02 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef V2_BASIC_H
+# define V2_BASIC_H
 
-# include "render/render.h"
+# include "v2.h"
 
-typedef struct s_vars
+inline t_v2	v2_add(t_v2 a, t_v2 b)
 {
-	void		*mlx;
-	void		*win;
-	t_r3d		*r3d;
-	suseconds_t	last_update;
-}	t_vars;
+	return ((t_v2){a.x + b.x, a.y + b.y});
+}
+
+inline t_v2	v2_sub(t_v2 a, t_v2 b)
+{
+	return ((t_v2){a.x - b.x, a.y - b.y});
+}
+
+inline t_v2	v2_scale(t_v2 v, float s)
+{
+	return ((t_v2){v.x * s, v.y * s});
+}
 
 #endif

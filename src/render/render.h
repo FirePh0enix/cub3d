@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/15 15:30:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/16 11:13:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,17 @@
 # include <stdbool.h>
 # include <stddef.h>
 
+typedef struct s_vars	t_vars;
+
 typedef struct s_tri
 {
 	t_v3	v0;
 	t_v3	v1;
 	t_v3	v2;
+
+	t_v2	t0;
+	t_v2	t1;
+	t_v2	t2;
 }	t_tri;
 
 typedef struct s_stri
@@ -31,9 +37,14 @@ typedef struct s_stri
 	t_v2i	v0;
 	t_v2i	v1;
 	t_v2i	v2;
+
 	float	d0;
 	float	d1;
 	float	d2;
+
+	t_v2	t0;
+	t_v2	t1;
+	t_v2	t2;
 }	t_stri;
 
 typedef union s_color
@@ -50,6 +61,7 @@ typedef union s_color
 
 t_color	hex(unsigned int hex);
 t_color	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char t);
+t_color	rgbaf(float r, float g, float b, float t);
 t_color	grayscalef(float f);
 t_color	color_scale(t_color col, float f);
 
@@ -59,20 +71,47 @@ typedef struct s_material
 	t_img	*image;
 }	t_material;
 
-t_material	*material_load(char *filename);
+t_material	*material_load(t_vars *vars, char *filename);
+
+typedef struct s_mtl
+{
+	char	*name;
+	t_img	*image;
+}	t_mtl;
+
+t_mtl	*mtl_load_from_file(t_vars *vars, char *filename);
+
+typedef struct s_face
+{
+	int	v[3];
+	int	t[3];
+	int	n[3];
+}	t_face;
 
 typedef struct s_mesh
 {
-	t_v3		*vertices;
-	size_t		vertex_count;
-	int			*indices;
-	size_t		index_count;
-	t_material	*material;
+	t_mtl	*material;
+
+	t_face	*faces;
+	size_t	faces_count;
+
+	t_v3	*vertices;
+	size_t	vertices_count;
+
+	t_v2	*textures;
+	size_t	textures_count;
 }	t_mesh;
 
-t_mesh	*mesh_load_from_data(t_v3 *vertices, size_t vertex_count, int *indices, size_t index_count);
-t_mesh	*mesh_load_from_file(const char *filename);
-void	mesh_destroy(t_mesh *mesh);
+/*
+ * Load a Wavefront OBJ file and its associated mtl files into an usable mesh.
+ */
+t_mesh	*mesh_load_from_obj(t_vars *vars, char *filename);
+
+/*
+ * Validate indices for the mesh data. This means that indices can be used to
+ * index the mesh data without any check without risking Out of Bounds.
+ */
+bool	mesh_validate(t_mesh *mesh);
 
 typedef enum e_mode
 {
@@ -113,6 +152,6 @@ typedef struct s_opts
 }	t_opts;
 
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts);
-void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_color color, t_opts *opts);
+void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl);
 
 #endif

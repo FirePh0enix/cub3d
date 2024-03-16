@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   v2.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/15 19:31:51 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/03/15 19:36:56 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/03/15 19:37:29 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef V2_H
+# define V2_H
 
-# include "render/render.h"
-
-typedef struct s_vars
+typedef struct s_v2
 {
-	void		*mlx;
-	void		*win;
-	t_r3d		*r3d;
-	suseconds_t	last_update;
-}	t_vars;
+	float	x;
+	float	y;
+}	t_v2;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:26:39 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/15 14:55:57 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/16 15:10:29 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,31 +59,36 @@ void	draw_triangle_wireframe(t_r3d *r3d, t_tri tri, t_color color)
 	draw_line(r3d, tri.v2, tri.v0, color);
 }
 
+inline t_tri	tri_mul_mat4(t_tri tri, t_mat4 mat)
+{
+	tri.v0 = mat4_multiply_v3(mat, tri.v0);
+	tri.v1 = mat4_multiply_v3(mat, tri.v1);
+	tri.v2 = mat4_multiply_v3(mat, tri.v2);
+	return (tri);
+}
+
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 {
 	const t_mat4	rotation = mat4_z_rot(r3d->rot_z);
-	const t_mat4	translation = mat4_translation((t_v3){2.0, -1.0, -6.0});
+	const t_mat4	translation = mat4_translation((t_v3){0.0, 0.0, -6.0});
 	size_t			i;
 	t_tri			tri;
+	t_face			face;
 
 	i = 0;
-	while (i < mesh->index_count)
+	while (i < mesh->faces_count)
 	{
+		face = mesh->faces[i];
 		tri = (t_tri){
-			mesh->vertices[mesh->indices[i]],
-			mesh->vertices[mesh->indices[i + 1]],
-			mesh->vertices[mesh->indices[i + 2]]
+			mesh->vertices[face.v[0]], mesh->vertices[face.v[1]], mesh->vertices[face.v[2]],
+			mesh->textures[face.t[0]], mesh->textures[face.t[1]], mesh->textures[face.t[2]]
 		};
-		tri = (t_tri){
-			mat4_multiply_v3(rotation, tri.v0),
-			mat4_multiply_v3(rotation, tri.v1),
-			mat4_multiply_v3(rotation, tri.v2),
-		};
-		tri = (t_tri){
-			mat4_multiply_v3(translation, tri.v0),
-			mat4_multiply_v3(translation, tri.v1),
-			mat4_multiply_v3(translation, tri.v2),
-		};
+
+		// printf("%d %d %d\n", face.t[0], face.t[1], face.t[2]);
+		// printf("%f %f | %f %f | %f %f\n", tri.t0.x, tri.t0.y, tri.t1.x, tri.t1.y, tri.t2.x, tri.t2.y);
+
+		tri = tri_mul_mat4(tri, rotation);
+		tri = tri_mul_mat4(tri, translation);
 
 		t_v3	edge1, edge2, normal;
 		edge1 = v3_sub(tri.v1, tri.v0);
@@ -92,7 +97,7 @@ void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 
 		if (v3_dot(normal, v3_sub(tri.v0, r3d->camera_pos)) >= 0.0)
 		{
-			i += 3;
+			i++;
 			continue ;
 		}
 
@@ -107,11 +112,7 @@ void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 			color = color_scale(color, light_dot);
 		}
 
-		tri = (t_tri){
-			mat4_multiply_v3(r3d->projection_matrix, tri.v0),
-			mat4_multiply_v3(r3d->projection_matrix, tri.v1),
-			mat4_multiply_v3(r3d->projection_matrix, tri.v2)
-		};
+		tri = tri_mul_mat4(tri, r3d->projection_matrix);
 		tri.v0.x += 1.0; tri.v0.y += 1.0;
 		tri.v1.x += 1.0; tri.v1.y += 1.0;
 		tri.v2.x += 1.0; tri.v2.y += 1.0;
@@ -122,7 +123,7 @@ void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 		if (r3d->mode == MODE_WIREFRAME)
 			draw_triangle_wireframe(r3d, tri, opts->wireframe_color);
 		else
-			r3d_fill_triangle(r3d, tri, color, opts);
-		i += 3;
+			r3d_fill_triangle(r3d, tri, mesh->material);
+		i++;
 	}
 }
