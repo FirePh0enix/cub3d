@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/16 11:13:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/17 11:39:44 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,6 @@ t_color	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char t)
 t_color	rgbaf(float r, float g, float b, float t);
 t_color	grayscalef(float f);
 t_color	color_scale(t_color col, float f);
-
-typedef struct s_material
-{
-	t_color	color;
-	t_img	*image;
-}	t_material;
-
-t_material	*material_load(t_vars *vars, char *filename);
 
 typedef struct s_mtl
 {

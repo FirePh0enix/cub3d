@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec.h                                              :+:      :+:    :+:   */
+/*   v2i_basic.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 20:06:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/17 19:38:41 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/03/17 19:36:31 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/03/17 19:57:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VEC_H
-# define VEC_H
-
-# include "v3.h"
-# include "v3_basic.h"
-# include "v3_complex.h"
-
-# include "v2.h"
-# include "v2_basic.h"
-# include "v2_complex.h"
+#ifndef V2I_BASIC_H
+# define V2I_BASIC_H
 
 # include "v2i.h"
-# include "v2i_basic.h"
+
+inline t_v2i	v2i_sub(t_v2i a, t_v2i b)
+{
+	return ((t_v2i){a.x - b.x, a.y - b.y});
+}
 
 #endif

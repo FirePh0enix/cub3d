@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:26:39 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/16 21:20:43 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/17 15:50:24 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ inline t_tri	tri_mul_mat4(t_tri tri, t_mat4 mat)
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 {
 	const t_mat4	rotation = mat4_z_rot(r3d->rot_z);
-	const t_mat4	translation = mat4_translation((t_v3){0.0, 0.0, -6.0});
+	const t_mat4	rotation_x = mat4_x_rot(r3d->rot_z);
+	const t_mat4	translation = mat4_translation((t_v3){0.0, 0.0, -4.0});
 	size_t			i;
 	t_tri			tri;
 	t_face			face;
@@ -87,7 +88,8 @@ void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 		// printf("%d %d %d\n", face.t[0], face.t[1], face.t[2]);
 		// printf("%f %f | %f %f | %f %f\n", tri.t0.x, tri.t0.y, tri.t1.x, tri.t1.y, tri.t2.x, tri.t2.y);
 
-		tri = tri_mul_mat4(tri, rotation);
+		// tri = tri_mul_mat4(tri, rotation);
+		tri = tri_mul_mat4(tri, rotation_x);
 		tri = tri_mul_mat4(tri, translation);
 
 		t_v3	edge1, edge2, normal;
