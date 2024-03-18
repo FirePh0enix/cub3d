@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:39:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/17 23:30:00 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:18:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ inline t_color	r3d_fragment(
 		t_r3d *r3d,
 		t_mtl *mtl,
 		float depth,
-		t_v2 tpos)
+		t_v2 tpos,
+		t_v3 color)
 {
 	// FIXME This costs us 0.03-0.04 ms for the teapot
 	if (r3d->mode == MODE_DEPTH)
 		return (grayscalef(depth * 5.0));
+	return (rgbaf(color.x, color.y, color.z, 1.0));
 	// return (rgbaf(tpos.x, 0.5, tpos.y, 1.0));
-	return (sample(mtl, tpos));
+	// return (sample(mtl, tpos));
 	// return (hex(0xFF00FF00));
 }
 

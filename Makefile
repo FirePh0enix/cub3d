@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/03/15 23:51:30 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/03/18 15:10:35 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SOURCES=\
 	src/render/fill_triangle.c \
 
 OBJECTS=$(SOURCES:.c=.o)
+DEPENDENCIES=$(OBJECTS:.o=.d)
 NAME=cub3D
 CC=clang
 
@@ -30,7 +31,7 @@ CFLAGS=-Imlx -Ilibft -MMD -g3 $(OPTS) -Wall -Wextra #-Werror
 
 all: $(NAME)
 
--include $(OBJECTS:.o=.d)
+-include $(DEPENDENCIES)
 
 libft/libft.a:
 	make -C libft

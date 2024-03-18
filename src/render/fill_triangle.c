@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/17 23:29:45 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:53:10 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ inline void	draw_hline(
 
 	z_step = (z_max - z_min) / (max + 1 - min);
 	z = z_min;
-	
+
 	uv_step = (t_v2){
 		(uv_max.x - uv_min.x) / (max + 1 - min),
 		(uv_max.y - uv_min.y) / (max + 1 - min)
@@ -287,6 +287,9 @@ void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl)
 // BARYCENTRIC COORDINATES
 //
 // Code is slower, but smaller, and UV mapping is easier to implement.
+//
+// References:
+// - https://www.youtube.com/watch?v=k5wtuKWmV48
 
 static inline float	interpolate_depth(t_tri tri, float *b)
 {
@@ -295,62 +298,87 @@ static inline float	interpolate_depth(t_tri tri, float *b)
 
 static inline t_v2	interpolate_uv(t_tri tri, float *b, float depth)
 {
-    t_v2	uv;
+	t_v2	uv;
 
-    uv.x = (b[0] * tri.t0.x + b[1] * tri.t1.x + b[2] * tri.t2.x) / -depth;
-    uv.y = (b[0] * tri.t0.y + b[1] * tri.t1.y + b[2] * tri.t2.y) / -depth;
+	uv.x = (b[0] * tri.t0.x + b[1] * tri.t1.x + b[2] * tri.t2.x) / -depth; // * w;
+	uv.y = (b[0] * tri.t0.y + b[1] * tri.t1.y + b[2] * tri.t2.y) / -depth; // * w;
 	return (uv);
 }
 
-static inline void	write_pixel(t_r3d *r3d, int x, int y, t_tri tri, float *b, t_mtl *mtl)
+static inline void	write_pixel(t_r3d *r3d, int x, int y, t_tri tri, float *b, t_mtl *mtl, t_v3 color)
 {
 	const float	depth = interpolate_depth(tri, b);
 	const t_v2	uv = interpolate_uv(tri, b, depth);
 	const int	index = x + y * r3d->width;
 
+	// if (index < 0 || index >= r3d->width * r3d->height)
+	//	return ;
 	if (r3d->depth_buffer[index] > depth)
 		return ;
+	printf("depth %f\n", depth);
 	r3d->depth_buffer[index] = depth;
-	r3d->color_buffer[index] = r3d_fragment(r3d, mtl, depth, uv);
+	r3d->color_buffer[index] = r3d_fragment(r3d, mtl, depth, uv, color);
+}
+
+inline float	edge_func(t_v3 a, t_v3 b, t_v3 c)
+{
+	return ((c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x));
 }
 
 void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl)
 {
-	t_v2i	edge1;
-	t_v2i	edge2;
 	int		x;
 	int		y;
-	float	b[3];
 	int		min_x, max_x, min_y, max_y;
-	// t_stri	st;
+
+	t_v3	col[3] = {
+		{{0, 0, 1}},
+		{{0, 1, 0}},
+		{{1, 0, 0}}
+	};
 
 	min_x = fminf(tri.v0.x, fminf(tri.v1.x, tri.v2.x));
 	max_x = fmaxf(tri.v0.x, fmaxf(tri.v1.x, tri.v2.x));
 	min_y = fminf(tri.v0.y, fminf(tri.v1.y, tri.v2.y));
 	max_y = fmaxf(tri.v0.y, fmaxf(tri.v1.y, tri.v2.y));
-	/*st = (t_stri){
-		v3_to_v2i(tri.v0), v3_to_v2i(tri.v1), v3_to_v2i(tri.v2),
-		tri.v0.z, tri.v1.z, tri.v2.z,
-		tri.t0, tri.t1, tri.t2
-	};*/
-	edge1 = v3_to_v2i(v3_sub(tri.v1, tri.v0));
-	edge2 = v3_to_v2i(v3_sub(tri.v2, tri.v0));
+	tri.v0.z *= -1;
+	tri.v1.z *= -1;
+	tri.v2.z *= -1;
+	tri.v0.z = 1.0 / tri.v0.z;
+	tri.v1.z = 1.0 / tri.v1.z;
+	tri.v2.z = 1.0 / tri.v2.z;
 	x = min_x;
+	float	area = edge_func(tri.v0, tri.v1, tri.v2);
+	col[0].x /= tri.v0.z, col[0].y /= tri.v1.z, col[0].y /= tri.v2.z;
+	col[1].x /= tri.v0.z, col[1].y /= tri.v1.z, col[1].y /= tri.v2.z;
+	col[2].x /= tri.v0.z, col[2].y /= tri.v1.z, col[2].y /= tri.v2.z;
 	while (x <= max_x)
 	{
 		y = min_y;
 		while (y <= max_y)
 		{
-			t_v2	q = v2_sub((t_v2){x, y}, tri.v0.xy);
-			float	det = edge1.x * edge2.y - edge2.x * edge1.y;
-			float	inv_det = 1.0 / det;
+			t_v3	p = {{x + 0.5, max_y - y + 0.5, 0}};
+			float	w0 = edge_func(tri.v1, tri.v2, p);
+			float	w1 = edge_func(tri.v2, tri.v0, p);
+			float	w2 = edge_func(tri.v0, tri.v1, p);
 
-			b[1] = ((float)(q.x - edge2.x) * (float)edge2.y - (float)(q.y - edge2.y) * (float)edge2.x) * inv_det;
-			b[2] = ((float)(q.y - edge1.y) * (float)edge1.x - (float)(q.x - edge1.x) * (float)edge1.y) * inv_det;
-			b[0] = 1.0 - b[1] - b[2];
+			printf("w0 %f, w1 %f, w2 %f\n", w0, w1, w2);
 
-			if (b[0] >= 0 && b[1] >= 0 && b[2] >= 0)
-				write_pixel(r3d, x, y, tri, b, mtl);
+			if (w0 >= 0 && w1 >= 0 && w2 >= 0)
+			{
+				w0 /= area, w1 /= area, w2 /= area;
+				float	z = 1.0 / (w0 * tri.v0.z + w1 * tri.v1.z + w2 * tri.v2.z);
+				float	r = w0 * col[0].x + w1 * col[1].x + w2 * col[2].x;
+				float	g = w0 * col[0].y + w1 * col[1].y + w2 * col[2].y;
+				float	b = w0 * col[0].z + w1 * col[1].z + w2 * col[2].z;
+				r /= z;
+				g /= z;
+				b /= z;
+
+				float bary[] = { w0, w1, w2 };
+
+				write_pixel(r3d, x, y, tri, bary, mtl, (t_v3){{r, g, b}});
+			}
 
 			y++;
 		}
