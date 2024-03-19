@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:39:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/18 23:25:02 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:54:29 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ inline t_color	sample(t_mtl *mtl, t_v2 pos)
 	int	x;
 	int	y;
 
+	if (!mtl)
+		return (hex(0xFFFFFFFF));
 	x = pos.x * (mtl->image->width - 1);
 	y = pos.y * (mtl->image->height - 1);
 	x = (int) clampf(x, 0, mtl->image->width - 1);
@@ -48,8 +50,8 @@ inline t_color	r3d_fragment(
 	// FIXME This costs us 0.03-0.04 ms for the teapot
 	if (r3d->mode == MODE_DEPTH)
 		return (grayscalef(depth * 5.0));
-	return (rgbaf(color.x, color.y, color.z, 1.0));
-	// return (sample(mtl, tpos));
+	// return (rgbaf(color.x, color.y, color.z, 1.0));
+	return (sample(mtl, tpos));
 	// return (hex(0xFF00FF00));
 }
 

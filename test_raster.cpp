@@ -35,6 +35,8 @@ int main(int argc, char **argv) {
     v1[0] = (1 + v1[0]) * 0.5 * w, v1[1] = (1 + v1[1]) * 0.5 * h;
     v2[0] = (1 + v2[0]) * 0.5 * w, v2[1] = (1 + v2[1]) * 0.5 * h;
 
+	printf("%f %f %f\n", v0[2], v1[2], v2[2]);
+
 #ifdef PERSP_CORRECT
     // Divide vertex-attribute by the vertex z-coordinate
     c0[0] /= v0[2], c0[1] /= v0[2], c0[2] /= v0[2];

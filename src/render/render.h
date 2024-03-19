@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/17 11:39:44 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/19 12:18:28 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ typedef struct s_tri
 	t_v2	t0;
 	t_v2	t1;
 	t_v2	t2;
+
+	t_v3	c0;
+	t_v3	c1;
+	t_v3	c2;
 }	t_tri;
 
 typedef struct s_stri

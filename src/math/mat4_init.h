@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 15:41:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/19 01:25:20 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:18:21 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ inline t_v3	mat4_multiply_v3(t_mat4 m, t_v3 v)
 	{
 		r.x /= w;
 		r.y /= w;
-		r.z /= w;
+		// Commenting this code fix the projection problem in r3d_fill_triangle
+		// r.z /= w;
 	}
 	return (r);
 }

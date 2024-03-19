@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/19 01:25:50 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:12:12 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,68 +319,69 @@ float edgeFunction(const t_v3 a, const t_v3 b, const t_v3 c) {
 
 void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl)
 {
-    // t_v3 v0 = { 0.5,  0.5, -2.0};
-    // t_v3 v1 = {-0.5,  0.5, -2.0};
-    // t_v3 v2 = { 0.0, -0.5, -2.0};
-    t_v3 v0 = { 0.5,  0.5, 0.0};
-    t_v3 v2 = {-0.5,  0.5, 0.0};
-    t_v3 v1 = { 0.0, -0.2, 0.0};
+	t_v3	tmp;
+	t_v2	tmp2;
 
-	const t_mat4	rotx = mat4_x_rot(deg2rad(45.0));
-	v0 = mat4_multiply_v3(rotx, v0), v1 = mat4_multiply_v3(rotx, v1), v2 = mat4_multiply_v3(rotx, v2);
-
-	const t_mat4	tr = mat4_translation((t_v3){{0.0, 0.0, -1.0}});
-	v0 = mat4_multiply_v3(tr, v0), v1 = mat4_multiply_v3(tr, v1), v2 = mat4_multiply_v3(tr, v2);
-
-	t_v3 c2 = {1, 0, 0};
-    t_v3 c1 = {0, 1, 0};
-    t_v3 c0 = {0, 0, 1};
-
-    const uint32_t w = r3d->width;
-    const uint32_t h = r3d->height;
+	tmp = tri.v2;
+	tri.v2 = tri.v1;
+	tri.v1 = tmp;
+	tmp2 = tri.t2;
+	tri.t2 = tri.t1;
+	tri.t1 = tmp2;
 
     // Project triangle onto the screen
-	v0 = mat4_multiply_v3(r3d->projection_matrix, v0);
-	v1 = mat4_multiply_v3(r3d->projection_matrix, v1);
-	v2 = mat4_multiply_v3(r3d->projection_matrix, v2);
-//	v0.x /= -v0.z, v0.y /= -v0.z, v0.z = -v0.z;
-//	v1.x /= -v1.z, v1.y /= -v1.z, v1.z = -v1.z;
-//	v2.x /= -v2.z, v2.y /= -v2.z, v2.z = -v2.z;
-	
-    // Convert from screen space to NDC then raster (in one go)
-    v0.x = (1 + v0.x) * 0.5 * w, v0.y = (1 + v0.y) * 0.5 * h;
-    v1.x = (1 + v1.x) * 0.5 * w, v1.y = (1 + v1.y) * 0.5 * h;
-    v2.x = (1 + v2.x) * 0.5 * w, v2.y = (1 + v2.y) * 0.5 * h;
+	tri.v0 = mat4_multiply_v3(r3d->projection_matrix, tri.v0);
+	tri.v1 = mat4_multiply_v3(r3d->projection_matrix, tri.v1);
+	tri.v2 = mat4_multiply_v3(r3d->projection_matrix, tri.v2);
+
+	// Convert from screen space to NDC then raster (in one go)
+	tri.v0.x = (1 + tri.v0.x) * 0.5 * r3d->width, tri.v0.y = (1 + tri.v0.y) * 0.5 * r3d->height;
+	tri.v1.x = (1 + tri.v1.x) * 0.5 * r3d->width, tri.v1.y = (1 + tri.v1.y) * 0.5 * r3d->height;
+	tri.v2.x = (1 + tri.v2.x) * 0.5 * r3d->width, tri.v2.y = (1 + tri.v2.y) * 0.5 * r3d->height;
 
     // Divide vertex-attribute by the vertex z-coordinate
-    c0.x /= v0.z, c0.y /= v0.z, c0.z /= v0.z;
-    c1.x /= v1.z, c1.y /= v1.z, c1.z /= v1.z;
-    c2.x /= v2.z, c2.y /= v2.z, c2.z /= v2.z;
+    // c0.x /= v0.z, c0.y /= v0.z, c0.z /= v0.z;
+    // c1.x /= v1.z, c1.y /= v1.z, c1.z /= v1.z;
+    // c2.x /= v2.z, c2.y /= v2.z, c2.z /= v2.z;
+
+	tri.t0.x /= tri.v0.z, tri.t0.y /= tri.v0.z;
+	tri.t1.x /= tri.v1.z, tri.t1.y /= tri.v1.z;
+	tri.t2.x /= tri.v2.z, tri.t2.y /= tri.v2.z;
     // Pre-compute 1 over z
-    v0.z = 1 / v0.z, v1.z = 1 / v1.z, v2.z = 1 / v2.z;
-    
-    float area = edgeFunction(v0, v1, v2);
-    
-	printf("%f %f %f | %f\n", v0.z, v1.z, v2.z, area);
+    tri.v0.z = 1 / tri.v0.z, tri.v1.z = 1 / tri.v1.z, tri.v2.z = 1 / tri.v2.z;
+ 
+    float area = edgeFunction(tri.v0, tri.v1, tri.v2);
 
-    for (uint32_t j = 0; j < h; ++j) {
-        for (uint32_t i = 0; i < w; ++i) {
-            t_v3 p = {i + 0.5f, h - j + 0.5f, 0.0};
-            float w0 = edgeFunction(v1, v2, p);
-            float w1 = edgeFunction(v2, v0, p);
-            float w2 = edgeFunction(v0, v1, p);
-            if (w0 >= 0 && w1 >= 0 && w2 >= 0) {
-                w0 /= area, w1 /= area, w2 /= area;
-                float r = w0 * c0.x + w1 * c1.x + w2 * c2.x;
-                float g = w0 * c0.y + w1 * c1.y + w2 * c2.y;
-                float b = w0 * c0.z + w1 * c1.z + w2 * c2.z;
+    for (size_t j = 0; j < r3d->height; ++j)
+	{
+		for (size_t i = 0; i < r3d->width; ++i)
+		{
+			t_v3 p = {i + 0.5f, r3d->height - j + 0.5f, 0.0};
+			float w0 = edgeFunction(tri.v1, tri.v2, p);
+			float w1 = edgeFunction(tri.v2, tri.v0, p);
+			float w2 = edgeFunction(tri.v0, tri.v1, p);
+			if (w0 >= 0 && w1 >= 0 && w2 >= 0)
+			{
+				w0 /= area, w1 /= area, w2 /= area;
+				// float r = w0 * c0.x + w1 * c1.x + w2 * c2.x;
+				// float g = w0 * c0.y + w1 * c1.y + w2 * c2.y;
+				// float b = w0 * c0.z + w1 * c1.z + w2 * c2.z;
 
-                float z = 1 / (w0 * v0.z + w1 * v1.z + w2 * v2.z);
-                // Multiply the result by z for perspective-correct interpolation
-                r *= z, g *= z, b *= z;
+				float s = w0 * tri.t0.x + w1 * tri.t1.x + w2 * tri.t2.x;
+				float t = w0 * tri.t0.y + w1 * tri.t1.y + w2 * tri.t2.y;
 
-				r3d->color_buffer[j * r3d->width + i] = rgbaf(r, g, b, 1.0);
-            }
-        }
-    }
+				float z = (w0 * tri.v0.z + w1 * tri.v1.z + w2 * tri.v2.z);
+				float one_z = 1 / z;
+				// Multiply the result by z for perspective-correct interpolation
+				// r *= one_z, g *= one_z, b *= one_z;
+				s *= one_z, t *= one_z;
+
+				if (r3d->depth_buffer[j * r3d->width + i] < z)
+					continue;
+
+				r3d->color_buffer[j * r3d->width + i] = r3d_fragment(
+					r3d, mtl, z, (t_v2){s, t}, (t_v3){/*r, g, b*/});
+			}
+		}
+	}
 }
