@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/19 12:18:28 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/19 23:01:50 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,6 @@ typedef struct s_tri
 	t_v3	c1;
 	t_v3	c2;
 }	t_tri;
-
-typedef struct s_stri
-{
-	t_v2i	v0;
-	t_v2i	v1;
-	t_v2i	v2;
-
-	float	d0;
-	float	d1;
-	float	d2;
-
-	t_v2	t0;
-	t_v2	t1;
-	t_v2	t2;
-}	t_stri;
 
 typedef union s_color
 {
@@ -106,8 +91,49 @@ t_mesh	*mesh_load_from_obj(t_vars *vars, char *filename);
 /*
  * Validate indices for the mesh data. This means that indices can be used to
  * index the mesh data without any check without risking Out of Bounds.
+ *
+ * TODO
  */
 bool	mesh_validate(t_mesh *mesh);
+
+# ifdef RTHREADS
+
+# include <pthread.h>
+
+typedef struct s_r3d	t_r3d;
+
+typedef struct s_job
+{
+	pthread_t	thread;
+	t_r3d		*r3d;
+
+
+	size_t		index;
+	size_t		count;
+
+	t_color		*color_buffer;
+	float		*depth_buffer;
+}	t_job;
+
+typedef struct s_jobs
+{
+	t_job		jobs[RTHREADS];
+	int			finished_jobs;
+
+	t_mat4		translation;
+	t_mat4		rotation;
+
+	t_mesh		*mesh;
+}	t_jobs;
+
+void	r3d_mt_init(t_r3d *r3d);
+
+/*
+ * Draw a mesh using multithreading.
+ */
+void	r3d_mt_draw(t_r3d *r3d, t_mesh *mesh);
+
+# endif
 
 typedef enum e_mode
 {
@@ -132,6 +158,10 @@ typedef struct s_r3d
 
 	t_mat4			projection_matrix;
 	float			rot_z;
+
+# ifdef RTHREADS
+	t_jobs			jobs;
+# endif
 }	t_r3d;
 
 void	r3d_init(t_r3d *r3d, void *mlx, int width, int height);
@@ -148,6 +178,7 @@ typedef struct s_opts
 }	t_opts;
 
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts);
-void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl);
+void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *dbuf);
+
 
 #endif

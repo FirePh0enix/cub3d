@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/03/18 15:10:35 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/03/19 18:33:31 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,16 @@ CC=clang
 
 OPTS=-O2 -fno-builtin
 CFLAGS=-Imlx -Ilibft -MMD -g3 $(OPTS) -Wall -Wextra #-Werror
+
+ifdef RTHREADS
+
+# Enable multithreading in the renderer.
+
+CFLAGS+=-pthread -DRTHREADS
+SOURCES+=\
+	src/render/mt.c
+
+endif
 
 all: $(NAME)
 

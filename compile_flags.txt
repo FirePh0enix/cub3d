@@ -2,3 +2,4 @@
 -Ilibft
 -Wall
 -Wextra
+-DRTHREADS=4
