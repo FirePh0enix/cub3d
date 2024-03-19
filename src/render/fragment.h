@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:39:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/18 15:18:15 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/18 23:25:02 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ inline t_color	r3d_fragment(
 	if (r3d->mode == MODE_DEPTH)
 		return (grayscalef(depth * 5.0));
 	return (rgbaf(color.x, color.y, color.z, 1.0));
-	// return (rgbaf(tpos.x, 0.5, tpos.y, 1.0));
 	// return (sample(mtl, tpos));
 	// return (hex(0xFF00FF00));
 }

@@ -3,6 +3,7 @@
 *.S
 
 cub3D
+a.out
 gmon.out
 profile.txt
 

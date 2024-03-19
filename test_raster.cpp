@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <cstring>
+#include <cstdint>
 
 typedef float Vec2[2];
 typedef float Vec3[3];
@@ -48,6 +49,8 @@ int main(int argc, char **argv) {
     
     float area = edgeFunction(v0, v1, v2);
     
+	printf("%f %f %f | %f\n", v0[2], v1[2], v2[2], area);
+
     for (uint32_t j = 0; j < h; ++j) {
         for (uint32_t i = 0; i < w; ++i) {
             Vec3 p = {i + 0.5f, h - j + 0.5f, 0.0};

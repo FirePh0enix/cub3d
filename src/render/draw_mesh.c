@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:26:39 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/18 15:37:13 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/18 22:06:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 		}
 
 		tri = tri_mul_mat4(tri, r3d->projection_matrix);
+
+		// Convert coordinates from NDC to screen coordinates
 		tri.v0.x += 1.0, tri.v0.y += 1.0;
 		tri.v1.x += 1.0, tri.v1.y += 1.0;
 		tri.v2.x += 1.0, tri.v2.y += 1.0;

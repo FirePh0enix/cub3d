@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 15:41:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/18 11:59:34 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/19 01:25:20 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ inline float	deg2rad(float f)
 inline t_mat4	mat4_projection(float fov, int w, int h)
 {
 	const float	aspect = (float)h / (float)w;
-	const float	fov_rad = 1.0 / tan(fov * 0.5 / 180.0 * M_PI);
+	const float	fov_rad = 1.0 / tan(deg2rad(fov * 0.5));
 	t_mat4		m;
 
 	bzero(&m, sizeof(t_mat4));
 	m.d[0][0] = aspect * fov_rad;
 	m.d[1][1] = fov_rad;
-	m.d[2][2] = -(Z_FAR + Z_NEAR) / (Z_FAR - Z_NEAR);
-	m.d[2][3] = 1.0;
+	m.d[2][2] = (-Z_FAR + Z_NEAR) / (Z_FAR - Z_NEAR);
+	m.d[2][3] = -1.0;
 	m.d[3][2] = (-2 * Z_FAR * Z_NEAR) / (Z_FAR - Z_NEAR);
 	return (m);
 }

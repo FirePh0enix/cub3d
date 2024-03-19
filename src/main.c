@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/17 15:50:50 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/18 23:45:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ static void	loop_hook(t_vars *vars)
 	// vars->r3d->rot_z -= 0.03;
 	opts.wireframe_color = hex(0xFF00FFFF);
 	opts.solid_color = hex(0xFFFFFFFF);
-	r3d_clear_color_buffer(vars->r3d, hex(0x0));
-	r3d_clear_depth_buffer(vars->r3d);
-	r3d_draw_mesh(vars->r3d, teapot, &opts);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
+	//r3d_clear_color_buffer(vars->r3d, hex(0x0));
+	//r3d_clear_depth_buffer(vars->r3d);
+	//r3d_draw_mesh(vars->r3d, teapot, &opts);
+	//mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
 
 static int	key_hook(int keycode, t_vars *vars)
@@ -73,6 +73,17 @@ int	main(int argc, char *argv[])
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 	r3d_init(vars.r3d, vars.mlx, 1280, 720);
 	vars.r3d->rot_z = M_PI / 3; // M_PI / 3;
+
+	t_tri tri = {
+		{{13.0, 34.0, 114.0}},
+		{{29.0, -15.0, 44.0}},
+		{{-48.0, -10.0, 82.0}},
+		{}, {}, {}
+	};
+	r3d_fill_triangle(vars.r3d, tri, teapot->material);
+
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.r3d->canvas, 0, 0);
+
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);
 	mlx_destroy_display(vars.mlx);
