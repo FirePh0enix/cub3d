@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/19 23:01:50 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 13:50:22 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,23 @@ t_color	rgbaf(float r, float g, float b, float t);
 t_color	grayscalef(float f);
 t_color	color_scale(t_color col, float f);
 
+/*
+ * Stores the data of a PPM file.
+ * Pixels are 24-bits wide, but are converted to 32-bits for easier access.
+ */
+typedef struct s_ppm
+{
+	char	*data;
+	int		width;
+	int		height;
+}	t_ppm;
+
+t_ppm	*ppm_load_from_file(char *filename);
+
 typedef struct s_mtl
 {
 	char	*name;
-	t_img	*image;
+	t_ppm	*image;
 }	t_mtl;
 
 t_mtl	*mtl_load_from_file(t_vars *vars, char *filename);

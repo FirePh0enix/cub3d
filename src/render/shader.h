@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 21:37:10 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/19 21:41:30 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:51:33 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,9 @@ inline t_color	sample(t_mtl *mtl, t_v2 uv)
 	if (!mtl)
 		return (hex(0xFFFFFFFF));
 	x = uv.x * (mtl->image->width - 1);
-	y = uv.y * (mtl->image->height - 1);
-	x = (int) clampf(x, 0, mtl->image->width - 1);
-	y = (int) clampf(y, 0, mtl->image->height - 1);
-	// x = pos.x * mtl->image->width;
-	// y = pos.y * mtl->image->height;
+	y = mtl->image->height - uv.y * (mtl->image->height - 1);
+	x = clampf(x, 0, mtl->image->width - 1);
+	y = clampf(y, 0, mtl->image->height - 1);
 	return (((t_color *) mtl->image->data)[x + y * mtl->image->width]);
 }
 

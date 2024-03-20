@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 11:01:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:26:42 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,11 +144,12 @@ void	r3d_fill_triangle(
 				float one_z = 1 / z	;
 				t_v3	w = {{w0, w1, w2}};
 				t_v2	uv = int_v2(tri.t0, tri.t1, tri.t2, w, one_z);
+				size_t	index = (r3d->height - j) * r3d->width + i;
 
-				if (z < dbuf[j * r3d->width + i])
+				if (z < dbuf[index])
 					continue ;
-				dbuf[j * r3d->width + i] = z;
-				cbuf[j * r3d->width + i] = shader(r3d, mtl, z, uv);
+				dbuf[index] = z;
+				cbuf[index] = shader(r3d, mtl, z, uv);
 			}
 		}
 	}

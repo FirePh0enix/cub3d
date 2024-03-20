@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 11:05:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:14:34 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static void	loop_hook(t_vars *vars)
 	opts.solid_color = hex(0xFFFFFFFF);
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
-	//r3d_draw_mesh(vars->r3d, teapot, &opts);
-	BENCH_FUNC(draw, r3d_draw_mesh(vars->r3d, teapot, &opts));
+	// BENCH_FUNC(draw, r3d_draw_mesh(vars->r3d, teapot, &opts);
+	r3d_draw_mesh(vars->r3d, teapot, &opts);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
 

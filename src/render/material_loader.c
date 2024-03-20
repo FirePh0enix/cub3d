@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 14:15:48 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/19 16:04:35 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 13:56:50 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void convert_path(char *in, char *out, char *filename)
 	while (i < sz + 1)
 		out[j++] = in[i++];
 	// FIXME Can segfault is out size < 3
-	out[j - 4] = 'x';
+	out[j - 4] = 'p';
 	out[j - 3] = 'p';
 	out[j - 2] = 'm';
 }
@@ -102,6 +102,7 @@ t_mtl	*mtl_load_from_file(t_vars *vars, char *name)
 		break;
 		lines++;
 	}
-	material->image = mlx_xpm_file_to_image(vars->mlx, texture, &w, &w);
+	// material->image = mlx_xpm_file_to_image(vars->mlx, texture, &w, &w);
+	material->image = ppm_load_from_file(texture);
 	return (material);
 }
