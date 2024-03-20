@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 22:45:49 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/16 16:04:29 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:18:51 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,28 @@ static void	read_mtl(t_vars *vars, t_mesh *mesh, char **lines, char *filename)
 	mesh->material = mtl_load_from_file(vars, buffer);
 }
 
+/*
+ * To support quad faces, they must be splitted in two triangle faces during
+ * loading. So if a face has 4 vertices, count it as 2 face.
+ *
+ * TODO It should use a count_words function.
+ */
+static int	num_of_tri_faces(char *line)
+{
+	int	spaces;
+
+	spaces = 0;
+	while (*line)
+	{
+		if (*line == ' ')
+			spaces++;
+		line++;
+	}
+	if (spaces == 4)
+		return (2);
+	return (1);
+}
+
 static void alloc_arrays(t_mesh *mesh, char **lines)
 {
 	size_t	i;
@@ -87,7 +109,7 @@ static void alloc_arrays(t_mesh *mesh, char **lines)
 		else if (ft_strlen(lines[i]) > 3 && !ft_strncmp(lines[i], "vt ", 3))
 			mesh->textures_count++;
 		else if (ft_strlen(lines[i]) > 2 && !ft_strncmp(lines[i], "f ", 2))
-			mesh->faces_count++;
+			mesh->faces_count += num_of_tri_faces(lines[i]);
 		i++;
 	}
 	mesh->vertices = malloc(sizeof(t_v3) * mesh->vertices_count);
@@ -97,9 +119,11 @@ static void alloc_arrays(t_mesh *mesh, char **lines)
 
 static void	read_face_nums(char *line, int index, t_face *face)
 {
-	char	*sv;
-	char	*svt;
-	char	*svn;
+	const size_t	sz = ft_strlen(line);
+	char			*sv;
+	char			*svt;
+	char			*svn;
+	size_t			i;
 
 	sv = strtok(line, "/");
 	svt = strtok(NULL, "/");
@@ -116,22 +140,45 @@ static void	read_face_nums(char *line, int index, t_face *face)
 		face->n[index] = -1;
 	else
 		face->n[index] = ft_atoi(svn) - 1;
+	i = 0;
+	while (i < sz)
+	{
+		if (line[i] == '\0')
+			line[i] = '/';
+		i++;
+	}
 }
 
-static t_face	read_face(char *line)
+static void	read_face(t_mesh *mesh, char *line)
 {
 	t_face	face;
 	char	*s0;
 	char	*s1;
 	char	*s2;
+	char	*s3;
 
 	s0 = strtok(line, " ");
 	s1 = strtok(NULL, " ");
 	s2 = strtok(NULL, " ");
-	read_face_nums(s0, 0, &face);
-	read_face_nums(s1, 1, &face);
-	read_face_nums(s2, 2, &face);
-	return (face);
+	s3 = strtok(NULL, " ");
+	if (s3 != NULL)
+	{
+		read_face_nums(s0, 0, &face);
+		read_face_nums(s1, 1, &face);
+		read_face_nums(s3, 2, &face);
+		mesh->faces[mesh->faces_count++] = face;
+		read_face_nums(s1, 0, &face);
+		read_face_nums(s2, 1, &face);
+		read_face_nums(s3, 2, &face);
+		mesh->faces[mesh->faces_count++] = face;
+	}
+	else
+	{
+		read_face_nums(s0, 0, &face);
+		read_face_nums(s1, 1, &face);
+		read_face_nums(s2, 2, &face);
+		mesh->faces[mesh->faces_count++] = face;
+	}
 }
 
 static void	read_arrays(t_mesh *mesh, char **lines)
@@ -161,7 +208,7 @@ static void	read_arrays(t_mesh *mesh, char **lines)
 		}
 		else if (ft_strlen(lines[i]) > 2 && !ft_strncmp(lines[i], "f ", 2))
 		{
-			mesh->faces[mesh->faces_count++] = read_face(lines[i] + 2);
+			read_face(mesh, lines[i] + 2);
 		}
 		i++;
 	}

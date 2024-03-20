@@ -8,5 +8,5 @@ Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 illum 2
-map_Kd Downloads/KayKit_Adventurers_1.0_FREE/Characters/fbx/knight_texture.png
-map_d Downloads/KayKit_Adventurers_1.0_FREE/Characters/fbx/knight_texture.png
+map_Kd knight_texture.png
+map_d knight_texture.png

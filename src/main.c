@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 10:47:27 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:05:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int argc, char *argv[])
 	vars.last_update = 0;
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
-	teapot = mesh_load_from_obj(&vars, "models/teapot.obj");
+	teapot = mesh_load_from_obj(&vars, "models/knight.obj");
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_hook, &vars);
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
