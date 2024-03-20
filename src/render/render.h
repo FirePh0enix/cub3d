@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 21:21:13 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:33:22 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../math/vec.h"
 # include "../math/matrix.h"
 # include "types.h"
+# include "../gui/gui.h"
 # include "mlx_int.h"
 # include <stdbool.h>
 # include <stddef.h>
@@ -179,5 +180,7 @@ typedef struct s_opts
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts);
 void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *dbuf,
 		t_v3 light_dir);
+
+void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);
 
 #endif

@@ -6,11 +6,12 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 14:14:34 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:53:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "gui/gui.h"
 #include "render/render.h"
 #include "mlx.h"
 #include "benchmark.h"
@@ -49,6 +50,7 @@ static void	loop_hook(t_vars *vars)
 	r3d_clear_depth_buffer(vars->r3d);
 	// BENCH_FUNC(draw, r3d_draw_mesh(vars->r3d, teapot, &opts);
 	r3d_draw_mesh(vars->r3d, teapot, &opts);
+	r3d_draw_gui(vars->r3d, vars->panel);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
 
@@ -71,7 +73,11 @@ int	main(int argc, char *argv[])
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_hook, &vars);
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 	r3d_init(vars.r3d, vars.mlx, 1280, 720);
-	vars.r3d->rot_z = M_PI / 3; // M_PI / 3;
+	vars.r3d->rot_z = M_PI / 3;
+
+	vars.panel = gui_panel_new((t_v2){-1.0, -1.0});
+	vars.panel->bg_color = hex(0xFF00FF00);
+	vars.panel->size = (t_v2){0.0, 0.0};
 
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);

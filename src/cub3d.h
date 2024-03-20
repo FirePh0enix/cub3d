@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/15 19:31:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:50:54 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ typedef struct s_vars
 	void		*win;
 	t_r3d		*r3d;
 	suseconds_t	last_update;
+
+	t_panel		*panel;
 }	t_vars;
 
 #endif
