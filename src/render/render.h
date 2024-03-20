@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 15:46:13 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 21:21:13 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../math/vec.h"
 # include "../math/matrix.h"
+# include "types.h"
 # include "mlx_int.h"
 # include <stdbool.h>
 # include <stddef.h>
@@ -35,24 +36,6 @@ typedef struct s_tri
 	t_v3	n1;
 	t_v3	n2;
 }	t_tri;
-
-typedef union s_color
-{
-	unsigned int		raw;
-	struct
-	{
-		unsigned char	r;
-		unsigned char	g;
-		unsigned char	b;
-		unsigned char	t;
-	};
-}	t_color;
-
-t_color	hex(unsigned int hex);
-t_color	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char t);
-t_color	rgbaf(float r, float g, float b, float t);
-t_color	grayscalef(float f);
-t_color	color_scale(t_color col, float f);
 
 /*
  * Stores the data of a PPM file.
@@ -196,6 +179,5 @@ typedef struct s_opts
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts);
 void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *dbuf,
 		t_v3 light_dir);
-
 
 #endif

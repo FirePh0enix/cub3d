@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:26:39 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 15:42:28 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 21:32:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	draw_line(t_r3d *r3d, t_v3 v1, t_v3 v2, t_color color)
 			i++;
 			continue ;
 		}
-		r3d->color_buffer[(int)x + (int)y * r3d->width] = color;
+		r3d->color_buffer[(int)x + (r3d->height - (int)y) * r3d->width] = color;
 		x = x + dx;
 		y = y + dy;
 		i++;
@@ -68,6 +68,17 @@ inline t_tri	tri_mul_mat4(t_tri tri, t_mat4 mat)
 	return (tri);
 }
 
+static void	draw_debug_triangle(t_r3d *r3d, t_tri tri)
+{
+	const t_color	color = hex(0xFF00FFFF);
+
+	tri = tri_mul_mat4(tri, r3d->projection_matrix);
+	tri.v0.x = (1 + tri.v0.x) * 0.5 * r3d->width, tri.v0.y = (1 + tri.v0.y) * 0.5 * r3d->height;
+	tri.v1.x = (1 + tri.v1.x) * 0.5 * r3d->width, tri.v1.y = (1 + tri.v1.y) * 0.5 * r3d->height;
+	tri.v2.x = (1 + tri.v2.x) * 0.5 * r3d->width, tri.v2.y = (1 + tri.v2.y) * 0.5 * r3d->height;
+	draw_triangle_wireframe(r3d, tri, color);
+}
+
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 {
 	const t_mat4	rotation = mat4_z_rot(r3d->rot_z);
@@ -85,11 +96,7 @@ void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 			mesh->vertices[face.v[0]], mesh->vertices[face.v[1]], mesh->vertices[face.v[2]],
 			mesh->textures[face.t[0]], mesh->textures[face.t[1]], mesh->textures[face.t[2]],
 			mesh->normals[face.n[0]], mesh->normals[face.n[1]], mesh->normals[face.n[2]],
-			0, 0, 0,
 		};
-
-		// printf("%d %d %d\n", face.t[0], face.t[1], face.t[2]);
-		// printf("%f %f | %f %f | %f %f\n", tri.t0.x, tri.t0.y, tri.t1.x, tri.t1.y, tri.t2.x, tri.t2.y);
 
 		//tri = tri_mul_mat4(tri, rotation);
 		//tri = tri_mul_mat4(tri, rotation_x);
@@ -110,7 +117,7 @@ void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts)
 		light_dir = v3_norm(light_dir);
 
 		if (r3d->mode == MODE_WIREFRAME)
-			draw_triangle_wireframe(r3d, tri, opts->wireframe_color);
+			draw_debug_triangle(r3d, tri);
 		else
 			r3d_fill_triangle(r3d, tri, mesh->material,
 					r3d->color_buffer, r3d->depth_buffer, light_dir);

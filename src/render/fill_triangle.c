@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 19:23:56 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:42:30 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static inline float	min3f(float a, float b, float c)
 
 inline float	edge_fn(t_v3 a, t_v3 b, t_v3 c)
 {
-    return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x);
+	return (a.x - c.x) * (b.y - c.y) - (a.y - c.y) * (b.x - c.x);
 }
 
 /*
@@ -99,20 +99,6 @@ void	r3d_fill_triangle(
 		t_color *cbuf, float *dbuf,
 		t_v3 light_dir)
 {
-	t_v3	tmp;
-	t_v2	tmp2;
-
-	// TODO: edge_fn should be modified to work with clockwise triangles.
-	tmp = tri.v2;
-	tri.v2 = tri.v1;
-	tri.v1 = tmp;
-	tmp2 = tri.t2;
-	tri.t2 = tri.t1;
-	tri.t1 = tmp2;
-	tmp = tri.n2;
-	tri.n2 = tri.n1;
-	tri.n1 = tmp;
-
 	tri.v0 = mat4_multiply_v3(r3d->projection_matrix, tri.v0);
 	tri.v1 = mat4_multiply_v3(r3d->projection_matrix, tri.v1);
 	tri.v2 = mat4_multiply_v3(r3d->projection_matrix, tri.v2);

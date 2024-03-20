@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:19:08 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 14:52:04 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 21:32:46 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ t_ppm	*ppm_load_from_file(char *filename)
 		return (NULL);
 	ppm = malloc(sizeof(t_ppm));
 	read_header(&ppm->width, &ppm->height, &s);
-	printf("%d %d\n", ppm->width, ppm->height);
 	read_pixels(ppm, s);
 	free(s2);
 	return (ppm);
