@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 15:46:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:23:56 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,9 @@ void	r3d_fill_triangle(
 	tmp2 = tri.t2;
 	tri.t2 = tri.t1;
 	tri.t1 = tmp2;
+	tmp = tri.n2;
+	tri.n2 = tri.n1;
+	tri.n1 = tmp;
 
 	tri.v0 = mat4_multiply_v3(r3d->projection_matrix, tri.v0);
 	tri.v1 = mat4_multiply_v3(r3d->projection_matrix, tri.v1);
