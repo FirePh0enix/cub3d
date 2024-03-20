@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/19 23:00:27 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:01:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,11 @@ void	r3d_fill_triangle(
 	if (min_x >= r3d->width || min_y >= r3d->height)
 		return ;
 
+	min_x = fmaxf(min_x, 0);
+	min_y = fmaxf(min_y, 0);
+	max_x = fminf(max_x, r3d->width - 1);
+	max_y = fminf(max_y, r3d->height - 1);
+
 	pint_v2(&tri.t0, &tri.t1, &tri.t2, &tri);
     tri.v0.z = 1 / tri.v0.z, tri.v1.z = 1 / tri.v1.z, tri.v2.z = 1 / tri.v2.z;
  
@@ -136,12 +141,13 @@ void	r3d_fill_triangle(
 				w0 /= area, w1 /= area, w2 /= area;
 
 				float z = (w0 * tri.v0.z + w1 * tri.v1.z + w2 * tri.v2.z);
-				float one_z = 1 / z;
+				float one_z = 1 / z	;
 				t_v3	w = {{w0, w1, w2}};
 				t_v2	uv = int_v2(tri.t0, tri.t1, tri.t2, w, one_z);
 
-				if (dbuf[j * r3d->width + i] < z)
-					continue;
+				if (z < dbuf[j * r3d->width + i])
+					continue ;
+				dbuf[j * r3d->width + i] = z;
 				cbuf[j * r3d->width + i] = shader(r3d, mtl, z, uv);
 			}
 		}
