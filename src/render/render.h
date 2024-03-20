@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 13:50:22 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:46:13 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ typedef struct s_tri
 	t_v2	t1;
 	t_v2	t2;
 
-	t_v3	c0;
-	t_v3	c1;
-	t_v3	c2;
+	t_v3	n0;
+	t_v3	n1;
+	t_v3	n2;
 }	t_tri;
 
 typedef union s_color
@@ -94,6 +94,9 @@ typedef struct s_mesh
 
 	t_v2	*textures;
 	size_t	textures_count;
+
+	t_v3	*normals;
+	size_t	normals_count;
 }	t_mesh;
 
 /*
@@ -191,7 +194,8 @@ typedef struct s_opts
 }	t_opts;
 
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts);
-void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *dbuf);
+void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *dbuf,
+		t_v3 light_dir);
 
 
 #endif

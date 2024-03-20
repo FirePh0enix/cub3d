@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 22:45:49 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 11:18:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:39:04 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,15 @@ static void alloc_arrays(t_mesh *mesh, char **lines)
 			mesh->vertices_count++;
 		else if (ft_strlen(lines[i]) > 3 && !ft_strncmp(lines[i], "vt ", 3))
 			mesh->textures_count++;
+		else if (ft_strlen(lines[i]) > 3 && !ft_strncmp(lines[i], "vn ", 3))
+			mesh->normals_count++;
 		else if (ft_strlen(lines[i]) > 2 && !ft_strncmp(lines[i], "f ", 2))
 			mesh->faces_count += num_of_tri_faces(lines[i]);
 		i++;
 	}
 	mesh->vertices = malloc(sizeof(t_v3) * mesh->vertices_count);
 	mesh->textures = malloc(sizeof(t_v2) * mesh->textures_count);
+	mesh->normals = malloc(sizeof(t_v3) * mesh->normals_count);
 	mesh->faces = malloc(sizeof(t_face) * mesh->faces_count);
 }
 
@@ -187,17 +190,26 @@ static void	read_arrays(t_mesh *mesh, char **lines)
 
 	mesh->vertices_count = 0;
 	mesh->textures_count = 0;
+	mesh->normals_count = 0;
 	mesh->faces_count = 0;
 	i = 0;
 	while (lines[i])
 	{
 		if (ft_strlen(lines[i]) > 2 && !ft_strncmp(lines[i], "v ", 2))
 		{
-			mesh->vertices[mesh->vertices_count++] = (t_v3){
+			mesh->vertices[mesh->vertices_count++] = (t_v3){{
 				atof(strtok(lines[i] + 2, " ")),
 				atof(strtok(NULL, " ")),
 				atof(strtok(NULL, " ")),
-			};
+			}};
+		}
+		else if (ft_strlen(lines[i]) > 3 && !ft_strncmp(lines[i], "vn ", 3))
+		{
+			mesh->normals[mesh->normals_count++] = (t_v3){{
+				atof(strtok(lines[i] + 2, " ")),
+				atof(strtok(NULL, " ")),
+				atof(strtok(NULL, " ")),
+			}};
 		}
 		else if (ft_strlen(lines[i]) > 3 && !ft_strncmp(lines[i], "vt ", 3))
 		{
