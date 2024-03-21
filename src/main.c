@@ -6,12 +6,13 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 22:53:23 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/22 00:39:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "gui/gui.h"
+#include "render/font.h"
 #include "render/render.h"
 #include "mlx.h"
 #include "benchmark.h"
@@ -51,6 +52,7 @@ static void	loop_hook(t_vars *vars)
 	// BENCH_FUNC(draw, r3d_draw_mesh(vars->r3d, teapot, &opts);
 	r3d_draw_mesh(vars->r3d, teapot, &opts);
 	r3d_draw_gui(vars->r3d, vars->panel);
+	r3d_draw_text(vars->r3d, vars->font, "Hello world!", (t_v2){-1.0, -1.0});
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
 
@@ -78,6 +80,8 @@ int	main(int argc, char *argv[])
 	vars.panel = gui_panel_new((t_v2){-1.0, -1.0});
 	vars.panel->bg_color = hex(0xFF00FF00);
 	vars.panel->size = (t_v2){0.0, 0.0};
+
+	vars.font = font_load_from_file("assets/JetBrainsMono-Regular.ppm", 45);
 
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);

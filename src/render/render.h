@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 22:33:22 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:05:02 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../math/matrix.h"
 # include "types.h"
 # include "../gui/gui.h"
+# include "font.h"
 # include "mlx_int.h"
 # include <stdbool.h>
 # include <stddef.h>
@@ -182,5 +183,6 @@ void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *
 		t_v3 light_dir);
 
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);
+void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos);
 
 #endif

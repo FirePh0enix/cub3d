@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/03/20 22:53:53 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/03/21 18:17:30 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ SOURCES=\
 	src/render/ppm.c \
 	src/render/draw_mesh.c \
 	src/render/fill_triangle.c \
-	src/render/gui.c
+	src/render/draw_text.c \
+	src/render/gui.c \
+	src/render/font.c \
 
 OBJECTS=$(SOURCES:.c=.o)
 DEPENDENCIES=$(OBJECTS:.o=.d)
