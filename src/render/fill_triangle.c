@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 19:42:30 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:22:11 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void	r3d_fill_triangle(
 
 				float intensity = clampf(v3_dot(light_dir, n), 0.1, 1.0);
 
-				if (z < dbuf[index])
+				if (z < dbuf[index] || z < Z_NEAR || z > Z_FAR)
 					continue ;
 				dbuf[index] = z;
 				cbuf[index] = shader(r3d, mtl, z, uv, intensity);

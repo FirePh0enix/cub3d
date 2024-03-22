@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 12:20:07 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/19 12:19:50 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:25:04 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,10 @@ typedef union s_v3
 	};
 	t_v2		xy;
 } __attribute__((aligned(16)))	t_v3;
+
+inline t_v3	v3(float x, float y, float z)
+{
+	return ((t_v3){{x, y, z}});
+}
 
 #endif
