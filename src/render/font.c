@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/22 00:17:19 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/22 14:25:00 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ void	font_destroy(t_font *font)
 
 int	font_x_offset(t_font *font, char c)
 {
-	return (font->x_size * (c - 32));
+	return ((font->x_size) * ('A' - 32));
 }
