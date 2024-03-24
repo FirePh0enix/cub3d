@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 14:15:48 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 13:56:50 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:06:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char *read_to_string(const char *filename)
 
 /*
  * Convert a path like `/home/ledelbec/Downloads/some_image.png` to
- * `some_image.xpm`.
+ * `some_image.tga`.
  */
 static void convert_path(char *in, char *out, char *filename)
 {
@@ -70,9 +70,9 @@ static void convert_path(char *in, char *out, char *filename)
 	while (i < sz + 1)
 		out[j++] = in[i++];
 	// FIXME Can segfault is out size < 3
-	out[j - 4] = 'p';
-	out[j - 3] = 'p';
-	out[j - 2] = 'm';
+	out[j - 4] = 't';
+	out[j - 3] = 'g';
+	out[j - 2] = 'a';
 }
 
 t_mtl	*mtl_load_from_file(t_vars *vars, char *name)
@@ -82,7 +82,6 @@ t_mtl	*mtl_load_from_file(t_vars *vars, char *name)
 	char		*part;
 	t_mtl		*material;
 	char		texture[32];
-	int			w;
 
 	if (!str)
 		return (NULL);
@@ -102,7 +101,6 @@ t_mtl	*mtl_load_from_file(t_vars *vars, char *name)
 		break;
 		lines++;
 	}
-	// material->image = mlx_xpm_file_to_image(vars->mlx, texture, &w, &w);
-	material->image = ppm_load_from_file(texture);
+	material->image = tga_load_from_file(texture);
 	return (material);
 }

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 22:32:35 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 22:50:22 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:48:35 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,15 @@ static void	draw_panel(t_r3d *r3d, t_panel *panel)
 	pos = screen_coords(r3d, panel->base.pos);
 	size = screen_coords(r3d, panel->size);
 	x = pos.x - 1;
-	while (++x < size.x)
+	if (panel->bg_color.t != 0xFF)
 	{
-		y = pos.y - 1;
-		while (++y < size.y)
+		while (++x < size.x)
 		{
-			r3d->color_buffer[x + y * r3d->width] = panel->bg_color;
+			y = pos.y - 1;
+			while (++y < size.y)
+			{
+				r3d->color_buffer[x + y * r3d->width] = panel->bg_color;
+			}
 		}
 	}
 	i = 0;

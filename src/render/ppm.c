@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:19:08 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/22 00:38:26 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/24 12:03:16 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	read_header(int *width, int *height, int *bits, char **s)
 		*bits = 16;
 }
 
-static void	read_pixels8(t_ppm *ppm, char *buf)
+static void	read_pixels8(t_image *ppm, char *buf)
 {
 	int	i;
 	int	j;
@@ -83,11 +83,11 @@ static void	read_pixels8(t_ppm *ppm, char *buf)
 		r = buf[i++];
 		g = buf[i++];
 		b = buf[i++];
-		((unsigned int *) ppm->data)[j++] = (r << 16) | (g << 8) | (b << 0) | (0xFF << 24);
+		((unsigned int *) ppm->data)[j++] = (r << 16) | (g << 8) | (b << 0);
 	}
 }
 
-static void	read_pixels16(t_ppm *ppm, unsigned short *buf)
+static void	read_pixels16(t_image *ppm, unsigned short *buf)
 {
 	int	i;
 	int	j;
@@ -101,13 +101,13 @@ static void	read_pixels16(t_ppm *ppm, unsigned short *buf)
 		r = ((float)buf[i++] / 65535.0) * 255;
 		g = ((float)buf[i++] / 65535.0) * 255;
 		b = ((float)buf[i++] / 65535.0) * 255;
-		((unsigned *) ppm->data)[j++] = (r << 16) | (g << 8) | (b << 0) | (0xFF << 24);
+		((unsigned int *) ppm->data)[j++] = (r << 16) | (g << 8) | (b << 0);
 	}
 }
 
-t_ppm	*ppm_load_from_file(char *filename)
+t_image	*ppm_load_from_file(char *filename)
 {
-	t_ppm	*ppm;
+	t_image	*ppm;
 	char	*s;
 	char	*s2;
 	int		bits;
@@ -115,7 +115,7 @@ t_ppm	*ppm_load_from_file(char *filename)
 	s = s2 = read_to_string(filename);
 	if (!s)
 		return (NULL);
-	ppm = malloc(sizeof(t_ppm));
+	ppm = malloc(sizeof(t_image));
 	read_header(&ppm->width, &ppm->height, &bits, &s);
 	if (bits == 8)
 		read_pixels8(ppm, s);

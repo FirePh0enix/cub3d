@@ -6,10 +6,11 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:04:21 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/22 00:38:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:49:11 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "font.h"
 #include "render.h"
 
 static t_v2i	screen_coords(t_r3d *r3d, t_v2 v)
@@ -21,21 +22,38 @@ static t_v2i	screen_coords(t_r3d *r3d, t_v2 v)
 	return (ov);
 }
 
-static void	draw_glyph(t_r3d *r3d, t_font *font, char c, t_v2i pos)
+static t_color    blend_colors(t_color a, t_color b, float ratio)
 {
-	const int	off = font_x_offset(font, c);
+	t_color	c;
+
+	c.r = a.r * (1.0 - ratio) + b.r * ratio;
+	c.g = a.g * (1.0 - ratio) + b.g * ratio;
+	c.b = a.b * (1.0 - ratio) + b.b * ratio;
+	return (c);
+}
+
+static void	draw_glyph(t_r3d *r3d, t_font *font, t_bakedchar ch, t_v2i pos)
+{
 	int			x;
 	int			y;
 	t_color		col;
+	t_color		col2;
+	int			index;
 
 	x = 0;
-	while (x < font->x_size)
+	while (x < ch.width)
 	{
 		y = 0;
-		while (y < font->y_size)
+		while (y < ch.height)
 		{
-			col = ((t_color *)font->ppm->data)[off + x + y * font->ppm->width];
-			r3d->color_buffer[(pos.x + x) + (pos.y + y) * r3d->width] = col;
+			col = ((t_color *) font->img->data)[(x + ch.x) + (y + ch.y) * font->img->width];
+			index = (x + ch.xoffset + pos.x) + (y + ch.yoffset + pos.y) * r3d->width;
+			col2 = r3d->color_buffer[index];
+			if (col.t > 0)
+			{
+				col = blend_colors(col2, col, col.t / 255.0);
+				r3d->color_buffer[index] = col;
+			}
 			y++;
 		}
 		x++;
@@ -45,15 +63,22 @@ static void	draw_glyph(t_r3d *r3d, t_font *font, char c, t_v2i pos)
 void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos)
 {
 	const size_t	size = ft_strlen(text);
-	t_v2i		spos;
+	t_v2i			spos;
 	size_t			i;
+	t_bakedchar		ch;
 
 	spos = screen_coords(r3d, pos);
 	i = 0;
 	while (i < size)
 	{
-		draw_glyph(r3d, font, text[i], spos);
+		if (text[i] < 0 || text[i] > 126)
+		{
+			i++;
+			continue ;
+		}
+		ch = font->chars[(int) text[i]];
+		draw_glyph(r3d, font, ch, spos);
+		spos.x += ch.xadvance;
 		i++;
-		spos.x += font->x_size;
 	}
 }

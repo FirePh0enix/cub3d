@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/21 18:05:02 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/24 12:55:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "mlx_int.h"
 # include <stdbool.h>
 # include <stddef.h>
+# include <stdint.h>
 
 typedef struct s_vars	t_vars;
 
@@ -39,23 +40,20 @@ typedef struct s_tri
 	t_v3	n2;
 }	t_tri;
 
-/*
- * Stores the data of a PPM file.
- * Pixels are 24-bits wide, but are converted to 32-bits for easier access.
- */
-typedef struct s_ppm
+typedef struct s_image
 {
-	char	*data;
-	int		width;
-	int		height;
-}	t_ppm;
+	uint32_t	*data;
+	int			width;
+	int			height;
+}	t_image;
 
-t_ppm	*ppm_load_from_file(char *filename);
+t_image	*ppm_load_from_file(char *filename);
+t_image	*tga_load_from_file(char *filename);
 
 typedef struct s_mtl
 {
 	char	*name;
-	t_ppm	*image;
+	t_image	*image;
 }	t_mtl;
 
 t_mtl	*mtl_load_from_file(t_vars *vars, char *filename);

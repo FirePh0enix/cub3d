@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/22 12:40:56 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:46:10 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ int	main(int argc, char *argv[])
 	vars.r3d->rot_z = M_PI / 3;
 
 	vars.panel = gui_panel_new((t_v2){-1.0, -1.0});
-	vars.panel->bg_color = hex(0xFF00FF00);
+	vars.panel->bg_color = hex(0xFF000000);
 	vars.panel->size = (t_v2){0.0, 0.0};
 
-	vars.font = font_load_from_file("assets/JetBrainsMono-Regular.ppm", 44);
+	vars.font = font_load_from_file("assets/JetBrainsMono.tga");
 
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);
