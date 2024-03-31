@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/24 16:46:10 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/01 00:49:19 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,20 @@ static void	loop_hook(t_vars *vars)
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
 	// BENCH_FUNC(draw, r3d_draw_mesh(vars->r3d, teapot, &opts);
-	r3d_draw_mesh(vars->r3d, teapot, &opts);
-	r3d_draw_gui(vars->r3d, vars->panel);
-	r3d_draw_text(vars->r3d, vars->font, "Hello world!", (t_v2){-1.0, -1.0});
+	// r3d_draw_mesh(vars->r3d, teapot, &opts);
+
+	t_v3	pos = v3(0, 0, -10);
+
+	r3d_draw_wall(vars->r3d, (t_wall){
+		.v0 = v3_add(pos, v3(-1.0, -1.0, 0)),
+		.v1 = v3_add(pos, v3( 1.0, -1.0, 0)),
+		.v2 = v3_add(pos, v3( 1.0,  1.0, 0)),
+		.v3 = v3_add(pos, v3(-1.0,  1.0, 0)),
+		.n = v3(0.0, 0.0, -1.0),
+	});
+
+	//r3d_draw_gui(vars->r3d, vars->panel);
+	//r3d_draw_text(vars->r3d, vars->font, "Hello world!", (t_v2){-1.0, -1.0});
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/24 12:55:03 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/03/31 20:53:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,45 +95,6 @@ t_mesh	*mesh_load_from_obj(t_vars *vars, char *filename);
  */
 bool	mesh_validate(t_mesh *mesh);
 
-# ifdef RTHREADS
-
-# include <pthread.h>
-
-typedef struct s_r3d	t_r3d;
-
-typedef struct s_job
-{
-	pthread_t	thread;
-	t_r3d		*r3d;
-
-
-	size_t		index;
-	size_t		count;
-
-	t_color		*color_buffer;
-	float		*depth_buffer;
-}	t_job;
-
-typedef struct s_jobs
-{
-	t_job		jobs[RTHREADS];
-	int			finished_jobs;
-
-	t_mat4		translation;
-	t_mat4		rotation;
-
-	t_mesh		*mesh;
-}	t_jobs;
-
-void	r3d_mt_init(t_r3d *r3d);
-
-/*
- * Draw a mesh using multithreading.
- */
-void	r3d_mt_draw(t_r3d *r3d, t_mesh *mesh);
-
-# endif
-
 typedef enum e_mode
 {
 	MODE_NORMAL,
@@ -157,10 +118,6 @@ typedef struct s_r3d
 
 	t_mat4			projection_matrix;
 	float			rot_z;
-
-# ifdef RTHREADS
-	t_jobs			jobs;
-# endif
 }	t_r3d;
 
 void	r3d_init(t_r3d *r3d, void *mlx, int width, int height);
@@ -179,6 +136,17 @@ typedef struct s_opts
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts);
 void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *dbuf,
 		t_v3 light_dir);
+
+typedef struct s_wall
+{
+	t_v3	v0;
+	t_v3	v1;
+	t_v3	v2;
+	t_v3	v3;
+	t_v3	n;
+}	t_wall;
+
+void	r3d_draw_wall(t_r3d *r3d, t_wall wall);
 
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);
 void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos);
