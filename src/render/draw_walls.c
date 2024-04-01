@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:03:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/01 01:06:28 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/02 00:19:51 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,23 @@ static inline	bool	square_intersect(t_v3 ray_dir, t_v3 ray_pos,
 	if (p2 <= 1e-6)
 		return (false);
 	*t = p1 / p2;
-	if (*t <= 1e-6)
+	float	t2 = *t;
+	*t = *t / (1000.0 - 0.1) + 0.1; // the distance is normalized
+	if (*t <= 0.1)
 		return (false);
 	q = v3_add(ray_pos, v3_scale(ray_dir, *t));
-	*t = *t / (1000.0 - 0.1) + 0.1; // the distance is normalized
 
-	float big_x = v3_dot(v3_sub(q, wall.v0), v3_sub(wall.v1, wall.v0)) / v3_length(v3_sub(wall.v1, wall.v0));
-	float big_y = v3_dot(v3_sub(q, wall.v0), v3_sub(wall.v2, wall.v0)) / v3_length(v3_sub(wall.v2, wall.v0));
+	t_v3	min = v3_sub(wall.pos, v3_scale(wall.size, 0.5));
+	t_v3	max = v3_add(wall.pos, v3_scale(wall.size, 0.5));
 
-	return (big_x >= 0 && big_x <= 1 && big_y >= 0 && big_y <= 1);
+	min = v3_scale(min, 1.0 / t2);
+	max = v3_scale(max, 1.0 / t2);
+
+	//printf("  q: %f %f %f\n", q.x, q.y, q.z);
+	//printf("min: %f %f %f\n", min.x, min.y, min.z);
+	//printf("max: %f %f %f\n", max.x, max.y, max.z);
+
+	return (true);
 }
 
 void	r3d_draw_wall(t_r3d *r3d, t_wall wall)
@@ -49,14 +57,11 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall wall)
 	x = -1;
 	while (++x < r3d->width)
 	{
-		float	ndc_x = x - r3d->width / 2.0;
-		float px = (2 * ((x + 0.5) / r3d->width) - 1) * fov_tan * aspect_ratio;
+		float px = (2 * (((x - r3d->width / 2.0) + 0.5) / r3d->width) - 1) * fov_tan * aspect_ratio;
 		y = -1;
 		while (++y < r3d->height)
 		{
-			float	ndc_y = y - r3d->height / 2.0;
-
-			float	py = (1 - 2 * ((y + 0.5) / r3d->height)) * fov_tan;
+			float	py = (1 - 2 * (((y - r3d->height / 2.0) + 0.5) / r3d->height)) * fov_tan;
 			t_v3	origin = v3(0.0, 0.0, 0.0);
 			t_v3	dir = v3_norm(v3(px, py, -1));
 			float	t;

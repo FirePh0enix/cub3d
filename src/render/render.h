@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/31 20:53:23 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/01 22:48:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,8 @@ void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *
 
 typedef struct s_wall
 {
-	t_v3	v0;
-	t_v3	v1;
-	t_v3	v2;
-	t_v3	v3;
+	t_v3	pos;
+	t_v3	size;
 	t_v3	n;
 }	t_wall;
 

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/01 00:49:19 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:54:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,12 @@ static void	loop_hook(t_vars *vars)
 	// BENCH_FUNC(draw, r3d_draw_mesh(vars->r3d, teapot, &opts);
 	// r3d_draw_mesh(vars->r3d, teapot, &opts);
 
-	t_v3	pos = v3(0, 0, -10);
+	t_v3	pos = v3(0, 0, -6);
 
 	r3d_draw_wall(vars->r3d, (t_wall){
-		.v0 = v3_add(pos, v3(-1.0, -1.0, 0)),
-		.v1 = v3_add(pos, v3( 1.0, -1.0, 0)),
-		.v2 = v3_add(pos, v3( 1.0,  1.0, 0)),
-		.v3 = v3_add(pos, v3(-1.0,  1.0, 0)),
-		.n = v3(0.0, 0.0, -1.0),
+		.pos = pos,
+		.size = v3(1.0, 1.0, 0.0),
+		.n = v3(0.0, 1.0, 0.0),
 	});
 
 	//r3d_draw_gui(vars->r3d, vars->panel);
