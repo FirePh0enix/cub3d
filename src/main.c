@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/01 23:54:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/02 22:55:54 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ static void	loop_hook(t_vars *vars)
 	// BENCH_FUNC(draw, r3d_draw_mesh(vars->r3d, teapot, &opts);
 	// r3d_draw_mesh(vars->r3d, teapot, &opts);
 
-	t_v3	pos = v3(0, 0, -6);
+	t_wall	wall = {
+		.pos = v3(0, 0, -6),
+		.w = 1.0,
+		.h = 1.0,
+		.rot_y = 0.0,
+	};
 
-	r3d_draw_wall(vars->r3d, (t_wall){
-		.pos = pos,
-		.size = v3(1.0, 1.0, 0.0),
-		.n = v3(0.0, 1.0, 0.0),
-	});
+	r3d_draw_wall(vars->r3d, &wall);
 
 	//r3d_draw_gui(vars->r3d, vars->panel);
 	//r3d_draw_text(vars->r3d, vars->font, "Hello world!", (t_v2){-1.0, -1.0});
