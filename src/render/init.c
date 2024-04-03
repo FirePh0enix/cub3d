@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 23:27:18 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/03 14:16:10 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/03 22:55:43 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	r3d_init(t_r3d *r3d, void *mlx, int width, int height)
 	r3d->fov = 70.0;
 	r3d->projection_matrix = mat4_projection(r3d->fov, width, height);
 	r3d->mode = MODE_NORMAL;
+	r3d->tan2_fov = tanf(r3d->fov / 2.0 * M_PI / 180.0);
 }
 
 int	r3d_key_hook(int keycode, t_r3d *r3d)

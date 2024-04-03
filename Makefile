@@ -6,12 +6,13 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/03/31 23:22:48 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/04/03 23:26:16 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
 	src/main.c \
+	src/wall.c \
 	src/gui/panel.c \
 	src/render/init.c \
 	src/render/clear.c \
@@ -33,18 +34,8 @@ DEPENDENCIES=$(OBJECTS:.o=.d)
 NAME=cub3D
 CC=clang
 
-OPTS=-O2 -fno-builtin
+OPTS=-O3 -fno-builtin
 CFLAGS=-Imlx -Ilibft -MMD -g3 $(OPTS) -Wall -Wextra #-Werror
-
-ifdef RTHREADS
-
-# Enable multithreading in the renderer.
-
-CFLAGS+=-pthread -DRTHREADS
-SOURCES+=\
-	src/render/mt.c
-
-endif
 
 all: $(NAME)
 

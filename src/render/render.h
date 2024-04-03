@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/02 17:59:50 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/03 22:54:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,9 @@ typedef struct s_r3d
 
 	t_mat4			projection_matrix;
 	float			rot_z;
+
+	/* Pre-computed values to speed up calculation */
+	float			tan2_fov;
 }	t_r3d;
 
 void	r3d_init(t_r3d *r3d, void *mlx, int width, int height);
@@ -138,8 +141,10 @@ void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *
 		t_v3 light_dir);
 
 typedef struct s_wall	t_wall;
+typedef struct s_map	t_map;
 
 void	r3d_draw_wall(t_r3d *r3d, t_wall *wall);
+void	r3d_draw_walls(t_r3d *r3d, t_map *map);
 
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);
 void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos);

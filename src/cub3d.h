@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/03 16:22:57 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/03 23:05:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,27 @@ typedef struct s_vars
 	t_font		*font;
 }	t_vars;
 
+#define WALL_SIZE 3.0
+
 typedef struct s_wall
 {
 	t_v3	pos;
-	t_v3	n;
 	float	w;
 	float	h;
 	float	rot_y;
 	t_image	*img;
+
+	t_mat4	rotation;
+	t_mat4	inverse_rotation;
 }	t_wall;
+
+t_wall	wall(t_v3 position, float rotation_y, t_image *img);
+
+typedef struct s_map
+{
+	t_wall	*walls;
+	int		width;
+	int		height;
+}	t_map;
 
 #endif

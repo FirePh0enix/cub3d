@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/03 16:56:30 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/03 23:01:57 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 #include <sys/select.h>
 #include <sys/time.h>
 
-static t_mesh *teapot;
-static t_image *img;
+static t_mesh	*teapot;
+static t_image	*img;
+static t_wall	wall1;
 
 static void	close_hook(t_vars *vars)
 {
@@ -53,15 +54,7 @@ static void	loop_hook(t_vars *vars)
 	// BENCH_FUNC(draw, r3d_draw_mesh(vars->r3d, teapot, &opts);
 	r3d_draw_mesh(vars->r3d, teapot, &opts);
 
-	t_wall	wall = {
-		.pos = v3(0, 0, -1),
-		.w = 1.0,
-		.h = 1.0,
-		.rot_y = 0.0,
-		.img = img,
-	};
-
-	r3d_draw_wall(vars->r3d, &wall);
+	BENCH_FUNC(draw, r3d_draw_wall(vars->r3d, &wall1));
 
 	//r3d_draw_gui(vars->r3d, vars->panel);
 	//r3d_draw_text(vars->r3d, vars->font, "Hello world!", (t_v2){-1.0, -1.0});
@@ -95,6 +88,8 @@ int	main(int argc, char *argv[])
 
 	vars.font = font_load_from_file("assets/JetBrainsMono.tga");
 	img = tga_load_from_file("models/gold_ore.tga");
+
+	wall1 = wall(v3(0, 0, -6), 0, img);
 
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);
