@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 15:41:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/02 18:06:34 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/03 12:48:16 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ inline t_mat4	mat4_projection(float fov, int w, int h)
 	return (m);
 }
 
-inline t_mat4	mat4_mul_mat4(t_mat4 a, t_mat4 b)
+static t_mat4	mat4_mul_mat4(t_mat4 a, t_mat4 b)
 {
 	t_mat4	m;
 

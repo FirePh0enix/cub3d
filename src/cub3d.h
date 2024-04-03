@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/02 19:45:43 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:22:57 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_wall
 	float	w;
 	float	h;
 	float	rot_y;
+	t_image	*img;
 }	t_wall;
 
 #endif
