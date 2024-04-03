@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/03 22:54:48 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/04 01:06:44 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,28 @@ t_mesh	*mesh_load_from_obj(t_vars *vars, char *filename);
  * TODO
  */
 bool	mesh_validate(t_mesh *mesh);
+
+typedef enum e_light_type
+{
+	LIGHT_DIRECTIONAL,
+	LIGHT_POINT,
+}	t_light_type;
+
+/*
+ * A light, either a directional light (like sunlight) or a point light (every
+ * light ray come from the same position).
+ */
+typedef struct s_light
+{
+	t_light_type	type;
+	t_v3			position;
+	t_color			color;
+	float			intensity;
+	t_v3			direction;
+}	t_light;
+
+float	light_intensity(t_v3 light_dir, t_v3 n);
+t_color	combine_light(t_color col, t_light *lights, int n);
 
 typedef enum e_mode
 {
