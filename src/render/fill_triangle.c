@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/22 12:22:11 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 00:37:01 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void	r3d_fill_triangle(
 
 				if (z < dbuf[index] || z < Z_NEAR || z > Z_FAR)
 					continue ;
+				// printf("%f\n", z);
 				dbuf[index] = z;
 				cbuf[index] = shader(r3d, mtl, z, uv, intensity);
 			}

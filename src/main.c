@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/03 23:01:57 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 00:49:28 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(int argc, char *argv[])
 	vars.font = font_load_from_file("assets/JetBrainsMono.tga");
 	img = tga_load_from_file("models/gold_ore.tga");
 
-	wall1 = wall(v3(0, 0, -6), 0, img);
+	wall1 = wall(v3(0, 0, -10), 0, img);
 
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);

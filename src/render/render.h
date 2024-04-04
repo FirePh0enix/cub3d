@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/04 01:06:44 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 00:39:41 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ typedef struct s_r3d
 
 	/* Pre-computed values to speed up calculation */
 	float			tan2_fov;
+	float			aspect_ratio;
 }	t_r3d;
 
 void	r3d_init(t_r3d *r3d, void *mlx, int width, int height);
@@ -164,6 +165,21 @@ void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *
 
 typedef struct s_wall	t_wall;
 typedef struct s_map	t_map;
+
+/* Rendering scale of the raycasting */
+# define SCALE 2
+
+typedef struct s_ray
+{
+	t_v3	origin;
+	t_v3	dir;
+}	t_ray;
+
+typedef struct s_ray_result
+{
+	float	distance;
+	t_v3	uv;
+}	t_ray_result;
 
 void	r3d_draw_wall(t_r3d *r3d, t_wall *wall);
 void	r3d_draw_walls(t_r3d *r3d, t_map *map);
