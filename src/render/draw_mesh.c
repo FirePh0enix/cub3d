@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:26:39 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 12:44:19 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:18:05 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	draw_debug_triangle(t_r3d *r3d, t_tri tri)
 	draw_triangle_wireframe(r3d, tri, color);
 }
 
-void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh)
+void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_light *lights)
 {
 	const t_mat4	rotation = mat4_rotation(v3(0, r3d->rot_z, 0));
 	const t_mat4	translation = mat4_translation(v3(0.0, -1.5, -4));
@@ -127,14 +127,14 @@ void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh)
 			continue ;
 		}
 
-		t_v3	light_dir = {{ 1.0, 0.0, 0.0 }};
-		light_dir = v3_norm(light_dir);
+		// t_v3	light_dir = {{ 1.0, 0.0, 0.0 }};
+		// light_dir = v3_norm(light_dir);
 
 		if (r3d->mode == MODE_WIREFRAME)
 			draw_debug_triangle(r3d, tri);
 		else
 			r3d_fill_triangle(r3d, tri, mesh->material,
-					r3d->color_buffer, r3d->depth_buffer, light_dir);
+					r3d->color_buffer, r3d->depth_buffer, lights);
 		i++;
 	}
 }

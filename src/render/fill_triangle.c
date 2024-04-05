@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 12:20:48 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:30:52 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,29 @@ inline float	int_v1(float v0, float v1, float v2, t_v3 w, float z)
 	return ((w.x * v0 + w.y * v1 + w.z * v2) * z);
 }
 
+static void	pint_col(t_color *c0, t_color *c1, t_color *c2, t_tri *tri)
+{
+	c0->raw /= tri->v0.z;
+	c1->raw /= tri->v1.z;
+	c2->raw /= tri->v2.z;
+}
+
+static t_color	int_col(t_color c0, t_color c1, t_color c2, t_v3 w, float z)
+{
+	t_v3	col;
+
+	col.r = (w.x * (c0.r / 255.0) + w.y * (c1.r / 255.0) + w.z * (c2.r / 255.0)) * z;
+	col.g = (w.x * (c0.g / 255.0) + w.y * (c1.g / 255.0) + w.z * (c2.g / 255.0)) * z;
+	col.b = (w.x * (c0.b / 255.0) + w.y * (c1.b / 255.0) + w.z * (c2.b / 255.0)) * z;
+
+	t_color	col2;
+	col2.t = 0;
+	col2.r = col.r * 255.0;
+	col2.g = col.g * 255.0;
+	col2.b = col.b * 255.0;
+	return (col2);
+}
+
 inline float	clamp(int f, int min, int max)
 {
 	return (fmaxf(min, fminf(f, max)));
@@ -96,9 +119,14 @@ inline float	clamp(int f, int min, int max)
 
 void	r3d_fill_triangle(
 		t_r3d *r3d, t_tri tri, t_mtl *mtl,
-		t_color *cbuf, float *dbuf,
-		t_v3 light_dir)
+		t_color *cbuf, float *dbuf, t_light *lights)
 {
+	t_color	l0 = combine_light(lights, tri.v0, tri.n0);
+	t_color	l1 = combine_light(lights, tri.v1, tri.n1);
+	t_color	l2 = combine_light(lights, tri.v2, tri.n2);
+
+	printf("hex: %X\n", l0.raw);
+
 	tri.v0 = mat4_multiply_v3(r3d->projection_matrix, tri.v0);
 	tri.v1 = mat4_multiply_v3(r3d->projection_matrix, tri.v1);
 	tri.v2 = mat4_multiply_v3(r3d->projection_matrix, tri.v2);
@@ -127,6 +155,7 @@ void	r3d_fill_triangle(
 
 	pint_v2(&tri.t0, &tri.t1, &tri.t2, &tri);
 	pint_v3(&tri.n0, &tri.n1, &tri.n2, &tri);
+	pint_col(&l0, &l1, &l2, &tri);
 	tri.v0.z = 1 / tri.v0.z, tri.v1.z = 1 / tri.v1.z, tri.v2.z = 1 / tri.v2.z;
 
 	float area = edge_fn(tri.v0, tri.v1, tri.v2);
@@ -147,15 +176,16 @@ void	r3d_fill_triangle(
 				float	one_z = 1 / z;
 				t_v3	w = {{w0, w1, w2}};
 				t_v2	uv = int_v2(tri.t0, tri.t1, tri.t2, w, one_z);
-				t_v3	n = int_v3(tri.n0, tri.n1, tri.n2, w, one_z);
+				// t_v3	n = int_v3(tri.n0, tri.n1, tri.n2, w, one_z);
+				t_color	col = int_col(l0, l1, l2, w, one_z);
 				size_t	index = (r3d->height - j) * r3d->width + i;
 
-				float intensity = clampf(v3_dot(light_dir, n), 0.1, 1.0);
+				// float intensity = clampf(v3_dot(light_dir, n), 0.1, 1.0);
 
 				if (z < dbuf[index] || z < Z_NEAR || z > Z_FAR)
 					continue ;
 				dbuf[index] = z;
-				cbuf[index] = shader(r3d, mtl, z, uv, intensity);
+				cbuf[index] = shader(r3d, mtl, z, uv, col);
 			}
 		}
 	}

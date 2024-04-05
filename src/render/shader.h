@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 21:37:10 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/03 19:11:57 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:15:47 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ inline t_color	shader(
 		t_mtl *mtl,
 		float z,
 		t_v2 uv,
-		float intensity)
+		t_color light)
 {
 	if (r3d->mode == MODE_DEPTH)
 		return (grayscalef(z));
-	return (color_scale(sample(mtl, uv), intensity));
+	return (pixel_with_light(sample(mtl, uv), light));
 }
 
 #endif

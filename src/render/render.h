@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 12:41:59 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:24:45 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ typedef struct s_light
 }	t_light;
 
 float	light_intensity(t_v3 light_dir, t_v3 n);
-t_color	combine_light(t_color col, t_light *lights, int n);
+t_color	combine_light(t_light *lights, t_v3 pos, t_v3 n);
+t_color	pixel_with_light(t_color pixel, t_color light);
 
 typedef enum e_mode
 {
@@ -152,16 +153,9 @@ void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 
 int		r3d_key_hook(int keycode, t_r3d *r3d);
 
-typedef struct s_opts
-{
-	t_color	wireframe_color;
-	t_color	solid_color;
-	t_v3	offset;
-}	t_opts;
-
-void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh);
-void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *dbuf,
-		t_v3 light_dir);
+void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_light *lights);
+void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf,
+	float *dbuf, t_light *lights);
 
 typedef struct s_wall	t_wall;
 typedef struct s_map	t_map;

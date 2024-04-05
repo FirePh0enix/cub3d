@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/04/03 23:26:16 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/04/05 15:32:29 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SOURCES=\
 	src/render/draw_walls.c \
 	src/render/draw_mesh.c \
 	src/render/fill_triangle.c \
+	src/render/light.c \
 	src/render/draw_text.c \
 	src/render/gui.c \
 	src/render/font.c \
