@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 00:37:01 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 12:20:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,11 @@ void	r3d_fill_triangle(
 
 	pint_v2(&tri.t0, &tri.t1, &tri.t2, &tri);
 	pint_v3(&tri.n0, &tri.n1, &tri.n2, &tri);
-    tri.v0.z = 1 / tri.v0.z, tri.v1.z = 1 / tri.v1.z, tri.v2.z = 1 / tri.v2.z;
- 
-    float area = edge_fn(tri.v0, tri.v1, tri.v2);
+	tri.v0.z = 1 / tri.v0.z, tri.v1.z = 1 / tri.v1.z, tri.v2.z = 1 / tri.v2.z;
 
-    for (int j = min_y; j <= max_y; ++j)
+	float area = edge_fn(tri.v0, tri.v1, tri.v2);
+
+	for (int j = min_y; j <= max_y; ++j)
 	{
 		for (int i = min_x; i <= max_x; ++i)
 		{
@@ -143,8 +143,8 @@ void	r3d_fill_triangle(
 			{
 				w0 /= area, w1 /= area, w2 /= area;
 
-				float z = (w0 * tri.v0.z + w1 * tri.v1.z + w2 * tri.v2.z);
-				float one_z = 1 / z	;
+				float	z = (w0 * tri.v0.z + w1 * tri.v1.z + w2 * tri.v2.z);
+				float	one_z = 1 / z;
 				t_v3	w = {{w0, w1, w2}};
 				t_v2	uv = int_v2(tri.t0, tri.t1, tri.t2, w, one_z);
 				t_v3	n = int_v3(tri.n0, tri.n1, tri.n2, w, one_z);
@@ -154,7 +154,6 @@ void	r3d_fill_triangle(
 
 				if (z < dbuf[index] || z < Z_NEAR || z > Z_FAR)
 					continue ;
-				// printf("%f\n", z);
 				dbuf[index] = z;
 				cbuf[index] = shader(r3d, mtl, z, uv, intensity);
 			}

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/03 23:05:03 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:55:49 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_wall
 	float	h;
 	float	rot_y;
 	t_image	*img;
+	t_v3	n;
 
 	t_mat4	rotation;
 	t_mat4	inverse_rotation;
