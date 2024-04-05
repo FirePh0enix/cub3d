@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:03:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 12:24:19 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 12:27:41 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ static inline bool	wall_test_intersection(t_r3d *r3d, t_wall *wall, t_v3 ray_ori
 
 	// FIXME(opt) Dont need the entire matrix multiplication, only for the z
 	//            component.
-	*t = -1.0 / project_pos(r3d, q).z;
+	// t_v3	projected_pos = project_pos(r3d, q);
+	// projected_pos.z = -1.0 / q.z;
+	// FIXME Works way better if the point is not projected for some reason
+	*t = -1.0 / q.z;
 	return (uv->x >= 0.0 && uv->x <= 1.0 && uv->y >= 0.0 && uv->y <= 1.0);
 }
 
