@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 00:39:41 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 12:41:59 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ typedef struct s_opts
 	t_v3	offset;
 }	t_opts;
 
-void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_opts *opts);
+void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh);
 void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf, float *dbuf,
 		t_v3 light_dir);
 

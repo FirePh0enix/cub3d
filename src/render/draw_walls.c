@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:03:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 12:27:41 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 12:39:19 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,14 @@ static inline bool	wall_test_intersection(t_r3d *r3d, t_wall *wall, t_v3 ray_ori
 	return (uv->x >= 0.0 && uv->x <= 1.0 && uv->y >= 0.0 && uv->y <= 1.0);
 }
 
-static inline t_color	sample_texture(t_image *img, t_v3 uv)
+static inline t_color	sample_texture(t_r3d *r3d, t_image *img, t_v3 uv,
+	float z)
 {
 	int	x;
 	int	y;
 
+	if (r3d->mode == MODE_DEPTH)
+		return (grayscalef(z));
 	x = uv.x * (img->width);
 	y = img->height - uv.y * (img->height);
 	return (hex(img->data[x + y * img->width]));
@@ -116,7 +119,7 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall *wall)
 
 			if (wall_test_intersection(r3d, wall, camera_pos, ray, &t, &uv,
 				wall->n, inv_trans))
-				set_pixel(r3d, x, y, sample_texture(wall->img, uv), SCALE, t);
+				set_pixel(r3d, x, y, sample_texture(r3d, wall->img, uv, t), SCALE, t);
 		}
 	}
 }

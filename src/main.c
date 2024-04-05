@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 12:27:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/05 12:41:43 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,15 @@ suseconds_t	getms(void)
 
 static void	loop_hook(t_vars *vars)
 {
-	t_opts	opts;
-
 	if (getms() - vars->last_update < 16)
 		return ;
 	vars->last_update = getms();
 
 	vars->r3d->rot_z -= 0.03;
-	opts.wireframe_color = hex(0xFF00FFFF);
-	opts.solid_color = hex(0xFFFFFFFF);
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
 	// BENCH_FUNC(draw, r3d_draw_mesh(vars->r3d, teapot, &opts);
-	r3d_draw_mesh(vars->r3d, teapot, &opts);
+	r3d_draw_mesh(vars->r3d, teapot);
 
 	BENCH_FUNC(draw, r3d_draw_wall(vars->r3d, &wall1));
 
