@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 15:55:26 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 00:04:21 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,18 @@ int	main(int argc, char *argv[])
 	lights = ft_vector(sizeof(t_light), 0);
 	t_light	light = {
 		.type = LIGHT_DIRECTIONAL,
-		.direction = v3(0, -1, 0),
+		.direction = v3(-1, 0, 0),
 		.intensity = 1.0,
-		.color = hex(0x00FF00FF),
+		.color = hex(0x000000FF),
 	};
 	ft_vector_add(&lights, &light);
+	t_light	light2 = {
+		.type = LIGHT_DIRECTIONAL,
+		.direction = v3(1, 0, 0),
+		.intensity = 1.0,
+		.color = hex(0x0000FF00),
+	};
+	ft_vector_add(&lights, &light2);
 
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);

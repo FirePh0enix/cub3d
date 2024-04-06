@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 15:24:45 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/06 23:39:26 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,13 @@ typedef struct s_light
 {
 	t_light_type	type;
 	t_v3			position;
-	t_color			color;
 	float			intensity;
 	t_v3			direction;
+	t_color			color;
 }	t_light;
 
 float	light_intensity(t_v3 light_dir, t_v3 n);
-t_color	combine_light(t_light *lights, t_v3 pos, t_v3 n);
-t_color	pixel_with_light(t_color pixel, t_color light);
+t_v3	compute_lighting(t_light *lights, t_v3 pos, t_v3 n);
 
 typedef enum e_mode
 {
