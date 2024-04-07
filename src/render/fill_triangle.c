@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 00:18:28 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 13:27:50 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ inline float	clamp(int f, int min, int max)
 }
 
 void	r3d_fill_triangle(
-		t_r3d *r3d, t_tri tri, t_mtl *mtl,
+		t_r3d *r3d, t_v3 pos, t_tri tri, t_mtl *mtl,
 		t_color *cbuf, float *dbuf, t_light *lights)
 {
 	t_v3	p0, p1, p2;
@@ -156,8 +156,8 @@ void	r3d_fill_triangle(
 				t_v3	v = int_v3(p0, p1, p2, w, one_z);
 				size_t	index = (r3d->height - j) * r3d->width + i;
 
-				t_v3	light = compute_lighting(lights, v, n);
-
+				t_v3	light = compute_lighting(lights, pos, n);
+				
 				if (z < dbuf[index] || z < Z_NEAR || z > Z_FAR)
 					continue ;
 				dbuf[index] = z;

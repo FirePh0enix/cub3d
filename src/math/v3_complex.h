@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 12:23:06 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/02 14:15:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 13:28:51 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ inline t_v3	v3_norm(t_v3 v)
 {
 	const float length = v3_length(v);
 
-	return ((t_v3){v.x / length, v.y / length, v.z / length});
+	return (v3(v.x / length, v.y / length, v.z / length));
 }
 
 inline float	v3_dot(t_v3 a, t_v3 b)

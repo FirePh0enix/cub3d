@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/06 23:39:26 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 13:23:42 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,8 @@ void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 int		r3d_key_hook(int keycode, t_r3d *r3d);
 
 void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_light *lights);
-void	r3d_fill_triangle(t_r3d *r3d, t_tri tri, t_mtl *mtl, t_color *cbuf,
-	float *dbuf, t_light *lights);
+void	r3d_fill_triangle(t_r3d *r3d, t_v3 pos, t_tri tri, t_mtl *mtl,
+	t_color *cbuf, float *dbuf, t_light *lights);
 
 typedef struct s_wall	t_wall;
 typedef struct s_map	t_map;
@@ -174,7 +174,7 @@ typedef struct s_ray_result
 	t_v3	uv;
 }	t_ray_result;
 
-void	r3d_draw_wall(t_r3d *r3d, t_wall *wall);
+void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights);
 void	r3d_draw_walls(t_r3d *r3d, t_map *map);
 
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);

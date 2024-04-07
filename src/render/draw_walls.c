@@ -6,12 +6,13 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:03:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 12:39:19 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 13:47:32 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 #include "../cub3d.h"
+#include "types.h"
 
 /*
  * Project the position to NDC screen space using matrices.
@@ -23,7 +24,7 @@ static inline t_v3	project_pos(t_r3d *r3d, t_v3 pos)
 }
 
 static inline bool	wall_test_intersection(t_r3d *r3d, t_wall *wall, t_v3 ray_origin,
-	t_v3 ray_dir, float *t, t_v3 *uv, t_v3 n, t_mat4 inv_trans)
+	t_v3 ray_dir, float *t, t_v3 *uv, t_v3 *pos, t_v3 n, t_mat4 inv_trans)
 {
 	t_v3	diff;
 	float	p1;
@@ -60,23 +61,25 @@ static inline t_color	sample_texture(t_r3d *r3d, t_image *img, t_v3 uv,
 {
 	int	x;
 	int	y;
-
-	if (r3d->mode == MODE_DEPTH)
-		return (grayscalef(z));
+;
 	x = uv.x * (img->width);
 	y = img->height - uv.y * (img->height);
 	return (hex(img->data[x + y * img->width]));
 }
 
 static inline void	set_pixel(t_r3d *r3d, int x, int y, t_color col,
-	int scale, float t)
+	int scale, float t, t_v3 n, t_v3 pos, t_light *lights)
 {
-	int	i;
-	int	j;
-	int	xx;
-	int	yy;
-	int	index;
+	const t_v3	light = compute_lighting(lights, pos, v3_scale(n, -1));
+	int			i;
+	int			j;
+	int			xx;
+	int			yy;
+	int			index;
 
+	col.r *= light.r;
+	col.g *= light.g;
+	col.b *= light.b;
 	i = -1;
 	while (++i < scale)
 	{
@@ -89,16 +92,20 @@ static inline void	set_pixel(t_r3d *r3d, int x, int y, t_color col,
 			if (t < r3d->depth_buffer[index])
 				continue ;
 			r3d->depth_buffer[index] = t;
-			r3d->color_buffer[index] = col;
+			if (r3d->mode == MODE_DEPTH)
+				r3d->color_buffer[index] = grayscalef(t);
+			else
+				r3d->color_buffer[index] = col;
 		}
 	}
 }
 
-void	r3d_draw_wall(t_r3d *r3d, t_wall *wall)
+void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights)
 {
 	t_mat4		inv_trans;
 	float		t;
 	t_v3		uv;
+	t_v3		pos;
 	t_v3		camera_pos = v3(0.0, 0.0, 0.0);
 	int			x;
 	int			y;
@@ -115,11 +122,10 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall *wall)
 			float	py = (1 - 2 * ((y * SCALE + 0.5) / r3d->height)) * r3d->tan2_fov;
 			t_v3	ray = (v3(px, py, -1.0));
 			// TODO rotate the ray with the camera
-			// It seems to work without normalizing the vector, v2_norm costs ~10ms
 
-			if (wall_test_intersection(r3d, wall, camera_pos, ray, &t, &uv,
+			if (wall_test_intersection(r3d, wall, camera_pos, ray, &t, &uv, &pos,
 				wall->n, inv_trans))
-				set_pixel(r3d, x, y, sample_texture(r3d, wall->img, uv, t), SCALE, t);
+				set_pixel(r3d, x, y, sample_texture(r3d, wall->img, uv, t), SCALE, t, wall->n, pos, lights);
 		}
 	}
 }
@@ -130,5 +136,5 @@ void	r3d_draw_walls(t_r3d *r3d, t_map *map)
 
 	i = -1;
 	while (++i < map->width * map->height)
-		r3d_draw_wall(r3d, &map->walls[i]);
+		r3d_draw_wall(r3d, &map->walls[i], NULL);
 }

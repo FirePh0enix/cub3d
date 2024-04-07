@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 00:04:21 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 13:40:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,35 @@ suseconds_t	getms(void)
 	return ((tv.tv_sec * 1000000 + tv.tv_usec) / 1000);
 }
 
+static void	print_fps(t_vars *vars, suseconds_t delta, suseconds_t frame_time)
+{
+	float	f;
+	char	buf[128];
+
+	f = delta / 16.0 * 60.0;
+	ft_sprintf(buf, "fps: %d, delta: %d ms", (int) f, (int) frame_time);
+	r3d_draw_text(vars->r3d, vars->font, buf, (t_v2){-1.0, -1.0});
+}
+
 static void	loop_hook(t_vars *vars)
 {
-	if (getms() - vars->last_update < 16)
+	suseconds_t	delta;
+
+	delta = getms() - vars->last_update;
+	if (delta < 16)
 		return ;
 	vars->last_update = getms();
 
 	vars->r3d->rot_z -= 0.03;
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
-	// BENCH_FUNC(draw, r3d_draw_mesh(vars->r3d, teapot, &opts);
-	r3d_draw_mesh(vars->r3d, teapot, lights);
-
-	BENCH_FUNC(draw, r3d_draw_wall(vars->r3d, &wall1));
+	BENCH_FUNC(mesh, r3d_draw_mesh(vars->r3d, teapot, lights));
+	BENCH_FUNC(wall, r3d_draw_wall(vars->r3d, &wall1, lights));
 
 	//r3d_draw_gui(vars->r3d, vars->panel);
 	//r3d_draw_text(vars->r3d, vars->font, "Hello world!", (t_v2){-1.0, -1.0});
+	
+	print_fps(vars, delta, getms() - vars->last_update);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
 
@@ -90,15 +103,15 @@ int	main(int argc, char *argv[])
 
 	lights = ft_vector(sizeof(t_light), 0);
 	t_light	light = {
-		.type = LIGHT_DIRECTIONAL,
-		.direction = v3(-1, 0, 0),
+		.type = LIGHT_POINT,
+		.position = v3(-10, 0, -4),
 		.intensity = 1.0,
 		.color = hex(0x000000FF),
 	};
 	ft_vector_add(&lights, &light);
 	t_light	light2 = {
-		.type = LIGHT_DIRECTIONAL,
-		.direction = v3(1, 0, 0),
+		.type = LIGHT_POINT,
+		.position = v3(10, 0, -3.5),
 		.intensity = 1.0,
 		.color = hex(0x0000FF00),
 	};
