@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 12:18:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/17 11:43:47 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 20:17:54 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ inline t_v2	v3_to_v2(t_v3 v)
 
 inline t_v3	v3_add(t_v3 a, t_v3 b)
 {
-	return ((t_v3){a.x + b.x, a.y + b.y, a.z + b.z});
+	return (v3(a.x + b.x, a.y + b.y, a.z + b.z));
 }
 
 inline t_v3	v3_sub(t_v3 a, t_v3 b)
 {
-	return ((t_v3){a.x - b.x, a.y - b.y, a.z - b.z});
+	return (v3(a.x - b.x, a.y - b.y, a.z - b.z));
 }
 
 inline t_v3	v3_scale(t_v3 v, float scale)
 {
-	return ((t_v3){v.x * scale, v.y * scale, v.z * scale});
+	return (v3(v.x * scale, v.y * scale, v.z * scale));
 }
 
 #endif

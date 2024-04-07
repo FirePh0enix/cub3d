@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 13:27:50 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 20:18:30 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,6 @@ void	r3d_fill_triangle(
 		t_r3d *r3d, t_v3 pos, t_tri tri, t_mtl *mtl,
 		t_color *cbuf, float *dbuf, t_light *lights)
 {
-	t_v3	p0, p1, p2;
-	p0 = tri.v0;
-	p1 = tri.v1;
-	p2 = tri.v2;
-
 	tri.v0 = mat4_multiply_v3(r3d->projection_matrix, tri.v0);
 	tri.v1 = mat4_multiply_v3(r3d->projection_matrix, tri.v1);
 	tri.v2 = mat4_multiply_v3(r3d->projection_matrix, tri.v2);
@@ -131,7 +126,6 @@ void	r3d_fill_triangle(
 
 	pint_v2(&tri.t0, &tri.t1, &tri.t2, &tri);
 	pint_v3(&tri.n0, &tri.n1, &tri.n2, &tri);
-	pint_v3(&p0, &p1, &p2, &tri);
 	tri.v0.z = 1 / tri.v0.z, tri.v1.z = 1 / tri.v1.z, tri.v2.z = 1 / tri.v2.z;
 
 	float area = edge_fn(tri.v0, tri.v1, tri.v2);
@@ -153,7 +147,6 @@ void	r3d_fill_triangle(
 				t_v3	w = {{w0, w1, w2}};
 				t_v2	uv = int_v2(tri.t0, tri.t1, tri.t2, w, one_z);
 				t_v3	n = int_v3(tri.n0, tri.n1, tri.n2, w, one_z);
-				t_v3	v = int_v3(p0, p1, p2, w, one_z);
 				size_t	index = (r3d->height - j) * r3d->width + i;
 
 				t_v3	light = compute_lighting(lights, pos, n);

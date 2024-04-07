@@ -6,12 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 21:19:15 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 15:52:03 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 20:26:53 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
+
+# include "../math/v3.h"
 
 /*
  * Some various types for the render engine.
@@ -34,5 +36,11 @@ t_color	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char t)
 t_color	rgbaf(float r, float g, float b, float t);
 t_color	grayscalef(float f);
 t_color	color_scale(t_color col, float f);
+
+typedef struct s_transform
+{
+	t_v3	position;
+	t_v3	rotation;
+}	t_transform;
 
 #endif

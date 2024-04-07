@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 13:23:42 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 20:26:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdint.h>
 
 typedef struct s_vars	t_vars;
+typedef struct s_scene	t_scene;
 
 typedef struct s_tri
 {
@@ -47,7 +48,6 @@ typedef struct s_image
 	int			height;
 }	t_image;
 
-t_image	*ppm_load_from_file(char *filename);
 t_image	*tga_load_from_file(char *filename);
 
 typedef struct s_mtl
@@ -117,6 +117,13 @@ typedef struct s_light
 float	light_intensity(t_v3 light_dir, t_v3 n);
 t_v3	compute_lighting(t_light *lights, t_v3 pos, t_v3 n);
 
+typedef struct s_camera
+{
+	t_v3	position;
+	t_v3	rotation;
+	t_scene	*scene;
+}	t_camera;
+
 typedef enum e_mode
 {
 	MODE_NORMAL,
@@ -138,6 +145,8 @@ typedef struct s_r3d
 	int				width;
 	int				height;
 
+	t_camera		*camera;
+
 	t_mat4			projection_matrix;
 	float			rot_z;
 
@@ -152,7 +161,7 @@ void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 
 int		r3d_key_hook(int keycode, t_r3d *r3d);
 
-void	r3d_draw_mesh(t_r3d *r3d, t_mesh *mesh, t_light *lights);
+void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh, t_transform transform);
 void	r3d_fill_triangle(t_r3d *r3d, t_v3 pos, t_tri tri, t_mtl *mtl,
 	t_color *cbuf, float *dbuf, t_light *lights);
 

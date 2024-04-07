@@ -6,22 +6,13 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:03:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 13:47:32 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 20:19:05 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 #include "../cub3d.h"
 #include "types.h"
-
-/*
- * Project the position to NDC screen space using matrices.
- */
-static inline t_v3	project_pos(t_r3d *r3d, t_v3 pos)
-{
-	pos = mat4_multiply_v3(r3d->projection_matrix, pos);
-	return (pos);
-}
 
 static inline bool	wall_test_intersection(t_r3d *r3d, t_wall *wall, t_v3 ray_origin,
 	t_v3 ray_dir, float *t, t_v3 *uv, t_v3 *pos, t_v3 n, t_mat4 inv_trans)
@@ -56,8 +47,7 @@ static inline bool	wall_test_intersection(t_r3d *r3d, t_wall *wall, t_v3 ray_ori
 	return (uv->x >= 0.0 && uv->x <= 1.0 && uv->y >= 0.0 && uv->y <= 1.0);
 }
 
-static inline t_color	sample_texture(t_r3d *r3d, t_image *img, t_v3 uv,
-	float z)
+static inline t_color	sample_texture(t_r3d *r3d, t_image *img, t_v3 uv)
 {
 	int	x;
 	int	y;
@@ -125,7 +115,7 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights)
 
 			if (wall_test_intersection(r3d, wall, camera_pos, ray, &t, &uv, &pos,
 				wall->n, inv_trans))
-				set_pixel(r3d, x, y, sample_texture(r3d, wall->img, uv, t), SCALE, t, wall->n, pos, lights);
+				set_pixel(r3d, x, y, sample_texture(r3d, wall->img, uv), SCALE, t, wall->n, pos, lights);
 		}
 	}
 }

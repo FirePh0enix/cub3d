@@ -6,13 +6,15 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/04/06 23:31:37 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/04/07 20:41:48 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
 	src/main.c \
+	src/scene.c \
 	src/wall.c \
+	src/entities/player.c \
 	src/gui/panel.c \
 	src/render/init.c \
 	src/render/clear.c \
@@ -20,7 +22,6 @@ SOURCES=\
 	src/render/obj_loader.c \
 	src/render/material_loader.c \
 	src/render/color.c \
-	src/render/ppm.c \
 	src/render/tga.c \
 	src/render/draw_walls.c \
 	src/render/draw_mesh.c \

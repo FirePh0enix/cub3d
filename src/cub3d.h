@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 11:55:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/07 17:57:17 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # include "render/render.h"
+# include "scene.h"
 
 typedef struct s_vars
 {
@@ -21,6 +22,8 @@ typedef struct s_vars
 	void		*win;
 	t_r3d		*r3d;
 	suseconds_t	last_update;
+
+	t_scene		*scene;
 
 	t_panel		*panel;
 	t_font		*font;
