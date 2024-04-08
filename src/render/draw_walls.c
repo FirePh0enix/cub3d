@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:03:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 20:19:05 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:27:39 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ static inline void	set_pixel(t_r3d *r3d, int x, int y, t_color col,
 			xx = x * scale + i;
 			yy = r3d->height - y * scale + j;
 			index = xx + yy * r3d->width;
-			if (t < r3d->depth_buffer[index])
+			if (t < r3d->fb->depth[index])
 				continue ;
-			r3d->depth_buffer[index] = t;
+			r3d->fb->depth[index] = t;
 			if (r3d->mode == MODE_DEPTH)
-				r3d->color_buffer[index] = grayscalef(t);
+				r3d->fb->color[index] = grayscalef(t);
 			else
-				r3d->color_buffer[index] = col;
+				r3d->fb->color[index] = col;
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:04:21 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/24 16:49:11 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:30:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ static void	draw_glyph(t_r3d *r3d, t_font *font, t_bakedchar ch, t_v2i pos)
 		{
 			col = ((t_color *) font->img->data)[(x + ch.x) + (y + ch.y) * font->img->width];
 			index = (x + ch.xoffset + pos.x) + (y + ch.yoffset + pos.y) * r3d->width;
-			col2 = r3d->color_buffer[index];
+			col2 = r3d->fb->color[index];
 			if (col.t > 0)
 			{
 				col = blend_colors(col2, col, col.t / 255.0);
-				r3d->color_buffer[index] = col;
+				r3d->fb->color[index] = col;
 			}
 			y++;
 		}

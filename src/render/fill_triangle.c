@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 20:18:30 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:43:31 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ inline float	clamp(int f, int min, int max)
 
 void	r3d_fill_triangle(
 		t_r3d *r3d, t_v3 pos, t_tri tri, t_mtl *mtl,
-		t_color *cbuf, float *dbuf, t_light *lights)
+		t_framebuffer *fb, t_light *lights)
 {
 	tri.v0 = mat4_multiply_v3(r3d->projection_matrix, tri.v0);
 	tri.v1 = mat4_multiply_v3(r3d->projection_matrix, tri.v1);
@@ -147,14 +147,14 @@ void	r3d_fill_triangle(
 				t_v3	w = {{w0, w1, w2}};
 				t_v2	uv = int_v2(tri.t0, tri.t1, tri.t2, w, one_z);
 				t_v3	n = int_v3(tri.n0, tri.n1, tri.n2, w, one_z);
-				size_t	index = (r3d->height - j) * r3d->width + i;
+				size_t	index = (fb->height - j) * fb->width + i;
 
 				t_v3	light = compute_lighting(lights, pos, n);
 				
-				if (z < dbuf[index] || z < Z_NEAR || z > Z_FAR)
+				if (z < fb->depth[index] || z < 0.0 || z > 1.0)
 					continue ;
-				dbuf[index] = z;
-				cbuf[index] = shader(r3d, mtl, z, uv, light);
+				fb->depth[index] = z;
+				fb->color[index] = shader(r3d, mtl, z, uv, light);
 			}
 		}
 	}

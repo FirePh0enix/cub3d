@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 20:26:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:40:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_image
 }	t_image;
 
 t_image	*tga_load_from_file(char *filename);
+t_image	*tga_create(int width, int height);
 
 typedef struct s_mtl
 {
@@ -117,11 +118,21 @@ typedef struct s_light
 float	light_intensity(t_v3 light_dir, t_v3 n);
 t_v3	compute_lighting(t_light *lights, t_v3 pos, t_v3 n);
 
+typedef struct s_framebuffer
+{
+	float		*depth;
+	t_color		*color;
+	int			width;
+	int			height;
+}	t_framebuffer;
+
 typedef struct s_camera
 {
-	t_v3	position;
-	t_v3	rotation;
-	t_scene	*scene;
+	t_v3			position;
+	t_v3			rotation;
+	t_scene			*scene;
+
+	t_framebuffer	*fb;
 }	t_camera;
 
 typedef enum e_mode
@@ -131,6 +142,10 @@ typedef enum e_mode
 	MODE_DEPTH,
 }	t_mode;
 
+t_framebuffer	*create_fb(int width, int height);
+void			fb_clear_depth_buffer(t_framebuffer *fb);
+void			fb_clear_color_buffer(t_framebuffer *fb, t_color color);
+
 typedef struct s_r3d
 {
 	t_img			*canvas;
@@ -138,12 +153,11 @@ typedef struct s_r3d
 
 	float			fov;
 	t_v3			camera_pos;
-	
-	t_color			*color_buffer;
-	float			*depth_buffer;
-	
+
 	int				width;
 	int				height;
+
+	t_framebuffer	*fb;
 
 	t_camera		*camera;
 
@@ -161,9 +175,10 @@ void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 
 int		r3d_key_hook(int keycode, t_r3d *r3d);
 
-void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh, t_transform transform);
+void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh,
+	t_camera *camera, t_transform transform);
 void	r3d_fill_triangle(t_r3d *r3d, t_v3 pos, t_tri tri, t_mtl *mtl,
-	t_color *cbuf, float *dbuf, t_light *lights);
+	t_framebuffer *fb, t_light *lights);
 
 typedef struct s_wall	t_wall;
 typedef struct s_map	t_map;

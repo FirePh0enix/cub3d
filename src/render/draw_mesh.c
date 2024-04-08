@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:26:39 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 20:31:01 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:40:08 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	draw_line(t_r3d *r3d, t_v3 v1, t_v3 v2, t_color color)
 		index = (int)x + (r3d->height - (int)y) * r3d->width;
 		// FIXME This test is costing ~0.2 ms for the teapot !
 		if (index < 0 || index > r3d->width * r3d->height 
-			|| z < r3d->depth_buffer[index])
+			|| z < r3d->fb->depth[index])
 		{
 			x += dx;
 			y += dy;
@@ -59,8 +59,8 @@ void	draw_line(t_r3d *r3d, t_v3 v1, t_v3 v2, t_color color)
 			i++;
 			continue ;
 		}
-		r3d->depth_buffer[index] = z;
-		r3d->color_buffer[index] = color;
+		r3d->fb->depth[index] = z;
+		r3d->fb->color[index] = color;
 		x += dx;
 		y += dy;
 		z += dz;
@@ -97,11 +97,13 @@ static void	draw_debug_triangle(t_r3d *r3d, t_tri tri)
 	draw_triangle_wireframe(r3d, tri, color);
 }
 
-void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh, t_transform transform)
+void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh,
+	t_camera *camera, t_transform transform)
 {
 	const t_mat4	rotation = mat4_rotation(transform.rotation);
 	const t_mat4	translation = mat4_translation(transform.position);
-	const t_mat4	world = mat4_mul_mat4(translation, rotation);
+	const t_mat4	camera_trans = mat4_translation(v3_scale(camera->position, -1));
+	const t_mat4	world = mat4_mul_mat4(mat4_mul_mat4(translation, camera_trans), rotation);
 	size_t			i;
 	t_tri			tri;
 	t_face			face;
@@ -129,11 +131,14 @@ void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh, t_transform transfo
 			continue ;
 		}
 
-		if (r3d->mode == MODE_WIREFRAME)
+		if (r3d->mode == MODE_WIREFRAME && !camera->fb)
 			draw_debug_triangle(r3d, tri);
+		else if (!camera->fb)
+			r3d_fill_triangle(r3d, transform.position, tri, mesh->material,
+					r3d->fb, scene->lights);
 		else
 			r3d_fill_triangle(r3d, transform.position, tri, mesh->material,
-					r3d->color_buffer, r3d->depth_buffer, scene->lights);
+					camera->fb, scene->lights);
 		i++;
 	}
 }

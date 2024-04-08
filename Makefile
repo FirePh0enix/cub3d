@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/04/07 20:41:48 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/04/08 16:22:58 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,13 @@ SOURCES=\
 	src/main.c \
 	src/scene.c \
 	src/wall.c \
+	src/entities/mesh_inst.c \
 	src/entities/player.c \
+	src/entities/scene_door.c \
 	src/gui/panel.c \
 	src/render/init.c \
 	src/render/clear.c \
+	src/render/framebuffer.c \
 	src/render/mesh.c \
 	src/render/obj_loader.c \
 	src/render/material_loader.c \

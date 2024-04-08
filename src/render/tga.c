@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/24 13:09:58 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 14:54:05 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,16 @@ t_image	*tga_load_from_file(char *filename)
 	image->width = hdr.w;
 	image->height = hdr.h;
 	read_pixels(image, (char *)s + sizeof(t_tga_hdr));
+	return (image);
+}
+
+t_image	*tga_create(int width, int height)
+{
+	t_image	*image;
+
+	image = malloc(sizeof(t_image));
+	image->data = malloc(sizeof(uint32_t) * width * height);
+	image->width = width;
+	image->height = height;
 	return (image);
 }

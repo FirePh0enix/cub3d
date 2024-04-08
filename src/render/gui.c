@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 22:32:35 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/24 16:48:35 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:31:20 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	draw_panel(t_r3d *r3d, t_panel *panel)
 			y = pos.y - 1;
 			while (++y < size.y)
 			{
-				r3d->color_buffer[x + y * r3d->width] = panel->bg_color;
+				r3d->fb->color[x + y * r3d->width] = panel->bg_color;
 			}
 		}
 	}
