@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:53:16 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/08 14:58:42 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 23:19:20 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	draw_scene(t_r3d *r3d, t_scene *scene, t_camera *camera)
 	}
 }
 
-void	tick_scene(t_r3d *r3d, t_scene *scene)
+void	tick_scene(t_vars *vars, t_scene *scene)
 {
 	size_t	i;
 
@@ -48,7 +48,7 @@ void	tick_scene(t_r3d *r3d, t_scene *scene)
 	while (i < ft_vector_size(scene->entities))
 	{
 		if (scene->entities[i]->tick)
-			scene->entities[i]->tick(r3d, scene->entities[i]);
+			scene->entities[i]->tick(vars, scene->entities[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:26:39 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/08 16:40:08 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/09 00:10:57 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	draw_line(t_r3d *r3d, t_v3 v1, t_v3 v2, t_color color)
 	i = 0;
 	while (i <= step)
 	{
-		index = (int)x + (r3d->height - (int)y) * r3d->width;
+		index = (int)x + (r3d->fb->height - (int)y) * r3d->fb->width;
 		// FIXME This test is costing ~0.2 ms for the teapot !
-		if (index < 0 || index > r3d->width * r3d->height 
+		if (x < 0 || x > r3d->fb->width || y < 0 || y > r3d->fb->height 
 			|| z < r3d->fb->depth[index])
 		{
 			x += dx;
@@ -91,9 +91,9 @@ static void	draw_debug_triangle(t_r3d *r3d, t_tri tri)
 	const t_color	color = hex(0xFF00FFFF);
 
 	tri = tri_mul_mat4(tri, r3d->projection_matrix);
-	tri.v0.x = (1 + tri.v0.x) * 0.5 * r3d->width, tri.v0.y = (1 + tri.v0.y) * 0.5 * r3d->height;
-	tri.v1.x = (1 + tri.v1.x) * 0.5 * r3d->width, tri.v1.y = (1 + tri.v1.y) * 0.5 * r3d->height;
-	tri.v2.x = (1 + tri.v2.x) * 0.5 * r3d->width, tri.v2.y = (1 + tri.v2.y) * 0.5 * r3d->height;
+	tri.v0.x = (1 + tri.v0.x) * 0.5 * r3d->fb->width, tri.v0.y = (1 + tri.v0.y) * 0.5 * r3d->fb->height;
+	tri.v1.x = (1 + tri.v1.x) * 0.5 * r3d->fb->width, tri.v1.y = (1 + tri.v1.y) * 0.5 * r3d->fb->height;
+	tri.v2.x = (1 + tri.v2.x) * 0.5 * r3d->fb->width, tri.v2.y = (1 + tri.v2.y) * 0.5 * r3d->fb->height;
 	draw_triangle_wireframe(r3d, tri, color);
 }
 

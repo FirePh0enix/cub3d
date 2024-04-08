@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 17:57:17 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 23:17:06 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ typedef struct s_vars
 
 	t_panel		*panel;
 	t_font		*font;
+
+	bool		*keys;
 }	t_vars;
+
+int	key_pressed_hook(int keycode, t_vars *vars);
+int key_released_hook(int keycode, t_vars *vars);
 
 #define WALL_SIZE 3.0
 

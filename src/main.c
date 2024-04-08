@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/08 16:45:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 23:28:30 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,11 @@ static void	loop_hook(t_vars *vars)
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
 
-	tick_scene(vars->r3d, vars->scene);
+	tick_scene(vars, vars->scene);
 	draw_scene(vars->r3d, vars->scene, vars->scene->player->camera);
 	
 	print_fps(vars, delta, getms() - vars->last_update);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
-}
-
-static int	key_hook(int keycode, t_vars *vars)
-{
-	r3d_key_hook(keycode, vars->r3d);
-	return (0);
 }
 
 int	main(int argc, char *argv[])
@@ -82,9 +76,12 @@ int	main(int argc, char *argv[])
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
-	mlx_hook(vars.win, KeyPress, KeyPressMask, key_hook, &vars);
+	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
+	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 	r3d_init(vars.r3d, vars.mlx, 1280, 720);
+
+	vars.keys = ft_calloc(0xFFFF, sizeof(bool));
 
 	vars.panel = gui_panel_new((t_v2){-1.0, -1.0});
 	vars.panel->bg_color = hex(0xFF000000);
@@ -114,9 +111,9 @@ int	main(int argc, char *argv[])
 	mesh_inst->base.transform.position = v3(-2.0, -1.0, -3.5);
 	scene_add_entity(vars.scene, mesh_inst);
 
-	t_mesh_inst	*mesh_inst2 = mesh_inst_new(&vars, vars.scene, knight_obj);
-	mesh_inst2->base.transform.position = v3(2.0, -1.0, -3.5);
-	scene_add_entity(vars.scene, mesh_inst2);
+	//t_mesh_inst	*mesh_inst2 = mesh_inst_new(&vars, vars.scene, knight_obj);
+	//mesh_inst2->base.transform.position = v3(2.0, -1.0, -3.5);
+	//scene_add_entity(vars.scene, mesh_inst2);
 
 	t_scene_door	*door = scene_door_new(&vars, vars.scene);
 	door->base.transform.position = v3(0.0, 0.0, -2.0);
@@ -127,7 +124,7 @@ int	main(int argc, char *argv[])
 	scene2->player = NULL;
 
 	t_mesh_inst	*mesh_inst3 = mesh_inst_new(&vars, scene2, teapot);
-	mesh_inst3->base.transform.position = v3(0.0, 0.0, -5.0);
+	mesh_inst3->base.transform.position = v3(0.0, -1.5, -4.0);
 	scene_add_entity(scene2, mesh_inst3);
 
 	t_scene_door	*door2 = scene_door_new(&vars, scene2);

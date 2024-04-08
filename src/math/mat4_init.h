@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 15:41:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/03 12:48:16 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/08 20:40:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <math.h>
 # include <string.h>
 
-# define Z_NEAR 0.1
+# define Z_NEAR 0.001
 # define Z_FAR 1000.0
 
 inline t_mat4	mat4_identity(void)
@@ -47,7 +47,7 @@ inline t_mat4	mat4_projection(float fov, int w, int h)
 	bzero(&m, sizeof(t_mat4));
 	m.d[0][0] = aspect * fov_rad;
 	m.d[1][1] = fov_rad;
-	m.d[2][2] = (-Z_FAR + Z_NEAR) / (Z_FAR - Z_NEAR);
+	m.d[2][2] = -(Z_FAR + Z_NEAR) / (Z_FAR - Z_NEAR);
 	m.d[2][3] = -1.0;
 	m.d[3][2] = (-2 * Z_FAR * Z_NEAR) / (Z_FAR - Z_NEAR);
 	return (m);
@@ -157,7 +157,7 @@ inline t_v3	mat4_multiply_v3(t_mat4 m, t_v3 v)
 	r.y = m.d[0][1] * v.x + m.d[1][1] * v.y + m.d[2][1] * v.z + m.d[3][1];
 	r.z = m.d[0][2] * v.x + m.d[1][2] * v.y + m.d[2][2] * v.z + m.d[3][2];
 	w = m.d[0][3] * v.x + m.d[1][3] * v.y + m.d[2][3] * v.z + m.d[3][3];
-	if (w != 0.0)
+	if (w != 1.0)
 	{
 		r.x /= w;
 		r.y /= w;

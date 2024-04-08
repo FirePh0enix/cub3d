@@ -6,12 +6,13 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/04/08 16:22:58 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/04/08 23:26:54 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
 	src/main.c \
+	src/input.c \
 	src/scene.c \
 	src/wall.c \
 	src/entities/mesh_inst.c \

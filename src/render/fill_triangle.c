@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/08 16:43:31 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/09 00:03:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ void	r3d_fill_triangle(
 	tri.v2 = mat4_multiply_v3(r3d->projection_matrix, tri.v2);
 
 	// Convert from screen space to NDC then raster (in one go)
-	tri.v0.x = (1 + tri.v0.x) * 0.5 * r3d->width, tri.v0.y = (1 + tri.v0.y) * 0.5 * r3d->height;
-	tri.v1.x = (1 + tri.v1.x) * 0.5 * r3d->width, tri.v1.y = (1 + tri.v1.y) * 0.5 * r3d->height;
-	tri.v2.x = (1 + tri.v2.x) * 0.5 * r3d->width, tri.v2.y = (1 + tri.v2.y) * 0.5 * r3d->height;
+	tri.v0.x = (1 + tri.v0.x) * 0.5 * fb->width, tri.v0.y = (1 + tri.v0.y) * 0.5 * fb->height;
+	tri.v1.x = (1 + tri.v1.x) * 0.5 * fb->width, tri.v1.y = (1 + tri.v1.y) * 0.5 * fb->height;
+	tri.v2.x = (1 + tri.v2.x) * 0.5 * fb->width, tri.v2.y = (1 + tri.v2.y) * 0.5 * fb->height;
 
 	int	min_x, max_x, min_y, max_y;
 
@@ -116,13 +116,13 @@ void	r3d_fill_triangle(
 
 	// The triangle is outside of the screen.
 	// TODO This check could probably be sooner. (maybe before NDC to screen space)
-	if (min_x >= r3d->width || min_y >= r3d->height)
+	if (min_x >= fb->width || min_y >= fb->height || max_x < 0 || max_y < 0)
 		return ;
 
 	min_x = fmaxf(min_x, 0);
 	min_y = fmaxf(min_y, 0);
-	max_x = fminf(max_x, r3d->width - 1);
-	max_y = fminf(max_y, r3d->height - 1);
+	max_x = fminf(max_x, fb->width - 1);
+	max_y = fminf(max_y, fb->height - 1);
 
 	pint_v2(&tri.t0, &tri.t1, &tri.t2, &tri);
 	pint_v3(&tri.n0, &tri.n1, &tri.n2, &tri);
@@ -150,7 +150,7 @@ void	r3d_fill_triangle(
 				size_t	index = (fb->height - j) * fb->width + i;
 
 				t_v3	light = compute_lighting(lights, pos, n);
-				
+
 				if (z < fb->depth[index] || z < 0.0 || z > 1.0)
 					continue ;
 				fb->depth[index] = z;

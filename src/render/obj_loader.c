@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 22:45:49 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/20 15:39:04 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/09 00:12:53 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ static void alloc_arrays(t_mesh *mesh, char **lines)
 			mesh->faces_count += num_of_tri_faces(lines[i]);
 		i++;
 	}
+	printf("normals = %zu\n", mesh->normals_count);
 	mesh->vertices = malloc(sizeof(t_v3) * mesh->vertices_count);
 	mesh->textures = malloc(sizeof(t_v2) * mesh->textures_count);
 	mesh->normals = malloc(sizeof(t_v3) * mesh->normals_count);
