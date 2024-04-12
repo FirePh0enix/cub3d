@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/08 23:28:30 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/12 23:38:43 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ int	main(int argc, char *argv[])
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
 
-	t_mesh_inst	*mesh_inst = mesh_inst_new(&vars, vars.scene, knight_obj);
-	mesh_inst->base.transform.position = v3(-2.0, -1.0, -3.5);
-	scene_add_entity(vars.scene, mesh_inst);
+	//t_mesh_inst	*mesh_inst = mesh_inst_new(&vars, vars.scene, knight_obj);
+	//mesh_inst->base.transform.position = v3(-2.0, -1.0, -3.5);
+	//scene_add_entity(vars.scene, mesh_inst);
 
 	//t_mesh_inst	*mesh_inst2 = mesh_inst_new(&vars, vars.scene, knight_obj);
 	//mesh_inst2->base.transform.position = v3(2.0, -1.0, -3.5);

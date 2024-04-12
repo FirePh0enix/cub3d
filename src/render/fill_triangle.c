@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/09 00:03:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:12:13 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	r3d_fill_triangle(
 				t_v3	w = {{w0, w1, w2}};
 				t_v2	uv = int_v2(tri.t0, tri.t1, tri.t2, w, one_z);
 				t_v3	n = int_v3(tri.n0, tri.n1, tri.n2, w, one_z);
-				size_t	index = (fb->height - j) * fb->width + i;
+				size_t	index = i + (fb->height - j - 1) * fb->width;
 
 				t_v3	light = compute_lighting(lights, pos, n);
 
