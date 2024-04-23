@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 22:45:49 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/09 00:12:53 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:04:21 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	read_mtl(t_vars *vars, t_mesh *mesh, char **lines, char *filename)
 
 	i = 0;
 	mtllib = NULL;
+	mesh->material = NULL;
 	while (lines[i])
 	{
 		if (ft_strlen(lines[i]) > 7 && !ft_strncmp(lines[i], "mtllib ", 7))
@@ -114,11 +115,22 @@ static void alloc_arrays(t_mesh *mesh, char **lines)
 			mesh->faces_count += num_of_tri_faces(lines[i]);
 		i++;
 	}
-	printf("normals = %zu\n", mesh->normals_count);
+
+	//printf("- vertices = %zu\n", mesh->vertices_count);
+	//printf("- faces    = %zu\n", mesh->faces_count);
+	//printf("- textures = %zu\n", mesh->textures_count);
+	//printf("- normals  = %zu\n", mesh->normals_count);
+
 	mesh->vertices = malloc(sizeof(t_v3) * mesh->vertices_count);
-	mesh->textures = malloc(sizeof(t_v2) * mesh->textures_count);
-	mesh->normals = malloc(sizeof(t_v3) * mesh->normals_count);
 	mesh->faces = malloc(sizeof(t_face) * mesh->faces_count);
+	if (mesh->textures_count > 0)
+		mesh->textures = malloc(sizeof(t_v2) * mesh->textures_count);
+	else
+		mesh->textures = ft_calloc(1, sizeof(t_v2));
+	if (mesh->normals_count > 0)
+		mesh->normals = malloc(sizeof(t_v3) * mesh->normals_count);
+	else
+		mesh->normals = ft_calloc(1, sizeof(t_v3));
 }
 
 static void	read_face_nums(char *line, int index, t_face *face)
@@ -133,15 +145,15 @@ static void	read_face_nums(char *line, int index, t_face *face)
 	svt = strtok(NULL, "/");
 	svn = strtok(NULL, "/");
 	if (sv == NULL || sv[0] == '\0')
-		face->v[index] = -1;
+		face->v[index] = 0;
 	else
 		face->v[index] = ft_atoi(sv) - 1;
 	if (svt == NULL || svt[0] == '\0')
-		face->t[index] = -1;
+		face->t[index] = 0;
 	else
 		face->t[index] = ft_atoi(svt) - 1;
 	if (svn == NULL || svn[0] == '\0')
-		face->n[index] = -1;
+		face->n[index] = 0;
 	else
 		face->n[index] = ft_atoi(svn) - 1;
 	i = 0;
@@ -206,11 +218,11 @@ static void	read_arrays(t_mesh *mesh, char **lines)
 		}
 		else if (ft_strlen(lines[i]) > 3 && !ft_strncmp(lines[i], "vn ", 3))
 		{
-			mesh->normals[mesh->normals_count++] = (t_v3){{
+			mesh->normals[mesh->normals_count++] = v3(
 				atof(strtok(lines[i] + 2, " ")),
 				atof(strtok(NULL, " ")),
-				atof(strtok(NULL, " ")),
-			}};
+				atof(strtok(NULL, " "))
+			);
 		}
 		else if (ft_strlen(lines[i]) > 3 && !ft_strncmp(lines[i], "vt ", 3))
 		{
@@ -246,5 +258,6 @@ t_mesh	*mesh_load_from_obj(t_vars *vars, char *filename)
 bool	mesh_validate(t_mesh *mesh)
 {
 	(void) mesh;
+	// TODO
 	return (true);
 }
