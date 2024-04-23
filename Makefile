@@ -17,7 +17,6 @@ SOURCES=\
 	src/wall.c \
 	src/entities/mesh_inst.c \
 	src/entities/player.c \
-	src/entities/scene_door.c \
 	src/gui/panel.c \
 	src/render/init.c \
 	src/render/clear.c \

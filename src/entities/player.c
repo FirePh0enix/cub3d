@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/08 23:28:12 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:50:11 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	if (vars->keys[XK_w])
 		player->base.transform.position.z += -0.1;
+	if (vars->keys[XK_s])
+		player->base.transform.position.z += 0.1;
+	if (vars->keys[XK_a])
+		player->base.transform.position.x += -0.1;
+	if (vars->keys[XK_d])
+		player->base.transform.position.x += 0.1;
 	player->camera->rotation = v3(0.0, 0.0, 0.0);
 	player->camera->position = v3_add(player->base.transform.position,
 		camera_offset);

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/08 23:17:43 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:43:35 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,6 @@ typedef struct s_player
 }	t_player;
 
 t_player	*player_new(t_vars *vars, t_scene *scene);
-
-typedef struct s_scene_door
-{
-	t_entity			base;
-	struct s_scene_door	*other_door;
-
-	t_framebuffer		*fb;
-
-	t_mesh				*mesh;
-}	t_scene_door;
-
-t_scene_door	*scene_door_new(t_vars *vars, t_scene *scene);
 
 typedef struct s_mesh_inst
 {
