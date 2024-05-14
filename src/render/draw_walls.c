@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:03:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/08 16:27:39 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:06:40 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static inline t_color	sample_texture(t_r3d *r3d, t_image *img, t_v3 uv)
 static inline void	set_pixel(t_r3d *r3d, int x, int y, t_color col,
 	int scale, float t, t_v3 n, t_v3 pos, t_light *lights)
 {
-	const t_v3	light = compute_lighting(lights, pos, v3_scale(n, -1));
+	const t_v3	light = compute_lighting(r3d, lights, pos, v3_scale(n, -1));
 	int			i;
 	int			j;
 	int			xx;

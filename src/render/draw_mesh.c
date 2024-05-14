@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 22:26:39 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/13 00:01:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/14 15:43:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	draw_line(t_r3d *r3d, t_v3 v1, t_v3 v2, t_color color)
 	{
 		index = (int)x + (r3d->fb->height - (int)y) * r3d->fb->width;
 		// FIXME This test is costing ~0.2 ms for the teapot !
-		if (x < 0 || x > r3d->fb->width || y < 0 || y > r3d->fb->height 
+		if (x < 0 || x > r3d->fb->width || y < 0 || y > r3d->fb->height
 			|| z < r3d->fb->depth[index])
 		{
 			x += dx;
@@ -102,8 +102,13 @@ void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh,
 {
 	const t_mat4	rotation = mat4_rotation(transform.rotation);
 	const t_mat4	translation = mat4_translation(transform.position);
+	const t_mat4	mat = mat4_mul_mat4(translation, rotation);
+
+	//const t_mat4	camera_rotation = mat4_rotation(v3_scale(camera->rotation, -1));
 	const t_mat4	camera_trans = mat4_translation(v3_scale(camera->position, -1));
-	const t_mat4	world = mat4_mul_mat4(mat4_mul_mat4(translation, camera_trans), rotation);
+	//const t_mat4	camera_mat = mat4_mul_mat4(camera_trans, camera_rotation);
+
+	const t_mat4	world = mat4_mul_mat4(camera_trans, mat);
 	size_t			i;
 	t_tri			tri;
 	t_face			face;

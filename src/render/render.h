@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/08 16:40:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:05:07 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 typedef struct s_vars	t_vars;
 typedef struct s_scene	t_scene;
+typedef struct s_r3d	t_r3d;
 
 typedef struct s_tri
 {
@@ -116,7 +117,7 @@ typedef struct s_light
 }	t_light;
 
 float	light_intensity(t_v3 light_dir, t_v3 n);
-t_v3	compute_lighting(t_light *lights, t_v3 pos, t_v3 n);
+t_v3	compute_lighting(t_r3d *r3d, t_light *lights, t_v3 pos, t_v3 n);
 
 typedef struct s_framebuffer
 {

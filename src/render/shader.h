@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 21:37:10 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/06 23:15:04 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:07:05 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,18 @@ inline t_color	shader(
 	if (r3d->mode == MODE_DEPTH)
 		return (grayscalef(z));
 	pixel = sample(mtl, uv);
-	pixel.r *= light.x;
-	pixel.g *= light.y;
-	pixel.b *= light.z;
+	pixel.r *= light.r;
+	pixel.g *= light.g;
+	pixel.b *= light.b;
 	return (pixel);
+}
+
+static t_v3 v3_mul_worldmatrix(t_r3d *r3d, t_v3 pos)
+{
+	const t_mat4	translation = mat4_translation(pos);
+	const t_mat4	camera_trans = mat4_translation(v3_scale(r3d->camera->position, -1));
+
+	return mat4_multiply_v3(mat4_mul_mat4(translation, camera_trans), pos);
 }
 
 #endif

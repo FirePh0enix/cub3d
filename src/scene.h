@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/22 13:43:35 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:20:55 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_player
 {
 	t_entity	base;
 	t_camera	*camera;
+	int			mouse_x;
+	int			mouse_y;
 }	t_player;
 
 t_player	*player_new(t_vars *vars, t_scene *scene);

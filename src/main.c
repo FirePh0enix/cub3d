@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/23 15:39:59 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:42:13 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,30 +103,9 @@ int	main(int argc, char *argv[])
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
 
-	//t_mesh_inst	*mesh_inst = mesh_inst_new(&vars, vars.scene, knight_obj);
-	//mesh_inst->base.transform.position = v3(-2.0, -1.0, -3.5);
-	//scene_add_entity(vars.scene, mesh_inst);
-
-	//t_mesh_inst	*mesh_inst2 = mesh_inst_new(&vars, vars.scene, knight_obj);
-	//mesh_inst2->base.transform.position = v3(2.0, -1.0, -3.5);
-	//scene_add_entity(vars.scene, mesh_inst2);
-
-	t_scene_door	*door = scene_door_new(&vars, vars.scene);
-	door->base.transform.position = v3(0.0, 0.0, -2.0);
-	scene_add_entity(vars.scene, door);
-
-	/* Scene 2 */
-	t_scene	*scene2 = create_scene();
-	scene2->player = NULL;
-
-	t_mesh_inst	*mesh_inst3 = mesh_inst_new(&vars, scene2, teapot);
-	mesh_inst3->base.transform.position = v3(0.0, -1.5, -4.0);
-	scene_add_entity(scene2, mesh_inst3);
-
-	t_scene_door	*door2 = scene_door_new(&vars, scene2);
-	door2->other_door = door;
-	scene_add_entity(scene2, door2);
-	door->other_door = door2;
+	t_mesh_inst	*mesh_inst = mesh_inst_new(&vars, vars.scene, knight_obj);
+	mesh_inst->base.transform.position = v3(-2.0, -1.0, -3.5);
+	scene_add_entity(vars.scene, mesh_inst);
 
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);
