@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/21 13:15:03 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:09:53 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ typedef struct s_wall2
 	t_wall	ea;
 }	t_wall2;
 
+enum e_tile
+{
+	TILE_EMPTY,
+	TILE_FULL
+};
+
 typedef struct s_map
 {
 	int		width;
@@ -73,7 +79,8 @@ typedef struct s_map
 	t_image	*we;
 	t_image	*ea;
 
-	t_wall	*walls;
+	t_wall2	**walls;
+	int		*tiles;
 }	t_map;
 
 #endif
