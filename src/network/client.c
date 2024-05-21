@@ -23,6 +23,15 @@ void	netclient_connect(t_client *client, char *username)
 
 	packet.type = PACKET_CONNECT;
 	ft_memcpy(packet.username, username, ft_strlen(username) + 1);
-	sendto(client->socket, &packet, sizeof(t_packet_connect), 0, (void *) &client->server_addr,
-		sizeof(struct sockaddr_in));
+	sendto(client->socket, &packet, sizeof(t_packet_connect), 0,
+		(void *) &client->server_addr, sizeof(struct sockaddr_in));
+}
+
+void	netclient_pulse(t_client *client)
+{
+	t_packet_pulse	packet;
+
+	packet.type = PACKET_PULSE;
+	sendto(client->socket, &packet, sizeof(t_packet_pulse), 0,
+		(void *) &client->server_addr, sizeof(struct sockaddr_in));
 }
