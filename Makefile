@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/04/08 23:26:54 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/05/21 14:22:46 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ SOURCES=\
 	src/entities/mesh_inst.c \
 	src/entities/player.c \
 	src/gui/panel.c \
+	src/network/serv.c \
+	src/network/client.c \
 	src/render/init.c \
 	src/render/clear.c \
 	src/render/framebuffer.c \

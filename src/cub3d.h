@@ -6,14 +6,15 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/21 14:09:53 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:24:33 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include "render/font.h"
+# include "network/net.h"
+# include "render/font.h"
 # include "render/render.h"
 # include "scene.h"
 
@@ -30,6 +31,10 @@ typedef struct s_vars
 	t_font		*font;
 
 	bool		*keys;
+
+	bool		is_server;
+	t_client	client;
+	t_server	server;
 }	t_vars;
 
 int	key_pressed_hook(int keycode, t_vars *vars);
