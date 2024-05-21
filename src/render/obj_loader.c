@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj_loader.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 22:45:49 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/13 00:04:21 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:02:27 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,34 @@
 #include "../cub3d.h"
 #include "libft.h"
 
-static char	*read_to_string(char *filename)
-{
-	int		fd;
-	char	*str;
-	char	buffer[4096];
-	int		str_size;
-	int		n;
+// char	*read_to_string(char *filename)
+// {
+// 	int		fd;
+// 	char	*str;
+// 	char	buffer[4096];
+// 	int		str_size;
+// 	int		n;
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		return (NULL);
-	str = NULL;
-	str_size = 0;
-	n = 4096;
-	while (n == 4096)
-	{
-		n = read(fd, buffer, 4096);
-		if (n == -1)
-			return (NULL);
-		str = realloc(str, /*str_size + 1,*/ str_size + n + 1);
-		if (!str)
-			return (close(fd), NULL);
-		ft_memcpy(str + str_size, buffer, n);
-		str[str_size + n] = '\0';
-		str_size += n;
-	}
-	return (close(fd), str);
-}
+// 	fd = open(filename, O_RDONLY);
+// 	if (fd == -1)
+// 		return (NULL);
+// 	str = NULL;
+// 	str_size = 0;
+// 	n = 4096;
+// 	while (n == 4096)
+// 	{
+// 		n = read(fd, buffer, 4096);
+// 		if (n == -1)
+// 			return (NULL);
+// 		str = realloc(str, /*str_size + 1,*/ str_size + n + 1);
+// 		if (!str)
+// 			return (close(fd), NULL);
+// 		ft_memcpy(str + str_size, buffer, n);
+// 		str[str_size + n] = '\0';
+// 		str_size += n;
+// 	}
+// 	return (close(fd), str);
+// }
 
 static void	read_mtl(t_vars *vars, t_mesh *mesh, char **lines, char *filename)
 {

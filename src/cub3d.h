@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/21 14:24:33 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:58:07 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,8 @@ typedef struct s_map
 	t_wall2	**walls;
 	int		*tiles;
 }	t_map;
+
+void	map_to_tiles(char *path, t_map *map);
+char	*read_to_string(char *filename);
 
 #endif
