@@ -6,13 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/14 13:09:29 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:15:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+#include "render/font.h"
 # include "render/render.h"
 # include "scene.h"
 
@@ -51,11 +52,28 @@ typedef struct s_wall
 
 t_wall	wall(t_v3 position, float rotation_y, t_image *img);
 
+typedef struct s_wall2
+{
+	t_wall	no;
+	t_wall	so;
+	t_wall	we;
+	t_wall	ea;
+}	t_wall2;
+
 typedef struct s_map
 {
-	t_wall	*walls;
 	int		width;
 	int		height;
+
+	t_color	floor_color;
+	t_color	ceiling_color;
+
+	t_image	*no;
+	t_image	*so;
+	t_image	*we;
+	t_image	*ea;
+
+	t_wall	*walls;
 }	t_map;
 
 #endif
