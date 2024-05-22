@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/22 16:05:01 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:41:56 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,11 @@ typedef struct s_map
 	int		*tiles;
 }	t_map;
 
-void	map_to_tiles(char *path, t_map *map);
+void	map_to_tiles(char *path, t_map *map, char **map_split);
 void	bake_map(t_map *map, t_vars *vars);
 void	draw_map(t_r3d *r3d, t_map *map);
 
 char	*read_to_string(char *filename);
-
+char	**create_map(char *path);
+bool	is_map_surrounded(char **maps, t_map *map);
 #endif

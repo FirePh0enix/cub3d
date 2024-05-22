@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/14 15:48:41 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:57:10 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	player_tick(t_vars *vars, t_player *player)
 	float x_speed = x - 1280 / 2.0;
 	float y_speed = y - 720 / 2.0;
 
-	printf("Relative: x = %f, y = %f\n", x_speed, y_speed);
+	// printf("Relative: x = %f, y = %f\n", x_speed, y_speed);
 
 	player->camera->rotation.y += x_speed / 100.0;
 	player->camera->rotation.x += y_speed / 100.0;
