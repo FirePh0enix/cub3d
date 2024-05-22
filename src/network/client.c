@@ -8,7 +8,7 @@ void    netclient_init(t_client *client, char *addr, int port)
     struct sockaddr_in addr_in;
 
 	addr_in = (struct sockaddr_in) {AF_INET, htons(CLIENT_PORT), {inet_addr("127.0.0.1")}, {0}};
-    client->server_addr = (struct sockaddr_in) {AF_INET, htons(port), {inet_addr("127.0.0.1")}, {0}};
+    client->server_addr = (struct sockaddr_in) {AF_INET, htons(port), {inet_addr(addr)}, {0}};
     client->socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
 
     if (bind(client->socket, (void *) &addr_in, sizeof(struct sockaddr_in)) == -1)

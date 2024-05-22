@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   font.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/21 17:02:15 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/22 11:15:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "font.h"
 #include "render.h"
 #include "libft.h"
+#include "../cub3d.h"
 
 // static char	*read_to_string(char *filename)
 // {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/21 17:08:22 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/22 11:35:39 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ int	main(int argc, char *argv[])
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
 	map_to_tiles(argv[1], &map);
-	for (int i = 0; i < map.height * map.width; i++)
-		printf("%d", map.tiles[i]);
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	// mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	// mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
