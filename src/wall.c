@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 22:25:12 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/05 12:07:05 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:03:28 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_wall	wall(t_v3 position, float rotation_y, t_image *img)
 		.n = mat4_multiply_v3(rotation, v3(0, 0, -1)),
 		.rotation = rotation,
 		.inverse_rotation = mat4_rotation(v3(0, -rotation_y, 0)),
+		.position = mat4_translation(position),
+		.inverse_position = mat4_translation(v3_scale(position, -1)),
 		.img = img
 	};
 	return (wall);

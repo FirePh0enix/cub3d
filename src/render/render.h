@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/14 16:05:07 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:50:47 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdint.h>
+
+# define WALL_RENDER_DISTANCE    25.0
 
 typedef struct s_vars	t_vars;
 typedef struct s_scene	t_scene;
@@ -199,7 +201,7 @@ typedef struct s_ray_result
 	t_v3	uv;
 }	t_ray_result;
 
-void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights);
+void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i max);
 void	r3d_draw_walls(t_r3d *r3d, t_map *map);
 
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);

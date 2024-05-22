@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 12:23:06 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/07 13:28:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:43:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ inline t_v3	v3_cross(t_v3 a, t_v3 b)
 inline float	v3_length(t_v3 v)
 {
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
+}
+
+inline float	v3_length_squared(t_v3 v)
+{
+	return (v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
 inline t_v3	v3_norm(t_v3 v)

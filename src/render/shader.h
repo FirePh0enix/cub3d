@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 21:37:10 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/14 16:07:05 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:17:05 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 # define SHADER_H
 
 # include "render.h"
-
-inline float	clampf(float f, float min, float max)
-{
-	return (fmaxf(min, fminf(f, max)));
-}
+# include "../math/utils.h"
 
 inline t_color	sample(t_mtl *mtl, t_v2 uv)
 {

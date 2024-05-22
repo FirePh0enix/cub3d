@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
+#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/05/21 16:31:07 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/05/22 15:06:20 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
 	src/parsing.c \
 	src/main.c \
+	src/map.c \
 	src/input.c \
 	src/scene.c \
 	src/wall.c \
@@ -43,7 +44,7 @@ NAME=cub3D
 CC=clang
 
 OPTS=-O3 -fno-builtin
-CFLAGS=-Imlx -Ilibft -MMD -g3 $(OPTS) -Wall -Wextra #-Werror
+CFLAGS=-Imlx -Ilibft -MMD -gdwarf-4 $(OPTS) -Wall -Wextra #-Werror
 
 all: $(NAME)
 
@@ -61,7 +62,7 @@ $(NAME): $(OBJECTS) libft/libft.a mlx/libmlx.a
 perf: CFLAGS+=-pg
 perf: $(OBJECTS) mlx/libmlx.a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext
-	./cub3D
+	./cub3D map.cub
 	gprof cub3D gmon.out > profile.txt
 
 clean:

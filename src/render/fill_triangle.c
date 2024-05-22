@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 13:43:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/14 16:04:17 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:18:08 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,6 @@
  * http://www.sunshine2k.de/coding/java/TriangleRasterization/TriangleRasterization.html#algo1
  * https://www.youtube.com/watch?v=k5wtuKWmV48
  */
-
-static inline float	max3f(float a, float b, float c)
-{
-	return (fmaxf(a, fmaxf(b, c)));
-}
-
-static inline float	min3f(float a, float b, float c)
-{
-	return (fminf(a, fminf(b, c)));
-}
 
 inline float	edge_fn(t_v3 a, t_v3 b, t_v3 c)
 {
