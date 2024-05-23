@@ -21,7 +21,6 @@ void	r3d_init(t_r3d *r3d, void *mlx, int width, int height)
 	r3d->fb = create_fb(width, height);
 	free(r3d->fb->color);
 	r3d->fb->color = (void *) r3d->canvas->data;
-	r3d->camera_pos = (t_v3){};
 	r3d->fov = 70.0;
 	r3d->projection_matrix = mat4_projection(r3d->fov, width, height);
 	r3d->mode = MODE_NORMAL;

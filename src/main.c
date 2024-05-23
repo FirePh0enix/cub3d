@@ -121,6 +121,8 @@ int	main(int argc, char *argv[])
 	mesh_inst->base.transform.position = v3(-2.0, -1.0, -3.5);
 	scene_add_entity(vars.scene, mesh_inst);
 
+	vars.r3d->camera = vars.scene->player->camera;
+
 	if (argc == 3 && !ft_strcmp(argv[2], "host"))
 	{
 		netserv_init(&vars.server);

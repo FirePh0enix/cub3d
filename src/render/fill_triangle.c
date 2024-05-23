@@ -92,6 +92,13 @@ void	r3d_fill_triangle(
 	tri.v1 = mat4_multiply_v3(r3d->projection_matrix, tri.v1);
 	tri.v2 = mat4_multiply_v3(r3d->projection_matrix, tri.v2);
 
+	// NOTE:
+	// This fix the depth buffer bug. There is still a performance hit when the camera enters a mesh.
+	if (tri.v0.z < 0.1 || tri.v1.z < 0.1 || tri.v2.z < 0.1)
+	{
+		return ;
+	}
+
 	// Convert from screen space to NDC then raster (in one go)
 	tri.v0.x = (1 + tri.v0.x) * 0.5 * fb->width, tri.v0.y = (1 + tri.v0.y) * 0.5 * fb->height;
 	tri.v1.x = (1 + tri.v1.x) * 0.5 * fb->width, tri.v1.y = (1 + tri.v1.y) * 0.5 * fb->height;
@@ -139,12 +146,11 @@ void	r3d_fill_triangle(
 				t_v3	n = int_v3(tri.n0, tri.n1, tri.n2, w, one_z);
 				size_t	index = i + (fb->height - j - 1) * fb->width;
 
-				t_v3	light = compute_lighting(r3d, lights, pos, n);
-
 				if (z < fb->depth[index] || z < 0.0 || z > 1.0)
 					continue ;
+
 				fb->depth[index] = z;
-				fb->color[index] = shader(r3d, mtl, z, uv, light);
+				fb->color[index] = shader(r3d, mtl, z, uv, compute_lighting(r3d, lights, pos, n));
 			}
 		}
 	}

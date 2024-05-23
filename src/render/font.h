@@ -29,10 +29,6 @@ typedef struct s_bakedchar
 	int	chnl;
 }	t_bakedchar;
 
-/*
- * The font use PPM file which does not support transparency, so `bg` stores
- * the background color that need to be removed when displaying the character.
- */
 typedef struct s_font
 {
 	t_image			*img;

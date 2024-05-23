@@ -3,12 +3,12 @@
 
 # include <math.h>
 
-static inline float	max3f(float a, float b, float c)
+inline float	max3f(float a, float b, float c)
 {
 	return (fmaxf(a, fmaxf(b, c)));
 }
 
-static inline float	min3f(float a, float b, float c)
+inline float	min3f(float a, float b, float c)
 {
 	return (fminf(a, fminf(b, c)));
 }

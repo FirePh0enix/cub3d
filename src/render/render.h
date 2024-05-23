@@ -155,13 +155,11 @@ typedef struct s_r3d
 	t_mode			mode;
 
 	float			fov;
-	t_v3			camera_pos;
 
 	int				width;
 	int				height;
 
 	t_framebuffer	*fb;
-
 	t_camera		*camera;
 
 	t_mat4			projection_matrix;
@@ -185,9 +183,6 @@ void	r3d_fill_triangle(t_r3d *r3d, t_v3 pos, t_tri tri, t_mtl *mtl,
 
 typedef struct s_wall	t_wall;
 typedef struct s_map	t_map;
-
-/* Rendering scale of the raycasting */
-# define SCALE 2
 
 typedef struct s_ray
 {

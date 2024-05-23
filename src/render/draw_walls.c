@@ -65,46 +65,32 @@ static inline t_color	sample_texture(t_r3d *r3d, t_image *img, t_v3 uv)
 }
 
 static inline void	set_pixel(t_r3d *r3d, int x, int y, t_color col,
-	int scale, float t, t_v3 n, t_v3 pos, t_light *lights)
+	float t, t_v3 n, t_v3 pos, t_light *lights)
 {
 	// const t_v3	light = v3(1.0, 1.0, 1.0); //compute_lighting(r3d, lights, pos, v3_scale(n, -1));
-	int			i;
-	int			j;
-	int			xx;
-	int			yy;
 	int			index;
 
 	// col.r *= light.r;
 	// col.g *= light.g;
 	// col.b *= light.b;
-	i = -1;
-	while (++i < scale)
-	{
-		j = -1;
-		while (++j < scale)
-		{
-			xx = x * scale + i;
-			yy = r3d->height - y * scale + j;
-			index = xx + yy * r3d->width;
-			if (t < r3d->fb->depth[index])
-				continue ;
-			r3d->fb->depth[index] = t;
-			if (r3d->mode == MODE_DEPTH)
-				r3d->fb->color[index] = grayscalef(t);
-			else
-				r3d->fb->color[index] = col;
-		}
-	}
+	index = x + y * r3d->width;
+	if (t < r3d->fb->depth[index])
+		return ;
+	r3d->fb->depth[index] = t;
+	if (r3d->mode == MODE_DEPTH)
+		r3d->fb->color[index] = grayscalef(t);
+	else
+		r3d->fb->color[index] = col;
 }
 
 void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i max)
 {
-	float		t;
-	t_v3		uv;
-	t_v3		pos;
-	t_v3		camera_pos = r3d->camera_pos;
-	int			x;
-	int			y;
+	float			t;
+	t_v3			uv;
+	t_v3			pos;
+	const t_v3		camera_pos = r3d->camera->position;
+	int				x;
+	int				y;
 
 	x = min.x - 1;
 	while (++x < max.x + 1)
@@ -120,7 +106,7 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i m
 
 			if (wall_test_intersection(r3d, wall, camera_pos, ray, &t, &uv, &pos,
 				wall->n, wall->inverse_position))
-				set_pixel(r3d, x, y, sample_texture(r3d, wall->img, uv), 1, t, wall->n, pos, lights);
+				set_pixel(r3d, x, y, sample_texture(r3d, wall->img, uv), t, wall->n, pos, lights);
 		}
 	}
 }
@@ -185,7 +171,7 @@ void	r3d_draw_walls(t_r3d *r3d, t_map *map)
 			continue ;
 		}
 
-		if (v3_length_squared(v3_sub(r3d->camera_pos, wall->pos)) >= WALL_RENDER_DISTANCE * WALL_RENDER_DISTANCE)
+		if (v3_length_squared(v3_sub(r3d->camera->position, wall->pos)) >= WALL_RENDER_DISTANCE * WALL_RENDER_DISTANCE)
 		{
 			i++;
 			continue ;

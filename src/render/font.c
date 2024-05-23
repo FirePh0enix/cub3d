@@ -15,38 +15,6 @@
 #include "libft.h"
 #include "../cub3d.h"
 
-// static char	*read_to_string(char *filename)
-// {
-// 	int		fd;
-// 	char	*str;
-// 	char	buffer[4096];
-// 	int		str_size;
-// 	int		n;
-
-// 	fd = open(filename, O_RDONLY);
-// 	if (fd == -1)
-// 		return (NULL);
-// 	str = NULL;
-// 	str_size = 0;
-// 	n = 4096;
-// 	while (n == 4096)
-// 	{
-// 		n = read(fd, buffer, 4096);
-// 		if (n == -1)
-// 			return (NULL);
-// 		// FIXME Realloc is too slow because it use ft_calloc instead of malloc
-// 		//       Maybe ft_realloc should be splitted ft_realloc (w/o calloc) and
-// 		//       ft_recalloc which use ft_calloc
-// 		str = realloc(str, /*str_size + 1,*/ str_size + n + 1);
-// 		if (!str)
-// 			return (close(fd), NULL);
-// 		ft_memcpy(str + str_size, buffer, n);
-// 		str[str_size + n] = '\0';
-// 		str_size += n;
-// 	}
-// 	return (close(fd), str);
-// }
-
 static void	read_char(t_font *font, char *line)
 {
 	char		**parts;
