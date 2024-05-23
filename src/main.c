@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/22 16:11:05 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:29:19 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	loop_hook(t_vars *vars)
 int	main(int argc, char *argv[])
 {
 	t_vars	vars;
+	char	**maps;
 
 	(void) argc;
 	vars.r3d = ft_calloc(sizeof(t_r3d), 1);
@@ -83,7 +84,12 @@ int	main(int argc, char *argv[])
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
 	vars.map = ft_calloc(sizeof(t_map), 1);
-	map_to_tiles(argv[1], vars.map);
+	maps = create_map(argv[1]);
+	map_to_tiles(argv[1], vars.map, maps);
+	if (!is_map_surrounded(maps, vars.map))
+		printf("MAP IS NOT SURROUNDED\n");
+	else
+		printf("MAP IS SURROUNDED\n");;
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
