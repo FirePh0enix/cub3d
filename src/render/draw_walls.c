@@ -92,11 +92,6 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i m
 	int				x;
 	int				y;
 
-	// min.x = 0;
-	// max.x = 1279;
-	// min.y = 0;
-	// max.y = 719;
-
 	x = min.x - 1;
 	while (++x < max.x + 1)
 	{
@@ -105,14 +100,14 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i m
 		y = min.y - 1;
 		while (++y < max.y + 1)
 		{
-			// float	py = (1 - 2 * ((y * 1 + 0.5) / r3d->height)) * r3d->tan2_fov;
-			// t_v3	ray = v3(px, py, -1.0);
+			float	py = (1 - 2 * ((y * 1 + 0.5) / r3d->height)) * r3d->tan2_fov;
+			t_v3	ray = v3(px, py, -1.0);
 			// TODO rotate the ray with the camera
 
-			r3d->fb->color[x + y * r3d->fb->width] = hex(0x000000FF);
-			// if (wall_test_intersection(r3d, wall, camera_pos, ray, &t, &uv, &pos,
-			// 	wall->n, wall->inverse_position))
-			//	set_pixel(r3d, x, y, sample_texture(r3d, wall->img, uv), t, wall->n, pos, lights);
+			// r3d->fb->color[x + y * r3d->fb->width] = hex(0x000000FF);
+			if (wall_test_intersection(r3d, wall, camera_pos, ray, &t, &uv, &pos,
+				wall->n, wall->inverse_position))
+				set_pixel(r3d, x, y, sample_texture(r3d, wall->img, uv), t, wall->n, pos, lights);
 		}
 	}
 }
@@ -120,16 +115,19 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i m
 static bool	project_corners(t_r3d *r3d, t_wall wall, t_v2i *min, t_v2i *max)
 {
 	const float		half_size = WALL_SIZE / 2;
-	const t_mat4	mat = mat4_mul_mat4(wall.position, wall.rotation);
+	const t_mat4	model_mat = mat4_mul_mat4(wall.position, wall.rotation);
+	const t_mat4	camera_trans = mat4_translation(v3_scale(r3d->camera->position, -1));
+	const t_mat4	world_mat = mat4_mul_mat4(camera_trans, model_mat);
+
 	t_v3		p0 = v3(-half_size,  half_size, 0.0);
 	t_v3		p1 = v3( half_size,  half_size, 0.0);
 	t_v3		p2 = v3( half_size, -half_size, 0.0);
 	t_v3		p3 = v3(-half_size, -half_size, 0.0);
 
-	p0 = mat4_multiply_v3(mat, p0);
-	p1 = mat4_multiply_v3(mat, p1);
-	p2 = mat4_multiply_v3(mat, p2);
-	p3 = mat4_multiply_v3(mat, p3);
+	p0 = mat4_multiply_v3(world_mat, p0);
+	p1 = mat4_multiply_v3(world_mat, p1);
+	p2 = mat4_multiply_v3(world_mat, p2);
+	p3 = mat4_multiply_v3(world_mat, p3);
 
 	p0 = mat4_multiply_v3(r3d->projection_matrix, p0);
 	p1 = mat4_multiply_v3(r3d->projection_matrix, p1);
