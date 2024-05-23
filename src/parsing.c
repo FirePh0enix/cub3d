@@ -6,13 +6,14 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/22 18:05:10 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:43:29 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
 #include "render/render.h"
+#include <stddef.h>
 
 #define YELLOW	 "\033[0;33m"
 #define GREEN	 "\033[0;32m"
@@ -22,39 +23,6 @@
 #define CYAN	 "\033[0;36m"
 #define BLACK	 "\033[0;30"
 #define WHITE	 "\033[0;37m"
-
-// static bool is_valid_character(char c)
-// {
-// 	if (c == '0')
-// 		return (true);
-// 	else if (c == '1')
-// 		return (true);
-// 	else if (c == 'N')
-// 		return (true);
-// 	else if (c == 'S')
-// 		return (true);
-// 	else if (c == 'E')
-// 		return (true);
-// 	else if (c == 'W')
-// 		return (true);
-// 	else if (c == ' ')
-// 		return (true);
-// 	else
-// 	 	return (false);
-// 
-
-char	**create_map(char *path)
-{
-	// TODO: ADD ADDITIONAL SPACE TO MAKE THE MAP RECTANGULAR
-	char	**maps;
-	char	*line;
-
-	maps = NULL;
-	line = NULL;
-	line = read_to_string(path);
-	maps = ft_split(line, '\n');
-	return (maps);
-}
 
 static int	calc_map_height(char **maps)
 {
@@ -84,11 +52,47 @@ static int	calc_map_max_width(char **maps)
 	}
 	return (final_len);
 }
+char	**create_map(char *path)
+{
+	// TODO: ADD ADDITIONAL SPACE TO MAKE THE MAP RECTANGULAR
+	char	**maps;
+	char	*line;
+
+	maps = NULL;
+	line = NULL;
+	line = read_to_string(path);
+	maps = ft_split(line, '\n');
+	return (maps);
+}
+
+char	**fill_map_with_space(char **map, size_t width, size_t height)
+{
+	char	**new_map;
+	size_t	i;
+
+	new_map = NULL;
+	new_map = ft_calloc(height + 1, sizeof(char *));
+	i = 0;
+	while (i < height)
+	{
+		if (ft_strlen(map[i]) < width)
+		{
+			new_map[i] = ft_calloc(width + 1, sizeof(char));
+			ft_memset(new_map[i], ' ', width);
+			ft_memcpy(new_map[i], map[i], ft_strlen(map[i]));
+		}
+		else
+			new_map[i] = ft_strdup(map[i]);
+		++i;
+	}
+	new_map[i] = NULL;
+	return (new_map);
+}
 
 void	map_to_tiles(char *path, t_map *map, char **map_split)
 {
-	char *maps;
-	int	i;
+	char	*maps;
+	int		i;
 
 	map->width = calc_map_max_width(map_split);
 	map->height = calc_map_height(map_split);

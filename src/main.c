@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/22 17:29:19 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:45:55 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	main(int argc, char *argv[])
 {
 	t_vars	vars;
 	char	**maps;
+	char	**new_map;
 
 	(void) argc;
 	vars.r3d = ft_calloc(sizeof(t_r3d), 1);
@@ -86,10 +87,11 @@ int	main(int argc, char *argv[])
 	vars.map = ft_calloc(sizeof(t_map), 1);
 	maps = create_map(argv[1]);
 	map_to_tiles(argv[1], vars.map, maps);
-	if (!is_map_surrounded(maps, vars.map))
+	new_map = fill_map_with_space(maps, vars.map->width, vars.map->height);
+	if (!is_map_surrounded(new_map, vars.map))
 		printf("MAP IS NOT SURROUNDED\n");
 	else
-		printf("MAP IS SURROUNDED\n");;
+	 printf("MAP IS SURROUNDED");
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
