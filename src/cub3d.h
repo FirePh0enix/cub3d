@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/23 13:31:45 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:12:32 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,14 @@ typedef struct s_map
 	int		*tiles;
 }	t_map;
 
-void	map_to_tiles(char *path, t_map *map, char **map_split);
+void	map_to_tiles(t_map *map, char **maps);
 void	bake_map(t_map *map, t_vars *vars);
 void	draw_map(t_r3d *r3d, t_map *map);
 
 char	*read_to_string(char *filename);
-char	**create_map(char *path);
+char	**create_map(char *path, t_map *map);
 bool	is_map_surrounded(char **maps, t_map *map);
 char	**fill_map_with_space(char **map, size_t width, size_t height);
+int		calc_map_height(char **maps);
+int		calc_map_max_width(char **maps);
 #endif

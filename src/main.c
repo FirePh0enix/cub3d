@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/23 13:45:55 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:24:36 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	loop_hook(t_vars *vars)
 int	main(int argc, char *argv[])
 {
 	t_vars	vars;
-	char	**maps;
+	char	**map;
 	char	**new_map;
 
 	(void) argc;
@@ -85,13 +85,15 @@ int	main(int argc, char *argv[])
 	vars.mlx = mlx_init();
 	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
 	vars.map = ft_calloc(sizeof(t_map), 1);
-	maps = create_map(argv[1]);
-	map_to_tiles(argv[1], vars.map, maps);
-	new_map = fill_map_with_space(maps, vars.map->width, vars.map->height);
-	if (!is_map_surrounded(new_map, vars.map))
-		printf("MAP IS NOT SURROUNDED\n");
-	else
-	 printf("MAP IS SURROUNDED");
+	map = create_map(argv[1], vars.map);
+	new_map = fill_map_with_space(map, vars.map->width, vars.map->height);
+	map_to_tiles(vars.map, new_map);
+	// if (!is_map_surrounded(new_map, vars.map))
+	// 	printf("MAP IS NOT SURROUNDED\n");
+	// else
+	// 	printf("MAP IS SURROUNDED\n");
+	for (int i = 0; i < vars.map->width * vars.map->height; i++)
+		printf("%d", vars.map->tiles[i]);
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);

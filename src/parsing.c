@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/23 13:43:29 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:27:11 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #define BLACK	 "\033[0;30"
 #define WHITE	 "\033[0;37m"
 
-static int	calc_map_height(char **maps)
+int	calc_map_height(char **maps)
 {
 	int	i;
 
@@ -34,7 +34,7 @@ static int	calc_map_height(char **maps)
 	return (i);
 }
 
-static int	calc_map_max_width(char **maps)
+int	calc_map_max_width(char **maps)
 {
 	int	i;
 	int	final_len;
@@ -52,9 +52,8 @@ static int	calc_map_max_width(char **maps)
 	}
 	return (final_len);
 }
-char	**create_map(char *path)
+char	**create_map(char *path, t_map *map)
 {
-	// TODO: ADD ADDITIONAL SPACE TO MAKE THE MAP RECTANGULAR
 	char	**maps;
 	char	*line;
 
@@ -62,6 +61,8 @@ char	**create_map(char *path)
 	line = NULL;
 	line = read_to_string(path);
 	maps = ft_split(line, '\n');
+	map->width = calc_map_max_width(maps);
+	map->height = calc_map_height(maps);
 	return (maps);
 }
 
@@ -89,25 +90,27 @@ char	**fill_map_with_space(char **map, size_t width, size_t height)
 	return (new_map);
 }
 
-void	map_to_tiles(char *path, t_map *map, char **map_split)
+void	map_to_tiles(t_map *map, char **maps)
 {
-	char	*maps;
 	int		i;
+	int		j;
+	int		tile_index;
 
-	map->width = calc_map_max_width(map_split);
-	map->height = calc_map_height(map_split);
-	if (map->width == 0 || map->height == 0)
-		return ;
-	maps = NULL;
-	maps = read_to_string(path);
 	i = 0;
-	map->tiles = ft_calloc(map->width * map->height + 1000, sizeof(int));
+	tile_index = 0;
+	map->tiles = ft_calloc(map->width * map->height, sizeof(int));
 	while (maps[i])
 	{
-		if ((maps[i] == '0' || maps[i] == ' '))
-			map->tiles[i] = TILE_EMPTY;
-		else
-			map->tiles[i] = TILE_FULL;
+		j = 0;
+		while (maps[i][j])
+		{
+			if (maps[i][j] == ' ' || maps[i][j] == '0')
+				map->tiles[tile_index] = TILE_EMPTY;
+			else
+				map->tiles[tile_index] = TILE_FULL;
+			++tile_index;
+			++j;
+		}
 		++i;
 	}
 }
