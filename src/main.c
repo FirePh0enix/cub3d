@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/24 13:21:03 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:35:29 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,7 @@ int	main(int argc, char *argv[])
 	map = create_map(argv[1], vars.map);
 	new_map = fill_map_with_space(map, vars.map->width, vars.map->height);
 	map_to_tiles(vars.map, new_map);
-	// if (!is_map_surrounded(new_map, vars.map))
-	// 	printf("MAP IS NOT SURROUNDED\n");
-	// else
-	// 	printf("MAP IS SURROUNDED\n");
-	for (int i = 0; i < vars.map->width * vars.map->height; i++)
-		printf("%d", vars.map->tiles[i]);
+	is_map_surrounded(new_map, vars.map);
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);

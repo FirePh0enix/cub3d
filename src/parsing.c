@@ -6,14 +6,11 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/23 14:27:11 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:41:12 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "libft.h"
-#include "render/render.h"
-#include <stddef.h>
 
 #define YELLOW	 "\033[0;33m"
 #define GREEN	 "\033[0;32m"
@@ -24,7 +21,7 @@
 #define BLACK	 "\033[0;30"
 #define WHITE	 "\033[0;37m"
 
-int	calc_map_height(char **maps)
+static	int	calc_map_height(char **maps)
 {
 	int	i;
 
@@ -34,7 +31,7 @@ int	calc_map_height(char **maps)
 	return (i);
 }
 
-int	calc_map_max_width(char **maps)
+static	int	calc_map_max_width(char **maps)
 {
 	int	i;
 	int	final_len;
@@ -52,6 +49,7 @@ int	calc_map_max_width(char **maps)
 	}
 	return (final_len);
 }
+
 char	**create_map(char *path, t_map *map)
 {
 	char	**maps;
@@ -60,6 +58,7 @@ char	**create_map(char *path, t_map *map)
 	maps = NULL;
 	line = NULL;
 	line = read_to_string(path);
+	free(line);
 	maps = ft_split(line, '\n');
 	map->width = calc_map_max_width(maps);
 	map->height = calc_map_height(maps);
@@ -113,58 +112,4 @@ void	map_to_tiles(t_map *map, char **maps)
 		}
 		++i;
 	}
-}
-
-static bool is_map_border(int x, int y, t_map *map, char **maps)
-{
-	if (maps[y][x] == ' ')
-		return (false);
-	if (x <= 0 || x >= (int)ft_strlen(maps[y]) || y <= 0 || y >= map->height)
-		return (true);
-	if (y - 1 > 0)
-	{
-		if (x < (int)ft_strlen(maps[y - 1]))
-			if (maps[y - 1][x] == ' ')
-				return (true);
-	}
-	if (y + 1 < map->height)
-	{
-		if (x < (int)ft_strlen(maps[y + 1]))
-			if (maps[y + 1][x] == ' ')
-				return (true);
-	}
-	if (x + 1 < (int)ft_strlen(maps[y]))
-	{
-		if (maps[y][x + 1] == ' ')
-			return (true);
-	}
-	if (x - 1 >= 0)
-	{
-		if (maps[y][x - 1] == ' ')
-			return (true);
-	}
-	return (false);
-}
-
-bool	is_map_surrounded(char **maps, t_map *map)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (maps[y])
-	{
-		x = 0;
-		while (maps[y][x])
-		{
-			if (is_map_border(x, y, map, maps) && maps[y][x] != '1')
-			{
-				printf("%d %d -> %c\n", y ,x, maps[y][x]);
-				return (false);
-			}
-			++x;
-		}
-		++y;
-	}
-	return (true);
 }
