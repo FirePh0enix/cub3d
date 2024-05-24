@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/05/24 13:16:44 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/05/24 15:01:49 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ NAME=cub3D
 CC=clang
 
 OPTS=-O3 -fno-builtin
-CFLAGS=-Imlx -Ilibft -g -MMD $(OPTS) -Wall -Wextra #-Werror
+DEBUG=-g #-fsanitize=address
+CFLAGS=-Imlx -Ilibft -g -MMD $(OPTS) $(DEBUG) -Wall -Wextra #-Werror
 
 all: $(NAME)
 
