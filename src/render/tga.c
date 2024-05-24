@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tga.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/21 16:57:54 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:30:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "render.h"
 #include <stdint.h>
 
@@ -61,18 +62,36 @@ typedef struct s_tga_hdr
 	uint8_t		pixel_type;
 } __attribute__((packed))	t_tga_hdr;
 
+typedef uint8_t	t_rgb[3];
+
 static void	read_pixels(t_image *image, char *buf)
 {
 	uint32_t	*pixels;
+	t_rgb		*pixels24;
 	int			i;
 
-	pixels = (uint32_t *) buf;
-	i = 0;
-	while (i < image->width * image->height)
+	if (image->bpp == 32)
 	{
-		image->data[i] = pixels[i];
-		i++;
+		pixels = (uint32_t *) buf;
+		i = 0;
+		while (i < image->width * image->height)
+		{
+			image->data[i] = pixels[i];
+			i++;
+		}
 	}
+	else if (image->bpp == 24)
+	{
+		pixels24 = (t_rgb *) buf;
+		i = 0;
+		while (i < image->width * image->height)
+		{
+			image->data[i] = (*(uint32_t*)pixels24[i] & 0xFFFFFF00 >> 8);
+			i++;
+		}
+	}
+	else
+		ft_printf("Invalid Targa format : %d bits per pixel\n", image->bpp);
 }
 
 t_image	*tga_load_from_file(char *filename)
@@ -83,9 +102,12 @@ t_image	*tga_load_from_file(char *filename)
 
 	ft_memcpy(&hdr, s, sizeof(t_tga_hdr));
 	image = malloc(sizeof(t_image));
-	image->data = malloc(sizeof(t_image) * hdr.w * hdr.h);
+	if (!image)
+		return NULL;
+	image->data = malloc(sizeof(uint32_t) * hdr.w * hdr.h);
 	image->width = hdr.w;
 	image->height = hdr.h;
+	image->bpp = hdr.bpp;
 	read_pixels(image, (char *)s + sizeof(t_tga_hdr));
 	return (image);
 }

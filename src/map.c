@@ -3,7 +3,13 @@
 
 static void	bake_wall(t_vars *vars, int x, int y, t_wall2 *w)
 {
-	w->so = wall(v3(x * WALL_SIZE, 0.0, -y * WALL_SIZE), 0, vars->south);
+	const float	x2 =  x * WALL_SIZE;
+	const float	y2 = -y * WALL_SIZE;
+	const float	half = WALL_SIZE / 2.0;
+
+	w->so = wall(v3(x2, 0.0, y2 + half), 0, vars->south);
+	w->ea = wall(v3(x2 + half, 0.0, y2), M_PI / 2, vars->south);
+	w->we = wall(v3(x2 - half, 0.0, y2), M_PI / 2, vars->south);
 }
 
 void	bake_map(t_map *map, t_vars *vars)

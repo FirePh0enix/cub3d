@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/23 14:24:36 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:21:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,10 @@ int	main(int argc, char *argv[])
 	{
 		netclient_init(&vars.client, argv[3], ft_atoi(argv[4]));
 		netclient_connect(&vars.client, argv[5]);
+	}
+	else
+	{
+		vars.is_server = false;
 	}
 
 	mlx_loop(vars.mlx);

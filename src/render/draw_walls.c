@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:03:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/23 15:27:46 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/24 12:09:45 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static inline bool	wall_test_intersection(t_r3d *r3d, t_wall *wall, t_v3 ray_ori
 	// t_v3	projected_pos = project_pos(r3d, q);
 	// projected_pos.z = -1.0 / q.z;
 	// FIXME Works way better if the point is not projected for some reason
+
 	*t = -1.0 / q.z;
 	return (uv->x >= 0.0 && uv->x <= 1.0 && uv->y >= 0.0 && uv->y <= 1.0);
 }
@@ -92,6 +93,16 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i m
 	int				x;
 	int				y;
 
+	min.x = fmaxf(0, min.x);
+	max.x = fminf(r3d->width - 1, max.x);
+	min.y = fmaxf(0, min.y);
+	max.y = fminf(r3d->height - 1, max.y);
+
+	// min.x = 0;
+	// min.y = 0;
+	// max.x = 1280 - 1;
+	// max.y = 720 - 1;
+
 	x = min.x - 1;
 	while (++x < max.x + 1)
 	{
@@ -112,10 +123,10 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i m
 	}
 }
 
-static bool	project_corners(t_r3d *r3d, t_wall wall, t_v2i *min, t_v2i *max)
+static bool	project_corners(t_r3d *r3d, t_wall *wall, t_v2i *min, t_v2i *max)
 {
 	const float		half_size = WALL_SIZE / 2;
-	const t_mat4	model_mat = mat4_mul_mat4(wall.position, wall.rotation);
+	const t_mat4	model_mat = mat4_mul_mat4(wall->position, wall->rotation);
 	const t_mat4	camera_trans = mat4_translation(v3_scale(r3d->camera->position, -1));
 	const t_mat4	world_mat = mat4_mul_mat4(camera_trans, model_mat);
 
@@ -149,37 +160,33 @@ static bool	project_corners(t_r3d *r3d, t_wall wall, t_v2i *min, t_v2i *max)
 	return (true);
 }
 
+static void	draw_one_wall(t_r3d *r3d, t_wall *wall)
+{
+	t_v2i	min;
+	t_v2i	max;
+
+	if (v3_length_squared(v3_sub(r3d->camera->position, wall->pos)) >= WALL_RENDER_DISTANCE * WALL_RENDER_DISTANCE)
+		return ;
+	// if (!project_corners(r3d, wall, &min, &max))
+	// 	return ;
+	r3d_draw_wall(r3d, wall, NULL, min, max);
+}
+
 void	r3d_draw_walls(t_r3d *r3d, t_map *map)
 {
 	int		i;
-	t_wall	*wall;
-	t_v2i	min;
-	t_v2i	max;
 
 	i = 0;
 	while (i < map->width * map->height)
 	{
-		wall = &map->walls[i].so;
-
 		if (map->walls[i].is_empty)
 		{
 			i++;
 			continue ;
 		}
-
-		if (v3_length_squared(v3_sub(r3d->camera->position, wall->pos)) >= WALL_RENDER_DISTANCE * WALL_RENDER_DISTANCE)
-		{
-			i++;
-			continue ;
-		}
-
-		if (!project_corners(r3d, map->walls[i].so, &min, &max))
-		{
-			i++;
-			continue ;
-		}
-
-		r3d_draw_wall(r3d, &map->walls[i].so, NULL, min, max);
+		draw_one_wall(r3d, &map->walls[i].so);
+		// draw_one_wall(r3d, &map->walls[i].ea);
+		draw_one_wall(r3d, &map->walls[i].we);
 		i++;
 	}
 }

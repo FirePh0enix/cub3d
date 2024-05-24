@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/22 15:50:47 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:22:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_image
 	uint32_t	*data;
 	int			width;
 	int			height;
+	uint8_t		bpp;
 }	t_image;
 
 t_image	*tga_load_from_file(char *filename);
