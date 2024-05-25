@@ -22,6 +22,7 @@ t_player	*player_new(t_vars *vars, t_scene *scene)
 {
 	t_player	*player;
 
+	(void) vars;
 	player = ft_calloc(1, sizeof(t_player));
 	player->base.eid = EID_PLAYER;
 	player->base.tick = (void *) player_tick;
@@ -35,16 +36,21 @@ t_player	*player_new(t_vars *vars, t_scene *scene)
 void	player_tick(t_vars *vars, t_player *player)
 {
 	const t_v3	camera_offset = v3(0.0, 0.0, 0.0);
+	const t_v3	forward = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(0, 0, -1.0)));
+	const t_v3	left = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(-1.0, 0, 0)));
+	const float	speed = 5.0;
+	t_v3		velocity;
 
+	velocity = v3(0, 0, 0);
 	if (vars->keys[XK_w])
-		player->base.transform.position.z += -0.1;
+		velocity = v3_add(velocity, v3_scale(forward, speed));
 	if (vars->keys[XK_s])
-		player->base.transform.position.z += 0.1;
+		velocity = v3_sub(velocity, v3_scale(forward, speed));
 	if (vars->keys[XK_a])
-		player->base.transform.position.x += -0.1;
+		velocity = v3_add(velocity, v3_scale(left, speed));
 	if (vars->keys[XK_d])
-		player->base.transform.position.x += 0.1;
-	// player->camera->rotation = v3(0.0, 0.0, 0.0);
+		velocity = v3_sub(velocity, v3_scale(left, speed));
+	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(velocity, vars->delta_sec));
 	player->camera->position = v3_add(player->base.transform.position,
 		camera_offset);
 
@@ -52,21 +58,24 @@ void	player_tick(t_vars *vars, t_player *player)
 	int x, y;
 	mlx_mouse_get_pos(vars->mlx, vars->win, &x, &y);
 
-	//int x2 = player->mouse_x - x;
-	//int y2 = player->mouse_y - y;
+	printf("x = %d, y = %d\n", x, y);
 
-	player->mouse_x = x;
-	player->mouse_y = y;
+	// float x_speed = vars->mouse_pos.x - 1280 / 2.0;
+	// float y_speed = vars->mouse_pos.y - 720 / 2.0;
+	float x_speed = vars->mouse_pos.x - 1280 / 2.0;
+	float y_speed = vars->mouse_pos.y - 720 / 2.0;
 
-	float x_speed = x - 1280 / 2.0;
-	float y_speed = y - 720 / 2.0;
-
-	// printf("Relative: x = %f, y = %f\n", x_speed, y_speed);
-
-	player->camera->rotation.y += x_speed / 100.0;
-	player->camera->rotation.x += y_speed / 100.0;
+	vars->mouse_pos.x = x;
+	vars->mouse_pos.y = y;
 
 	// mlx_mouse_move(vars->mlx, vars->win, 1280 / 2, 720 / 2);
+	// printf("Relative: x = %f, y = %f\n", x_speed, y_speed);
+
+	player->camera->rotation.y -= x_speed * vars->delta_sec / 70.0;
+	player->base.transform.rotation.y = player->camera->rotation.y;
+	// player->camera->rotation.x += y_speed / 100.0;
+
+	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2.0, 720 / 2.0);
 }
 
 void	player_draw(t_r3d *r3d, t_player *player, t_camera *camera)

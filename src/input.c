@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 #include "render/render.h"
+#include <stdio.h>
 
 int	key_pressed_hook(int keycode, t_vars *vars)
 {
@@ -27,5 +28,11 @@ int	key_released_hook(int keycode, t_vars *vars)
 	if (keycode < 0 || keycode >= 0xFFFF)
 		return (0);
 	vars->keys[keycode] = false;
+	return (0);
+}
+
+int	mouse_move_hook(int x, int y, t_vars *vars)
+{
+	vars->mouse_pos = (t_v2i){x, y};
 	return (0);
 }

@@ -104,7 +104,10 @@ void	r3d_draw_triangle(t_r3d *r3d, t_camera *camera, t_tri tri, t_transform tran
 	const t_mat4	mat = mat4_mul_mat4(translation, rotation);
 
 	const t_mat4	camera_trans = mat4_translation(v3_scale(camera->position, -1));
-	const t_mat4	world = mat4_mul_mat4(camera_trans, mat);
+	const t_mat4	camera_rot = mat4_rotation(v3_scale(camera->rotation, -1));
+	const t_mat4	camera_mat = mat4_mul_mat4(camera_rot, camera_trans);
+
+	const t_mat4	world = mat4_mul_mat4(camera_mat, mat);
 
 	tri = tri_mul_mat4(tri, world);
 	if (r3d->mode == MODE_WIREFRAME && !camera->fb)
@@ -120,11 +123,11 @@ void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh,
 	const t_mat4	translation = mat4_translation(transform.position);
 	const t_mat4	mat = mat4_mul_mat4(translation, rotation);
 
-	//const t_mat4	camera_rotation = mat4_rotation(v3_scale(camera->rotation, -1));
 	const t_mat4	camera_trans = mat4_translation(v3_scale(camera->position, -1));
-	//const t_mat4	camera_mat = mat4_mul_mat4(camera_trans, camera_rotation);
+	const t_mat4	camera_rot = mat4_rotation(v3_scale(camera->rotation, -1));
+	const t_mat4	camera_mat = mat4_mul_mat4(camera_rot, camera_trans);
 
-	const t_mat4	world = mat4_mul_mat4(camera_trans, mat);
+	const t_mat4	world = mat4_mul_mat4(camera_mat, mat);
 	size_t			i;
 	t_tri			tri;
 	t_face			face;

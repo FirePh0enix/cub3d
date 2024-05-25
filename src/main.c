@@ -48,6 +48,9 @@ static void	print_fps(t_vars *vars, suseconds_t delta, suseconds_t frame_time)
 	r3d_draw_text(vars->r3d, vars->font, buf, (t_v2){-1.0, -1.0});
 }
 
+#define LIMIT_HIGH 0.0167
+#define LIMIT_LOW  0.0100
+
 static void	loop_hook(t_vars *vars)
 {
 	suseconds_t	delta;
@@ -56,6 +59,12 @@ static void	loop_hook(t_vars *vars)
 	if (delta < 16)
 		return ;
 	vars->last_update = getms();
+	vars->delta_sec = delta / 1000.0;
+	
+	if (vars->delta_sec < LIMIT_LOW)
+		vars->delta_sec = LIMIT_LOW;
+	else if (vars->delta_sec > LIMIT_HIGH)
+		vars->delta_sec = LIMIT_HIGH;
 
 	// vars->r3d->rot_z -= 0.03;
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
@@ -92,6 +101,7 @@ int	main(int argc, char *argv[])
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
+	mlx_hook(vars.win, 6, 0, mouse_move_hook, &vars);
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 	r3d_init(vars.r3d, vars.mlx, 1280, 720);
 
@@ -119,6 +129,7 @@ int	main(int argc, char *argv[])
 	ft_vector_add(&vars.scene->lights, &light);
 
 	t_player	*player = player_new(&vars, vars.scene);
+	player->base.transform.position = v3(3.0, 0.0, -3.0);
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
 
@@ -142,6 +153,9 @@ int	main(int argc, char *argv[])
 	{
 		vars.is_server = false;
 	}
+
+	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
+	// mlx_mouse_hide(vars.mlx, vars.win); // This may leak memory
 
 	mlx_loop(vars.mlx);
 	mlx_destroy_window(vars.mlx, vars.win);

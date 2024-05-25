@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # include "math/mat4.h"
+# include "math/v2i.h"
 # include "math/v3.h"
 # include "network/net.h"
 # include "render/font.h"
@@ -44,10 +45,14 @@ typedef struct s_vars
 	bool		is_server;
 	t_client	client;
 	t_server	server;
+
+	float		delta_sec;
+	t_v2i		mouse_pos;
 }	t_vars;
 
 int	key_pressed_hook(int keycode, t_vars *vars);
-int key_released_hook(int keycode, t_vars *vars);
+int	key_released_hook(int keycode, t_vars *vars);
+int	mouse_move_hook(int x, int y, t_vars *vars);
 
 #define WALL_SIZE 3.0
 

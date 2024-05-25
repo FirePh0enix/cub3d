@@ -65,9 +65,8 @@ bonus: CFLAGS+=-D_BONUS=1
 bonus: $(NAME)
 
 perf: CFLAGS+=-pg
-perf: $(OBJECTS) mlx/libmlx.a
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext
-	./cub3D map.cub
+perf: bonus
+	./cub3D map2.cub
 	gprof cub3D gmon.out > profile.txt
 
 clean:
