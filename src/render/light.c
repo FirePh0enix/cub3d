@@ -30,6 +30,8 @@ t_v3	compute_lighting(t_r3d *r3d, t_light *lights, t_v3 pos, t_v3 n)
 	t_color		*color;
 	t_v3		contrib;
 
+	if (!lights)
+		return (v3(1.0, 1.0, 1.0));
 	col = ambient_light;
 	i = 0;
 	while (i < ft_vector_size(lights))

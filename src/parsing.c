@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <stdio.h>
 
 #define YELLOW	 "\033[0;33m"
 #define GREEN	 "\033[0;32m"
@@ -58,7 +59,7 @@ char	**create_map(char *path, t_map *map)
 	maps = NULL;
 	line = NULL;
 	line = read_to_string(path);
-	free(line);
+	// free(line);
 	maps = ft_split(line, '\n');
 	map->width = calc_map_max_width(maps);
 	map->height = calc_map_height(maps);

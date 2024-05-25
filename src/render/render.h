@@ -62,6 +62,7 @@ typedef struct s_mtl
 }	t_mtl;
 
 t_mtl	*mtl_load_from_file(t_vars *vars, char *filename);
+t_mtl	*mtl_new(char *name, t_image *image);
 
 typedef struct s_face
 {
@@ -177,6 +178,8 @@ void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 
 int		r3d_key_hook(int keycode, t_r3d *r3d);
 
+void	r3d_draw_triangle(t_r3d *r3d, t_camera *camera, t_tri tri, t_transform transform, t_mtl *material);
+
 void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh,
 	t_camera *camera, t_transform transform);
 void	r3d_fill_triangle(t_r3d *r3d, t_v3 pos, t_tri tri, t_mtl *mtl,
@@ -197,7 +200,12 @@ typedef struct s_ray_result
 	t_v3	uv;
 }	t_ray_result;
 
-void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i max);
+/*
+	Draw a wall using ray-casting.
+ */
+void	r3d_raycast_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i max);
+void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights);
+
 void	r3d_draw_walls(t_r3d *r3d, t_map *map);
 
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);

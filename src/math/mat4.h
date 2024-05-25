@@ -16,6 +16,7 @@
 typedef union s_mat4
 {
 	float		d[4][4];
+	float		r[16];
 	struct
 	{
 		float	m00;

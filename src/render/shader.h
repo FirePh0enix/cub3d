@@ -43,9 +43,10 @@ inline t_color	shader(
 	if (r3d->mode == MODE_DEPTH)
 		return (grayscalef(z));
 	pixel = sample(mtl, uv);
-	pixel.r *= light.r;
-	pixel.g *= light.g;
-	pixel.b *= light.b;
+	// TODO: Restore lighting when it works.
+	// pixel.r *= light.r;
+	// pixel.g *= light.g;
+	// pixel.b *= light.b;
 	return (pixel);
 }
 

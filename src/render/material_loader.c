@@ -14,6 +14,7 @@
 #include "mlx.h"
 #include "render.h"
 #include "../cub3d.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 /*
@@ -75,5 +76,17 @@ t_mtl	*mtl_load_from_file(t_vars *vars, char *name)
 		lines++;
 	}
 	material->image = tga_load_from_file(texture);
+	return (material);
+}
+
+t_mtl	*mtl_new(char *name, t_image *image)
+{
+	t_mtl	*material;
+
+	material = ft_calloc(sizeof(t_mtl), 1);
+	if (!material)
+		return (NULL);
+	material->name = name;
+	material->image = image;
 	return (material);
 }

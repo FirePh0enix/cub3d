@@ -3,3 +3,4 @@
 -Wall
 -Wextra
 -DRTHREADS=4
+-D_BONUS=1

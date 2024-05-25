@@ -76,6 +76,55 @@ static t_mat4	mat4_mul_mat4(t_mat4 a, t_mat4 b)
 	return (m);
 }
 
+static t_mat4	mat4_inv(t_mat4 m)
+{
+	t_mat4	i;
+
+	float A2323 = m.m22 * m.m33 - m.m23 * m.m32 ;
+	float A1323 = m.m21 * m.m33 - m.m23 * m.m31 ;
+	float A1223 = m.m21 * m.m32 - m.m22 * m.m31 ;
+	float A0323 = m.m20 * m.m33 - m.m23 * m.m30 ;
+	float A0223 = m.m20 * m.m32 - m.m22 * m.m30 ;
+	float A0123 = m.m20 * m.m31 - m.m21 * m.m30 ;
+	float A2313 = m.m12 * m.m33 - m.m13 * m.m32 ;
+	float A1313 = m.m11 * m.m33 - m.m13 * m.m31 ;
+	float A1213 = m.m11 * m.m32 - m.m12 * m.m31 ;
+	float A2312 = m.m12 * m.m23 - m.m13 * m.m22 ;
+	float A1312 = m.m11 * m.m23 - m.m13 * m.m21 ;
+	float A1212 = m.m11 * m.m22 - m.m12 * m.m21 ;
+	float A0313 = m.m10 * m.m33 - m.m13 * m.m30 ;
+	float A0213 = m.m10 * m.m32 - m.m12 * m.m30 ;
+	float A0312 = m.m10 * m.m23 - m.m13 * m.m20 ;
+	float A0212 = m.m10 * m.m22 - m.m12 * m.m20 ;
+	float A0113 = m.m10 * m.m31 - m.m11 * m.m30 ;
+	float A0112 = m.m10 * m.m21 - m.m11 * m.m20 ;
+
+	float det = m.m00 * ( m.m11 * A2323 - m.m12 * A1323 + m.m13 * A1223 ) 
+		- m.m01 * ( m.m10 * A2323 - m.m12 * A0323 + m.m13 * A0223 ) 
+		+ m.m02 * ( m.m10 * A1323 - m.m11 * A0323 + m.m13 * A0123 ) 
+		- m.m03 * ( m.m10 * A1223 - m.m11 * A0223 + m.m12 * A0123 ) ;
+	det = 1 / det;
+
+	i.m00 = det *   ( m.m11 * A2323 - m.m12 * A1323 + m.m13 * A1223 );
+	i.m01 = det * - ( m.m01 * A2323 - m.m02 * A1323 + m.m03 * A1223 );
+	i.m02 = det *   ( m.m01 * A2313 - m.m02 * A1313 + m.m03 * A1213 );
+	i.m03 = det * - ( m.m01 * A2312 - m.m02 * A1312 + m.m03 * A1212 );
+	i.m10 = det * - ( m.m10 * A2323 - m.m12 * A0323 + m.m13 * A0223 );
+	i.m11 = det *   ( m.m00 * A2323 - m.m02 * A0323 + m.m03 * A0223 );
+	i.m12 = det * - ( m.m00 * A2313 - m.m02 * A0313 + m.m03 * A0213 );
+	i.m13 = det *   ( m.m00 * A2312 - m.m02 * A0312 + m.m03 * A0212 );
+	i.m20 = det *   ( m.m10 * A1323 - m.m11 * A0323 + m.m13 * A0123 );
+	i.m21 = det * - ( m.m00 * A1323 - m.m01 * A0323 + m.m03 * A0123 );
+	i.m22 = det *   ( m.m00 * A1313 - m.m01 * A0313 + m.m03 * A0113 );
+	i.m23 = det * - ( m.m00 * A1312 - m.m01 * A0312 + m.m03 * A0112 );
+	i.m30 = det * - ( m.m10 * A1223 - m.m11 * A0223 + m.m12 * A0123 );
+	i.m31 = det *   ( m.m00 * A1223 - m.m01 * A0223 + m.m02 * A0123 );
+	i.m32 = det * - ( m.m00 * A1213 - m.m01 * A0213 + m.m02 * A0113 );
+	i.m33 = det *   ( m.m00 * A1212 - m.m01 * A0212 + m.m02 * A0112 );
+
+	return i;
+}
+
 inline t_mat4	_mat4_rotx_int(float c, float s)
 {
 	t_mat4	m;

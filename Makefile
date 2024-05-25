@@ -61,6 +61,9 @@ mlx/libmlx.a:
 $(NAME): $(OBJECTS) libft/libft.a mlx/libmlx.a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext
 
+bonus: CFLAGS+=-D_BONUS=1
+bonus: $(NAME)
+
 perf: CFLAGS+=-pg
 perf: $(OBJECTS) mlx/libmlx.a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext

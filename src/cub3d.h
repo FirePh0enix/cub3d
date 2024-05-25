@@ -13,12 +13,14 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include "math/mat4.h"
+# include "math/mat4.h"
+# include "math/v3.h"
 # include "network/net.h"
 # include "render/font.h"
 # include "render/render.h"
 # include "scene.h"
-#include <stdbool.h>
+
+# include <stdbool.h>
 
 typedef struct s_map	t_map;
 
@@ -55,17 +57,20 @@ typedef struct s_wall
 	float	w;
 	float	h;
 	float	rot_y;
-	t_image	*img;
+	t_mtl	*material;
 	t_v3	n;
 
-	t_mat4	rotation;
-	t_mat4	inverse_rotation;
+	// Used for ray-casting
+	t_v3	p0;
+	t_v3	p1;
+	t_v3	p2;
 
-	t_mat4	position;
-	t_mat4	inverse_position;
+	// Used for rasterization
+	t_tri	t0;
+	t_tri	t1;
 }	t_wall;
 
-t_wall	wall(t_v3 position, float rotation_y, t_image *img);
+t_wall	wall(t_v3 position, float rotation_y, t_mtl *mtl);
 
 typedef struct s_wall2
 {
@@ -91,10 +96,10 @@ typedef struct s_map
 	t_color	floor_color;
 	t_color	ceiling_color;
 
-	t_image	*no;
-	t_image	*so;
-	t_image	*we;
-	t_image	*ea;
+	t_mtl	*no;
+	t_mtl	*so;
+	t_mtl	*we;
+	t_mtl	*ea;
 
 	t_wall2	*walls;
 	int		*tiles;
@@ -108,4 +113,5 @@ char	*read_to_string(char *filename);
 char	**create_map(char *path, t_map *map);
 bool	is_map_surrounded(char **maps, t_map *map);
 char	**fill_map_with_space(char **map, size_t width, size_t height);
+
 #endif

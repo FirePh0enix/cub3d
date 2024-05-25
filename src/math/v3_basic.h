@@ -43,4 +43,9 @@ inline t_v3	v3_scale(t_v3 v, float scale)
 	return (v3(v.x * scale, v.y * scale, v.z * scale));
 }
 
+inline t_v3	v3_div(t_v3 v, float scale)
+{
+	return (v3(v.x / scale, v.y / scale, v.z / scale));
+}
+
 #endif

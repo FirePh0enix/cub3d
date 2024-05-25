@@ -97,6 +97,22 @@ static void	draw_debug_triangle(t_r3d *r3d, t_tri tri)
 	draw_triangle_wireframe(r3d, tri, color);
 }
 
+void	r3d_draw_triangle(t_r3d *r3d, t_camera *camera, t_tri tri, t_transform transform, t_mtl *material)
+{
+	const t_mat4	rotation = mat4_rotation(transform.rotation);
+	const t_mat4	translation = mat4_translation(transform.position);
+	const t_mat4	mat = mat4_mul_mat4(translation, rotation);
+
+	const t_mat4	camera_trans = mat4_translation(v3_scale(camera->position, -1));
+	const t_mat4	world = mat4_mul_mat4(camera_trans, mat);
+
+	tri = tri_mul_mat4(tri, world);
+	if (r3d->mode == MODE_WIREFRAME && !camera->fb)
+		draw_debug_triangle(r3d, tri);
+	else
+		r3d_fill_triangle(r3d, transform.position, tri, material, r3d->fb, NULL);
+}
+
 void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh,
 	t_camera *camera, t_transform transform)
 {
