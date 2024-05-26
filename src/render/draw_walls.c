@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_walls.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:03:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/24 16:11:09 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 00:42:34 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@ void	r3d_raycast_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2
 	max.x = fminf(max.x, r3d->fb->width - 1);
 	max.y = fminf(max.y, r3d->fb->height - 1);
 
+	min.x = 0;
+	min.y = 0;
+	max.x = r3d->fb->width - 1;
+	max.y = r3d->fb->height - 1;
+
 	int	y = min.y;
 	int	x;
 	while (y <= max.y)
@@ -143,42 +148,42 @@ void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights)
 	r3d_draw_triangle(r3d, r3d->camera, wall->t1, transform, wall->material);
 }
 
-// static bool	project_corners(t_r3d *r3d, t_wall *wall, t_v2i *min, t_v2i *max)
-// {
-// 	const float		half_size = WALL_SIZE / 2;
-// 	const t_mat4	model_mat = mat4_mul_mat4(wall->position, wall->rotation);
-// 	const t_mat4	camera_trans = mat4_translation(v3_scale(r3d->camera->position, -1));
-// 	const t_mat4	world_mat = mat4_mul_mat4(camera_trans, model_mat);
+static bool	project_corners(t_r3d *r3d, t_wall *wall, t_v2i *min, t_v2i *max)
+{
+	const float		half_size = WALL_SIZE / 2;
+	const t_mat4	model_mat = mat4_mul_mat4(mat4_translation(wall->pos), mat4_rotation(v3(0, wall->rot_y, 0)));
+	const t_mat4	camera_trans = mat4_translation(v3_scale(r3d->camera->position, -1));
+	const t_mat4	world_mat = mat4_mul_mat4(camera_trans, model_mat);
 
-// 	t_v3		p0 = v3(-half_size,  half_size, 0.0);
-// 	t_v3		p1 = v3( half_size,  half_size, 0.0);
-// 	t_v3		p2 = v3( half_size, -half_size, 0.0);
-// 	t_v3		p3 = v3(-half_size, -half_size, 0.0);
+	t_v3		p0 = v3(-half_size,  half_size, 0.0);
+	t_v3		p1 = v3( half_size,  half_size, 0.0);
+	t_v3		p2 = v3( half_size, -half_size, 0.0);
+	t_v3		p3 = v3(-half_size, -half_size, 0.0);
 
-// 	p0 = mat4_multiply_v3(world_mat, p0);
-// 	p1 = mat4_multiply_v3(world_mat, p1);
-// 	p2 = mat4_multiply_v3(world_mat, p2);
-// 	p3 = mat4_multiply_v3(world_mat, p3);
+	p0 = mat4_multiply_v3(world_mat, p0);
+	p1 = mat4_multiply_v3(world_mat, p1);
+	p2 = mat4_multiply_v3(world_mat, p2);
+	p3 = mat4_multiply_v3(world_mat, p3);
 
-// 	p0 = mat4_multiply_v3(r3d->projection_matrix, p0);
-// 	p1 = mat4_multiply_v3(r3d->projection_matrix, p1);
-// 	p2 = mat4_multiply_v3(r3d->projection_matrix, p2);
-// 	p3 = mat4_multiply_v3(r3d->projection_matrix, p3);
+	p0 = mat4_multiply_v3(r3d->projection_matrix, p0);
+	p1 = mat4_multiply_v3(r3d->projection_matrix, p1);
+	p2 = mat4_multiply_v3(r3d->projection_matrix, p2);
+	p3 = mat4_multiply_v3(r3d->projection_matrix, p3);
 
-// 	p0.x = (1 + p0.x) * 0.5 * r3d->fb->width, p0.y = (1 + p0.y) * 0.5 * r3d->fb->height;
-// 	p1.x = (1 + p1.x) * 0.5 * r3d->fb->width, p1.y = (1 + p1.y) * 0.5 * r3d->fb->height;
-// 	p2.x = (1 + p2.x) * 0.5 * r3d->fb->width, p2.y = (1 + p2.y) * 0.5 * r3d->fb->height;
-// 	p3.x = (1 + p3.x) * 0.5 * r3d->fb->width, p3.y = (1 + p3.y) * 0.5 * r3d->fb->height;
+	p0.x = (1 + p0.x) * 0.5 * r3d->fb->width, p0.y = (1 + p0.y) * 0.5 * r3d->fb->height;
+	p1.x = (1 + p1.x) * 0.5 * r3d->fb->width, p1.y = (1 + p1.y) * 0.5 * r3d->fb->height;
+	p2.x = (1 + p2.x) * 0.5 * r3d->fb->width, p2.y = (1 + p2.y) * 0.5 * r3d->fb->height;
+	p3.x = (1 + p3.x) * 0.5 * r3d->fb->width, p3.y = (1 + p3.y) * 0.5 * r3d->fb->height;
 
-// 	min->x = fminf(p0.x, fminf(p1.x, fminf(p2.x, p3.x)));
-// 	max->x = fmaxf(p0.x, fmaxf(p1.x, fmaxf(p2.x, p3.x)));
-// 	min->y = fminf(p0.y, fminf(p1.y, fminf(p2.y, p3.y)));
-// 	max->y = fmaxf(p0.y, fmaxf(p1.y, fmaxf(p2.y, p3.y)));
+	min->x = fminf(p0.x, fminf(p1.x, fminf(p2.x, p3.x)));
+	max->x = fmaxf(p0.x, fmaxf(p1.x, fmaxf(p2.x, p3.x)));
+	min->y = fminf(p0.y, fminf(p1.y, fminf(p2.y, p3.y)));
+	max->y = fmaxf(p0.y, fmaxf(p1.y, fmaxf(p2.y, p3.y)));
 
-// 	if (min->x >= r3d->width || min->y >= r3d->height || max->x < 0 || max->y < 0)
-// 		return (false);
-// 	return (true);
-// }
+	if (min->x >= r3d->width || min->y >= r3d->height || max->x < 0 || max->y < 0)
+		return (false);
+	return (true);
+}
 
 static void	draw_one_wall(t_r3d *r3d, t_wall *wall)
 {
@@ -188,12 +193,14 @@ static void	draw_one_wall(t_r3d *r3d, t_wall *wall)
 #ifndef _BONUS
 	if (v3_length_squared(v3_sub(r3d->camera->position, wall->pos)) >= WALL_RENDER_DISTANCE * WALL_RENDER_DISTANCE)
 		return ;
-	// if (!project_corners(r3d, wall, &min, &max))
-	// 	return ;
+	if (!project_corners(r3d, wall, &min, &max))
+		return ;
 	r3d_raycast_wall(r3d, wall, NULL, min, max);
 #else
 	(void) min;
 	(void) max;
+	if (wall->hide)
+		return ;
 	r3d_draw_wall(r3d, wall, NULL);
 #endif
 }

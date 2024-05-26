@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/22 16:57:10 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/27 00:26:40 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../scene.h"
 #include "../cub3d.h"
 #include "mlx.h"
+#include "../math/utils.h"
 #include <stdio.h>
 
 void	player_tick(t_vars *vars, t_player *player);
-void	player_draw(t_r3d *r3d, t_player *player, t_camera *camera);
+void	player_draw(t_r3d *r3d, t_player *player, t_camera *camera, t_vars *vars);
 
 t_player	*player_new(t_vars *vars, t_scene *scene)
 {
@@ -54,34 +55,28 @@ void	player_tick(t_vars *vars, t_player *player)
 	player->camera->position = v3_add(player->base.transform.position,
 		camera_offset);
 
-	// Get the relative position of the mouse
-	int x, y;
-	mlx_mouse_get_pos(vars->mlx, vars->win, &x, &y);
-
-	// printf("x = %d, y = %d\n", x, y);
-
-	// float x_speed = vars->mouse_pos.x - 1280 / 2.0;
-	// float y_speed = vars->mouse_pos.y - 720 / 2.0;
-	float x_speed = x - 1280 / 2.0;
-	float y_speed = y - 720 / 2.0;
-
-	vars->mouse_pos.x = x;
-	vars->mouse_pos.y = y;
-
-	// mlx_mouse_move(vars->mlx, vars->win, 1280 / 2, 720 / 2);
-	// printf("Relative: x = %f, y = %f\n", x_speed, y_speed);
-	printf("x = %d, y = %d\n", vars->mouse_pos.x, vars->mouse_pos.y);
-
-	player->camera->rotation.y -= x_speed * vars->delta_sec;
-	player->base.transform.rotation.y = player->camera->rotation.y;
-	// player->camera->rotation.x += y_speed / 100.0;
-
 	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2.0, 720 / 2.0);
 }
 
-void	player_draw(t_r3d *r3d, t_player *player, t_camera *camera)
+void	player_mouse_event(int x, int y, t_vars *vars)
+{
+	const float x_speed = x - 1280 / 2.0;
+	const float y_speed = y - 720 / 2.0;
+	t_player	*player;
+
+	player = vars->scene->player;
+
+	player->camera->rotation.x -= y_speed / 1200.0;
+	player->camera->rotation.x = clampf(player->camera->rotation.x, -M_PI / 2, M_PI / 2);
+
+	player->camera->rotation.y -= x_speed / 1200.0;
+	player->base.transform.rotation.y = player->camera->rotation.y;
+}
+
+void	player_draw(t_r3d *r3d, t_player *player, t_camera *camera, t_vars *vars)
 {
 	(void) r3d;
 	(void) player;
 	(void) camera;
+	(void) vars;
 }

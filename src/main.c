@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/24 15:35:29 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/27 00:25:17 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "scene.h"
 
 #include <netinet/in.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <sys/select.h>
 #include <sys/socket.h>
@@ -35,7 +36,7 @@ suseconds_t	getms(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000000 + tv.tv_usec) / 1000);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 static void	print_fps(t_vars *vars, suseconds_t delta, suseconds_t frame_time)
@@ -66,12 +67,13 @@ static void	loop_hook(t_vars *vars)
 	else if (vars->delta_sec > LIMIT_HIGH)
 		vars->delta_sec = LIMIT_HIGH;
 
+#ifndef _USE_RENDER_THREAD
 	// vars->r3d->rot_z -= 0.03;
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
 
 	tick_scene(vars, vars->scene);
-	draw_scene(vars->r3d, vars->scene, vars->scene->player->camera);
+	draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
 
 	if (vars->is_server)
 		netserv_poll(&vars->server);
@@ -80,7 +82,33 @@ static void	loop_hook(t_vars *vars)
 	print_fps(vars, delta, getms() - vars->last_update);
 
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
+#else
+	if (vars->is_server)
+		netserv_poll(&vars->server);
+
+	tick_scene(vars, vars->scene);
+	// print_fps(vars, delta, getms() - vars->last_update);
+#endif
 }
+
+#ifdef _USE_RENDER_THREAD
+
+static void	render_thread(t_vars *vars)
+{
+	while (vars->running)
+	{
+		mlx_do_sync(vars->mlx);
+
+		r3d_clear_color_buffer(vars->r3d, hex(0x0));
+		r3d_clear_depth_buffer(vars->r3d);
+
+		draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
+		r3d_draw_walls(vars->r3d, vars->map);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
+	}
+}
+
+#endif
 
 int	main(int argc, char *argv[])
 {
@@ -101,8 +129,8 @@ int	main(int argc, char *argv[])
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
-	mlx_hook(vars.win, 6, 0, mouse_move_hook, &vars);
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
+
 	r3d_init(vars.r3d, vars.mlx, 1280, 720);
 
 	vars.keys = ft_calloc(0xFFFF, sizeof(bool));
@@ -133,6 +161,8 @@ int	main(int argc, char *argv[])
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
 
+	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
+
 	t_mesh_inst	*mesh_inst = mesh_inst_new(&vars, vars.scene, knight_obj);
 	mesh_inst->base.transform.position = v3(-2.0, -1.0, -3.5);
 	scene_add_entity(vars.scene, mesh_inst);
@@ -155,9 +185,25 @@ int	main(int argc, char *argv[])
 	}
 
 	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
-	// mlx_mouse_hide(vars.mlx, vars.win); // This may leak memory
+	mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
+
+#ifdef _USE_RENDER_THREAD
+	if (pthread_create(&vars.render_thread, NULL, (void *) render_thread, &vars) != 0)
+	{
+		ft_printf("Unable to create the render thread.\n");
+		return (1);
+	}
+
+	vars.running = true;
+#endif
 
 	mlx_loop(vars.mlx);
+
+#ifdef _USE_RENDER_THREAD
+	vars.running = false;
+	pthread_join(vars.render_thread, NULL);
+#endif
+
 	mlx_destroy_window(vars.mlx, vars.win);
 	mlx_destroy_display(vars.mlx);
 	free(vars.mlx);

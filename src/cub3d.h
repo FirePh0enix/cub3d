@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/24 15:39:59 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/27 00:42:40 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 # include "scene.h"
 
 # include <stdbool.h>
+
+# ifdef _USE_RENDER_THREAD
+#  include <pthread.h>
+# endif
 
 typedef struct s_map	t_map;
 
@@ -48,6 +52,11 @@ typedef struct s_vars
 
 	float		delta_sec;
 	t_v2i		mouse_pos;
+
+#ifdef _USE_RENDER_THREAD
+	pthread_t	render_thread;
+	bool		running;
+#endif
 }	t_vars;
 
 int	key_pressed_hook(int keycode, t_vars *vars);
@@ -64,6 +73,7 @@ typedef struct s_wall
 	float	rot_y;
 	t_mtl	*material;
 	t_v3	n;
+	bool	hide;
 
 	// Used for ray-casting
 	t_v3	p0;

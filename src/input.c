@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 23:14:57 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/14 13:18:35 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 00:26:47 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "math/v2i.h"
 #include "render/render.h"
-#include <stdio.h>
+#include <X11/Xlib.h>
 
 int	key_pressed_hook(int keycode, t_vars *vars)
 {

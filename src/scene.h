@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/14 13:20:55 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 00:25:21 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef struct s_scene	t_scene;
 
-typedef void	(*t_draw_hook)(t_r3d *r3d, void *entity, t_camera *camera);
+typedef void	(*t_draw_hook)(t_r3d *r3d, void *entity, t_camera *camera, t_vars *vars);
 typedef void	(*t_tick_hook)(t_vars *vars, void *entity);
 
 # define EID_PLAYER     0x10000001
@@ -45,6 +45,7 @@ typedef struct s_player
 }	t_player;
 
 t_player	*player_new(t_vars *vars, t_scene *scene);
+void		player_mouse_event(int x, int y, t_vars *vars);
 
 typedef struct s_mesh_inst
 {
@@ -66,7 +67,7 @@ typedef struct s_scene
 t_scene	*create_scene();
 void	scene_add_entity(t_scene *scene, void *entity);
 
-void	draw_scene(t_r3d *r3d, t_scene *scene, t_camera *camera);
+void	draw_scene(t_r3d *r3d, t_scene *scene, t_camera *camera, t_vars *vars);
 void	tick_scene(t_vars *vars, t_scene *scene);
 
 void	draw_scene_to_image(t_r3d *r3d, t_scene *scene, t_camera *camera,

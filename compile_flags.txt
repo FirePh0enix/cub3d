@@ -2,5 +2,5 @@
 -Ilibft
 -Wall
 -Wextra
--DRTHREADS=4
 -D_BONUS=1
+-D_USE_RENDER_THREAD=4

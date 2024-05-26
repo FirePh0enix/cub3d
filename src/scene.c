@@ -27,7 +27,7 @@ void	scene_add_entity(t_scene *scene, void *entity)
 	ft_vector_add(&scene->entities, &entity);
 }
 
-void	draw_scene(t_r3d *r3d, t_scene *scene, t_camera *camera)
+void	draw_scene(t_r3d *r3d, t_scene *scene, t_camera *camera, t_vars *vars)
 {
 	size_t	i;
 
@@ -35,7 +35,7 @@ void	draw_scene(t_r3d *r3d, t_scene *scene, t_camera *camera)
 	while (i < ft_vector_size(scene->entities))
 	{
 		if (scene->entities[i]->draw)
-			scene->entities[i]->draw(r3d, scene->entities[i], camera);
+			scene->entities[i]->draw(r3d, scene->entities[i], camera, vars);
 		i++;
 	}
 }

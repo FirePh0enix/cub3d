@@ -59,9 +59,9 @@ mlx/libmlx.a:
 	make -C mlx
 
 $(NAME): $(OBJECTS) libft/libft.a mlx/libmlx.a
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext -pthread
 
-bonus: CFLAGS+=-D_BONUS=1
+bonus: CFLAGS+=-D_BONUS=1 #-D_USE_RENDER_THREAD=1
 bonus: $(NAME)
 
 perf: CFLAGS+=-pg
