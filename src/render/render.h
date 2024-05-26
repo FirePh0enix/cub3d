@@ -178,6 +178,8 @@ void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 
 int		r3d_key_hook(int keycode, t_r3d *r3d);
 
+t_v3	r3d_get_camera_dir(t_r3d *r3d);
+
 void	r3d_draw_triangle(t_r3d *r3d, t_camera *camera, t_tri tri, t_transform transform, t_mtl *material);
 
 void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh,

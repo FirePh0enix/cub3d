@@ -38,3 +38,8 @@ int	r3d_key_hook(int keycode, t_r3d *r3d)
 		r3d->mode = MODE_DEPTH;
 	return (0);
 }
+
+t_v3	r3d_get_camera_dir(t_r3d *r3d)
+{
+	return (v3_norm(mat4_multiply_v3(mat4_rotation(r3d->camera->rotation), v3(0, 0, -1.0))));
+}

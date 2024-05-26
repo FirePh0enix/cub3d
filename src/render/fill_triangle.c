@@ -12,6 +12,8 @@
 
 #include "render.h"
 #include "shader.h"
+#include "../math/utils.h"
+#include <math.h>
 
 /*
  * Reference:
@@ -141,7 +143,7 @@ void	r3d_fill_triangle(
 
 				float	z = (w0 * tri.v0.z + w1 * tri.v1.z + w2 * tri.v2.z);
 				float	one_z = 1 / z;
-				t_v3	w = {{w0, w1, w2}};
+				t_v3	w = v3(w0, w1, w2);
 				t_v2	uv = int_v2(tri.t0, tri.t1, tri.t2, w, one_z);
 				t_v3	n = int_v3(tri.n0, tri.n1, tri.n2, w, one_z);
 				size_t	index = i + (fb->height - j - 1) * fb->width;

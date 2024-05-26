@@ -58,20 +58,21 @@ void	player_tick(t_vars *vars, t_player *player)
 	int x, y;
 	mlx_mouse_get_pos(vars->mlx, vars->win, &x, &y);
 
-	printf("x = %d, y = %d\n", x, y);
+	// printf("x = %d, y = %d\n", x, y);
 
 	// float x_speed = vars->mouse_pos.x - 1280 / 2.0;
 	// float y_speed = vars->mouse_pos.y - 720 / 2.0;
-	float x_speed = vars->mouse_pos.x - 1280 / 2.0;
-	float y_speed = vars->mouse_pos.y - 720 / 2.0;
+	float x_speed = x - 1280 / 2.0;
+	float y_speed = y - 720 / 2.0;
 
 	vars->mouse_pos.x = x;
 	vars->mouse_pos.y = y;
 
 	// mlx_mouse_move(vars->mlx, vars->win, 1280 / 2, 720 / 2);
 	// printf("Relative: x = %f, y = %f\n", x_speed, y_speed);
+	printf("x = %d, y = %d\n", vars->mouse_pos.x, vars->mouse_pos.y);
 
-	player->camera->rotation.y -= x_speed * vars->delta_sec / 70.0;
+	player->camera->rotation.y -= x_speed * vars->delta_sec;
 	player->base.transform.rotation.y = player->camera->rotation.y;
 	// player->camera->rotation.x += y_speed / 100.0;
 

@@ -9,10 +9,10 @@ static void	bake_wall(t_vars *vars, int x, int y, t_wall2 *w, t_map *map)
 	const float	half = WALL_SIZE / 2.0;
 
 	(void) vars;
-	w->no = wall(v3(x2, 0.0, y2 - half), M_PI, map->so);
+	// w->no = wall(v3(x2, 0.0, y2 - half), M_PI, map->so);
 	w->so = wall(v3(x2, 0.0, y2 + half), 0, map->so);
-	w->ea = wall(v3(x2 + half, 0.0, y2), M_PI / 2, map->so);
-	w->we = wall(v3(x2 - half, 0.0, y2), 3 * M_PI / 2, map->so);
+	// w->ea = wall(v3(x2 + half, 0.0, y2), M_PI / 2, map->so);
+	// w->we = wall(v3(x2 - half, 0.0, y2), 3 * M_PI / 2, map->so);
 }
 
 void	bake_map(t_map *map, t_vars *vars)

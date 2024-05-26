@@ -10,28 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "render.h"
-#include "../math/utils.h"
 #include "../cub3d.h"
 #include "shader.h"
 #include "types.h"
 #include <X11/Xlib.h>
 #include <stdio.h>
-
-static inline t_color	sample_texture(t_r3d *r3d, t_image *img, t_v3 uv)
-{
-	int	x;
-	int	y;
-
-	if (!img)
-		return (hex(0x00FFFFFF));
-	x = uv.x * (img->width - 1);
-	y = img->height - 1 - uv.y * (img->height - 1);
-	x = clampf(x, 0, img->width - 1);
-	y = clampf(y, 0, img->height - 1);
-	return (hex(img->data[x + y * img->width]));
-}
 
 // static inline void	set_pixel(t_r3d *r3d, int x, int y, t_color col,
 // 	float t, t_v3 n, t_v3 pos, t_light *lights)

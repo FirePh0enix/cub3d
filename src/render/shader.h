@@ -14,7 +14,15 @@
 # define SHADER_H
 
 # include "render.h"
-# include "../math/utils.h"
+
+inline float	clamp2(float f, float min, float max)
+{
+	if (f >= max)
+		return (max);
+	else if (f <= min)
+		return (min);
+	return (f);
+}
 
 inline t_color	sample(t_mtl *mtl, t_v2 uv)
 {
@@ -26,8 +34,8 @@ inline t_color	sample(t_mtl *mtl, t_v2 uv)
 	// FIXME Might not be good, see sample_texture @ draw_walls.c
 	x = uv.x * (mtl->image->width - 1);
 	y = mtl->image->height - 1 - uv.y * (mtl->image->height - 1);
-	x = clampf(x, 0, mtl->image->width - 1);
-	y = clampf(y, 0, mtl->image->height - 1);
+	x = clamp2(x, 0, mtl->image->width - 1);
+	y = clamp2(y, 0, mtl->image->height - 1);
 	return (((t_color *) mtl->image->data)[x + y * mtl->image->width]);
 }
 

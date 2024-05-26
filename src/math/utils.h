@@ -3,19 +3,33 @@
 
 # include <math.h>
 
+inline float_t	max2(float x, float y)
+{
+	if (x > y)
+		return (x);
+	return (y);
+}
+
+inline float_t	min2(float x, float y)
+{
+	if (x < y)
+		return (x);
+	return (y);
+}
+
 inline float	max3f(float a, float b, float c)
 {
-	return (fmaxf(a, fmaxf(b, c)));
+	return (max2(a, max2(b, c)));
 }
 
 inline float	min3f(float a, float b, float c)
 {
-	return (fminf(a, fminf(b, c)));
+	return (min2(a, min2(b, c)));
 }
 
 inline float	clampf(float f, float min, float max)
 {
-	return (fmaxf(min, fminf(f, max)));
+	return (max2(min, min2(f, max)));
 }
 
 #endif

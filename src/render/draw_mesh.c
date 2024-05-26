@@ -144,7 +144,7 @@ void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh,
 
 		tri = tri_mul_mat4(tri, world);
 
-		const t_v3	dir = v3(0.0, 0.0, -1.0);
+		const t_v3	dir = r3d_get_camera_dir(r3d);
 
 		t_v3	edge1, edge2, normal;
 		edge1 = v3_sub(tri.v1, tri.v0);
@@ -152,11 +152,11 @@ void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh,
 		normal = v3_norm(v3_cross(edge1, edge2));
 
 		// NOTE: Why does this needs `> 1.0` ? I don't know but it works.
-		if (v3_dot(normal, dir) > 1.0)
-		{
-			i++;
-			continue ;
-		}
+		// if (v3_dot(normal, dir) >= 0.0)
+		// {
+		// 	i++;
+		// 	continue ;
+		// }
 
 		if (r3d->mode == MODE_WIREFRAME && !camera->fb)
 			draw_debug_triangle(r3d, tri);
