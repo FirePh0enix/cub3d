@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 13:43:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:41:29 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,17 @@
 # include "network/net.h"
 # include "render/font.h"
 # include "render/render.h"
-#include "render/types.h"
+# include "render/types.h"
 # include "scene.h"
+
+# define YELLOW	"\033[0;33m"
+# define GREEN	"\033[0;32m"
+# define BLUE	"\033[0;34m"
+# define RED	"\033[0;31m"
+# define PURPLE	"\033[0;35m"
+# define CYAN	"\033[0;36m"
+# define BLACK	"\033[0;30"
+# define WHITE	"\033[0;37m"
 
 # include <stdbool.h>
 
@@ -142,5 +151,5 @@ char	*read_to_string(char *filename);
 char	**create_map(char *path, t_map *map);
 bool	is_map_surrounded(char **maps, t_map *map);
 char	**fill_map_with_space(char **map, size_t width, size_t height);
-
+void	find_player_pos(char **maps, t_map *map);
 #endif

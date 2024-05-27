@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 13:52:47 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:40:18 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,12 @@ int	main(int argc, char *argv[])
 	new_map = fill_map_with_space(map, vars.map->width, vars.map->height);
 	map_to_tiles(vars.map, new_map);
 	is_map_surrounded(new_map, vars.map);
+	find_player_pos(new_map, vars.map);
+	for (int i = 0; i < vars.map->spawn_count; i++)
+	{
+		printf(CYAN"PLAYER POS == [%f][%f][%f]\n", vars.map->spawns[i].position.x, vars.map->spawns[i].position.y, vars.map->spawns[i].position.z);
+		printf("SPAWN COUNT == %d\n"WHITE, vars.map->spawn_count);
+	}
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);

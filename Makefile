@@ -6,11 +6,13 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/05/24 16:21:45 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/05/27 14:29:13 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
+	src/player_pos.c \
+	src/parsing_utils.c \
 	src/check_map_surrounded.c \
 	src/parsing.c \
 	src/main.c \
