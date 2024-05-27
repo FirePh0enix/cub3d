@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/21 16:04:24 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:53:40 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@
 
 # include "../math/vec.h"
 
-# define SERVER_PORT 12345
+# define SERVER_PORT 25566
 # define CLIENT_PORT 23456
 
 # define MAX_CLIENT 8
 # define MAX_CLIENT_NAME 16
+
+typedef struct s_vars	t_vars;
 
 enum e_packet_type
 {
@@ -71,7 +73,7 @@ typedef struct s_server
 }   t_server;
 
 void    netserv_init(t_server *server);
-void	netserv_poll(t_server *server);
+void	netserv_poll(t_server *server, t_vars *vars);
 void    netserv_destroy(t_server *server);
 
 typedef struct s_client

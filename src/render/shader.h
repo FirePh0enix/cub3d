@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 21:37:10 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/22 16:17:05 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:38:41 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ inline t_color	sample(t_mtl *mtl, t_v2 uv)
 	int	x;
 	int	y;
 
-	if (!mtl)
+	if (!mtl || !mtl->image)
 		return (hex(0xFFFFFFFF));
 	// FIXME Might not be good, see sample_texture @ draw_walls.c
 	x = uv.x * (mtl->image->width - 1);

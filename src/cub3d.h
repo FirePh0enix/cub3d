@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 12:03:41 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:43:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_vars
 
 	float		delta_sec;
 	t_v2i		mouse_pos;
+
+	t_mesh		*enemy_mesh;
 
 #ifdef _USE_RENDER_THREAD
 	pthread_t	render_thread;

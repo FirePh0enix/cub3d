@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 13:31:06 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:52:47 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	loop_hook(t_vars *vars)
 	draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
 
 	if (vars->is_server)
-		netserv_poll(&vars->server);
+		netserv_poll(&vars->server, vars);
 
 	r3d_draw_walls(vars->r3d, vars->map);
 	print_fps(vars, delta, getms() - vars->last_update);
@@ -84,7 +84,7 @@ static void	loop_hook(t_vars *vars)
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 #else
 	if (vars->is_server)
-		netserv_poll(&vars->server);
+		netserv_poll(&vars->server, vars);
 
 	tick_scene(vars, vars->scene);
 	// print_fps(vars, delta, getms() - vars->last_update);
@@ -144,7 +144,7 @@ int	main(int argc, char *argv[])
 
 	bake_map(vars.map, &vars);
 
-	t_mesh	*knight_obj = mesh_load_from_obj(&vars, "assets/enemy.obj");
+	vars.enemy_mesh = mesh_load_from_obj(&vars, "assets/enemy.obj");
 
 	vars.scene = create_scene();
 
@@ -163,10 +163,6 @@ int	main(int argc, char *argv[])
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
-	t_mesh_inst	*mesh_inst = mesh_inst_new(&vars, vars.scene, knight_obj);
-	mesh_inst->base.transform.position = v3(-2.0, -1.0, -3.5);
-	scene_add_entity(vars.scene, mesh_inst);
-
 	vars.r3d->camera = vars.scene->player->camera;
 
 	if (argc == 3 && !ft_strcmp(argv[2], "host"))
@@ -178,6 +174,7 @@ int	main(int argc, char *argv[])
 	{
 		netclient_init(&vars.client, argv[3], ft_atoi(argv[4]));
 		netclient_connect(&vars.client, argv[5]);
+		printf("%s:%d (%s)\n", argv[3], ft_atoi(argv[4]), argv[5]);
 	}
 	else
 	{

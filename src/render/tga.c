@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/24 13:30:15 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:38:12 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,12 @@ t_image	*tga_load_from_file(char *filename)
 	t_tga_hdr	hdr;
 	t_image		*image;
 
+	if (!s)
+		return (NULL);
 	ft_memcpy(&hdr, s, sizeof(t_tga_hdr));
 	image = malloc(sizeof(t_image));
 	if (!image)
-		return NULL;
+		return (free((void *)s), NULL);
 	image->data = malloc(sizeof(uint32_t) * hdr.w * hdr.h);
 	image->width = hdr.w;
 	image->height = hdr.h;
