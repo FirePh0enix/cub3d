@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 00:25:21 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/05/27 11:36:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SCENE_H
 
 # include "render/render.h"
+#include <stdbool.h>
 
 /* Entities definition */
 
@@ -40,8 +41,9 @@ typedef struct s_player
 {
 	t_entity	base;
 	t_camera	*camera;
-	int			mouse_x;
-	int			mouse_y;
+
+	t_v3		velocity;
+	bool		has_jump;
 }	t_player;
 
 t_player	*player_new(t_vars *vars, t_scene *scene);

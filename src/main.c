@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 00:25:17 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/05/27 13:31:06 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	loop_hook(t_vars *vars)
 		return ;
 	vars->last_update = getms();
 	vars->delta_sec = delta / 1000.0;
-	
+
 	if (vars->delta_sec < LIMIT_LOW)
 		vars->delta_sec = LIMIT_LOW;
 	else if (vars->delta_sec > LIMIT_HIGH)
@@ -144,7 +144,7 @@ int	main(int argc, char *argv[])
 
 	bake_map(vars.map, &vars);
 
-	t_mesh	*knight_obj = mesh_load_from_obj(&vars, "models/knight.obj");
+	t_mesh	*knight_obj = mesh_load_from_obj(&vars, "assets/enemy.obj");
 
 	vars.scene = create_scene();
 

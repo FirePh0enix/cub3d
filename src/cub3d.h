@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 00:42:40 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/05/27 12:03:41 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "network/net.h"
 # include "render/font.h"
 # include "render/render.h"
+#include "render/types.h"
 # include "scene.h"
 
 # include <stdbool.h>
@@ -105,19 +106,30 @@ enum e_tile
 
 typedef struct s_map
 {
-	int		width;
-	int		height;
+	int			width;
+	int			height;
 
-	t_color	floor_color;
-	t_color	ceiling_color;
+	t_color		floor_color;
+	t_color		ceiling_color;
 
-	t_mtl	*no;
-	t_mtl	*so;
-	t_mtl	*we;
-	t_mtl	*ea;
+	t_mtl		*no;
+	t_mtl		*so;
+	t_mtl		*we;
+	t_mtl		*ea;
 
-	t_wall2	*walls;
-	int		*tiles;
+	t_wall2		*walls;
+	int			*tiles;
+
+	/*
+		POS - v3(x * WALL_SIZE, 0, y * WALL_SIZE)
+		ROTATION:
+		- N - v3(0, 0, 0)
+		- S - v3(0, M_PI, 0)
+		- W - v3(0, M_PI / 2, 0)
+		- E - v3(0, 3 * M_PI / 2, 0)
+	 */
+	t_transform	spawns[MAX_CLIENT];
+	int			spawn_count;
 }	t_map;
 
 void	map_to_tiles(t_map *map, char **maps);
