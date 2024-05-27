@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 13:46:06 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:51:41 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	player_tick(t_vars *vars, t_player *player)
 	const float	speed = 5.0;
 	const float	jump_force = 20.0;
 
+	if (!vars->is_focused)
+		return ;
 	if (vars->keys[XK_w])
 		player->velocity = v3_add(player->velocity, v3_scale(forward, speed));
 	if (vars->keys[XK_s])
@@ -74,6 +76,9 @@ void	player_tick(t_vars *vars, t_player *player)
 	player->velocity.x = 0;
 	player->velocity.z = 0;
 	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2.0, 720 / 2.0);
+
+	if (!vars->is_server)
+		netclient_send_pos(&vars->client, player->base.transform);
 }
 
 void	player_mouse_event(int x, int y, t_vars *vars)
@@ -82,6 +87,8 @@ void	player_mouse_event(int x, int y, t_vars *vars)
 	const float y_speed = y - 720 / 2.0;
 	t_player	*player;
 
+	if (!vars->is_focused)
+		return ;
 	player = vars->scene->player;
 
 	player->camera->rotation.x -= y_speed / 1200.0;

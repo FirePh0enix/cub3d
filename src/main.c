@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 14:40:18 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:49:26 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ static void	loop_hook(t_vars *vars)
 
 	if (vars->is_server)
 		netserv_poll(&vars->server, vars);
+	else
+		netclient_poll(&vars->client, vars);
 
 	r3d_draw_walls(vars->r3d, vars->map);
 	print_fps(vars, delta, getms() - vars->last_update);
@@ -135,6 +137,9 @@ int	main(int argc, char *argv[])
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
+	mlx_hook(vars.win, ButtonPress, ButtonPressMask, (void *)mouse_button_pressed_hook, &vars);
+	mlx_hook(vars.win, ButtonRelease, ButtonReleaseMask, (void *)mouse_button_released_hook, &vars);
+
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 
 	r3d_init(vars.r3d, vars.mlx, 1280, 720);
@@ -173,14 +178,14 @@ int	main(int argc, char *argv[])
 
 	if (argc == 3 && !ft_strcmp(argv[2], "host"))
 	{
-		netserv_init(&vars.server);
 		vars.is_server = true;
+		netserv_init(&vars.server);
 	}
 	else if (argc == 6 && !ft_strcmp(argv[2], "connect"))
 	{
+		vars.is_server = false;
 		netclient_init(&vars.client, argv[3], ft_atoi(argv[4]));
 		netclient_connect(&vars.client, argv[5]);
-		printf("%s:%d (%s)\n", argv[3], ft_atoi(argv[4]), argv[5]);
 	}
 	else
 	{
@@ -188,7 +193,7 @@ int	main(int argc, char *argv[])
 	}
 
 	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
-	mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
+	// mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
 
 #ifdef _USE_RENDER_THREAD
 	if (pthread_create(&vars.render_thread, NULL, (void *) render_thread, &vars) != 0)

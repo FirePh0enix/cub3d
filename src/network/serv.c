@@ -34,7 +34,17 @@ static void connect_client(t_server *server, t_packet_connect *packet, struct so
 			ft_printf("info : Client `%s` connected\n", packet->username);
 
 			t_mesh_inst	*mesh = mesh_inst_new(vars, vars->scene, vars->enemy_mesh);
+			mesh->base.transform.position = v3(0, 0, 0);
 			scene_add_entity(vars->scene, mesh);
+
+			server->clients[i].entity = (void *) mesh;
+
+			// Send response to the client
+			t_packet_connect_response	packet;
+			packet.type = PACKET_CONNECT_RESPONSE;
+			packet.unique_id = i;
+			sendto(server->socket, &packet, sizeof(t_packet_connect_response), 0,
+				(void *) &server->clients[i].addr, sizeof(struct sockaddr_in));
 
 			return;
 		}
@@ -43,19 +53,31 @@ static void connect_client(t_server *server, t_packet_connect *packet, struct so
 	ft_printf("error: The server is full, cannot connect the client.\n");
 }
 
+static void	move_player(t_server *server, t_packet_pos *pos, t_vars *vars)
+{
+	t_remote_client	*client;
+
+	(void) vars;
+	client = &server->clients[pos->eid];
+	client->entity->transform.position = pos->pos;
+	client->entity->transform.rotation = pos->rot;
+}
+
 void	netserv_poll(t_server *server, t_vars *vars)
 {
-	char				buf[64];
+	char				buf[MAX_PACKET_SIZE];
 	struct sockaddr_in addr;
 	socklen_t			socklen;
 	int					type;
 
 	socklen = sizeof(struct sockaddr_in);
-	while (recvfrom(server->socket, buf, 64, 0, (void *) &addr, &socklen) != -1)
+	while (recvfrom(server->socket, buf, MAX_PACKET_SIZE, 0, (void *) &addr, &socklen) != -1)
 	{
 		type = *(int *)(buf);
 		if (type == PACKET_CONNECT)
 			connect_client(server, (void *) buf, addr, vars);
+		else if (type == PACKET_POS)
+			move_player(server, (void *) buf, vars);
 	}
 }
 

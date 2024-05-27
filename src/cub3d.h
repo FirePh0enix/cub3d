@@ -6,7 +6,7 @@
 /*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 16:07:52 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/05/27 16:22:17 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_vars
 	t_image		*south;
 
 	bool		*keys;
+	bool		buttons[8];
 
 	bool		is_server;
 	t_client	client;
@@ -62,6 +63,8 @@ typedef struct s_vars
 
 	float		delta_sec;
 	t_v2i		mouse_pos;
+
+	bool		is_focused;
 
 	t_mesh		*enemy_mesh;
 
@@ -74,6 +77,8 @@ typedef struct s_vars
 int	key_pressed_hook(int keycode, t_vars *vars);
 int	key_released_hook(int keycode, t_vars *vars);
 int	mouse_move_hook(int x, int y, t_vars *vars);
+int	mouse_button_pressed_hook(int btn, int _i1, int _i2, t_vars *vars);
+int	mouse_button_released_hook(int btn, int _i1, int _i2, t_vars *vars);
 
 #define WALL_SIZE 3.0
 

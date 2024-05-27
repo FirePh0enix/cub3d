@@ -3,4 +3,3 @@
 -Wall
 -Wextra
 -D_BONUS=1
--D_USE_RENDER_THREAD=4

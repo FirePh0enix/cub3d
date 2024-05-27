@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   net.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 13:53:40 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:16:26 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 
 # include "../math/vec.h"
+# include "../scene.h"
 
 # define SERVER_PORT 25566
 # define CLIENT_PORT 23456
@@ -27,11 +28,14 @@
 # define MAX_CLIENT 8
 # define MAX_CLIENT_NAME 16
 
+# define MAX_PACKET_SIZE 96
+
 typedef struct s_vars	t_vars;
 
 enum e_packet_type
 {
 	PACKET_CONNECT,
+	PACKET_CONNECT_RESPONSE,
 	PACKET_PULSE,
 	PACKET_POS
 };
@@ -42,9 +46,16 @@ typedef struct s_packet_connect
 	char	username[MAX_CLIENT_NAME];
 }	t_packet_connect;
 
+typedef struct s_packet_connect_response
+{
+	int	type;
+	int	unique_id;
+}	t_packet_connect_response;
+
 typedef struct s_packet_pulse
 {
 	int	type;
+	int	unique_id;
 }	t_packet_pulse;
 
 /*
@@ -64,6 +75,7 @@ typedef struct s_remote_client
 	int					present;
 	struct sockaddr_in	addr;
 	char				username[MAX_CLIENT_NAME];
+	t_entity			*entity;
 }	t_remote_client;
 
 typedef struct s_server
@@ -80,9 +92,12 @@ typedef struct s_client
 {
     int					socket;
     struct sockaddr_in	server_addr;
+	int					unique_id;
 }   t_client;
 
 void    netclient_init(t_client *client, char *addr, int port);
+void	netclient_poll(t_client *client, t_vars *vars);
 void	netclient_connect(t_client *client, char *username);
+void	netclient_send_pos(t_client *client, t_transform transform);
 
 #endif
