@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 16:51:41 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/05/28 12:30:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@
 void	player_tick(t_vars *vars, t_player *player);
 void	player_draw(t_r3d *r3d, t_player *player, t_camera *camera, t_vars *vars);
 
-t_player	*player_new(t_vars *vars, t_scene *scene)
+t_player	*player_new(t_vars *vars, t_scene *scene, int id)
 {
 	t_player	*player;
 
 	(void) vars;
 	player = ft_calloc(1, sizeof(t_player));
-	player->base.eid = EID_PLAYER;
+	player->base.type = ENTITY_PLAYER;
+	player->base.id = id;
 	player->base.tick = (void *) player_tick;
 	player->base.draw = (void *) player_draw;
 	player->base.transform = (t_transform){};
@@ -79,6 +80,8 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	if (!vars->is_server)
 		netclient_send_pos(&vars->client, player->base.transform);
+	else
+		netserv_broadcast_pos(&vars->server, player, -1);
 }
 
 void	player_mouse_event(int x, int y, t_vars *vars)

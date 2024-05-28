@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "net.h"
+#include <stdio.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -7,60 +8,111 @@
 
 #include "../cub3d.h"
 
-void    netserv_init(t_server *server)
+void    netserv_init(t_server *server, t_vars *vars)
 {
     struct sockaddr_in addr;
 
+	ft_bzero(server, sizeof(t_server));
     addr = (struct sockaddr_in) {AF_INET, htons(SERVER_PORT), {INADDR_ANY}, {0}};
     server->socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
     if (bind(server->socket, (void *) &addr, sizeof(struct sockaddr_in)) == -1)
 	{
 		ft_printf("Failed to bind address 127.0.0.1 on port %d\n", SERVER_PORT);
 	}
+	server->player_id = next_entity_id(vars);
 }
 
-static void connect_client(t_server *server, t_packet_connect *packet, struct sockaddr_in addr, t_vars *vars)
+static int	find_free_client(t_server *server)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (i < MAX_CLIENT)
 	{
 		if (!server->clients[i].present)
-		{
-			server->clients[i].present = 1;
-			ft_memcpy(server->clients[i].username, packet->username, 16);
-			server->clients[i].addr = addr;
-			ft_printf("info : Client `%s` connected\n", packet->username);
-
-			t_mesh_inst	*mesh = mesh_inst_new(vars, vars->scene, vars->enemy_mesh);
-			mesh->base.transform.position = v3(0, 0, 0);
-			scene_add_entity(vars->scene, mesh);
-
-			server->clients[i].entity = (void *) mesh;
-
-			// Send response to the client
-			t_packet_connect_response	packet;
-			packet.type = PACKET_CONNECT_RESPONSE;
-			packet.unique_id = i;
-			sendto(server->socket, &packet, sizeof(t_packet_connect_response), 0,
-				(void *) &server->clients[i].addr, sizeof(struct sockaddr_in));
-
-			return;
-		}
+			return (i);
 		i++;
 	}
-	ft_printf("error: The server is full, cannot connect the client.\n");
+	return (-1);
+}
+
+static void connect_client(t_server *server, t_packet_connect *conn, struct sockaddr_in addr, t_vars *vars)
+{
+	int	i = find_free_client(server);
+
+	if (i == -1)
+	{
+		ft_printf("error: The server is full, cannot connect the client.\n");
+		return ;
+	}
+
+	server->clients[i].present = 1;
+	ft_memcpy(server->clients[i].username, conn->username, 16);
+	server->clients[i].addr = addr;
+	ft_printf("info : Client `%s` connected\n", conn->username);
+
+	t_mesh_inst	*mesh = mesh_inst_new(vars, vars->scene, vars->enemy_mesh, next_entity_id(vars));
+	mesh->base.transform.position = v3(0, 0, 0);
+	scene_add_entity(vars->scene, mesh);
+
+	server->clients[i].entity = (void *) mesh;
+
+	// Send response to the client
+	t_packet_connect_response	packet;
+	packet.type = PACKET_CONNECT_RESPONSE;
+	packet.unique_id = i;
+	sendto(server->socket, &packet, sizeof(t_packet_connect_response), 0,
+		(void *) &server->clients[i].addr, sizeof(struct sockaddr_in));
+
+	// Add the server entity.
+	t_packet_new_entity		new_ent;
+	new_ent.type = PACKET_NEW_ENTITY;
+	new_ent.entity_type = ENTITY_MESH;
+	new_ent.data = "assets/enemy.obj";
+	new_ent.entity_id = server->player_id;
+	new_ent.transform = (t_transform){v3(0, 0, 0), v3(0, 0, 0)};
+	netserv_send(server, &new_ent, sizeof(t_packet_new_entity), i);
+
+	new_ent.entity_id = server->clients[i].entity->id;
+	netserv_broadcast(server, &new_ent, sizeof(t_packet_new_entity), i);
+
+	int	i2 = 0;
+	while (i2 < MAX_CLIENT)
+	{
+		if (!server->clients[i2].present || i2 == i)
+		{
+			i2++;
+			continue ;
+		}
+		printf("new entity\n");
+		new_ent.type = PACKET_NEW_ENTITY;
+		new_ent.entity_type = ENTITY_MESH;
+		new_ent.data = "assets/enemy.obj";
+		new_ent.entity_id = server->clients[i2].entity->id;
+		new_ent.transform = (t_transform){v3(0, 0, 0), v3(0, 0, 0)};
+		netserv_send(server, &new_ent, sizeof(t_packet_new_entity), i);
+		i2++;
+	}
 }
 
 static void	move_player(t_server *server, t_packet_pos *pos, t_vars *vars)
 {
 	t_remote_client	*client;
+	int	i;
 
 	(void) vars;
+	if (pos->eid < 0 || pos->eid >= 8)
+	{
+		ft_printf("error: Invalid packet received from client.\n");
+		return ;
+	}
+	i = pos->eid;
 	client = &server->clients[pos->eid];
 	client->entity->transform.position = pos->pos;
 	client->entity->transform.rotation = pos->rot;
+
+	pos->eid = client->entity->id;
+	netserv_broadcast(server, pos, sizeof(t_packet_pos), i);
 }
 
 void	netserv_poll(t_server *server, t_vars *vars)
@@ -84,4 +136,26 @@ void	netserv_poll(t_server *server, t_vars *vars)
 void    netserv_destroy(t_server *server)
 {
     close(server->socket);
+}
+
+void	netserv_send(t_server *server, void *packet_addr, size_t size, int i)
+{
+	sendto(server->socket, packet_addr, size, 0,
+		(void *) &server->clients[i].addr, sizeof(struct sockaddr_in));
+}
+
+void	netserv_broadcast(t_server *server, void *packet_addr, size_t size, int mask)
+{
+	int	i;
+
+	i = 0;
+	while (i < MAX_CLIENT)
+	{
+		if (i != mask)
+		{
+			sendto(server->socket, packet_addr, size, 0,
+				(void *) &server->clients[i].addr, sizeof(struct sockaddr_in));
+		}
+		i++;
+	}
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
+#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/05/27 14:29:13 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/05/28 12:27:47 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SOURCES=\
 	src/entities/player.c \
 	src/gui/panel.c \
 	src/network/serv.c \
+	src/network/serv_send.c \
 	src/network/client.c \
 	src/render/init.c \
 	src/render/clear.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   net.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 17:16:26 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/05/28 12:29:58 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ enum e_packet_type
 	PACKET_CONNECT,
 	PACKET_CONNECT_RESPONSE,
 	PACKET_PULSE,
-	PACKET_POS
+	PACKET_POS,
+	PACKET_NEW_ENTITY,
+	PACKET_DEL_ENTITY
 };
 
 typedef struct s_packet_connect
@@ -70,6 +72,21 @@ typedef struct s_packet_pos
 	int		eid;
 }	t_packet_pos;
 
+typedef struct s_packet_new_entity
+{
+	int				type;
+	int				entity_id;
+	int				entity_type;
+	t_transform		transform;
+	void			*data;
+}	t_packet_new_entity;
+
+typedef struct s_packet_del_entity
+{
+	int	type;
+	int	entity_id;
+}	t_packet_del_entity;
+
 typedef struct s_remote_client
 {
 	int					present;
@@ -82,11 +99,17 @@ typedef struct s_server
 {
 	t_remote_client clients[MAX_CLIENT];
     int				socket;
+	int				player_id;
 }   t_server;
 
-void    netserv_init(t_server *server);
+void    netserv_init(t_server *server, t_vars *vars);
 void	netserv_poll(t_server *server, t_vars *vars);
 void    netserv_destroy(t_server *server);
+
+void	netserv_send(t_server *server, void *packet_addr, size_t size, int i);
+void	netserv_broadcast(t_server *server, void *packet_addr, size_t size, int mask);
+
+void	netserv_broadcast_pos(t_server *server, t_player *player, int mask);
 
 typedef struct s_client
 {

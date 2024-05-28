@@ -6,11 +6,13 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:53:16 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/12 23:06:39 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/28 12:36:12 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
+#include "libft.h"
+#include <stddef.h>
 
 t_scene	*create_scene()
 {
@@ -25,6 +27,20 @@ t_scene	*create_scene()
 void	scene_add_entity(t_scene *scene, void *entity)
 {
 	ft_vector_add(&scene->entities, &entity);
+}
+
+t_entity	*scene_get_entity_by_id(t_scene *scene, int id)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < ft_vector_size(scene->entities))
+	{
+		if (scene->entities[i]->id == id)
+			return (scene->entities[i]);
+		i++;
+	}
+	return (NULL);
 }
 
 void	draw_scene(t_r3d *r3d, t_scene *scene, t_camera *camera, t_vars *vars)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 16:49:26 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/05/28 12:30:25 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int	main(int argc, char *argv[])
 	};
 	ft_vector_add(&vars.scene->lights, &light);
 
-	t_player	*player = player_new(&vars, vars.scene);
+	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));
 	player->base.transform.position = v3(3.0, 0.0, -3.0);
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
@@ -179,7 +179,7 @@ int	main(int argc, char *argv[])
 	if (argc == 3 && !ft_strcmp(argv[2], "host"))
 	{
 		vars.is_server = true;
-		netserv_init(&vars.server);
+		netserv_init(&vars.server, &vars);
 	}
 	else if (argc == 6 && !ft_strcmp(argv[2], "connect"))
 	{
