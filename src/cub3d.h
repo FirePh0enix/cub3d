@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/28 16:13:51 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:56:54 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,5 +166,11 @@ void	find_player_pos(char **maps, t_map *map);
 int		calc_map_height(char **maps);
 int		calc_map_max_width(char **maps);
 bool	fill_texture(t_map *map, char *maps);
-
+char	**create_textures(char *map);
+char	*detect_texture_path(char *path);
+t_image	*load_texture(char *textures, char *identifier);
+char	*detect_identifier(char *texture);
+bool 	is_valid_identifier(char *str);
+bool create_material(char *identifier, t_map *map, t_image	*image);
+bool check_all_materials(t_map *map);
 #endif

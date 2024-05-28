@@ -1,7 +1,7 @@
 NO assets/cobblestone.tga
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+SO assets/cobblestone.tga
+WE assets/cobblestone.tga
+EA assets/cobblestone.tga
 
 F 220,100,0
 C 225,30,0
