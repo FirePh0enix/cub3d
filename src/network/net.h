@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/28 12:29:58 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:02:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "../scene.h"
 
 # define SERVER_PORT 25566
-# define CLIENT_PORT 23456
+# define CLIENT_PORT 25566
 
 # define MAX_CLIENT 8
 # define MAX_CLIENT_NAME 16

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/28 12:30:25 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:08:54 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,11 +181,11 @@ int	main(int argc, char *argv[])
 		vars.is_server = true;
 		netserv_init(&vars.server, &vars);
 	}
-	else if (argc == 6 && !ft_strcmp(argv[2], "connect"))
+	else if (argc == 5 && !ft_strcmp(argv[2], "connect"))
 	{
 		vars.is_server = false;
-		netclient_init(&vars.client, argv[3], ft_atoi(argv[4]));
-		netclient_connect(&vars.client, argv[5]);
+		netclient_init(&vars.client, argv[3], CLIENT_PORT);
+		netclient_connect(&vars.client, argv[4]);
 	}
 	else
 	{
