@@ -6,12 +6,11 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:40:22 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/27 13:42:18 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:36:18 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
-
+#include "../cub3d.h"
 
 int	calc_map_height(char **maps)
 {

@@ -3,18 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
+#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/05/28 12:27:47 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/05/28 16:15:55 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
-	src/player_pos.c \
-	src/parsing_utils.c \
-	src/check_map_surrounded.c \
-	src/parsing.c \
+	src/parsing/textures.c \
+	src/parsing/player_pos.c \
+	src/parsing/parsing_utils.c \
+	src/parsing/check_map_surrounded.c \
+	src/parsing/parsing.c \
 	src/main.c \
 	src/map.c \
 	src/input.c \
