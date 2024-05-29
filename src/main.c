@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/28 16:28:01 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:12:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ static void	loop_hook(t_vars *vars)
 	if (vars->is_server)
 		netserv_poll(&vars->server, vars);
 	else
+	{
 		netclient_poll(&vars->client, vars);
+		netclient_pulse(&vars->client);
+	}
 
 	r3d_draw_walls(vars->r3d, vars->map);
 	print_fps(vars, delta, getms() - vars->last_update);
@@ -122,7 +125,12 @@ int	main(int argc, char *argv[])
 	vars.r3d = ft_calloc(sizeof(t_r3d), 1);
 	vars.last_update = 0;
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
+	if (argc == 3 && (!ft_strcmp(argv[2], "host") || !ft_strcmp(argv[2], "local-host")))
+		vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D - HOST");
+	else if (argc == 5 && (!ft_strcmp(argv[2], "connect") || !ft_strcmp(argv[2], "connect-local")))
+		vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D - CLIENT");
+	else
+		vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
 	vars.map = ft_calloc(sizeof(t_map), 1);
 	map = create_map(argv[1], vars.map);
 	new_map = fill_map_with_space(map, vars.map->width, vars.map->height);
@@ -175,12 +183,23 @@ int	main(int argc, char *argv[])
 	if (argc == 3 && !ft_strcmp(argv[2], "host"))
 	{
 		vars.is_server = true;
-		netserv_init(&vars.server, &vars);
+		netserv_init(&vars.server, &vars, SERVER_PORT);
+	}
+	else if (argc == 3 && !ft_strcmp(argv[2], "local-host"))
+	{
+		vars.is_server = true;
+		netserv_init(&vars.server, &vars, SERVER_LOCAL_PORT);
 	}
 	else if (argc == 5 && !ft_strcmp(argv[2], "connect"))
 	{
 		vars.is_server = false;
-		netclient_init(&vars.client, argv[3], CLIENT_PORT);
+		netclient_init(&vars.client, argv[3], SERVER_PORT);
+		netclient_connect(&vars.client, argv[4]);
+	}
+	else if (argc == 5 && !ft_strcmp(argv[2], "connect-local"))
+	{
+		vars.is_server = false;
+		netclient_init(&vars.client, argv[3], SERVER_LOCAL_PORT);
 		netclient_connect(&vars.client, argv[4]);
 	}
 	else

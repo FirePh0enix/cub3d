@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/28 12:35:05 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/29 13:41:39 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_scene
 
 t_scene		*create_scene();
 void		scene_add_entity(t_scene *scene, void *entity);
+void		scene_remove_entity(t_scene *scene, t_entity *entity);
 t_entity	*scene_get_entity_by_id(t_scene *scene, int id);
 
 void		draw_scene(t_r3d *r3d, t_scene *scene, t_camera *camera, t_vars *vars);

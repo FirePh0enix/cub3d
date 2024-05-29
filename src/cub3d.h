@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/28 18:56:54 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/29 13:02:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ inline int	next_entity_id(t_vars *vars)
 {
 	return (vars->entity_id++);
 }
+
+suseconds_t	getms(void);
 
 int	key_pressed_hook(int keycode, t_vars *vars);
 int	key_released_hook(int keycode, t_vars *vars);

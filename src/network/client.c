@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "mlx.h"
 #include "net.h"
 #include "../cub3d.h"
 #include <netinet/in.h>
@@ -46,6 +47,7 @@ void	netclient_poll(t_client *client, t_vars *vars)
 		{
 			ft_printf("Response received from the server.\n");
 			client->unique_id = ((t_packet_connect_response *) buf)->unique_id;
+			client->last_pulse = getms();
 		}
 		else if (type == PACKET_POS)
 		{
@@ -62,7 +64,21 @@ void	netclient_poll(t_client *client, t_vars *vars)
 			t_entity *entity = new_entity((void *) buf, vars);
 			scene_add_entity(vars->scene, entity);
 		}
+		else if (type == PACKET_DEL_ENTITY)
+		{
+			t_packet_del_entity	*packet = (void *)buf;
+			t_entity *entity = scene_get_entity_by_id(vars->scene, packet->entity_id);
+			if (entity == NULL)
+				continue ;
+			scene_remove_entity(vars->scene, entity);
+		} else if (type == PACKET_PULSE)
+		{
+			client->last_pulse = getms();
+		}
 	}
+
+	if (getms() - client->last_pulse >= 500)
+		mlx_loop_end(vars->mlx);
 }
 
 void	netclient_connect(t_client *client, char *username)

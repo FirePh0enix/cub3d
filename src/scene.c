@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:53:16 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/28 12:36:12 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:21:43 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,22 @@ t_scene	*create_scene()
 void	scene_add_entity(t_scene *scene, void *entity)
 {
 	ft_vector_add(&scene->entities, &entity);
+}
+
+void		scene_remove_entity(t_scene *scene, t_entity *entity)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < ft_vector_size(scene->entities))
+	{
+		if (scene->entities[i] == entity)
+		{
+			ft_vector_del(scene, i);
+			break ;
+		}
+		i++;
+	}
 }
 
 t_entity	*scene_get_entity_by_id(t_scene *scene, int id)

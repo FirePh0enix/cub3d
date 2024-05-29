@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "mlx.h"
 #include "net.h"
 #include <stdio.h>
 #include <sys/socket.h>
@@ -8,16 +9,16 @@
 
 #include "../cub3d.h"
 
-void    netserv_init(t_server *server, t_vars *vars)
+void    netserv_init(t_server *server, t_vars *vars, int port)
 {
     struct sockaddr_in addr;
 
 	ft_bzero(server, sizeof(t_server));
-    addr = (struct sockaddr_in) {AF_INET, htons(SERVER_PORT), {INADDR_ANY}, {0}};
+    addr = (struct sockaddr_in) {AF_INET, htons(port), {INADDR_ANY}, {0}};
     server->socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
     if (bind(server->socket, (void *) &addr, sizeof(struct sockaddr_in)) == -1)
 	{
-		ft_printf("Failed to bind address 127.0.0.1 on port %d\n", SERVER_PORT);
+		ft_printf("Failed to bind address 0.0.0.0 on port %d\n", port);
 	}
 	server->player_id = next_entity_id(vars);
 }
@@ -49,6 +50,7 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	server->clients[i].present = 1;
 	ft_memcpy(server->clients[i].username, conn->username, 16);
 	server->clients[i].addr = addr;
+	server->clients[i].last_pulse = getms();
 	ft_printf("info : Client `%s` connected\n", conn->username);
 
 	t_mesh_inst	*mesh = mesh_inst_new(vars, vars->scene, vars->enemy_mesh, next_entity_id(vars));
@@ -101,7 +103,7 @@ static void	move_player(t_server *server, t_packet_pos *pos, t_vars *vars)
 	int	i;
 
 	(void) vars;
-	if (pos->eid < 0 || pos->eid >= 8)
+	if (pos->eid < 0 || pos->eid >= 8 || !server->clients[pos->eid].present)
 	{
 		ft_printf("error: Invalid packet received from client.\n");
 		return ;
@@ -113,6 +115,29 @@ static void	move_player(t_server *server, t_packet_pos *pos, t_vars *vars)
 
 	pos->eid = client->entity->id;
 	netserv_broadcast(server, pos, sizeof(t_packet_pos), i);
+}
+
+static void	handle_pulse(t_server *server, t_packet_pulse *pulse)
+{
+	t_remote_client	*client;
+
+	if (pulse->unique_id < 0 || pulse->unique_id >= MAX_CLIENT || !server->clients[pulse->unique_id].present)
+		return ;
+	client = &server->clients[pulse->unique_id];
+	client->last_pulse = getms();
+	netserv_send(server, pulse, sizeof(t_packet_pulse), pulse->unique_id);
+}
+
+static void	disconnect(t_server *server, int i, t_vars *vars)
+{
+	t_remote_client	*client;
+
+	client = &server->clients[i];
+	client->present = 0;
+	netserv_broadcast_del(server, client->entity->id, i);
+	scene_remove_entity(vars->scene, client->entity);
+	free(client->entity);
+	ft_printf("Player %s has timed out\n", client->username);
 }
 
 void	netserv_poll(t_server *server, t_vars *vars)
@@ -130,6 +155,15 @@ void	netserv_poll(t_server *server, t_vars *vars)
 			connect_client(server, (void *) buf, addr, vars);
 		else if (type == PACKET_POS)
 			move_player(server, (void *) buf, vars);
+		else if (type == PACKET_PULSE)
+			handle_pulse(server, (void *) buf);
+	}
+	int	i = 0;
+	while (i < MAX_CLIENT)
+	{
+		if (server->clients[i].present && getms() - server->clients[i].last_pulse >= 500)
+			disconnect(server, i, vars);
+		i++;
 	}
 }
 

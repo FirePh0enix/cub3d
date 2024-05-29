@@ -6,13 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/29 12:04:10 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:32:49 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef NET_H
 # define NET_H
 
+#include <sys/select.h>
 # include <sys/types.h>
 # include <sys/socket.h>
 # include <netinet/in.h>
@@ -22,8 +23,9 @@
 # include "../math/vec.h"
 # include "../scene.h"
 
-# define SERVER_PORT 25566
-# define CLIENT_PORT 25566
+# define SERVER_PORT       25566
+# define SERVER_LOCAL_PORT 25577
+# define CLIENT_PORT       25566
 
 # define MAX_CLIENT 8
 # define MAX_CLIENT_NAME 16
@@ -95,6 +97,7 @@ typedef struct s_remote_client
 	struct sockaddr_in	addr;
 	char				username[MAX_CLIENT_NAME];
 	t_entity			*entity;
+	suseconds_t			last_pulse;
 }	t_remote_client;
 
 typedef struct s_server
@@ -104,7 +107,7 @@ typedef struct s_server
 	int				player_id;
 }   t_server;
 
-void    netserv_init(t_server *server, t_vars *vars);
+void    netserv_init(t_server *server, t_vars *vars, int port);
 void	netserv_poll(t_server *server, t_vars *vars);
 void    netserv_destroy(t_server *server);
 
@@ -112,17 +115,21 @@ void	netserv_send(t_server *server, void *packet_addr, size_t size, int i);
 void	netserv_broadcast(t_server *server, void *packet_addr, size_t size, int mask);
 
 void	netserv_broadcast_pos(t_server *server, t_player *player, int mask);
+void	netserv_broadcast_del(t_server *server, int entity_id, int mask);
 
 typedef struct s_client
 {
     int					socket;
     struct sockaddr_in	server_addr;
 	int					unique_id;
+	suseconds_t			last_pulse;
 }   t_client;
 
 void    netclient_init(t_client *client, char *addr, int port);
 void	netclient_poll(t_client *client, t_vars *vars);
 void	netclient_connect(t_client *client, char *username);
 void	netclient_send_pos(t_client *client, t_transform transform);
+
+void	netclient_pulse(t_client *client);
 
 #endif
