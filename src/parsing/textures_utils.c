@@ -6,29 +6,25 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:54:07 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/28 18:54:57 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:33:14 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-char	**create_textures(char *map)
+char	**create_textures(char **map)
 {
-	char 	**textures;
-	int		fd;
+	char	**textures;
 	int		i;
 
-	fd = open(map, O_RDONLY);
 	i = 0;
 	textures = NULL;
 	textures = ft_calloc(5, sizeof(char *));
 	while (i < 4)
 	{
-		textures[i] = get_next_line(fd);
+		textures[i] = map[i];
 		++i;
 	}
-	textures[i] = NULL;
-	close (fd);
 	return (textures);
 }
 
@@ -45,7 +41,6 @@ char	*detect_texture_path(char *path)
 			break ;
 	}
 	++i;
-	path[ft_strlen(path) - 1] = '\0';
 	return (path + i);
 }
 
@@ -59,7 +54,7 @@ t_image	*load_texture(char *textures, char *identifier)
 	if (!image)
 	{
 		printf(RED"ERROR: TGA LOADING FAILED for: %s\n", identifier);
-		printf("Please verify the path: %s\n"WHITE, textures_path);
+		printf("Please verify the path: %s\n"RESET, textures_path);
 		return (false);
 	}
 	return (image);

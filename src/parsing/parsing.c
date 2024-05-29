@@ -6,23 +6,25 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/28 11:36:21 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:30:56 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-char	**create_map(char *path, t_map *map)
+char	**create_map(char **cub_file, t_map *map)
 {
 	char	**maps;
-	char	*line;
+	int		i;
+	int		j;
 
-	maps = NULL;
-	line = NULL;
-	line = read_to_string(path);
-	maps = ft_split(line, '\n');
-	map->width = calc_map_max_width(maps);
-	map->height = calc_map_height(maps);
+	i = 6;
+	j = 0;
+	map->height = calc_map_height(cub_file);
+	maps = ft_calloc(map->height + 1, sizeof(char *));
+	while (cub_file[i])
+		maps[j++] = cub_file[i++];
+	map->width = calc_map_max_width(cub_file);
 	return (maps);
 }
 

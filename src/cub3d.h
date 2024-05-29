@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/29 13:02:48 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:37:46 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define CYAN	"\033[0;36m"
 # define BLACK	"\033[0;30"
 # define WHITE	"\033[0;37m"
+# define RESET "\033[0m"
 
 # include <stdbool.h>
 
@@ -161,18 +162,18 @@ void	bake_map(t_map *map, t_vars *vars);
 void	draw_map(t_r3d *r3d, t_map *map);
 
 char	*read_to_string(char *filename);
-char	**create_map(char *path, t_map *map);
+char	**create_map(char **cub_file, t_map *map);
 bool	is_map_surrounded(char **maps, t_map *map);
 char	**fill_map_with_space(char **map, size_t width, size_t height);
 void	find_player_pos(char **maps, t_map *map);
 int		calc_map_height(char **maps);
 int		calc_map_max_width(char **maps);
-bool	fill_texture(t_map *map, char *maps);
-char	**create_textures(char *map);
+bool	fill_texture(t_map *map, char **maps);
+char	**create_textures(char **map);
 char	*detect_texture_path(char *path);
 t_image	*load_texture(char *textures, char *identifier);
 char	*detect_identifier(char *texture);
-bool 	is_valid_identifier(char *str);
-bool create_material(char *identifier, t_map *map, t_image	*image);
-bool check_all_materials(t_map *map);
+bool 	is_valid_identifier_text(char *str);
+bool 	create_material(char *identifier, t_map *map, t_image	*image);
+bool 	check_all_materials(t_map *map);
 #endif

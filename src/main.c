@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/29 14:12:03 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:38:19 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,10 @@ static void	render_thread(t_vars *vars)
 int	main(int argc, char *argv[])
 {
 	t_vars	vars;
+	char	*line;
+	char	**map_file;
 	char	**map;
-	char	**new_map;
+	char	**map_rectangular;
 
 	(void) argc;
 	vars.r3d = ft_calloc(sizeof(t_r3d), 1);
@@ -132,12 +134,16 @@ int	main(int argc, char *argv[])
 	else
 		vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
 	vars.map = ft_calloc(sizeof(t_map), 1);
-	map = create_map(argv[1], vars.map);
-	new_map = fill_map_with_space(map, vars.map->width, vars.map->height);
-	map_to_tiles(vars.map, new_map);
-	// is_map_surrounded(new_map, vars.map);
-	find_player_pos(new_map, vars.map);
-	fill_texture(vars.map, argv[1]);
+	line = read_to_string(argv[1]);
+	map_file = ft_split(line, '\n');
+	map = create_map(map_file, vars.map);
+	map_rectangular = fill_map_with_space(map, vars.map->width, vars.map->height);
+	map_to_tiles(vars.map, map_rectangular);
+	if (!is_map_surrounded(map_rectangular, vars.map))
+		return 1;
+	find_player_pos(map_rectangular, vars.map);
+	if (!fill_texture(vars.map, map_file))
+		return 1;
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
