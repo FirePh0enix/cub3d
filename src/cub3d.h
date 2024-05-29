@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/29 15:37:46 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/29 18:16:50 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,4 +176,8 @@ char	*detect_identifier(char *texture);
 bool 	is_valid_identifier_text(char *str);
 bool 	create_material(char *identifier, t_map *map, t_image	*image);
 bool 	check_all_materials(t_map *map);
+bool	is_valid_identifier_color(char *str);
+bool	is_valid_rgb(char **colors, t_map *map);
+char	**create_colors(char **map);
+
 #endif

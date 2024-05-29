@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:55:24 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/29 14:02:01 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:42:59 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	is_valid_identifier_text(char *str)
 		return (false);
 }
 
-bool	is_valid_identifier_floor_ceil(char *str)
+bool	is_valid_identifier_color(char *str)
 {
 	if (!ft_strcmp(str, "F"))
 		return (true);

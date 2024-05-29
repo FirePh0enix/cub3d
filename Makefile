@@ -6,11 +6,12 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/05/29 13:50:06 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/05/29 16:02:08 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
+	src/parsing/colors.c \
 	src/parsing/material.c \
 	src/parsing/identifier.c \
 	src/parsing/textures.c \

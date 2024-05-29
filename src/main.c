@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/29 15:38:19 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/29 18:18:14 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int	main(int argc, char *argv[])
 	char	**map_file;
 	char	**map;
 	char	**map_rectangular;
+	char	**colors;
 
 	(void) argc;
 	vars.r3d = ft_calloc(sizeof(t_r3d), 1);
@@ -143,6 +144,9 @@ int	main(int argc, char *argv[])
 		return 1;
 	find_player_pos(map_rectangular, vars.map);
 	if (!fill_texture(vars.map, map_file))
+		return 1;
+	colors = create_colors(map_file);
+	if (!is_valid_rgb(colors, vars.map))
 		return 1;
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);

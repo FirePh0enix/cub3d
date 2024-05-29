@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/29 15:26:48 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/29 16:54:55 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ bool	fill_texture(t_map *map, char **maps)
 			printf("FORMAT SHOULD BE : NO | SO | WE | EA\n"RESET);
 			return (false);
 		}
+		free(identifier);
 		++i;
 	}
 	return (true);
