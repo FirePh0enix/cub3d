@@ -26,7 +26,7 @@ static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars)
 
 	entity = NULL;
 	if (p->entity_type == ENTITY_MESH)
-		entity = (void *) mesh_inst_new(vars, vars->scene, mesh_load_from_obj(vars, p->data), p->entity_id);
+		entity = (void *) mesh_inst_new(vars, vars->scene, mesh_load_from_obj(vars, p->buf), p->entity_id);
 	return (entity);
 }
 

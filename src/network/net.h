@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/28 15:02:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/29 12:04:10 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,15 @@ typedef struct s_packet_pos
 	int		eid;
 }	t_packet_pos;
 
+#define PACKET_NE_BUFFER_SIZE 48
+
 typedef struct s_packet_new_entity
 {
 	int				type;
 	int				entity_id;
 	int				entity_type;
 	t_transform		transform;
-	void			*data;
+	char			buf[PACKET_NE_BUFFER_SIZE];
 }	t_packet_new_entity;
 
 typedef struct s_packet_del_entity

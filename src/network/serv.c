@@ -68,7 +68,7 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	t_packet_new_entity		new_ent;
 	new_ent.type = PACKET_NEW_ENTITY;
 	new_ent.entity_type = ENTITY_MESH;
-	new_ent.data = "assets/enemy.obj";
+	ft_memcpy(new_ent.buf, "assets/enemy.obj", ft_strlen("assets/enemy.obj") + 1);
 	new_ent.entity_id = server->player_id;
 	new_ent.transform = (t_transform){v3(0, 0, 0), v3(0, 0, 0)};
 	netserv_send(server, &new_ent, sizeof(t_packet_new_entity), i);
@@ -87,7 +87,7 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 		printf("new entity\n");
 		new_ent.type = PACKET_NEW_ENTITY;
 		new_ent.entity_type = ENTITY_MESH;
-		new_ent.data = "assets/enemy.obj";
+		ft_memcpy(new_ent.buf, "assets/enemy.obj", ft_strlen("assets/enemy.obj") + 1);
 		new_ent.entity_id = server->clients[i2].entity->id;
 		new_ent.transform = (t_transform){v3(0, 0, 0), v3(0, 0, 0)};
 		netserv_send(server, &new_ent, sizeof(t_packet_new_entity), i);
