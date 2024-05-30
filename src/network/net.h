@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/29 14:32:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:31:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ enum e_packet_type
 	PACKET_PULSE,
 	PACKET_POS,
 	PACKET_NEW_ENTITY,
-	PACKET_DEL_ENTITY
+	PACKET_DEL_ENTITY,
+	PACKET_SYNC_SCOREBOARD,
 };
 
 typedef struct s_packet_connect
@@ -91,6 +92,18 @@ typedef struct s_packet_del_entity
 	int	entity_id;
 }	t_packet_del_entity;
 
+/*
+	Send by the server to the client to update the scoreboard.
+ */
+typedef struct s_packet_sync_score
+{
+	int	type;
+	int	index;
+	int	present;
+	int	kills;
+	int	death;
+}	t_packet_sync_score;
+
 typedef struct s_remote_client
 {
 	int					present;
@@ -116,6 +129,10 @@ void	netserv_broadcast(t_server *server, void *packet_addr, size_t size, int mas
 
 void	netserv_broadcast_pos(t_server *server, t_player *player, int mask);
 void	netserv_broadcast_del(t_server *server, int entity_id, int mask);
+
+typedef struct s_scoreboard	t_scoreboard;
+
+void	netserv_broadcast_scoreboard(t_server *server, t_scoreboard *scoreboard);
 
 typedef struct s_client
 {

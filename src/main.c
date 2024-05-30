@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/29 18:18:14 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:27:46 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,10 @@ static void	loop_hook(t_vars *vars)
 	draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
 
 	if (vars->is_server)
+	{
 		netserv_poll(&vars->server, vars);
+		netserv_broadcast_scoreboard(&vars->server, &vars->scoreboard);
+	}
 	else
 	{
 		netclient_poll(&vars->client, vars);

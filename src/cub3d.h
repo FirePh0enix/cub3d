@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/29 18:16:50 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:40:02 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,35 +40,50 @@
 
 typedef struct s_map	t_map;
 
+typedef struct s_scoreboard_entry
+{
+	char	username[MAX_CLIENT_NAME];
+	int		present;
+	int		kills;
+	int		death;
+}	t_scoreboard_entry;
+
+typedef struct s_scoreboard
+{
+	t_scoreboard_entry	entries[MAX_CLIENT + 1];
+}	t_scoreboard;
+
 typedef struct s_vars
 {
-	void		*mlx;
-	void		*win;
-	t_r3d		*r3d;
-	suseconds_t	last_update;
+	void			*mlx;
+	void			*win;
+	t_r3d			*r3d;
+	suseconds_t		last_update;
 
-	t_scene		*scene;
-	int			entity_id;
-	t_map		*map;
+	t_scene			*scene;
+	int				entity_id;
+	t_map			*map;
 
-	t_panel		*panel;
-	t_font		*font;
+	t_panel			*panel;
+	t_font			*font;
 
-	t_image		*south;
+	t_image			*south;
 
-	bool		*keys;
-	bool		buttons[8];
+	bool			*keys;
+	bool			buttons[8];
 
-	bool		is_server;
-	t_client	client;
-	t_server	server;
+	bool			is_server;
+	t_client		client;
+	t_server		server;
 
-	float		delta_sec;
-	t_v2i		mouse_pos;
+	float			delta_sec;
+	t_v2i			mouse_pos;
 
-	bool		is_focused;
+	bool			is_focused;
 
-	t_mesh		*enemy_mesh;
+	t_mesh			*enemy_mesh;
+
+	t_scoreboard	scoreboard;
 
 #ifdef _USE_RENDER_THREAD
 	pthread_t	render_thread;

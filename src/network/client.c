@@ -75,6 +75,13 @@ void	netclient_poll(t_client *client, t_vars *vars)
 		{
 			client->last_pulse = getms();
 		}
+		else if (type == PACKET_SYNC_SCOREBOARD)
+		{
+			t_packet_sync_score *p = (void *) buf;
+			vars->scoreboard.entries[p->index].kills = p->kills;
+			vars->scoreboard.entries[p->index].death = p->death;
+			vars->scoreboard.entries[p->index].present = p->present;
+		}
 	}
 
 	if (getms() - client->last_pulse >= 500)
