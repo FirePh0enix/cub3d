@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/30 14:31:15 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:39:13 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,19 @@ typedef struct s_packet_del_entity
  */
 typedef struct s_packet_sync_score
 {
-	int	type;
-	int	index;
-	int	present;
-	int	kills;
-	int	death;
+	int		type;
+	int		index;
+	int		present;
+	int		kills;
+	int		death;
+	char	username[MAX_CLIENT_NAME + 1];
 }	t_packet_sync_score;
 
 typedef struct s_remote_client
 {
 	int					present;
 	struct sockaddr_in	addr;
-	char				username[MAX_CLIENT_NAME];
+	char				username[MAX_CLIENT_NAME + 1];
 	t_entity			*entity;
 	suseconds_t			last_pulse;
 }	t_remote_client;

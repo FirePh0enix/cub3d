@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/30 15:27:46 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:18:59 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,18 @@ static void	print_fps(t_vars *vars, suseconds_t delta, suseconds_t frame_time)
 
 #define LIMIT_HIGH 0.0167
 #define LIMIT_LOW  0.0100
+
+static void	print_scoreboard(t_vars *vars)
+{
+	const float		step = 0.1;
+	int				i;
+	float			y;
+
+	y = 0;
+	// while ()
+	// {
+	// }
+}
 
 static void	loop_hook(t_vars *vars)
 {
@@ -162,13 +174,13 @@ int	main(int argc, char *argv[])
 	r3d_init(vars.r3d, vars.mlx, 1280, 720);
 
 	vars.keys = ft_calloc(0xFFFF, sizeof(bool));
+	vars.scoreboard.entries[0].present = 1;
 
 	// vars.panel = gui_panel_new((t_v2){-1.0, -1.0});
 	// vars.panel->bg_color = hex(0xFF000000);
 	// vars.panel->size = (t_v2){0.0, 0.0};
 
 	vars.font = font_load_from_file("assets/JetBrainsMono.tga");
-	vars.south = tga_load_from_file("assets/cobblestone.tga");
 
 	bake_map(vars.map, &vars);
 

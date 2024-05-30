@@ -58,9 +58,11 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	scene_add_entity(vars->scene, mesh);
 
 	server->clients[i].entity = (void *) mesh;
+
 	vars->scoreboard.entries[i + 1].present = 1;
 	vars->scoreboard.entries[i + 1].kills = 0;
 	vars->scoreboard.entries[i + 1].death = 0;
+	ft_memcpy(vars->scoreboard.entries[i + 1].username, conn->username, 16);
 
 	// Send response to the client
 	t_packet_connect_response	packet;
