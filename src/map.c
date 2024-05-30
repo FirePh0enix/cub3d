@@ -5,7 +5,7 @@
 static void	bake_wall(t_vars *vars, int x, int y, t_wall2 *w, t_map *map)
 {
 	const float	x2 = x * WALL_SIZE;
-	const float	y2 = y * WALL_SIZE - map->height * WALL_SIZE;
+	const float	y2 = y * WALL_SIZE;
 	const float	half = WALL_SIZE / 2.0;
 
 	(void) vars;

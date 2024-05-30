@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/29 15:30:56 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:24:25 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	map_to_tiles(t_map *map, char **maps)
 		j = 0;
 		while (maps[i][j])
 		{
-			if (maps[i][j] == ' ' || maps[i][j] == '0')
+			if (maps[i][j] != '1')
 				map->tiles[tile_index] = TILE_EMPTY;
 			else
 				map->tiles[tile_index] = TILE_FULL;

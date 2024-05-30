@@ -6,12 +6,11 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/29 18:16:36 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/29 18:18:46 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-#include "libft.h"
 
 void	putstr_sep(char *str, char n)
 {

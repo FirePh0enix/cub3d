@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/28 12:30:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:34:05 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_player	*player_new(t_vars *vars, t_scene *scene, int id)
 	player->base.transform = (t_transform){};
 	player->base.scene = scene;
 	player->camera = ft_calloc(1, sizeof(t_camera));
-	player->velocity = v3(0, 0, 0);
+	player->base.velocity = v3(0, 0, 0);
 	return (player);
 }
 
@@ -47,26 +47,28 @@ void	player_tick(t_vars *vars, t_player *player)
 	if (!vars->is_focused)
 		return ;
 	if (vars->keys[XK_w])
-		player->velocity = v3_add(player->velocity, v3_scale(forward, speed));
+		player->base.velocity = v3_add(player->base.velocity, v3_scale(forward, speed));
 	if (vars->keys[XK_s])
-		player->velocity = v3_sub(player->velocity, v3_scale(forward, speed));
+		player->base.velocity = v3_sub(player->base.velocity, v3_scale(forward, speed));
 	if (vars->keys[XK_a])
-		player->velocity = v3_add(player->velocity, v3_scale(left, speed));
+		player->base.velocity = v3_add(player->base.velocity, v3_scale(left, speed));
 	if (vars->keys[XK_d])
-		player->velocity = v3_sub(player->velocity, v3_scale(left, speed));
+		player->base.velocity = v3_sub(player->base.velocity, v3_scale(left, speed));
 
 	if (vars->keys[XK_space] && !player->has_jump)
 	{
-		player->velocity.y += jump_force;
+		player->base.velocity.y += jump_force;
 		player->has_jump = true;
 	}
 	else if (!vars->keys[XK_space])
 		player->has_jump = false;
 
 	if (player->base.transform.position.y > 0)
-		player->velocity.y -= 0.8;
+		player->base.velocity.y -= 0.8;
+	
+	adjust_player_pos(player, vars->map);
 
-	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->velocity, vars->delta_sec));
+	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
 
 	if (player->base.transform.position.y < 0)
 		player->base.transform.position.y = 0;
@@ -74,8 +76,8 @@ void	player_tick(t_vars *vars, t_player *player)
 	player->camera->position = v3_add(player->base.transform.position,
 		camera_offset);
 
-	player->velocity.x = 0;
-	player->velocity.z = 0;
+	player->base.velocity.x = 0;
+	player->base.velocity.z = 0;
 	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2.0, 720 / 2.0);
 
 	if (!vars->is_server)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/30 16:18:59 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:00:53 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,8 @@ int	main(int argc, char *argv[])
 	map = create_map(map_file, vars.map);
 	map_rectangular = fill_map_with_space(map, vars.map->width, vars.map->height);
 	map_to_tiles(vars.map, map_rectangular);
-	if (!is_map_surrounded(map_rectangular, vars.map))
-		return 1;
+	// if (!is_map_surrounded(map_rectangular, vars.map))
+		// return 1;
 	find_player_pos(map_rectangular, vars.map);
 	if (!fill_texture(vars.map, map_file))
 		return 1;

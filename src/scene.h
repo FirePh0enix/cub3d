@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/29 13:41:39 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/30 13:22:43 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,22 @@ typedef struct s_entity
 {
 	uint32_t	type;
 	int			id;
+	float		width;
+	float		height;
+	float		depth;
 	t_draw_hook	draw;
 	t_tick_hook	tick;
 
 	t_scene		*scene;
 	t_transform	transform;
+
+	t_v3		velocity;
 }	t_entity;
 
 typedef struct s_player
 {
 	t_entity	base;
 	t_camera	*camera;
-
-	t_v3		velocity;
 	bool		has_jump;
 }	t_player;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/30 14:40:02 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:00:36 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,18 +159,15 @@ typedef struct s_map
 
 	t_wall2		*walls;
 	int			*tiles;
-
-	/*
-		POS - v3(x * WALL_SIZE, 0, y * WALL_SIZE)
-		ROTATION:
-		- N - v3(0, 0, 0)
-		- S - v3(0, M_PI, 0)
-		- W - v3(0, M_PI / 2, 0)
-		- E - v3(0, 3 * M_PI / 2, 0)
-	 */
 	t_transform	spawns[MAX_CLIENT];
 	int			spawn_count;
 }	t_map;
+
+typedef struct s_box
+{
+	t_v3 min;
+	t_v3 max;
+}			t_box;
 
 void	map_to_tiles(t_map *map, char **maps);
 void	bake_map(t_map *map, t_vars *vars);
