@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
+#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/05/30 15:23:14 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/05/31 12:34:42 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SOURCES=\
 	src/wall.c \
 	src/entities/mesh_inst.c \
 	src/entities/player.c \
+	src/entities/door.c \
 	src/gui/panel.c \
 	src/network/serv.c \
 	src/network/serv_send.c \

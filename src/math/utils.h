@@ -32,4 +32,9 @@ inline float	clampf(float f, float min, float max)
 	return (max2(min, min2(f, max)));
 }
 
+inline float	lerpf(float a, float b, float t)
+{
+	return (a + t * (b - a));
+}
+
 #endif

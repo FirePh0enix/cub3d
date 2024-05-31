@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/31 11:55:48 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/31 12:38:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ int	main(int argc, char *argv[])
 	bake_map(vars.map, &vars);
 
 	vars.enemy_mesh = mesh_load_from_obj(&vars, "assets/enemy.obj");
+	vars.half_door = mesh_load_from_obj(&vars, "assets/HalfDoor.obj");
 
 	vars.scene = create_scene();
 
@@ -214,6 +215,11 @@ int	main(int argc, char *argv[])
 	player->base.transform.position = v3(3.0, 0.0, -3.0);
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
+
+	t_door	*door = door_new(&vars, vars.scene, vars.half_door, next_entity_id(&vars));
+	door->base.transform.position.z = -4.0;
+	door->base.transform.position.y = 1.5;
+	scene_add_entity(vars.scene, door);
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 

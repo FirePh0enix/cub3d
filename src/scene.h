@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/30 13:22:43 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/31 12:29:42 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ typedef void	(*t_tick_hook)(t_vars *vars, void *entity);
 enum e_type
 {
 	ENTITY_PLAYER,
-	ENTITY_MESH
+	ENTITY_MESH,
+	ENTITY_DOOR
 };
 
 typedef struct s_entity
@@ -62,6 +63,16 @@ typedef struct s_mesh_inst
 }	t_mesh_inst;
 
 t_mesh_inst	*mesh_inst_new(t_vars *vars, t_scene *scene, t_mesh *mesh, int id);
+
+typedef struct s_door
+{
+	t_entity	base;
+	t_mesh		*mesh;
+	float		angle;
+	float		target_angle;
+}	t_door;
+
+t_door	*door_new(t_vars *vars, t_scene *scene, t_mesh *mesh, int id);
 
 /* Scene definition */
 

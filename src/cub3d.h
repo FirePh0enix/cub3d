@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/31 11:57:44 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/31 12:25:27 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ typedef struct s_vars
 	t_panel			*panel;
 	t_font			*font;
 
-	t_image			*south;
-
 	bool			*keys;
 	bool			buttons[8];
 
@@ -82,6 +80,7 @@ typedef struct s_vars
 	bool			is_focused;
 
 	t_mesh			*enemy_mesh;
+	t_mesh			*half_door;
 
 	t_scoreboard	scoreboard;
 

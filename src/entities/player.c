@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/31 12:01:48 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:18:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,18 @@ t_player	*player_new(t_vars *vars, t_scene *scene, int id)
 	return (player);
 }
 
+static bool	is_on_ground(t_player *player)
+{
+	return (player->base.transform.position.y == 0);
+}
+
 void	player_tick(t_vars *vars, t_player *player)
 {
 	const t_v3	camera_offset = v3(0.0, 1.6, 0.0);
 	const t_v3	forward = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(0, 0, -1.0)));
 	const t_v3	left = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(-1.0, 0, 0)));
 	const float	speed = 15.0;
+	const float	air_speed = 3.0;
 	const float	jump_force = 20.0;
 
 	if (!vars->is_focused)
@@ -55,16 +61,16 @@ void	player_tick(t_vars *vars, t_player *player)
 	if (vars->keys[XK_d])
 		player->base.velocity = v3_sub(player->base.velocity, v3_scale(left, speed));
 
-	if (vars->keys[XK_space] && !player->has_jump)
+	if (vars->keys[XK_space] && !player->has_jump && is_on_ground(player))
 	{
 		player->base.velocity.y += jump_force;
 		player->has_jump = true;
 	}
-	else if (!vars->keys[XK_space] && player->base.transform.position.y == 0)
+	else if (!vars->keys[XK_space] && is_on_ground(player))
 		player->has_jump = false;
 
 	player->base.velocity.y -= 0.8;
-	adjust_player_pos(player, vars->map);
+	// adjust_player_pos(player, vars->map);
 
 	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
 
@@ -77,8 +83,8 @@ void	player_tick(t_vars *vars, t_player *player)
 	player->camera->position = v3_add(player->base.transform.position,
 		camera_offset);
 
-	player->base.velocity.x = 0;
-	player->base.velocity.z = 0;
+	player->base.velocity.x *= 0.5;
+	player->base.velocity.z *= 0.5;
 	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2.0, 720 / 2.0);
 
 	if (!vars->is_server)
