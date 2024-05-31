@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:25:15 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/30 15:26:45 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/31 11:53:57 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ void	netserv_broadcast_scoreboard(t_server *server, t_scoreboard *scoreboard)
 	p.kills = scoreboard->entries[0].kills;
 	p.death = scoreboard->entries[0].death;
 	netserv_broadcast(server, &p, sizeof(t_packet_sync_score), -1);
-	i = -1;
-	while (++i < MAX_CLIENT)
+	i = 0;
+	while (i < MAX_CLIENT + 1)
 	{
-		p.index = i + 1;
+		p.index = i;
 		p.present = scoreboard->entries[i].present;
 		p.kills = scoreboard->entries[i].kills;
 		p.death = scoreboard->entries[i].death;
 		netserv_broadcast(server, &p, sizeof(t_packet_sync_score), -1);
+		i++;
 	}
 }

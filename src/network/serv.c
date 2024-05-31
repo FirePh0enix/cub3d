@@ -141,6 +141,7 @@ static void	disconnect(t_server *server, int i, t_vars *vars)
 	client->present = 0;
 	netserv_broadcast_del(server, client->entity->id, i);
 	scene_remove_entity(vars->scene, client->entity);
+	vars->scoreboard.entries[i + 1].present = 0;
 	free(client->entity);
 	ft_printf("Player %s has timed out\n", client->username);
 }

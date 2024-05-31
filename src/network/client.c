@@ -82,6 +82,8 @@ void	netclient_poll(t_client *client, t_vars *vars)
 			vars->scoreboard.entries[p->index].death = p->death;
 			vars->scoreboard.entries[p->index].present = p->present;
 			ft_memcpy(vars->scoreboard.entries[p->index].username, p->username, 16);
+
+			printf("dweldlwkdkwjedwd\n");
 		}
 	}
 

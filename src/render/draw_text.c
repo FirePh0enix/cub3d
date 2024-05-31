@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:04:21 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/04/08 16:30:03 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/05/31 11:50:44 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ static t_v2i	screen_coords(t_r3d *r3d, t_v2 v)
 	ov.x = (1 + v.x) * 0.5 * r3d->width;
 	ov.y = (1 + v.y) * 0.5 * r3d->height;
 	return (ov);
+}
+
+static float	to_ndc_float(t_r3d *r3d, int i)
+{
+	float	f;
+
+	// ov.x = (1 + v.x) * 0.5 * r3d->width;
+	// ov.y = (1 + v.y) * 0.5 * r3d->height;
+	f = ((float)i / r3d->width / 0.5) - 1;
+	return (f);
 }
 
 static t_color    blend_colors(t_color a, t_color b, float ratio)
@@ -81,4 +91,27 @@ void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos)
 		spos.x += ch.xadvance;
 		i++;
 	}
+}
+
+float	r3d_get_text_size(t_r3d *r3d, t_font *font, char *text)
+{
+	const size_t	size = ft_strlen(text);
+	int				x;
+	size_t			i;
+	t_bakedchar		ch;
+
+	x = 0;
+	i = 0;
+	while (i < size)
+	{
+		if (text[i] < 0 || text[i] > 126)
+		{
+			i++;
+			continue ;
+		}
+		ch = font->chars[(int) text[i]];
+		x += ch.xadvance;
+		i++;
+	}
+	return (to_ndc_float(r3d, x));
 }

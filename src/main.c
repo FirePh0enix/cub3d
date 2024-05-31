@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/30 18:00:53 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/31 11:55:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <netinet/in.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -57,11 +58,20 @@ static void	print_scoreboard(t_vars *vars)
 	const float		step = 0.1;
 	int				i;
 	float			y;
+	char			buf[128];
 
-	y = 0;
-	// while ()
-	// {
-	// }
+	i = 0;
+	y = -1.0;
+	while (i < MAX_CLIENT + 1)
+	{
+		if (vars->scoreboard.entries[i].present)
+		{
+			ft_sprintf(buf, "%s | %d | %d", vars->scoreboard.entries[i].username, vars->scoreboard.entries[i].kills, vars->scoreboard.entries[i].death);
+			r3d_draw_text(vars->r3d, vars->font, buf, (t_v2){r3d_get_text_size(vars->r3d, vars->font, buf) / 2.0, y});
+		}
+		y += step;
+		i++;
+	}
 }
 
 static void	loop_hook(t_vars *vars)
@@ -100,6 +110,9 @@ static void	loop_hook(t_vars *vars)
 
 	r3d_draw_walls(vars->r3d, vars->map);
 	print_fps(vars, delta, getms() - vars->last_update);
+
+	if (vars->keys[XK_Tab])
+		print_scoreboard(vars);
 
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 #else
@@ -140,6 +153,7 @@ int	main(int argc, char *argv[])
 	char	**colors;
 
 	(void) argc;
+	ft_bzero(&vars, sizeof(t_vars));
 	vars.r3d = ft_calloc(sizeof(t_r3d), 1);
 	vars.last_update = 0;
 	vars.mlx = mlx_init();
@@ -205,15 +219,17 @@ int	main(int argc, char *argv[])
 
 	vars.r3d->camera = vars.scene->player->camera;
 
-	if (argc == 3 && !ft_strcmp(argv[2], "host"))
+	if (argc == 4 && !ft_strcmp(argv[2], "host"))
 	{
 		vars.is_server = true;
 		netserv_init(&vars.server, &vars, SERVER_PORT);
+		strncpy(vars.scoreboard.entries[0].username, argv[3], 16);
 	}
-	else if (argc == 3 && !ft_strcmp(argv[2], "local-host"))
+	else if (argc == 4 && !ft_strcmp(argv[2], "local-host"))
 	{
 		vars.is_server = true;
 		netserv_init(&vars.server, &vars, SERVER_LOCAL_PORT);
+		strncpy(vars.scoreboard.entries[0].username, argv[3], 16);
 	}
 	else if (argc == 5 && !ft_strcmp(argv[2], "connect"))
 	{
