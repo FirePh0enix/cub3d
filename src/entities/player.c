@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/30 15:34:05 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/05/31 12:01:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	player_tick(t_vars *vars, t_player *player)
 	const t_v3	camera_offset = v3(0.0, 1.6, 0.0);
 	const t_v3	forward = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(0, 0, -1.0)));
 	const t_v3	left = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(-1.0, 0, 0)));
-	const float	speed = 5.0;
+	const float	speed = 15.0;
 	const float	jump_force = 20.0;
 
 	if (!vars->is_focused)
@@ -60,18 +60,19 @@ void	player_tick(t_vars *vars, t_player *player)
 		player->base.velocity.y += jump_force;
 		player->has_jump = true;
 	}
-	else if (!vars->keys[XK_space])
+	else if (!vars->keys[XK_space] && player->base.transform.position.y == 0)
 		player->has_jump = false;
 
-	if (player->base.transform.position.y > 0)
-		player->base.velocity.y -= 0.8;
-	
+	player->base.velocity.y -= 0.8;
 	adjust_player_pos(player, vars->map);
 
 	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
 
 	if (player->base.transform.position.y < 0)
+	{
 		player->base.transform.position.y = 0;
+		player->base.velocity.y = 0;
+	}
 
 	player->camera->position = v3_add(player->base.transform.position,
 		camera_offset);
