@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:52:52 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/30 16:30:22 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:22:08 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 #include "math/v3.h"
 #include "render/render.h"
 #include "scene.h"
+#include <X11/Xlib.h>
 #include <complex.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 bool	collide(t_box a, t_box b)
 {
@@ -60,8 +63,8 @@ t_box	box_from_wall(int x, int y)
 
 	box.min.x = x * WALL_SIZE - WALL_SIZE / 2;
 	box.max.x = x * WALL_SIZE + WALL_SIZE / 2;
-	box.min.y = -WALL_SIZE / 2;
-	box.max.y = +WALL_SIZE / 2;
+	box.min.y = WALL_SIZE / 2 - WALL_SIZE / 2;
+	box.max.y =  WALL_SIZE / 2 + WALL_SIZE / 2;
 	box.min.z = y * WALL_SIZE - WALL_SIZE / 2;
 	box.max.z = y * WALL_SIZE + WALL_SIZE / 2;
 	return (box);
@@ -76,7 +79,7 @@ bool	collide_with_wall(t_entity *player, t_map *map, int x, int y)
 	t = map->tiles[x + y * map->width];
 	if (t == TILE_FULL)
 	{
-		player_box = box_from_velocity(player);
+		player_box = box_from_entity(player);
 		tile_box = box_from_wall(x, y);
 		if (collide(player_box, tile_box))
 			return (true);
@@ -110,29 +113,54 @@ bool collide_with_map(t_player *player, t_map *map)
 void	adjust_player_pos(t_player *player, t_map *map)
 {
 	const float	precision = 0.01;
+	bool	vx_positive = player->base.velocity.x > 0;
+	bool	vy_positive = player->base.velocity.y > 0;
+	bool	vz_positive = player->base.velocity.z > 0;
+	bool	collide;
 
-	while (collide_with_map(player, map))
+	printf("X = %f Y = %f Z = %f\n", player->base.velocity.x, player->base.velocity.y, player->base.velocity.z);
+
+	collide = collide_with_map(player, map);
+	while (((vx_positive && player->base.velocity.x > 0) || (!vx_positive && player->base.velocity.x < 0)) && collide)
 	{
-		printf(CYAN"COLLIDE X\n"RESET);
-		if (player->base.velocity.x > 0)
+		vx_positive = player->base.velocity.x;
+		if (vx_positive)
 			player->base.velocity.x -= precision;
-		else if (player->base.velocity.x < 0)
+		else
 			player->base.velocity.x += precision;
+		collide = collide_with_map(player, map);
 	}
-	while (collide_with_map(player, map))
+
+	// if ((vx_positive && player->base.velocity.x < 0) || (!vx_positive && player->base.velocity.x > 0))
+	// 	player->base.velocity.x = 0;
+
+
+	collide = collide_with_map(player, map);
+	while (((vy_positive && player->base.velocity.y > 0) || (!vy_positive && player->base.velocity.y < 0)) && collide)
 	{
-		printf(CYAN"COLLIDE Y\n"RESET);
-		if (player->base.velocity.y > 0)
+		vy_positive = player->base.velocity.y;
+		if (vy_positive)
 			player->base.velocity.y -= precision;
-		else if (player->base.velocity.y < 0)
+		else
 			player->base.velocity.y += precision;
+		collide = collide_with_map(player, map);
 	}
-	while (collide_with_map(player, map))
+	// if ((vy_positive && player->base.velocity.y < 0) || (!vy_positive && player->base.velocity.y > 0))
+	// 	player->base.velocity.y = 0;
+
+
+	collide = collide_with_map(player, map);
+	while (((vz_positive && player->base.velocity.z > 0) || (!vz_positive && player->base.velocity.z < 0)) && collide)
 	{
-		printf(CYAN"COLLIDE Z\n"RESET);
-		if (player->base.velocity.z > 0)
+		vz_positive = player->base.velocity.z;
+		if (vz_positive)
 			player->base.velocity.z -= precision;
-		else if (player->base.velocity.z < 0)
+		else
 			player->base.velocity.z += precision;
+		collide = collide_with_map(player, map);
 	}
+
+	// if ((vz_positive && player->base.velocity.z < 0) || (!vz_positive && player->base.velocity.z > 0))
+	// 	player->base.velocity.z = 0;
+
 }
