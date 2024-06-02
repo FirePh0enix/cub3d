@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:52:52 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/02 16:17:32 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:37:08 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <complex.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <unistd.h>
 
 bool	collide(t_box a, t_box b)
 {
@@ -76,10 +77,10 @@ t_box	box_from_velocity_z(t_entity *entity)
 	const t_v3	vel = entity->velocity;
 	t_box		box;
 
-	box.min.x = entity->transform.position.x - entity->width / 2;
-	box.max.x = entity->transform.position.x + entity->width / 2;
-	box.min.y = entity->transform.position.y - entity->height / 2;
-	box.max.y = entity->transform.position.y + entity->height / 2;
+	box.min.x = entity->transform.position.x - entity->width;
+	box.max.x = entity->transform.position.x + entity->width;
+	box.min.y = entity->transform.position.y - entity->height;
+	box.max.y = entity->transform.position.y + entity->height;
 	box.min.z = entity->transform.position.z + vel.z - entity->depth / 2;
 	box.max.z = entity->transform.position.z + vel.z + entity->depth / 2;
 	return (box);
@@ -98,24 +99,20 @@ t_box	box_from_wall(int x, int y)
 	return (box);
 }
 
-bool	collide_with_wall(t_box player, t_map *map, int x, int y)
+bool	collide_with_wall(t_box player, int x, int y)
 {
-	int			t;
 	t_box		tile_box;
 
-	t = map->tiles[x + y * map->width];
-	if (t == TILE_FULL)
-	{
-		tile_box = box_from_wall(x, y);
-		printf(YELLOW"MAP X = %f %f\n"WHITE, tile_box.min.x, tile_box.max.x);
-		printf(YELLOW"MAP Y = %f %f\n"WHITE, tile_box.min.y, tile_box.max.y);
-		printf(YELLOW"MAP Z = %f %f\n"WHITE, tile_box.min.z, tile_box.max.z);
-		printf(CYAN"PLAYER X = %f %f\n"WHITE, player.min.x, player.max.x);
-		printf(CYAN"PLAYER Y = %f %f\n"WHITE, player.min.y, player.max.y);
-		printf(CYAN"PLAYER Z = %f %f\n"WHITE, player.min.z, player.max.z);
-		if (collide(player, tile_box))
-			return (true);
-	}
+	tile_box = box_from_wall(x, y);
+	printf(YELLOW"MAP X = %f %f\n"WHITE, tile_box.min.x, tile_box.max.x);
+	printf(YELLOW"MAP Y = %f %f\n"WHITE, tile_box.min.y, tile_box.max.y);
+	printf(YELLOW"MAP Z = %f %f\n"WHITE, tile_box.min.z, tile_box.max.z);
+	printf("---------------\n");
+	printf(CYAN"PLAYER X = %f %f\n"WHITE, player.min.x, player.max.x);
+	printf(CYAN"PLAYER Y = %f %f\n"WHITE, player.min.y, player.max.y);
+	printf(CYAN"PLAYER Z = %f %f\n"WHITE, player.min.z, player.max.z);
+	if (collide(player, tile_box))
+		return (true);
 	return (false);
 }
 
@@ -132,7 +129,7 @@ bool collide_with_map(t_box player, t_map *map)
 		{
 			if (map->tiles[x + y * map->width] == TILE_FULL)
 			{
-				if (collide_with_wall(player, map, x, y))
+				if (collide_with_wall(player, x, y))
 					return (true);
 			}
 			x++;
@@ -169,7 +166,7 @@ void	adjust_player_pos(t_player *player, t_map *map)
 		else
 			vx += precision;
 	}
-	if ((vx_positive && player->base.velocity.x < 0) || (!vx_positive && player->base.velocity.x > 0))
+	if ((vx_positive && vx < 0) || (!vx_positive && vx > 0))
 		vx = 0;
 	player->base.velocity.x = vx;
 
@@ -185,7 +182,7 @@ void	adjust_player_pos(t_player *player, t_map *map)
 		else
 			vy += precision;
 	}
-	if ((vy_positive && player->base.velocity.y < 0) || (!vy_positive && player->base.velocity.y > 0))
+	if ((vy_positive && vy < 0) || (!vy_positive && vy > 0))
 		vy = 0;
 	player->base.velocity.y = vy;
 
@@ -201,8 +198,7 @@ void	adjust_player_pos(t_player *player, t_map *map)
 		else
 			vz += precision;
 	}
-	if ((vz_positive && player->base.velocity.z < 0) || (!vz_positive && player->base.velocity.z > 0))
+	if ((vz_positive && vz < 0) || (!vz_positive && vz > 0))
 		vz = 0;
 	player->base.velocity.z = vz;
-
 }

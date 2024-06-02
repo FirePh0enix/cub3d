@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/02 16:18:18 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:40:00 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ t_player	*player_new(t_vars *vars, t_scene *scene, int id)
 	player->camera = ft_calloc(1, sizeof(t_camera));
 	player->base.velocity = v3(0, 0, 0);
 	player->base.height = 2;
-	player->base.width = 2;
-	player->base.depth = 2;
+	player->base.width = 1.5;
+	player->base.depth = 1.5;
 	return (player);
 }
 
@@ -49,7 +49,7 @@ void	player_tick(t_vars *vars, t_player *player)
 	const t_v3	camera_offset = v3(0.0, 1.6, 0.0);
 	const t_v3	forward = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(0, 0, -1.0)));
 	const t_v3	left = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(-1.0, 0, 0)));
-	const float	speed = 2.0;
+	const float	speed = 3.0;
 	const float	air_speed = 3.0;
 	const float	jump_force = 20.0;
 
@@ -73,7 +73,7 @@ void	player_tick(t_vars *vars, t_player *player)
 		player->has_jump = false;
 
 	player->base.velocity.y -= 0.8;
-	
+
 	adjust_player_pos(player, vars->map);
 
 	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
