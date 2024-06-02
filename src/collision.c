@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:52:52 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/02 17:37:08 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:10:30 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,18 @@ bool	collide_with_wall(t_box player, int x, int y)
 	t_box		tile_box;
 
 	tile_box = box_from_wall(x, y);
-	printf(YELLOW"MAP X = %f %f\n"WHITE, tile_box.min.x, tile_box.max.x);
-	printf(YELLOW"MAP Y = %f %f\n"WHITE, tile_box.min.y, tile_box.max.y);
-	printf(YELLOW"MAP Z = %f %f\n"WHITE, tile_box.min.z, tile_box.max.z);
-	printf("---------------\n");
-	printf(CYAN"PLAYER X = %f %f\n"WHITE, player.min.x, player.max.x);
-	printf(CYAN"PLAYER Y = %f %f\n"WHITE, player.min.y, player.max.y);
-	printf(CYAN"PLAYER Z = %f %f\n"WHITE, player.min.z, player.max.z);
+
 	if (collide(player, tile_box))
+	{
+		printf(YELLOW"MAP X = %f %f\n"WHITE, tile_box.min.x, tile_box.max.x);
+		printf(YELLOW"MAP Y = %f %f\n"WHITE, tile_box.min.y, tile_box.max.y);
+		printf(YELLOW"MAP Z = %f %f\n"WHITE, tile_box.min.z, tile_box.max.z);
+		printf("--------------------------\n\n");
+		printf(CYAN"PLAYER X = %f %f\n"WHITE, player.min.x, player.max.x);
+		printf(CYAN"PLAYER Y = %f %f\n"WHITE, player.min.y, player.max.y);
+		printf(CYAN"PLAYER Z = %f %f\n"WHITE, player.min.z, player.max.z);
 		return (true);
+	}
 	return (false);
 }
 
@@ -141,64 +144,70 @@ bool collide_with_map(t_box player, t_map *map)
 
 void	adjust_player_pos(t_player *player, t_map *map)
 {
-	const float	precision = 0.01;
+	// const float	precision = 0.01;
 
-	const bool	vx_positive = player->base.velocity.x > 0;
-	const bool	vy_positive = player->base.velocity.y > 0;
-	const bool	vz_positive = player->base.velocity.z > 0;
+	// const bool	vx_positive = player->base.velocity.x > 0;
+	// const bool	vy_positive = player->base.velocity.y > 0;
+	// const bool	vz_positive = player->base.velocity.z > 0;
 
-	float	vx;
-	float	vy;
-	float	vz;
+	// float	vx;
+	// float	vy;
+	// float	vz;
 
 	bool	collide;
 	t_box player_box;
 
 // COLLISION ON X AXIS
-	vx = player->base.velocity.x;
+	// vx = player->base.velocity.x;
 	player_box = box_from_velocity_x(&player->base);
 	collide = collide_with_map(player_box, map);
-	while (((vx_positive && vx > 0) || (!vx_positive && vx < 0)) && collide)
-	{
-		printf(CYAN"COLLIDE X\n"WHITE);
-		if (vx_positive)
-			vx -= precision;
-		else
-			vx += precision;
-	}
-	if ((vx_positive && vx < 0) || (!vx_positive && vx > 0))
-		vx = 0;
-	player->base.velocity.x = vx;
+	if (collide)
+		printf("collide x\n");
+	// while (((vx_positive && vx > 0) || (!vx_positive && vx < 0)) && collide)
+	// {
+	// 	printf(CYAN"COLLIDE X\n"WHITE);
+	// 	if (vx_positive)
+	// 		vx -= precision;
+	// 	else
+	// 		vx += precision;
+	// }
+	// if ((vx_positive && vx < 0) || (!vx_positive && vx > 0))
+	// 	vx = 0;
+	// player->base.velocity.x = vx;
 
 // COLLISION ON Y AXIS
-	vy = player->base.velocity.y;
+	// vy = player->base.velocity.y;
 	player_box = box_from_velocity_y(&player->base);
 	collide = collide_with_map(player_box, map);
-	while (((vy_positive && vy > 0) || (!vy_positive && vy < 0)) && collide)
-	{
-		printf(CYAN"COLLIDE Y\n"WHITE);
-		if (vy_positive)
-			vy -= precision;
-		else
-			vy += precision;
-	}
-	if ((vy_positive && vy < 0) || (!vy_positive && vy > 0))
-		vy = 0;
-	player->base.velocity.y = vy;
+	if (collide)
+		printf("collide y\n");
+	// while (((vy_positive && vy > 0) || (!vy_positive && vy < 0)) && collide)
+	// {
+	// 	printf(CYAN"COLLIDE Y\n"WHITE);
+	// 	if (vy_positive)
+	// 		vy -= precision;
+	// 	else
+	// 		vy += precision;
+	// }
+	// if ((vy_positive && vy < 0) || (!vy_positive && vy > 0))
+	// 	vy = 0;
+	// player->base.velocity.y = vy;
 
 // COLLISION ON Z AXIS
-	vz = player->base.velocity.z;
+	// vz = player->base.velocity.z;
 	player_box = box_from_velocity_z(&player->base);
 	collide = collide_with_map(player_box, map);
-	while (((vz_positive && vz > 0) || (!vz_positive && vz < 0)) && collide)
-	{
-		printf(CYAN"COLLIDE Z\n"WHITE);
-		if (vz_positive)
-			vz -= precision;
-		else
-			vz += precision;
-	}
-	if ((vz_positive && vz < 0) || (!vz_positive && vz > 0))
-		vz = 0;
-	player->base.velocity.z = vz;
+	if (collide)
+		printf("collide z\n");
+	// while (((vz_positive && vz > 0) || (!vz_positive && vz < 0)) && collide)
+	// {
+	// 	printf(CYAN"COLLIDE Z\n"WHITE);
+	// 	if (vz_positive)
+	// 		vz -= precision;
+	// 	else
+	// 		vz += precision;
+	// }
+	// if ((vz_positive && vz < 0) || (!vz_positive && vz > 0))
+	// 	vz = 0;
+	// player->base.velocity.z = vz;
 }

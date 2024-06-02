@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/02 17:40:00 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:04:08 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	player_tick(t_vars *vars, t_player *player)
 	const t_v3	camera_offset = v3(0.0, 1.6, 0.0);
 	const t_v3	forward = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(0, 0, -1.0)));
 	const t_v3	left = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(-1.0, 0, 0)));
-	const float	speed = 3.0;
+	const float	speed = 15.0;
 	const float	air_speed = 3.0;
 	const float	jump_force = 20.0;
 
