@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:52:52 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/01 17:42:19 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:17:32 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_box	box_from_velocity_x(t_entity *entity)
 	const t_v3	vel = entity->velocity;
 	t_box		box;
 
-	box.min.x = entity->transform.position.x - vel.x - entity->width / 2;
+	box.min.x = entity->transform.position.x + vel.x - entity->width / 2;
 	box.max.x = entity->transform.position.x + vel.x + entity->width / 2;
 	box.min.y = entity->transform.position.y - entity->height / 2;
 	box.max.y = entity->transform.position.y + entity->height / 2;
@@ -64,7 +64,7 @@ t_box	box_from_velocity_y(t_entity *entity)
 
 	box.min.x = entity->transform.position.x - entity->width / 2;
 	box.max.x = entity->transform.position.x + entity->width / 2;
-	box.min.y = entity->transform.position.y - vel.y - entity->height / 2;
+	box.min.y = entity->transform.position.y + vel.y - entity->height / 2;
 	box.max.y = entity->transform.position.y + vel.y + entity->height / 2;
 	box.min.z = entity->transform.position.z - entity->depth / 2;
 	box.max.z = entity->transform.position.z + entity->depth / 2;
@@ -80,7 +80,7 @@ t_box	box_from_velocity_z(t_entity *entity)
 	box.max.x = entity->transform.position.x + entity->width / 2;
 	box.min.y = entity->transform.position.y - entity->height / 2;
 	box.max.y = entity->transform.position.y + entity->height / 2;
-	box.min.z = entity->transform.position.z - vel.z - entity->depth / 2;
+	box.min.z = entity->transform.position.z + vel.z - entity->depth / 2;
 	box.max.z = entity->transform.position.z + vel.z + entity->depth / 2;
 	return (box);
 }
@@ -92,7 +92,7 @@ t_box	box_from_wall(int x, int y)
 	box.min.x = x * WALL_SIZE - WALL_SIZE / 2;
 	box.max.x = x * WALL_SIZE + WALL_SIZE / 2;
 	box.min.y = WALL_SIZE / 2 - WALL_SIZE / 2;
-	box.max.y =  WALL_SIZE / 2 + WALL_SIZE / 2;
+	box.max.y = WALL_SIZE / 2 + WALL_SIZE / 2;
 	box.min.z = y * WALL_SIZE - WALL_SIZE / 2;
 	box.max.z = y * WALL_SIZE + WALL_SIZE / 2;
 	return (box);
@@ -107,6 +107,12 @@ bool	collide_with_wall(t_box player, t_map *map, int x, int y)
 	if (t == TILE_FULL)
 	{
 		tile_box = box_from_wall(x, y);
+		printf(YELLOW"MAP X = %f %f\n"WHITE, tile_box.min.x, tile_box.max.x);
+		printf(YELLOW"MAP Y = %f %f\n"WHITE, tile_box.min.y, tile_box.max.y);
+		printf(YELLOW"MAP Z = %f %f\n"WHITE, tile_box.min.z, tile_box.max.z);
+		printf(CYAN"PLAYER X = %f %f\n"WHITE, player.min.x, player.max.x);
+		printf(CYAN"PLAYER Y = %f %f\n"WHITE, player.min.y, player.max.y);
+		printf(CYAN"PLAYER Z = %f %f\n"WHITE, player.min.z, player.max.z);
 		if (collide(player, tile_box))
 			return (true);
 	}
@@ -166,6 +172,7 @@ void	adjust_player_pos(t_player *player, t_map *map)
 	if ((vx_positive && player->base.velocity.x < 0) || (!vx_positive && player->base.velocity.x > 0))
 		vx = 0;
 	player->base.velocity.x = vx;
+
 // COLLISION ON Y AXIS
 	vy = player->base.velocity.y;
 	player_box = box_from_velocity_y(&player->base);
@@ -197,5 +204,5 @@ void	adjust_player_pos(t_player *player, t_map *map)
 	if ((vz_positive && player->base.velocity.z < 0) || (!vz_positive && player->base.velocity.z > 0))
 		vz = 0;
 	player->base.velocity.z = vz;
-	printf("%f %f %f\n", player->base.velocity.x, player->base.velocity.y, player->base.velocity.z);
+
 }

@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/30 16:24:25 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/02 14:55:37 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**create_map(char **cub_file, t_map *map)
 	maps = ft_calloc(map->height + 1, sizeof(char *));
 	while (cub_file[i])
 		maps[j++] = cub_file[i++];
-	map->width = calc_map_max_width(cub_file);
+	map->width = calc_map_max_width(maps);
 	return (maps);
 }
 
