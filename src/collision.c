@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:52:52 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/03 13:56:56 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:39:47 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-bool	collide(t_box a, t_box b)
+bool	collide_aabb_vs_aabb(t_box a, t_box b)
 {
 	return (
 		a.min.x <= b.max.x
@@ -29,6 +29,17 @@ bool	collide(t_box a, t_box b)
 		&& a.max.y >= b.min.y
 		&& a.min.z <= b.max.z
 		&& a.max.z >= b.min.z);
+}
+
+bool	collide_point_vs_aabb(t_v3 point, t_box b)
+{
+	return (
+		point.x >= b.min.x
+		&& point.x <= b.max.x
+		&& point.y >= b.min.y
+		&& point.y <= b.max.y
+		&& point.z >= b.min.z
+		&& point.z <= b.max.z);
 }
 
 t_box	box_from_entity(t_entity *entity)
@@ -105,7 +116,7 @@ bool	collide_with_wall(t_box player, int x, int y)
 
 	tile_box = box_from_wall(x, y);
 
-	if (collide(player, tile_box))
+	if (collide_aabb_vs_aabb(player, tile_box))
 	{
 		return (true);
 	}
@@ -144,7 +155,6 @@ void	adjust_player_pos(t_player *player, t_map *map, float delta)
 
 #define EPSILON 1e-1
 
-// COLLISION ON X AXIS
 	while (player->base.velocity.x < -0.02 || player->base.velocity.x > 0.02)
 	{
 		if (!collide_with_map(box_from_velocity_x(&player->base, delta), map))

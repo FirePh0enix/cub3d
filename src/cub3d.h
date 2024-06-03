@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/03 13:51:33 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:03:49 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ typedef struct s_box
 	t_v3 max;
 }			t_box;
 
+
 void	map_to_tiles(t_map *map, char **maps);
 void	bake_map(t_map *map, t_vars *vars);
 void	draw_map(t_r3d *r3d, t_map *map);
@@ -192,5 +193,5 @@ bool	is_valid_rgb(char **colors, t_map *map);
 char	**create_colors(char **map);
 
 void	adjust_player_pos(t_player *player, t_map *map, float delta);
-
+bool	collide_point_vs_aabb(t_v3 point, t_box b);
 #endif
