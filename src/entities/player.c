@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/02 18:04:08 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:05:21 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ t_player	*player_new(t_vars *vars, t_scene *scene, int id)
 	player->base.scene = scene;
 	player->camera = ft_calloc(1, sizeof(t_camera));
 	player->base.velocity = v3(0, 0, 0);
-	player->base.height = 2;
-	player->base.width = 1.5;
-	player->base.depth = 1.5;
+	player->base.height = 3.0;
+	player->base.width = 0.5;
+	player->base.depth = 1.0;
 	return (player);
 }
 
@@ -74,7 +74,7 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	player->base.velocity.y -= 0.8;
 
-	adjust_player_pos(player, vars->map);
+	adjust_player_pos(player, vars->map, vars->delta_sec);
 
 	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
 

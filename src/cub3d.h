@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/31 12:25:27 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:51:33 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,6 @@ bool	is_valid_identifier_color(char *str);
 bool	is_valid_rgb(char **colors, t_map *map);
 char	**create_colors(char **map);
 
-void	adjust_player_pos(t_player *player, t_map *map);
+void	adjust_player_pos(t_player *player, t_map *map, float delta);
 
 #endif
