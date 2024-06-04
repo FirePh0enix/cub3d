@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:52:52 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/03 16:39:47 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:40:24 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ t_box	box_from_velocity_z(t_entity *entity, float delta)
 	const t_v3	vel = v3_scale(entity->velocity, delta);
 	t_box		box;
 
-	box.min.x = entity->transform.position.x - entity->width;
-	box.max.x = entity->transform.position.x + entity->width;
-	box.min.y = entity->transform.position.y - entity->height;
-	box.max.y = entity->transform.position.y + entity->height;
+	box.min.x = entity->transform.position.x - entity->width / 2;
+	box.max.x = entity->transform.position.x + entity->width / 2;
+	box.min.y = entity->transform.position.y - entity->height / 2;
+	box.max.y = entity->transform.position.y + entity->height / 2;
 	box.min.z = entity->transform.position.z + vel.z - entity->depth / 2;
 	box.max.z = entity->transform.position.z + vel.z + entity->depth / 2;
 	return (box);
@@ -119,6 +119,31 @@ bool	collide_with_wall(t_box player, int x, int y)
 	if (collide_aabb_vs_aabb(player, tile_box))
 	{
 		return (true);
+	}
+	return (false);
+}
+
+bool collide_with_door(t_box player, t_map *map, char **maps)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < map->height)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			if (maps[y][x] == 'D')
+			{
+				if (collide_with_wall(player, x, y))
+				{
+					return (true);
+				}
+			}
+			x++;
+		}
+		y++;
 	}
 	return (false);
 }
@@ -151,7 +176,6 @@ bool collide_with_map(t_box player, t_map *map)
 void	adjust_player_pos(t_player *player, t_map *map, float delta)
 {
 	const float	precision = 0.01;
-
 
 #define EPSILON 1e-1
 
@@ -189,6 +213,6 @@ void	adjust_player_pos(t_player *player, t_map *map, float delta)
 			player->base.velocity.z += precision;
 	}
 	if (player->base.velocity.z >= -EPSILON && player->base.velocity.z <= EPSILON)
-		player->base.velocity.z = 0;
+		player->base.velocity.z = 0.0;
 
 }

@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 15:41:50 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:31:14 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**create_map(char **cub_file, t_map *map)
 
 static bool	is_valid_char(char c)
 {
-	if (c == '0' || c == '1' || c == ' ')
+	if (c == '0' || c == '1' || c == ' ' || c == 'D')
 		return (true);
 	else if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
 		return (true);
@@ -85,7 +85,7 @@ char	**fill_map_with_space(char **map, size_t width, size_t height)
 	return (new_map);
 }
 
-void	map_to_tiles(t_map *map, char **maps)
+void	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars)
 {
 	int		i;
 	int		j;
@@ -99,7 +99,13 @@ void	map_to_tiles(t_map *map, char **maps)
 		j = 0;
 		while (maps[i][j])
 		{
-			if (maps[i][j] != '1')
+			if (maps[i][j] == 'D')
+			{
+				t_door	*door = door_new(vars, scene, 0, next_entity_id(vars));
+				door->base.transform.position = v3(j * WALL_SIZE, 1.5, i * WALL_SIZE);
+				scene_add_entity(scene, door);
+			}
+			else if (maps[i][j] != '1')
 				map->tiles[tile_index] = TILE_EMPTY;
 			else
 				map->tiles[tile_index] = TILE_FULL;

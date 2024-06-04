@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 16:13:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:26:23 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,27 +163,6 @@ int	main(int argc, char *argv[])
 		vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D - CLIENT");
 	else
 		vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
-	vars.map = ft_calloc(sizeof(t_map), 1);
-	line = read_to_string(argv[1]);
-	if (!line)
-		return 1;
-	map_file = ft_split(line, '\n');
-	map = create_map(map_file, vars.map);
-	map_rectangular = fill_map_with_space(map, vars.map->width, vars.map->height);
-	map_to_tiles(vars.map, map_rectangular);
-	if (!is_valid_char_in_map(map_rectangular, vars.map))
-		return 1;
-	if (!is_map_surrounded(map_rectangular, vars.map))
-		return 1;
-	if (!find_player_pos(map_rectangular, vars.map))
-		return 1;
-	if (!fill_texture(vars.map, map_file))
-		return 1;
-	colors = create_colors(map_file);
-	if (!is_valid_rgb(colors, vars.map))
-		return 1;
-	if (!is_valid_file_name(argv[1]))
-		return 1;
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
@@ -202,8 +181,6 @@ int	main(int argc, char *argv[])
 	// vars.panel->size = (t_v2){0.0, 0.0};
 
 	vars.font = font_load_from_file("assets/JetBrainsMono.tga");
-
-	bake_map(vars.map, &vars);
 
 	vars.enemy_mesh = mesh_load_from_obj(&vars, "assets/enemy.obj");
 	vars.half_door = mesh_load_from_obj(&vars, "assets/Door.obj");
@@ -229,6 +206,31 @@ int	main(int argc, char *argv[])
 	scene_add_entity(vars.scene, door);
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
+
+	vars.map = ft_calloc(sizeof(t_map), 1);
+	line = read_to_string(argv[1]);
+	if (!line)
+		return 1;
+	map_file = ft_split(line, '\n');
+	map = create_map(map_file, vars.map);
+	map_rectangular = fill_map_with_space(map, vars.map->width, vars.map->height);
+	map_to_tiles(vars.map, map_rectangular, vars.scene, &vars);
+	if (!is_valid_char_in_map(map_rectangular, vars.map))
+		return 1;
+	if (!is_map_surrounded(map_rectangular, vars.map))
+		return 1;
+	if (!find_player_pos(map_rectangular, vars.map))
+		return 1;
+	if (!fill_texture(vars.map, map_file))
+		return 1;
+	colors = create_colors(map_file);
+	if (!is_valid_rgb(colors, vars.map))
+		return 1;
+	if (!is_valid_file_name(argv[1]))
+		return 1;
+
+	bake_map(vars.map, &vars);
+	player->base.transform = vars.map->spawns[0];
 
 	vars.r3d->camera = vars.scene->player->camera;
 
