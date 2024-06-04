@@ -6,13 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/31 12:29:42 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:55:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_H
 # define SCENE_H
 
+#include "math/v3.h"
 # include "render/render.h"
 #include <stdbool.h>
 
@@ -51,6 +52,7 @@ typedef struct s_player
 	t_entity	base;
 	t_camera	*camera;
 	bool		has_jump;
+	bool		has_open_door;
 }	t_player;
 
 t_player	*player_new(t_vars *vars, t_scene *scene, int id);
@@ -70,9 +72,11 @@ typedef struct s_door
 	t_mesh		*mesh;
 	float		angle;
 	float		target_angle;
+
+	t_v3		initial_pos;
 }	t_door;
 
-t_door	*door_new(t_vars *vars, t_scene *scene, t_mesh *mesh, int id);
+t_door	*door_new(t_vars *vars, t_scene *scene, int dir, int id);
 
 /* Scene definition */
 

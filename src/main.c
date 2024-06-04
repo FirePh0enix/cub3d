@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/03 14:02:10 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:10:29 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ int	main(int argc, char *argv[])
 	bake_map(vars.map, &vars);
 
 	vars.enemy_mesh = mesh_load_from_obj(&vars, "assets/enemy.obj");
-	vars.half_door = mesh_load_from_obj(&vars, "assets/HalfDoor.obj");
+	vars.half_door = mesh_load_from_obj(&vars, "assets/Door.obj");
 
 	vars.scene = create_scene();
 
@@ -216,7 +216,7 @@ int	main(int argc, char *argv[])
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
 
-	t_door	*door = door_new(&vars, vars.scene, vars.half_door, next_entity_id(&vars));
+	t_door	*door = door_new(&vars, vars.scene, 0, next_entity_id(&vars));
 	door->base.transform.position.z = -4.0;
 	door->base.transform.position.y = 1.5;
 	scene_add_entity(vars.scene, door);
@@ -267,7 +267,9 @@ int	main(int argc, char *argv[])
 	vars.running = true;
 #endif
 
+	mlx_do_key_autorepeatoff(vars.mlx);
 	mlx_loop(vars.mlx);
+	mlx_do_key_autorepeaton(vars.mlx);
 
 #ifdef _USE_RENDER_THREAD
 	vars.running = false;

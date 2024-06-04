@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/03 14:05:21 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:52:34 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	player_tick(t_vars *vars, t_player *player)
 	const t_v3	forward = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(0, 0, -1.0)));
 	const t_v3	left = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(-1.0, 0, 0)));
 	const float	speed = 15.0;
-	const float	air_speed = 3.0;
 	const float	jump_force = 20.0;
 
 	if (!vars->is_focused)
@@ -89,6 +88,25 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	player->base.velocity.x *= 0.5;
 	player->base.velocity.z *= 0.5;
+
+	//
+	// Interactions
+	//
+
+	if (vars->keys[XK_e] && !player->has_open_door)
+	{
+		t_door *entity = (void *) raycast_entity(vars->scene, (t_transform){player->camera->position, player->camera->rotation}, 3.0, ENTITY_DOOR);
+		if (entity != NULL)
+		{
+			if (entity->target_angle == 90.0)
+				entity->target_angle = 0.0;
+			else
+				entity->target_angle = 90.0;
+		}
+		player->has_open_door = true;
+	}
+	else if (!vars->keys[XK_e])
+		player->has_open_door = false;
 
 	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2.0, 720 / 2.0);
 
