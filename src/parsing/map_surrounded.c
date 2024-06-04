@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map_surrounded.c                             :+:      :+:    :+:   */
+/*   map_surrounded.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:38:23 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/29 13:40:41 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:32:58 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool	is_map_surrounded(char **maps, t_map *map)
 		{
 			if (is_map_border(x, y, map, maps) && maps[y][x] != '1')
 			{
-				printf(RED"MAP IS NOT SURROUNDED AT [%d][%d] -> %c\n"RESET, y ,x, maps[y][x]);
+				printf(RED"MAP IS NOT SURROUNDED AT [%d][%d]"RESET, y ,x);
 				return (false);
 			}
 			++x;
