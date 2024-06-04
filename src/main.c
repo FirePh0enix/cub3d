@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 16:26:23 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:03:02 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ int	main(int argc, char *argv[])
 	map_file = ft_split(line, '\n');
 	map = create_map(map_file, vars.map);
 	map_rectangular = fill_map_with_space(map, vars.map->width, vars.map->height);
+	vars.map->maps = map_rectangular;
 	map_to_tiles(vars.map, map_rectangular, vars.scene, &vars);
 	if (!is_valid_char_in_map(map_rectangular, vars.map))
 		return 1;

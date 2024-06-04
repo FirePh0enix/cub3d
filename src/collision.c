@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:52:52 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 16:40:24 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:05:21 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,31 +123,6 @@ bool	collide_with_wall(t_box player, int x, int y)
 	return (false);
 }
 
-bool collide_with_door(t_box player, t_map *map, char **maps)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < map->height)
-	{
-		x = 0;
-		while (x < map->width)
-		{
-			if (maps[y][x] == 'D')
-			{
-				if (collide_with_wall(player, x, y))
-				{
-					return (true);
-				}
-			}
-			x++;
-		}
-		y++;
-	}
-	return (false);
-}
-
 bool collide_with_map(t_box player, t_map *map)
 {
 	int	x;
@@ -160,6 +135,13 @@ bool collide_with_map(t_box player, t_map *map)
 		while (x < map->width)
 		{
 			if (map->tiles[x + y * map->width] == TILE_FULL)
+			{
+				if (collide_with_wall(player, x, y))
+				{
+					return (true);
+				}
+			}
+			else if (map->maps[y][x] == 'D')
 			{
 				if (collide_with_wall(player, x, y))
 				{

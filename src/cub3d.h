@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 16:37:26 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:02:30 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ typedef struct s_map
 	int			*tiles;
 	t_transform	spawns[MAX_CLIENT];
 	int			spawn_count;
+	char		**maps;
 }	t_map;
 
 typedef struct s_box
