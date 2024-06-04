@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 15:13:42 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:16:58 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	is_valid_file_name(char *str)
 		return (false);
 	}
 	i = identify_extension_index(str);
-	if (!ft_strcmp(str + i, ".cub") && str[i - 1] != '/')
+	if (!ft_strcmp(str + i, ".cub") && str[i - 1] && str[i - 1] != '/')
 		return (true);
 	else
 	{
