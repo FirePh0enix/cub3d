@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 15:15:18 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:39:50 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,9 +171,12 @@ int	main(int argc, char *argv[])
 	map = create_map(map_file, vars.map);
 	map_rectangular = fill_map_with_space(map, vars.map->width, vars.map->height);
 	map_to_tiles(vars.map, map_rectangular);
+	if (!is_valid_char_in_map(map_rectangular, vars.map))
+		return 1;
 	if (!is_map_surrounded(map_rectangular, vars.map))
 		return 1;
-	find_player_pos(map_rectangular, vars.map);
+	if (!find_player_pos(map_rectangular, vars.map))
+		return 1;
 	if (!fill_texture(vars.map, map_file))
 		return 1;
 	colors = create_colors(map_file);

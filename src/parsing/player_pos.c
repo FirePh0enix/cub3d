@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/28 15:04:00 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:25:33 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_v3	fill_rotation(char c)
 		return (v3(0, 0, 0));
 }
 
-void	find_player_pos(char **maps, t_map *map)
+bool	find_player_pos(char **maps, t_map *map)
 {
 	int	y;
 	int	x;
@@ -56,4 +56,11 @@ void	find_player_pos(char **maps, t_map *map)
 		}
 		++y;
 	}
+	if (map->spawn_count == 0)
+	{
+		printf(RED"ERROR\nPLACE ATLEAST 1 SPAWN: N | S | W | E\n");
+		return (false);
+	}
+	else
+		return (true);
 }
