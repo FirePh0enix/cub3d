@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/02 14:55:37 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:41:50 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,39 @@ char	**create_map(char **cub_file, t_map *map)
 		maps[j++] = cub_file[i++];
 	map->width = calc_map_max_width(maps);
 	return (maps);
+}
+
+static bool	is_valid_char(char c)
+{
+	if (c == '0' || c == '1' || c == ' ')
+		return (true);
+	else if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
+		return (true);
+	else
+		return (false);
+}
+
+bool	is_valid_char_in_map(char **maps, t_map *map)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < map->height)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			if (maps[y][x] && !is_valid_char(maps[y][x]))
+			{
+				printf(RED"ERROR\n%c IS NOT A VALID CHARACTER AT [%d][%d]\n", maps[y][x], y, x);
+				return (false);
+			}
+			++x;
+		}
+		++y;
+	}
+	return (true);
 }
 
 char	**fill_map_with_space(char **map, size_t width, size_t height)

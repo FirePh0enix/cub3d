@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/29 16:54:55 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:35:56 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ bool	fill_texture(t_map *map, char **maps)
 				return (false);
 			if (!create_material(identifier, map, image))
 			{
-				printf(RED"ERROR: A MATERIAL HAS NOT BEEN TO CREATED CORRECTLY\n"RESET);
+				printf(RED"ERROR\n%s HAS NOT BEEN TO CREATED CORRECTLY\n"RESET, identifier);
 				return (false);
 			}
 		}
 		else
 		{
-			printf(RED"ERROR: WRONG IDENTIFIER: %s\n", identifier);
+			printf(RED"ERROR\nWRONG IDENTIFIER: %s\n", identifier);
 			printf("FORMAT SHOULD BE : NO | SO | WE | EA\n"RESET);
 			return (false);
 		}

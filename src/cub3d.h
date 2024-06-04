@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 11:37:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:13:26 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ char	*read_to_string(char *filename);
 char	**create_map(char **cub_file, t_map *map);
 bool	is_map_surrounded(char **maps, t_map *map);
 char	**fill_map_with_space(char **map, size_t width, size_t height);
-void	find_player_pos(char **maps, t_map *map);
+bool	find_player_pos(char **maps, t_map *map);
 int		calc_map_height(char **maps);
 int		calc_map_max_width(char **maps);
 bool	fill_texture(t_map *map, char **maps);
@@ -194,6 +194,8 @@ char	**create_colors(char **map);
 
 void	adjust_player_pos(t_player *player, t_map *map, float delta);
 bool	collide_point_vs_aabb(t_v3 point, t_box b);
+bool	is_valid_file_name(char *str);
+bool	is_valid_char_in_map(char **maps, t_map *map);
 
 t_box	box_from_entity(t_entity *entity);
 

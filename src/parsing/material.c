@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:56:28 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/29 14:04:01 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:35:26 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,22 @@ bool	check_all_materials(t_map *map)
 {
 	if (!map->no)
 	{
-		printf(RED"ERROR: NORTH MATERIAL HAS NOT BEEN CREATED\n"RESET);
+		printf(RED"ERROR\nNORTH MATERIAL HAS NOT BEEN CREATED\n"RESET);
 		return (false);
 	}
 	else if (!map->so)
 	{
-		printf(RED"ERROR: SOUTH MATERIAL HAS NOT BEEN CREATED\n"RESET);
+		printf(RED"ERROR\nSOUTH MATERIAL HAS NOT BEEN CREATED\n"RESET);
 		return (false);
 	}
 	else if (!map->we)
 	{
-		printf(RED"ERROR: WEST MATERIAL HAS NOT BEEN CREATED\n"RESET);
+		printf(RED"ERROR\nWEST MATERIAL HAS NOT BEEN CREATED\n"RESET);
 		return (false);
 	}
 	else if (!map->ea)
 	{
-		printf(RED"ERROR: EAST MATERIAL HAS NOT BEEN CREATED\n"RESET);
+		printf(RED"ERROR\nEAST MATERIAL HAS NOT BEEN CREATED\n"RESET);
 		return (false);
 	}
 	else

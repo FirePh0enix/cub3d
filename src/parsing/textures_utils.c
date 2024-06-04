@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:54:07 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/29 15:33:14 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:35:38 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_image	*load_texture(char *textures, char *identifier)
 	image = tga_load_from_file(textures_path);
 	if (!image)
 	{
-		printf(RED"ERROR: TGA LOADING FAILED for: %s\n", identifier);
+		printf(RED"ERROR\nTGA LOADING FAILED for: %s\n", identifier);
 		printf("Please verify the path: %s\n"RESET, textures_path);
 		return (false);
 	}

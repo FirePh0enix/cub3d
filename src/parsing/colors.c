@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/05/29 18:18:46 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:35:10 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 	{
 		if (!is_rgb_range(color + i))
 		{
-			write(2, RED"ERROR: ", 7);
+			write(2, RED"ERROR\n", 6);
 			putstr_sep(color + i, ',');
 			write(2, " IS NOT IN RGB RANGE (0-255)\n"RESET, 29);
 			return (false);

@@ -43,7 +43,7 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 
 	if (i == -1)
 	{
-		ft_printf("error: The server is full, cannot connect the client.\n");
+		ft_printf("Error\nThe server is full, cannot connect the client.\n");
 		return ;
 	}
 
@@ -110,7 +110,7 @@ static void	move_player(t_server *server, t_packet_pos *pos, t_vars *vars)
 	(void) vars;
 	if (pos->eid < 0 || pos->eid >= 8 || !server->clients[pos->eid].present)
 	{
-		ft_printf("error: Invalid packet received from client.\n");
+		ft_printf("Error\nInvalid packet received from client.\n");
 		return ;
 	}
 	i = pos->eid;
