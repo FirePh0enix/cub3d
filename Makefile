@@ -3,14 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
+#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/05/31 12:34:42 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/04 14:56:37 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
+	src/parsing/format_cub.c \
 	src/collision.c \
 	src/parsing/colors.c \
 	src/parsing/material.c \

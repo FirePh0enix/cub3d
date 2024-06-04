@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/03 17:03:49 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:55:41 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,4 +194,5 @@ char	**create_colors(char **map);
 
 void	adjust_player_pos(t_player *player, t_map *map, float delta);
 bool	collide_point_vs_aabb(t_v3 point, t_box b);
+bool	is_valid_file_name(char *str);
 #endif
