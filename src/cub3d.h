@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/05 14:48:23 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:22:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,9 @@ typedef struct s_map
 
 	t_color		floor_color;
 	t_color		ceiling_color;
+
+	t_mtl		*ceiling;
+	t_mtl		*floor;
 
 	t_mtl		*no;
 	t_mtl		*so;

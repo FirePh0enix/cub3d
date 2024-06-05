@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_walls.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 15:03:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 00:42:34 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/06/05 15:38:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,22 +205,73 @@ static void	draw_one_wall(t_r3d *r3d, t_wall *wall)
 #endif
 }
 
+static void	draw_floor(t_r3d *r3d, int x, int y, t_mtl *mtl)
+{
+	/*
+		0 --- 1
+		|     |
+		|     |
+		3 --- 2
+	*/
+	const float	half = WALL_SIZE / 2;
+	t_tri	tri;
+
+	tri.v2 = v3_add(v3(-half, 0, -half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+	tri.v1 = v3_add(v3(+half, 0, -half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+	tri.v0 = v3_add(v3(-half, 0, +half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+
+	r3d_draw_triangle(r3d, r3d->camera, tri, (t_transform){}, mtl);
+
+	tri.v2 = v3_add(v3(+half, 0, +half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+	tri.v1 = v3_add(v3(-half, 0, +half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+	tri.v0 = v3_add(v3(+half, 0, -half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+
+	r3d_draw_triangle(r3d, r3d->camera, tri, (t_transform){}, mtl);
+}
+
+static void	draw_ceiling(t_r3d *r3d, int x, int y, t_mtl *mtl)
+{
+	const float	half = WALL_SIZE / 2;
+	t_tri	tri;
+
+	tri.v0 = v3_add(v3(-half, WALL_SIZE, -half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+	tri.v1 = v3_add(v3(+half, WALL_SIZE, -half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+	tri.v2 = v3_add(v3(-half, WALL_SIZE, +half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+
+	r3d_draw_triangle(r3d, r3d->camera, tri, (t_transform){}, mtl);
+
+	tri.v0 = v3_add(v3(+half, WALL_SIZE, +half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+	tri.v1 = v3_add(v3(-half, WALL_SIZE, +half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+	tri.v2 = v3_add(v3(+half, WALL_SIZE, -half), v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+
+	r3d_draw_triangle(r3d, r3d->camera, tri, (t_transform){}, mtl);
+}
+
 void	r3d_draw_walls(t_r3d *r3d, t_map *map)
 {
 	int		i;
+	int		j;
 
 	i = 0;
-	while (i < map->width * map->height)
+	while (i < map->width)
 	{
-		if (map->walls[i].is_empty)
+		j = 0;
+		while (j < map->height)
 		{
-			i++;
-			continue ;
+			if (!map->walls[i + j * map->width].is_empty)
+			{
+				draw_one_wall(r3d, &map->walls[i + j * map->width].no);
+				draw_one_wall(r3d, &map->walls[i + j * map->width].so);
+				draw_one_wall(r3d, &map->walls[i + j * map->width].ea);
+				draw_one_wall(r3d, &map->walls[i + j * map->width].we);
+			}
+			else
+			{
+				draw_floor(r3d, i, j, map->floor);
+				draw_ceiling(r3d, i, j, map->ceiling);
+			}
+			j++;
 		}
-		draw_one_wall(r3d, &map->walls[i].no);
-		draw_one_wall(r3d, &map->walls[i].so);
-		draw_one_wall(r3d, &map->walls[i].ea);
-		draw_one_wall(r3d, &map->walls[i].we);
 		i++;
 	}
 }

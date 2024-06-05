@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/05 14:11:21 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:18:20 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,12 @@ typedef struct s_mtl
 {
 	char	*name;
 	t_image	*image;
+	t_color	col;
 }	t_mtl;
 
 t_mtl	*mtl_load_from_file(t_vars *vars, char *filename);
 t_mtl	*mtl_new(char *name, t_image *image);
+t_mtl	*mtl_color(char *name, t_color col);
 
 typedef struct s_face
 {
@@ -213,6 +215,8 @@ void	r3d_draw_walls(t_r3d *r3d, t_map *map);
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);
 void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos);
 float	r3d_get_text_size(t_r3d *r3d, t_font *font, char *text);
+
+void	r3d_draw_floor_ceil(t_r3d *r3d, t_map *map);
 
 typedef struct s_minimap
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material_loader.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 14:15:48 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/21 17:01:44 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:19:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,17 @@ t_mtl	*mtl_new(char *name, t_image *image)
 		return (NULL);
 	material->name = name;
 	material->image = image;
+	return (material);
+}
+
+t_mtl	*mtl_color(char *name, t_color col)
+{
+	t_mtl	*material;
+
+	material = ft_calloc(sizeof(t_mtl), 1);
+	if (!material)
+		return (NULL);
+	material->name = name;
+	material->col = col;
 	return (material);
 }

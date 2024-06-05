@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/05 14:48:48 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:38:42 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ static void	loop_hook(t_vars *vars)
 	// vars->r3d->rot_z -= 0.03;
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
+
+	r3d_draw_floor_ceil(vars->r3d, vars->map);
 
 	tick_scene(vars, vars->scene);
 	draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);

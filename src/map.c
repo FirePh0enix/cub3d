@@ -36,7 +36,9 @@ void	bake_map(t_map *map, t_vars *vars)
 	if (!map->walls)
 		return;
 
-	printf("%d x %d\n", map->width, map->height);
+	// TODO: Check return values
+	map->ceiling = mtl_color("ceiling", map->ceiling_color);
+	map->floor = mtl_color("floor", map->floor_color);
 
 	x = 0;
 	while (x < map->width)

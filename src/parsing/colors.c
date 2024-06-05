@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 14:35:10 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:34:40 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	putstr_sep(char *str, char n)
 bool    is_rgb_range(char *s)
 {
 	int		i;
-	long	nbr;	
+	long	nbr;
 
 	i = 0;
 	nbr = 0;
@@ -84,7 +84,7 @@ void	fill_color(char *identifier, t_map *map, unsigned char color, int i)
 		if (i == 0)
 			map->floor_color.r = color;
 		else if (i == 1)
-		map->floor_color.g = color;
+			map->floor_color.g = color;
 		else if (i == 2)
 			map->floor_color.b = color;
 	}
@@ -93,7 +93,7 @@ void	fill_color(char *identifier, t_map *map, unsigned char color, int i)
 		if (i == 0)
 			map->ceiling_color.r = color;
 		else if (i == 1)
-		map->ceiling_color.g = color;
+			map->ceiling_color.g = color;
 		else if (i == 2)
 			map->ceiling_color.b = color;
 	}
