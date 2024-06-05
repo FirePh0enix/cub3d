@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/05 14:44:37 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:48:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,6 @@ int	main(int argc, char *argv[])
 		return 1;
 	if (!is_valid_file_name(argv[1]))
 		return 1;
-
 	minimap_create(&vars.minimap, vars.map);
 
 	bake_map(vars.map, &vars);

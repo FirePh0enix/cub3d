@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:52:52 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 17:05:21 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:59:24 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "libft.h"
 #include "math/v3.h"
 #include "render/render.h"
 #include "scene.h"
@@ -141,13 +142,6 @@ bool collide_with_map(t_box player, t_map *map)
 					return (true);
 				}
 			}
-			else if (map->maps[y][x] == 'D')
-			{
-				if (collide_with_wall(player, x, y))
-				{
-					return (true);
-				}
-			}
 			x++;
 		}
 		y++;
@@ -155,15 +149,41 @@ bool collide_with_map(t_box player, t_map *map)
 	return (false);
 }
 
-void	adjust_player_pos(t_player *player, t_map *map, float delta)
+bool collide_with_entities(t_entity **entities, t_box player)
+{
+	int		i;
+	int		size;
+	t_box	entity_box;
+
+	i = 0;
+	size = ft_vector_size(entities);
+	while (i < size)
+	{
+		if (entities[i]->type == ENTITY_DOOR)
+		{
+			entity_box = box_from_entity(entities[i]);
+			if (collide_aabb_vs_aabb(player, entity_box))
+			{
+				printf("ENTITY MIN: %f %f %f\n", entity_box.min.x, entity_box.min.y, entity_box.min.z);
+				printf("ENTITY MAX: %f %f %f\n", entity_box.max.x, entity_box.max.y, entity_box.max.z);
+				printf("PLAYER MIN: %f %f %f\n", player.min.x, player.min.y, player.min.z);
+				printf("PLAYER MAX: %f %f %f\n", player.max.x, player.max.y, player.max.z);
+				printf("----------------------------------------------\n");
+					return (true);
+			}
+		}
+		++i;
+	}
+	return (false);
+}
+
+void	adjust_player_pos(t_player *player, t_map *map, float delta, t_entity **entities)
 {
 	const float	precision = 0.01;
 
-#define EPSILON 1e-1
-
 	while (player->base.velocity.x < -0.02 || player->base.velocity.x > 0.02)
 	{
-		if (!collide_with_map(box_from_velocity_x(&player->base, delta), map))
+		if (!collide_with_map(box_from_velocity_x(&player->base, delta), map) && !collide_with_entities(entities, box_from_velocity_x(&player->base, delta)))
 			break ;
 		if (player->base.velocity.x > 0)
 			player->base.velocity.x -= precision;
@@ -177,6 +197,8 @@ void	adjust_player_pos(t_player *player, t_map *map, float delta)
 	{
 		if (!collide_with_map(box_from_velocity_y(&player->base, delta), map))
 			break ;
+		if (!collide_with_entities(entities, box_from_velocity_y(&player->base, delta)) && !collide_with_entities(entities, box_from_velocity_y(&player->base, delta)))
+			break ;
 		if (player->base.velocity.y > 0)
 			player->base.velocity.y -= precision;
 		else
@@ -187,7 +209,7 @@ void	adjust_player_pos(t_player *player, t_map *map, float delta)
 
 	while (player->base.velocity.z < -0.02 || player->base.velocity.z > 0.02)
 	{
-		if (!collide_with_map(box_from_velocity_z(&player->base, delta), map))
+		if (!collide_with_map(box_from_velocity_z(&player->base, delta), map) && !collide_with_entities(entities, box_from_velocity_z(&player->base, delta)))
 			break ;
 		if (player->base.velocity.z > 0)
 			player->base.velocity.z -= precision;

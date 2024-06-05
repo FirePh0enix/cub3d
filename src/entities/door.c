@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:28:12 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 16:10:22 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:08:13 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	door_draw(t_r3d *r3d, t_door *door, t_camera *camera, t_vars *vars)
 {
 	(void) vars;
 	r3d_draw_mesh(r3d, door->base.scene, door->mesh, camera, (t_transform){
-		v3_add(door->base.transform.position, v3(-1.5, 0, 0)),
+		v3_add(door->base.transform.position, v3(0, 0, 0)),
 		v3_add(door->base.transform.rotation, v3(0, 0, door->angle))
 	});
 	// r3d_draw_mesh(r3d, door->base.scene, door->mesh, camera, (t_transform){
