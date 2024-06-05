@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 17:03:02 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:20:34 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,6 @@ int	main(int argc, char *argv[])
 		return 1;
 	if (!is_valid_file_name(argv[1]))
 		return 1;
-
 	bake_map(vars.map, &vars);
 	player->base.transform = vars.map->spawns[0];
 

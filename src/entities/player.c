@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 16:55:11 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:35:58 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	player->base.velocity.y -= 0.8;
 
-	adjust_player_pos(player, vars->map, vars->delta_sec);
+	adjust_player_pos(player, vars->map, vars->delta_sec, vars->scene->entities);
 
 	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
 

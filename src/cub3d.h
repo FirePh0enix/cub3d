@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 17:02:30 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:44:31 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define BLACK	"\033[0;30"
 # define WHITE	"\033[0;37m"
 # define RESET "\033[0m"
+
+# define EPSILON 1e-1
 
 # include <stdbool.h>
 
@@ -193,7 +195,7 @@ bool	is_valid_identifier_color(char *str);
 bool	is_valid_rgb(char **colors, t_map *map);
 char	**create_colors(char **map);
 
-void	adjust_player_pos(t_player *player, t_map *map, float delta);
+void	adjust_player_pos(t_player *player, t_map *map, float delta, t_entity **entities);
 bool	collide_point_vs_aabb(t_v3 point, t_box b);
 bool	is_valid_file_name(char *str);
 bool	is_valid_char_in_map(char **maps, t_map *map);
