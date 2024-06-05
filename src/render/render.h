@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/31 11:50:39 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:11:21 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,5 +213,14 @@ void	r3d_draw_walls(t_r3d *r3d, t_map *map);
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);
 void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos);
 float	r3d_get_text_size(t_r3d *r3d, t_font *font, char *text);
+
+typedef struct s_minimap
+{
+	t_image	*background;
+	t_image	*final;
+}	t_minimap;
+
+void	minimap_create(t_minimap *minimap, t_map *map);
+void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_v2i pos, t_v2i size);
 
 #endif

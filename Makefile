@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
+#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/04 16:15:45 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/05 14:22:02 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SOURCES=\
 	src/render/draw_text.c \
 	src/render/gui.c \
 	src/render/font.c \
+	src/render/minimap.c
 
 OBJECTS=$(SOURCES:.c=.o)
 DEPENDENCIES=$(OBJECTS:.o=.d)

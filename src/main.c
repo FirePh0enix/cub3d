@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 17:03:02 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:44:37 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static void	loop_hook(t_vars *vars)
 	else if (vars->delta_sec > LIMIT_HIGH)
 		vars->delta_sec = LIMIT_HIGH;
 
-#ifndef _USE_RENDER_THREAD
 	// vars->r3d->rot_z -= 0.03;
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
@@ -114,14 +113,12 @@ static void	loop_hook(t_vars *vars)
 	if (vars->keys[XK_Tab])
 		print_scoreboard(vars);
 
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
-#else
-	if (vars->is_server)
-		netserv_poll(&vars->server, vars);
+	minimap_draw(&vars->minimap, vars->r3d, (t_v2i){}, (t_v2i){
+		vars->r3d->camera->position.x / WALL_SIZE * 20 - 150,
+		vars->r3d->camera->position.z / WALL_SIZE * 20 - 150,
+	});
 
-	tick_scene(vars, vars->scene);
-	// print_fps(vars, delta, getms() - vars->last_update);
-#endif
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
 
 #ifdef _USE_RENDER_THREAD
@@ -229,6 +226,8 @@ int	main(int argc, char *argv[])
 		return 1;
 	if (!is_valid_file_name(argv[1]))
 		return 1;
+
+	minimap_create(&vars.minimap, vars.map);
 
 	bake_map(vars.map, &vars);
 	player->base.transform = vars.map->spawns[0];

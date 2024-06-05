@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 16:55:11 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:19:02 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,31 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	player->base.velocity.x *= 0.5;
 	player->base.velocity.z *= 0.5;
+
+	//
+	// Camera mouvements with arrows
+	//
+
+	if (vars->keys[XK_Up])
+	{
+		player->camera->rotation.x += 0.02;
+	}
+	if (vars->keys[XK_Down])
+	{
+		player->camera->rotation.x -= 0.02;
+	}
+	if (vars->keys[XK_Left])
+	{
+		player->camera->rotation.y += 0.02;
+		player->base.transform.rotation.y = player->camera->rotation.y;
+	}
+	if (vars->keys[XK_Right])
+	{
+		player->camera->rotation.y -= 0.02;
+		player->base.transform.rotation.y = player->camera->rotation.y;
+	}
+
+	player->camera->rotation.x = clampf(player->camera->rotation.x, -M_PI / 2, M_PI / 2);
 
 	//
 	// Interactions

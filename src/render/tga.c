@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 13:38:12 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:33:40 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,11 @@ t_image	*tga_create(int width, int height)
 	t_image	*image;
 
 	image = malloc(sizeof(t_image));
+	if (!image)
+		return (NULL);
 	image->data = malloc(sizeof(uint32_t) * width * height);
+	if (!image->data)
+		return (free(image), NULL);
 	image->width = width;
 	image->height = height;
 	return (image);
