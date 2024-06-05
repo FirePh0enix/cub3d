@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:52:52 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/05 13:59:24 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:43:07 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,12 +164,7 @@ bool collide_with_entities(t_entity **entities, t_box player)
 			entity_box = box_from_entity(entities[i]);
 			if (collide_aabb_vs_aabb(player, entity_box))
 			{
-				printf("ENTITY MIN: %f %f %f\n", entity_box.min.x, entity_box.min.y, entity_box.min.z);
-				printf("ENTITY MAX: %f %f %f\n", entity_box.max.x, entity_box.max.y, entity_box.max.z);
-				printf("PLAYER MIN: %f %f %f\n", player.min.x, player.min.y, player.min.z);
-				printf("PLAYER MAX: %f %f %f\n", player.max.x, player.max.y, player.max.z);
-				printf("----------------------------------------------\n");
-					return (true);
+				return (true);
 			}
 		}
 		++i;
