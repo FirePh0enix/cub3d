@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/05 15:38:42 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:38:10 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ static void	loop_hook(t_vars *vars)
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
 
-	r3d_draw_floor_ceil(vars->r3d, vars->map);
+	// r3d_draw_floor_ceil(vars->r3d, vars->map);
 
 	tick_scene(vars, vars->scene);
-	draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
+	// draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
 
 	if (vars->is_server)
 	{
@@ -109,7 +109,9 @@ static void	loop_hook(t_vars *vars)
 		netclient_pulse(&vars->client);
 	}
 
-	r3d_draw_walls(vars->r3d, vars->map);
+	r3d_raycast_world(vars->r3d, vars->map);
+
+	// r3d_draw_walls(vars->r3d, vars->map);
 	print_fps(vars, delta, getms() - vars->last_update);
 
 	if (vars->keys[XK_Tab])

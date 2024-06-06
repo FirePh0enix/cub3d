@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/05 15:18:20 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:37:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,8 @@ void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos);
 float	r3d_get_text_size(t_r3d *r3d, t_font *font, char *text);
 
 void	r3d_draw_floor_ceil(t_r3d *r3d, t_map *map);
+
+void	r3d_raycast_world(t_r3d *r3d, t_map *map);
 
 typedef struct s_minimap
 {

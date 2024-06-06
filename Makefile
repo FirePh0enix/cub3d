@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/05 14:22:02 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/06 13:39:41 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SOURCES=\
 	src/parsing/parsing_utils.c \
 	src/parsing/map_surrounded.c \
 	src/parsing/parsing.c \
+	src/render/raycast_world.c \
 	src/main.c \
 	src/map.c \
 	src/input.c \
