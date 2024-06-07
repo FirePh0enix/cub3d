@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/06 11:17:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:08:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ t_player	*player_new(t_vars *vars, t_scene *scene, int id)
 	player->base.scene = scene;
 	player->camera = ft_calloc(1, sizeof(t_camera));
 	player->base.velocity = v3(0, 0, 0);
-	player->base.height = 3.0;
-	player->base.width = 0.5;
-	player->base.depth = 1.0;
+	player->base.height = 2.0;
+	player->base.width = 0.3;
+	player->base.depth = 0.3;
 	return (player);
 }
 
@@ -49,7 +49,7 @@ void	player_tick(t_vars *vars, t_player *player)
 	const t_v3	camera_offset = v3(0.0, 1.6, 0.0);
 	const t_v3	forward = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(0, 0, -1.0)));
 	const t_v3	left = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(-1.0, 0, 0)));
-	const float	speed = 15.0;
+	const float	speed = 5.0;
 	const float	jump_force = 20.0;
 
 	if (!vars->is_focused)

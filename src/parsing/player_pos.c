@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_pos.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 15:25:33 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:04:53 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_v3	fill_position(int x, int y)
 {
-	return (v3(x * WALL_SIZE, 0, y * WALL_SIZE));
+	return (v3(x, 0, y));
 }
 
 static t_v3	fill_rotation(char c)

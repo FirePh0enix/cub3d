@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/06 14:23:29 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:19:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map)
 	int	x;
 
 	double plane_x = 0, plane_y = 0.66;
-	t_v3	dir = mat4_multiply_v3(mat4_rotation(r3d->camera->rotation), v3(0, 0, -1));
+	t_v3	dir = mat4_multiply_v3(mat4_rotation(v3(0, r3d->camera->rotation.y, 0)), v3(0, 0, -1));
 
 	x = 0;
 	while (x < r3d->fb->width)
@@ -40,8 +40,8 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map)
 		double	ray_dir_y = dir.z + plane_y * camera_x;
 
 		//which box of the map we're in
-		int mapX = (int)r3d->camera->position.x / WALL_SIZE;
-		int mapY = (int)r3d->camera->position.z / WALL_SIZE;
+		int mapX = (int)r3d->camera->position.x;
+		int mapY = (int)r3d->camera->position.z;
 
 		//length of ray from current position to next x or y-side
 		double sideDistX;
@@ -96,11 +96,13 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map)
 				side = 1;
 			}
 			//Check if ray has hit a wall
+			if (mapX < 0 || mapX >= map->width || mapY < 0 || mapY >= map->height)
+				break ;
 			if (map->tiles[mapX + mapY * map->width] == TILE_FULL) hit = 1;
 		}
 
-		// if (hit)
-		// {
+		if (hit)
+		{
 			if(side == 0) perpWallDist = (sideDistX - deltaDistX);
 			else          perpWallDist = (sideDistY - deltaDistY);
 
@@ -114,8 +116,11 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map)
 			int drawEnd = lineHeight / 2 + r3d->fb->height / 2;
 			if(drawEnd >= r3d->fb->height) drawEnd = r3d->fb->height - 1;
 
-			draw_vertical_line(r3d, x, drawStart, drawEnd, hex(0x00FF00FF));
-		// }
+			if (side == 1)
+				draw_vertical_line(r3d, x, drawStart, drawEnd, hex(0x00FF00FF));
+			else
+				draw_vertical_line(r3d, x, drawStart, drawEnd, hex(0x00FF0000));
+		}
 
 		x++;
 	}

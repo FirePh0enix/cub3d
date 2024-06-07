@@ -55,8 +55,8 @@ void	minimap_create(t_minimap *minimap, t_map *map)
 
 static void	print_camera(t_r3d *r3d, t_v2i pos, t_v2i mappos)
 {
-	const int	x = r3d->camera->position.x / WALL_SIZE * RES + pos.x + RES / 2.0 - mappos.x;
-	const int	y = r3d->camera->position.z / WALL_SIZE * RES + pos.y + RES / 2.0 - mappos.y;
+	const int	x = r3d->camera->position.x * RES + pos.x + RES / 2.0 - mappos.x;
+	const int	y = r3d->camera->position.z * RES + pos.y + RES / 2.0 - mappos.y;
 
 	int	i;
 	int	j;

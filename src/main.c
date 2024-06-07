@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/06 13:38:10 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:23:16 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,9 @@ static void	loop_hook(t_vars *vars)
 	// r3d_draw_walls(vars->r3d, vars->map);
 	print_fps(vars, delta, getms() - vars->last_update);
 
-	if (vars->keys[XK_Tab])
-		print_scoreboard(vars);
-
 	minimap_draw(&vars->minimap, vars->r3d, (t_v2i){}, (t_v2i){
-		vars->r3d->camera->position.x / WALL_SIZE * 20 - 150,
-		vars->r3d->camera->position.z / WALL_SIZE * 20 - 150,
+		vars->r3d->camera->position.x * 20 - 150,
+		vars->r3d->camera->position.z * 20 - 150,
 	});
 
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
@@ -197,7 +194,6 @@ int	main(int argc, char *argv[])
 	ft_vector_add(&vars.scene->lights, &light);
 
 	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));
-	player->base.transform.position = v3(3.0, 0.0, -3.0);
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
 

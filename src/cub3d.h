@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/05 15:22:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:07:41 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	mouse_move_hook(int x, int y, t_vars *vars);
 int	mouse_button_pressed_hook(int btn, int _i1, int _i2, t_vars *vars);
 int	mouse_button_released_hook(int btn, int _i1, int _i2, t_vars *vars);
 
-#define WALL_SIZE 3.0
+#define WALL_SIZE 1.0
 
 typedef struct s_wall
 {
