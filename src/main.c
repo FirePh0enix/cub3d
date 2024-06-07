@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/07 11:23:16 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:12:46 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,11 @@ int	main(int argc, char *argv[])
 	if (!fill_texture(vars.map, map_file))
 		return 1;
 	colors = create_colors(map_file);
+	if (!colors)
+	{
+		ft_putstr_fd("Error\nColors malloc failed\n", 2);
+		return (1);
+	}
 	if (!is_valid_rgb(colors, vars.map))
 		return 1;
 	if (!is_valid_file_name(argv[1]))

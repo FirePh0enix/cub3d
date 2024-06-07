@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:56:28 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 14:35:26 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:22:03 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include "libft.h"
 
 bool	create_material(char *identifier, t_map *map, t_image	*image)
 {
@@ -45,22 +46,22 @@ bool	check_all_materials(t_map *map)
 {
 	if (!map->no)
 	{
-		printf(RED"ERROR\nNORTH MATERIAL HAS NOT BEEN CREATED\n"RESET);
+		ft_putstr_fd(RED"ERROR\nNO MATERIAL HAS NOT BEEN CREATED\n"RESET, 2);
 		return (false);
 	}
 	else if (!map->so)
 	{
-		printf(RED"ERROR\nSOUTH MATERIAL HAS NOT BEEN CREATED\n"RESET);
+		ft_putstr_fd(RED"ERROR\nSO MATERIAL HAS NOT BEEN CREATED\n"RESET, 2);
 		return (false);
 	}
 	else if (!map->we)
 	{
-		printf(RED"ERROR\nWEST MATERIAL HAS NOT BEEN CREATED\n"RESET);
+		ft_putstr_fd(RED"ERROR\nWE MATERIAL HAS NOT BEEN CREATED\n"RESET, 2);
 		return (false);
 	}
 	else if (!map->ea)
 	{
-		printf(RED"ERROR\nEAST MATERIAL HAS NOT BEEN CREATED\n"RESET);
+		ft_putstr_fd(RED"ERROR\nEA MATERIAL HAS NOT BEEN CREATED\n"RESET, 2);
 		return (false);
 	}
 	else

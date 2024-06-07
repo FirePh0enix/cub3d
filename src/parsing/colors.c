@@ -6,108 +6,17 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/05 15:43:16 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:16:01 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	putstr_sep(char *str, char n)
+static bool	invalid_rgb_char(char *color)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == n)
-			break ;
-		++i;
-	}
-	write (2, str, i);
-}
-
-bool    is_rgb_range(char *s)
-{
-	int		i;
-	long	nbr;
-
-	i = 0;
-	nbr = 0;
-	while (s[i] && s[i] != ',')
-	{
-		while (s[i] == ' ')
-			i++;
-		nbr = (nbr * 10 + s[i++] - '0');
-		if (nbr > 255)
-			return (false);
-	}
-	return (true);
-}
-
-char	**create_colors(char **map)
-{
-	char	**colors;
-	int		i;
-	int		j;
-
-	i = 4;
-	j = 0;
-	colors = NULL;
-	colors = ft_calloc(3, sizeof(char *));
-	while (j < 2)
-	{
-		colors[j] = map[i];
-		++i;
-		++j;
-	}
-	return (colors);
-}
-
-int	ft_nblen(int nb)
-{
-	int	len;
-
-	len = 0;
-	if (nb == 0)
-		return (1);
-	while (nb > 0)
-	{
-		len++;
-		nb /= 10;
-	}
-	return (len);
-}
-
-void	fill_color(char *identifier, t_map *map, unsigned char color, int i)
-{
-	if (!ft_strcmp(identifier, "F"))
-	{
-		if (i == 0)
-			map->floor_color.r = color;
-		else if (i == 1)
-			map->floor_color.g = color;
-		else if (i == 2)
-			map->floor_color.b = color;
-	}
-	else if (!ft_strcmp(identifier, "C"))
-	{
-		if (i == 0)
-			map->ceiling_color.r = color;
-		else if (i == 1)
-			map->ceiling_color.g = color;
-		else if (i == 2)
-			map->ceiling_color.b = color;
-	}
-}
-
-bool	check_rgb(char *color, t_map *map, char *identifier)
-{
-	int	i;
-	int	j;
-	int	rgb;
-
-	i = 0;
-	j = 0;
 	while (color[i])
 	{
 		if (!ft_isdigit(color[i]) && color[i] != ',' && color[i] != ' ')
@@ -117,9 +26,21 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 		}
 		++i;
 	}
+	return (true);
+}
+
+bool	check_rgb(char *color, t_map *map, char *identifier)
+{
+	int	i;
+	int	j;
+	int	rgb;
+
+	j = 0;
 	i = 0;
 	while (color[i])
 	{
+		if (!invalid_rgb_char(color))
+			return (false);
 		if (!is_rgb_range(color + i))
 		{
 			write(2, RED"ERROR\n", 6);
@@ -147,6 +68,8 @@ bool	is_valid_rgb(char **colors, t_map *map)
 	while (colors[i])
 	{
 		identifier = detect_identifier(colors[i]);
+		if (!identifier)
+			return (NULL);
 		if (is_valid_identifier_color(identifier))
 		{
 			color_path = detect_texture_path(colors[i]);

@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 15:16:58 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:18:11 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include "libft.h"
 
 static int	identify_extension_index(char *str)
 {
@@ -34,7 +35,7 @@ bool	is_valid_file_name(char *str)
 	len = ft_strlen(str);
 	if (len < 4)
 	{
-		printf(RED"ERROR\nA .CUB FILE LENGTH SHOULD BE ATLEAST EQUAL TO 4\n");
+		ft_putstr_fd(RED"ERROR\nA .CUB FILE LENGTH SHOULD BE ATLEAST EQUAL TO 4\n", 2);
 		printf("ACTUAL LENGTH IS %d\n"RESET, len);
 		return (false);
 	}
@@ -45,12 +46,12 @@ bool	is_valid_file_name(char *str)
 	{
 		if (str[i - 1] == '/')
 		{
-			printf("\033[1;31m"RED"ERROR\nTHE FILE IS NOT ENDING WITH .CUB\n");
+			ft_putstr_fd(RED"ERROR\nTHE FILE IS NOT ENDING WITH .CUB\n", 2);
 			printf(RED"ACTUAL EXTENSION: %s (hidden file)\n"RESET, str + i);
 			return (false);
 		}
-		printf("\033[1;31m"RED"ERROR\nTHE FILE IS NOT ENDING WITH .CUB\n");
-		printf(RED"ACTUAL EXTENSION: %s\n"RESET, str + i);
+		ft_putstr_fd(RED"ERROR\nTHE FILE IS NOT ENDING WITH .CUB\n", 2);
+		printf("ACTUAL EXTENSION: %s\n"RESET, str + i);
 		return (false);
 	}
 }

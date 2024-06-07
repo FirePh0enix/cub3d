@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   player_pos.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/07 11:04:53 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:23:08 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include "libft.h"
 
 static t_v3	fill_position(int x, int y)
 {
@@ -58,7 +59,7 @@ bool	find_player_pos(char **maps, t_map *map)
 	}
 	if (map->spawn_count == 0)
 	{
-		printf(RED"ERROR\nPLACE ATLEAST 1 SPAWN: N | S | W | E\n");
+		ft_putstr_fd(RED"ERROR\nPLACE ATLEAST 1 SPAWN: N | S | W | E\n", 2);
 		return (false);
 	}
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/07 11:07:41 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:07:41 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,9 +203,12 @@ void	adjust_player_pos(t_player *player, t_map *map, float delta, t_entity **ent
 bool	collide_point_vs_aabb(t_v3 point, t_box b);
 bool	is_valid_file_name(char *str);
 bool	is_valid_char_in_map(char **maps, t_map *map);
-
+void	putstr_sep(char *str, char n);
 t_box	box_from_entity(t_entity *entity);
-
+bool	is_rgb_range(char *s);
+char	**create_colors(char **map);
+int		ft_nblen(int nb);
+void	fill_color(char *identifier, t_map *map, unsigned char color, int i);
 t_entity	*raycast_entity(t_scene *scene, t_transform ray, float size, uint32_t entity_type);
 
 #endif
