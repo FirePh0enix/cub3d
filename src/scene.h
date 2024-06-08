@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/04 15:55:23 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 12:59:15 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,9 @@ typedef struct s_player
 t_player	*player_new(t_vars *vars, t_scene *scene, int id);
 void		player_mouse_event(int x, int y, t_vars *vars);
 
-typedef struct s_mesh_inst
-{
-	t_entity	base;
-	t_mesh		*mesh;
-}	t_mesh_inst;
-
-t_mesh_inst	*mesh_inst_new(t_vars *vars, t_scene *scene, t_mesh *mesh, int id);
-
 typedef struct s_door
 {
 	t_entity	base;
-	t_mesh		*mesh;
 	float		angle;
 	float		target_angle;
 

@@ -6,7 +6,7 @@
 /*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 12:06:29 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/06/08 13:04:47 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,6 @@ typedef struct s_vars
 
 	bool			is_focused;
 
-	t_mesh			*enemy_mesh;
-	t_mesh			*half_door;
-
 	t_scoreboard	scoreboard;
 	t_minimap		minimap;
 }	t_vars;
@@ -103,38 +100,6 @@ int	mouse_button_released_hook(int btn, int _i1, int _i2, t_vars *vars);
 
 #define WALL_SIZE 1.0
 
-typedef struct s_wall
-{
-	t_v3	pos;
-	float	w;
-	float	h;
-	float	rot_y;
-	t_mtl	*material;
-	t_v3	n;
-	bool	hide;
-
-	// Used for ray-casting
-	t_v3	p0;
-	t_v3	p1;
-	t_v3	p2;
-
-	// Used for rasterization
-	t_tri	t0;
-	t_tri	t1;
-}	t_wall;
-
-t_wall	wall(t_v3 position, float rotation_y, t_mtl *mtl);
-
-typedef struct s_wall2
-{
-	t_wall	no;
-	t_wall	so;
-	t_wall	we;
-	t_wall	ea;
-
-	bool	is_empty;
-}	t_wall2;
-
 enum e_tile
 {
 	TILE_EMPTY,
@@ -149,15 +114,11 @@ typedef struct s_map
 	t_color		floor_color;
 	t_color		ceiling_color;
 
-	t_mtl		*ceiling;
-	t_mtl		*floor;
+	t_image		*no;
+	t_image		*so;
+	t_image		*we;
+	t_image		*ea;
 
-	t_mtl		*no;
-	t_mtl		*so;
-	t_mtl		*we;
-	t_mtl		*ea;
-
-	t_wall2		*walls;
 	int			*tiles;
 	t_transform	spawns[MAX_CLIENT];
 	int			spawn_count;
@@ -172,7 +133,6 @@ typedef struct s_box
 
 
 void	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
-void	bake_map(t_map *map, t_vars *vars);
 void	draw_map(t_r3d *r3d, t_map *map);
 
 char	*read_to_string(char *filename);

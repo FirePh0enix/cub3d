@@ -53,11 +53,11 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	server->clients[i].last_pulse = getms();
 	ft_printf("info : Client `%s` connected\n", conn->username);
 
-	t_mesh_inst	*mesh = mesh_inst_new(vars, vars->scene, vars->enemy_mesh, next_entity_id(vars));
-	mesh->base.transform.position = v3(0, 0, 0);
-	scene_add_entity(vars->scene, mesh);
+	// t_mesh_inst	*mesh = mesh_inst_new(vars, vars->scene, vars->enemy_mesh, next_entity_id(vars));
+	// mesh->base.transform.position = v3(0, 0, 0);
+	// scene_add_entity(vars->scene, mesh);
 
-	server->clients[i].entity = (void *) mesh;
+	// server->clients[i].entity = (void *) mesh;
 
 	vars->scoreboard.entries[i + 1].present = 1;
 	vars->scoreboard.entries[i + 1].kills = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:56:28 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/07 16:22:03 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/08 13:00:11 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,25 @@ bool	create_material(char *identifier, t_map *map, t_image	*image)
 {
 	if (!ft_strcmp(identifier, "NO"))
 	{
-		map->no = mtl_new("NORTH", image);
+		map->no = image;
 		if (!map->no)
 			return (false);
 	}
 	else if (!ft_strcmp(identifier, "SO"))
 	{
-		map->so = mtl_new("SOUTH", image);
+		map->so = image;
 		if (!map->so)
 			return (false);
 	}
 	else if (!ft_strcmp(identifier, "WE"))
 	{
-		map->we = mtl_new("WEST", image);
+		map->we = image;
 		if (!map->we)
 			return (false);
 	}
 	else if (!ft_strcmp(identifier, "EA"))
 	{
-		map->ea = mtl_new("EAST", image);
+		map->ea = image;
 		if (!map->ea)
 			return (false);
 	}

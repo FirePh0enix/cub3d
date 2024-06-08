@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:28:12 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/05 14:08:13 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/08 13:01:28 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_door	*door_new(t_vars *vars, t_scene *scene, int dir, int id)
 	e->base.transform = (t_transform){};
 	e->base.scene = scene;
 	e->base.velocity = v3(0, 0, 0);
-	e->mesh = vars->half_door;
 	e->base.width = 3.0;
 	e->base.depth = 1.0;
 	e->base.height = 3.0;
@@ -65,10 +64,6 @@ void	door_tick(t_vars *vars, t_door *door)
 void	door_draw(t_r3d *r3d, t_door *door, t_camera *camera, t_vars *vars)
 {
 	(void) vars;
-	r3d_draw_mesh(r3d, door->base.scene, door->mesh, camera, (t_transform){
-		v3_add(door->base.transform.position, v3(0, 0, 0)),
-		v3_add(door->base.transform.rotation, v3(0, 0, door->angle))
-	});
 	// r3d_draw_mesh(r3d, door->base.scene, door->mesh, camera, (t_transform){
 	// 	v3_add(door->base.transform.position, v3(1.5, 0, 0)),
 	// 	v3_add(door->base.transform.rotation, v3(0, door->angle + M_PI, 0))

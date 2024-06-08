@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/07 11:08:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 12:42:08 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	player->base.velocity.y -= 0.8;
 
-	adjust_player_pos(player, vars->map, vars->delta_sec, vars->scene->entities);
+	// TODO: Redo collisions.
+	// adjust_player_pos(player, vars->map, vars->delta_sec, vars->scene->entities);
 
 	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
 

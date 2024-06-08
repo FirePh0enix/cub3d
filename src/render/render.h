@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/06 13:37:38 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 12:58:07 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,54 +54,6 @@ typedef struct s_image
 
 t_image	*tga_load_from_file(char *filename);
 t_image	*tga_create(int width, int height);
-
-typedef struct s_mtl
-{
-	char	*name;
-	t_image	*image;
-	t_color	col;
-}	t_mtl;
-
-t_mtl	*mtl_load_from_file(t_vars *vars, char *filename);
-t_mtl	*mtl_new(char *name, t_image *image);
-t_mtl	*mtl_color(char *name, t_color col);
-
-typedef struct s_face
-{
-	int	v[3];
-	int	t[3];
-	int	n[3];
-}	t_face;
-
-typedef struct s_mesh
-{
-	t_mtl	*material;
-
-	t_face	*faces;
-	size_t	faces_count;
-
-	t_v3	*vertices;
-	size_t	vertices_count;
-
-	t_v2	*textures;
-	size_t	textures_count;
-
-	t_v3	*normals;
-	size_t	normals_count;
-}	t_mesh;
-
-/*
- * Load a Wavefront OBJ file and its associated mtl files into an usable mesh.
- */
-t_mesh	*mesh_load_from_obj(t_vars *vars, char *filename);
-
-/*
- * Validate indices for the mesh data. This means that indices can be used to
- * index the mesh data without any check without risking Out of Bounds.
- *
- * TODO
- */
-bool	mesh_validate(t_mesh *mesh);
 
 typedef enum e_light_type
 {
@@ -180,15 +132,6 @@ void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 
 int		r3d_key_hook(int keycode, t_r3d *r3d);
 
-t_v3	r3d_get_camera_dir(t_r3d *r3d);
-
-void	r3d_draw_triangle(t_r3d *r3d, t_camera *camera, t_tri tri, t_transform transform, t_mtl *material);
-
-void	r3d_draw_mesh(t_r3d *r3d, t_scene *scene, t_mesh *mesh,
-	t_camera *camera, t_transform transform);
-void	r3d_fill_triangle(t_r3d *r3d, t_v3 pos, t_tri tri, t_mtl *mtl,
-	t_framebuffer *fb, t_light *lights);
-
 typedef struct s_wall	t_wall;
 typedef struct s_map	t_map;
 
@@ -204,19 +147,9 @@ typedef struct s_ray_result
 	t_v3	uv;
 }	t_ray_result;
 
-/*
-	Draw a wall using ray-casting.
- */
-void	r3d_raycast_wall(t_r3d *r3d, t_wall *wall, t_light *lights, t_v2i min, t_v2i max);
-void	r3d_draw_wall(t_r3d *r3d, t_wall *wall, t_light *lights);
-
-void	r3d_draw_walls(t_r3d *r3d, t_map *map);
-
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);
 void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos);
 float	r3d_get_text_size(t_r3d *r3d, t_font *font, char *text);
-
-void	r3d_draw_floor_ceil(t_r3d *r3d, t_map *map);
 
 void	r3d_raycast_world(t_r3d *r3d, t_map *map);
 

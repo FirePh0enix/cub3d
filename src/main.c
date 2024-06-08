@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/07 16:12:46 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/08 13:04:54 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "gui/gui.h"
 #include "libft.h"
 #include "network/net.h"
 #include "render/font.h"
@@ -122,25 +121,6 @@ static void	loop_hook(t_vars *vars)
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
 
-#ifdef _USE_RENDER_THREAD
-
-static void	render_thread(t_vars *vars)
-{
-	while (vars->running)
-	{
-		mlx_do_sync(vars->mlx);
-
-		r3d_clear_color_buffer(vars->r3d, hex(0x0));
-		r3d_clear_depth_buffer(vars->r3d);
-
-		draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
-		r3d_draw_walls(vars->r3d, vars->map);
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
-	}
-}
-
-#endif
-
 int	main(int argc, char *argv[])
 {
 	t_vars	vars;
@@ -179,9 +159,6 @@ int	main(int argc, char *argv[])
 	// vars.panel->size = (t_v2){0.0, 0.0};
 
 	vars.font = font_load_from_file("assets/JetBrainsMono.tga");
-
-	vars.enemy_mesh = mesh_load_from_obj(&vars, "assets/enemy.obj");
-	vars.half_door = mesh_load_from_obj(&vars, "assets/Door.obj");
 
 	vars.scene = create_scene();
 
@@ -233,7 +210,6 @@ int	main(int argc, char *argv[])
 		return 1;
 	minimap_create(&vars.minimap, vars.map);
 
-	bake_map(vars.map, &vars);
 	player->base.transform = vars.map->spawns[0];
 
 	vars.r3d->camera = vars.scene->player->camera;
@@ -264,30 +240,15 @@ int	main(int argc, char *argv[])
 	}
 	else
 	{
-		vars.is_server = false;
+		vars.is_server = true;
 	}
 
 	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
 	// mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
 
-#ifdef _USE_RENDER_THREAD
-	if (pthread_create(&vars.render_thread, NULL, (void *) render_thread, &vars) != 0)
-	{
-		ft_printf("Unable to create the render thread.\n");
-		return (1);
-	}
-
-	vars.running = true;
-#endif
-
 	mlx_do_key_autorepeatoff(vars.mlx);
 	mlx_loop(vars.mlx);
 	mlx_do_key_autorepeaton(vars.mlx);
-
-#ifdef _USE_RENDER_THREAD
-	vars.running = false;
-	pthread_join(vars.render_thread, NULL);
-#endif
 
 	mlx_destroy_window(vars.mlx, vars.win);
 	mlx_destroy_display(vars.mlx);
