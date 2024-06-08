@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/07 16:07:41 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/08 12:06:29 by phoenix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,6 @@ typedef struct s_vars
 
 	t_scoreboard	scoreboard;
 	t_minimap		minimap;
-
-#ifdef _USE_RENDER_THREAD
-	pthread_t	render_thread;
-	bool		running;
-#endif
 }	t_vars;
 
 inline int	next_entity_id(t_vars *vars)
