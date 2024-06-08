@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 22:06:33 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 22:13:24 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static void	loop_hook(t_vars *vars)
 
 	r3d_raycast_world(vars->r3d, vars->map);
 
-	print_fps(vars, delta, getms() - vars->last_update);
+	// print_fps(vars, delta, getms() - vars->last_update);
 
 	// minimap_draw(&vars->minimap, vars->r3d, (t_v2i){}, (t_v2i){
 	// 	vars->r3d->camera->position.x * 20 - 150,
@@ -172,7 +172,7 @@ int	main(int argc, char *argv[])
 	), 2, false, 200);
 	vars.shotgun.offset = (t_v2i){-22, 96};
 
-	vars.font = font_load_from_file("assets/JetBrainsMono.tga");
+	// vars.font = font_load_from_file("assets/JetBrainsMono.tga");
 
 	vars.scene = create_scene();
 
