@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 16:44:21 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 19:27:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@
 # include <stdbool.h>
 # include <stdint.h>
 
-typedef struct s_vars	t_vars;
+typedef struct s_map	t_map;
 typedef struct s_scene	t_scene;
-typedef struct s_r3d	t_r3d;
 
 typedef struct s_image
 {
@@ -77,26 +76,48 @@ void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 
 int		r3d_key_hook(int keycode, t_r3d *r3d);
 
-typedef struct s_wall	t_wall;
-typedef struct s_map	t_map;
-
-typedef struct s_ray
-{
-	t_v3	origin;
-	t_v3	dir;
-}	t_ray;
-
-typedef struct s_ray_result
-{
-	float	distance;
-	t_v3	uv;
-}	t_ray_result;
+/*
+	GUI rendering
+ */
 
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);
 void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos);
 float	r3d_get_text_size(t_r3d *r3d, t_font *font, char *text);
 
+/*
+	Raycasting
+ */
+
 void	r3d_raycast_world(t_r3d *r3d, t_map *map);
+
+/*
+	HUD sprite rendering
+ */
+
+typedef struct s_sprite
+{
+	t_image		**images;
+	int			current_frame;
+	int			num_frames;
+
+	suseconds_t	last_frame_tick;
+	suseconds_t	ms;
+
+	bool		loop;
+}	t_sprite;
+
+t_sprite	sprite_create(t_image *image);
+t_sprite	sprite_create_anim(t_image **images, int num, bool loop, suseconds_t ms);
+
+t_image		*sprite_get_image(t_sprite *sprite);
+void		sprite_tick(t_sprite *sprite);
+bool		sprite_is_end(t_sprite *sprite);
+
+void		sprite_draw(t_r3d *r3d, t_sprite *sprite, t_v2i pos, float scale);
+
+/*
+	Minimap
+ */
 
 typedef struct s_minimap
 {

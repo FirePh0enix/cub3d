@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/08 13:32:07 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/08 19:55:21 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ SOURCES=\
 	src/main.c \
 	src/input.c \
 	src/scene.c \
+	src/load.c \
+	src/gun.c \
 	src/entities/player.c \
 	src/entities/door.c \
 	src/gui/panel.c \
@@ -34,14 +36,14 @@ SOURCES=\
 	src/network/serv_send.c \
 	src/network/client.c \
 	src/render/init.c \
-	src/render/clear.c \
 	src/render/color.c \
 	src/render/tga.c \
 	src/render/draw_text.c \
 	src/render/gui.c \
 	src/render/font.c \
 	src/render/raycast.c \
-	src/render/minimap.c
+	src/render/minimap.c \
+	src/render/sprite.c
 
 OBJECTS=$(SOURCES:.c=.o)
 DEPENDENCIES=$(OBJECTS:.o=.d)

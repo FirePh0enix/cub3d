@@ -6,11 +6,12 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 14:05:38 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 22:06:33 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "gun.h"
 #include "libft.h"
 #include "network/net.h"
 #include "render/font.h"
@@ -109,10 +110,13 @@ static void	loop_hook(t_vars *vars)
 
 	print_fps(vars, delta, getms() - vars->last_update);
 
-	minimap_draw(&vars->minimap, vars->r3d, (t_v2i){}, (t_v2i){
-		vars->r3d->camera->position.x * 20 - 150,
-		vars->r3d->camera->position.z * 20 - 150,
-	});
+	// minimap_draw(&vars->minimap, vars->r3d, (t_v2i){}, (t_v2i){
+	// 	vars->r3d->camera->position.x * 20 - 150,
+	// 	vars->r3d->camera->position.z * 20 - 150,
+	// });
+
+	draw_gun(&vars->shotgun, vars->r3d);
+	tick_gun(&vars->shotgun);
 
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
@@ -153,6 +157,20 @@ int	main(int argc, char *argv[])
 	// vars.panel = gui_panel_new((t_v2){-1.0, -1.0});
 	// vars.panel->bg_color = hex(0xFF000000);
 	// vars.panel->size = (t_v2){0.0, 0.0};
+
+	vars.shotgun.main_anim = sprite_create_anim(load_images(6,
+		"assets/textures/SHTGA0.tga",
+		"assets/textures/SHTGB0.tga",
+		"assets/textures/SHTGC0.tga",
+		"assets/textures/SHTGD0.tga",
+		"assets/textures/SHTGC0.tga",
+		"assets/textures/SHTGB0.tga"
+	), 6, false, 200);
+	vars.shotgun.shoot_anim = sprite_create_anim(load_images(2,
+		"assets/textures/SHTFA0.tga",
+		"assets/textures/SHTFB0.tga"
+	), 2, false, 200);
+	vars.shotgun.offset = (t_v2i){-22, 96};
 
 	vars.font = font_load_from_file("assets/JetBrainsMono.tga");
 
@@ -232,7 +250,7 @@ int	main(int argc, char *argv[])
 	}
 
 	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
-	// mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
+	mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
 
 	mlx_do_key_autorepeatoff(vars.mlx);
 	mlx_loop(vars.mlx);

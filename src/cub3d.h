@@ -6,13 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 13:26:57 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 21:34:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+#include "gun.h"
 # include "math/mat4.h"
 # include "math/v2i.h"
 # include "math/v3.h"
@@ -83,6 +84,8 @@ typedef struct s_vars
 
 	t_scoreboard	scoreboard;
 	t_minimap		minimap;
+
+	t_gun			shotgun;
 }	t_vars;
 
 inline int	next_entity_id(t_vars *vars)
@@ -130,6 +133,8 @@ typedef struct s_box
 	t_v3 min;
 	t_v3 max;
 }	t_box;
+
+t_image	**load_images(int num, ...);
 
 void	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
 void	draw_map(t_r3d *r3d, t_map *map);

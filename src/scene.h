@@ -6,20 +6,21 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 16:34:33 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:04:55 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_H
 # define SCENE_H
 
-#include "math/v3.h"
+# include "math/v3.h"
 # include "render/render.h"
-#include <stdbool.h>
+# include <stdbool.h>
 
 /* Entities definition */
 
 typedef struct s_scene	t_scene;
+typedef struct s_vars	t_vars;
 
 typedef void	(*t_draw_hook)(t_r3d *r3d, void *entity, t_camera *camera, t_vars *vars);
 typedef void	(*t_tick_hook)(t_vars *vars, void *entity);

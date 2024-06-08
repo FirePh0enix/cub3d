@@ -6,14 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/30 15:39:13 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 17:11:31 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef NET_H
 # define NET_H
 
-#include <sys/select.h>
+# include <sys/select.h>
 # include <sys/types.h>
 # include <sys/socket.h>
 # include <netinet/in.h>

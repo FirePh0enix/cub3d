@@ -6,13 +6,15 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/05 13:33:40 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 22:02:54 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "render.h"
+#include "types.h"
 #include <stdint.h>
+#include <stdio.h>
 
 char	*read_to_string(char *filename)
 {
@@ -64,10 +66,11 @@ typedef struct s_tga_hdr
 
 typedef uint8_t	t_rgb[3];
 
-static void	read_pixels(t_image *image, char *buf)
+static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf)
 {
 	uint32_t	*pixels;
 	t_rgb		*pixels24;
+	uint8_t		*pixels8;
 	int			i;
 
 	if (image->bpp == 32)
@@ -90,8 +93,42 @@ static void	read_pixels(t_image *image, char *buf)
 			i++;
 		}
 	}
+	else if (image->bpp == 8 && hdr->colormap == 1 && hdr->cmapent == 32)
+	{
+		// WHAT THE ACTUAL FUCK?
+		image->width = hdr->h;
+		image->height = hdr->w;
+
+		pixels = (uint32_t *) buf;
+		pixels8 = (uint8_t *)(buf + (hdr->cmapent >> 3) * hdr->cmaplen);
+		i = 0;
+		while (i < image->width * image->height)
+		{
+			t_color c = ((t_color *)pixels)[pixels8[i]];
+			c.t = 255 - c.t;
+			image->data[i] = c.raw; // TODO: Check for overflow
+			i++;
+		}
+	}
+	else if (image->bpp == 8 && hdr->colormap == 1 && hdr->cmapent == 24)
+	{
+		// WHAT THE ACTUAL FUCK?
+		image->width = hdr->h;
+		image->height = hdr->w;
+
+		pixels24 = (t_rgb *) buf;
+		pixels8 = (uint8_t *)(buf + (hdr->cmapent >> 3) * hdr->cmaplen);
+		i = 0;
+		while (i < image->width * image->height)
+		{
+			t_color c = (t_color)(*(uint32_t*)pixels24[pixels8[i]] & 0xFFFFFF00 >> 8);
+			c.t = 255 - c.t;
+			image->data[i] = c.raw; // TODO: Check for overflow
+			i++;
+		}
+	}
 	else
-		ft_printf("Invalid Targa format : %d bits per pixel\n", image->bpp);
+		ft_printf("Invalid Targa format (%d bpp, colormap = %d, colormap bpp = %d)\n", image->bpp, hdr->colormap, hdr->cmapent);
 }
 
 t_image	*tga_load_from_file(char *filename)
@@ -110,7 +147,7 @@ t_image	*tga_load_from_file(char *filename)
 	image->width = hdr.w;
 	image->height = hdr.h;
 	image->bpp = hdr.bpp;
-	read_pixels(image, (char *)s + sizeof(t_tga_hdr));
+	read_pixels(image, &hdr, (char *)s + sizeof(t_tga_hdr));
 	return (image);
 }
 

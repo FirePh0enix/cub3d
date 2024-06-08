@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 23:27:18 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 13:36:47 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:59:42 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,29 @@ int	r3d_key_hook(int keycode, t_r3d *r3d)
 	return (0);
 }
 
-t_v3	r3d_get_camera_dir(t_r3d *r3d)
+void	r3d_clear_depth_buffer(t_r3d *r3d)
 {
-	return (v3_norm(mat4_multiply_v3(mat4_rotation(r3d->camera->rotation), v3(0, 0, -1.0))));
+	const int	size = r3d->width * r3d->height;
+	int			i;
+
+	i = 0;
+	while (i < size)
+	{
+		r3d->depth_buffer[i] = INFINITY;
+		i++;
+	}
 }
+
+void	r3d_clear_color_buffer(t_r3d *r3d, t_color color)
+{
+	const int	size = r3d->width * r3d->height;
+	int			i;
+
+	i = 0;
+	while (i < size)
+	{
+		r3d->color_buffer[i] = color;
+		i++;
+	}
+}
+
