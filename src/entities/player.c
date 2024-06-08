@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 13:28:21 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:46:52 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ t_player	*player_new(t_vars *vars, t_scene *scene, int id)
 	player->base.height = 2.0;
 	player->base.width = 0.3;
 	player->base.depth = 0.3;
+
+	player->camera->plane_x = 0.0;
+	player->camera->plane_x = 0.85;
+
+	player->camera->dir_x = 0;
+	player->camera->dir_y = -1;
+
 	return (player);
 }
 
@@ -103,18 +110,41 @@ void	player_tick(t_vars *vars, t_player *player)
 	{
 		player->camera->rotation.x -= 0.02;
 	}
+
+	float	rot_speed = 0.02;
+
 	if (vars->keys[XK_Left])
 	{
-		player->camera->rotation.y += 0.02;
+		player->camera->rotation.y += rot_speed;
 		player->base.transform.rotation.y = player->camera->rotation.y;
+
+		float	old_plane_x = player->camera->plane_x;
+
+		player->camera->plane_x = old_plane_x * cos(-rot_speed) - player->camera->plane_y * sin(-rot_speed);
+		player->camera->plane_y = old_plane_x * sin(-rot_speed) + player->camera->plane_y * cos(-rot_speed);
+
+		float	old_dir_x = player->camera->dir_x;
+
+		player->camera->dir_x = old_dir_x * cos(-rot_speed) - player->camera->dir_y * sin(-rot_speed);
+		player->camera->dir_y = old_dir_x * sin(-rot_speed) + player->camera->dir_y * cos(-rot_speed);
 	}
 	if (vars->keys[XK_Right])
 	{
-		player->camera->rotation.y -= 0.02;
+		player->camera->rotation.y -= rot_speed;
 		player->base.transform.rotation.y = player->camera->rotation.y;
+
+		float	old_plane_x = player->camera->plane_x;
+
+		player->camera->plane_x = old_plane_x * cos(rot_speed) - player->camera->plane_y * sin(rot_speed);
+		player->camera->plane_y = old_plane_x * sin(rot_speed) + player->camera->plane_y * cos(rot_speed);
+
+		float	old_dir_x = player->camera->dir_x;
+
+		player->camera->dir_x = old_dir_x * cos(rot_speed) - player->camera->dir_y * sin(rot_speed);
+		player->camera->dir_y = old_dir_x * sin(rot_speed) + player->camera->dir_y * cos(rot_speed);
 	}
 
-	player->camera->rotation.x = clampf(player->camera->rotation.x, -M_PI / 2, M_PI / 2);
+	// player->camera->rotation.x = clampf(player->camera->rotation.x, -M_PI / 2, M_PI / 2);
 
 	//
 	// Interactions
@@ -145,19 +175,19 @@ void	player_tick(t_vars *vars, t_player *player)
 
 void	player_mouse_event(int x, int y, t_vars *vars)
 {
-	const float x_speed = x - 1280 / 2.0;
-	const float y_speed = y - 720 / 2.0;
-	t_player	*player;
+	// const float x_speed = x - 1280 / 2.0;
+	// const float y_speed = y - 720 / 2.0;
+	// t_player	*player;
 
-	if (!vars->is_focused)
-		return ;
-	player = vars->scene->player;
+	// if (!vars->is_focused)
+	// 	return ;
+	// player = vars->scene->player;
 
-	player->camera->rotation.x -= y_speed / 1200.0;
-	player->camera->rotation.x = clampf(player->camera->rotation.x, -M_PI / 2, M_PI / 2);
+	// player->camera->rotation.x -= y_speed / 1200.0;
+	// player->camera->rotation.x = clampf(player->camera->rotation.x, -M_PI / 2, M_PI / 2);
 
-	player->camera->rotation.y -= x_speed / 1200.0;
-	player->base.transform.rotation.y = player->camera->rotation.y;
+	// player->camera->rotation.y -= x_speed / 1200.0;
+	// player->base.transform.rotation.y = player->camera->rotation.y;
 }
 
 void	player_draw(t_r3d *r3d, t_player *player, t_camera *camera, t_vars *vars)

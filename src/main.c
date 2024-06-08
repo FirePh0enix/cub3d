@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 13:27:52 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 14:05:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,8 @@ static void	loop_hook(t_vars *vars)
 	else if (vars->delta_sec > LIMIT_HIGH)
 		vars->delta_sec = LIMIT_HIGH;
 
-	// vars->r3d->rot_z -= 0.03;
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
-
-	// r3d_draw_floor_ceil(vars->r3d, vars->map);
 
 	tick_scene(vars, vars->scene);
 	// draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
@@ -110,7 +107,6 @@ static void	loop_hook(t_vars *vars)
 
 	r3d_raycast_world(vars->r3d, vars->map);
 
-	// r3d_draw_walls(vars->r3d, vars->map);
 	print_fps(vars, delta, getms() - vars->last_update);
 
 	minimap_draw(&vars->minimap, vars->r3d, (t_v2i){}, (t_v2i){

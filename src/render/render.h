@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 13:35:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:44:21 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ typedef struct s_camera
 	t_v3			position;
 	t_v3			rotation;
 	t_scene			*scene;
+
+	float			plane_x;
+	float			plane_y;
+
+	float			dir_x;
+	float			dir_y;
 }	t_camera;
 
 typedef enum e_mode
