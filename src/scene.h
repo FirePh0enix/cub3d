@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 12:59:15 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/06/08 13:25:50 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ t_door	*door_new(t_vars *vars, t_scene *scene, int dir, int id);
 typedef struct s_scene
 {
 	t_entity	**entities;
-	t_light		*lights;
 	t_player	*player;
 }	t_scene;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 13:04:54 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/06/08 13:27:52 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,14 +161,6 @@ int	main(int argc, char *argv[])
 	vars.font = font_load_from_file("assets/JetBrainsMono.tga");
 
 	vars.scene = create_scene();
-
-	t_light	light = {
-		.type = LIGHT_DIRECTIONAL,
-		.direction = v3(-1.0, 0.0, 0.0),
-		.color = hex(0x00FFFFFF),
-		.intensity = 1.0,
-	};
-	ft_vector_add(&vars.scene->lights, &light);
 
 	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));
 	scene_add_entity(vars.scene, player);

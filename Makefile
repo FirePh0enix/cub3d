@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+         #
+#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/08 13:01:03 by phoenix          ###   ########.fr        #
+#    Updated: 2024/06/08 13:32:07 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SOURCES=\
 	src/parsing/map_surrounded.c \
 	src/parsing/parsing.c \
 	src/parsing/colors_utils.c \
-	src/render/raycast_world.c \
 	src/main.c \
 	src/input.c \
 	src/scene.c \
@@ -36,12 +35,12 @@ SOURCES=\
 	src/network/client.c \
 	src/render/init.c \
 	src/render/clear.c \
-	src/render/framebuffer.c \
 	src/render/color.c \
 	src/render/tga.c \
 	src/render/draw_text.c \
 	src/render/gui.c \
 	src/render/font.c \
+	src/render/raycast.c \
 	src/render/minimap.c
 
 OBJECTS=$(SOURCES:.c=.o)

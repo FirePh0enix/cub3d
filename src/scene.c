@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:53:16 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/29 14:21:43 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 13:27:58 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_scene	*create_scene()
 
 	scene = ft_calloc(1, sizeof(t_scene));
 	scene->entities = ft_vector(sizeof(t_entity *), 0);
-	scene->lights = ft_vector(sizeof(t_light), 0);
 	return (scene);
 }
 

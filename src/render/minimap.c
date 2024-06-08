@@ -27,12 +27,6 @@ void	minimap_create(t_minimap *minimap, t_map *map)
 	minimap->background = tga_create(map->width * RES, map->height * RES);
 	if (!minimap->background)
 		return ;
-	minimap->final = tga_create(map->width * RES, map->height * RES);
-	if (!minimap->final)
-	{
-		// TODO: Free background.
-		return ;
-	}
 
 	int	x;
 	int	y;
@@ -67,7 +61,7 @@ static void	print_camera(t_r3d *r3d, t_v2i pos, t_v2i mappos)
 		j = -5;
 		while (j < 5)
 		{
-			r3d->fb->color[(x + i) + (y + j) * r3d->fb->width] = hex(0x00FFFFFF);
+			r3d->color_buffer[(x + i) + (y + j) * r3d->width] = hex(0x00FFFFFF);
 			j++;
 		}
 		i++;
@@ -88,16 +82,16 @@ void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_v2i pos, t_v2i mappos)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			if (x + pos.x < 0 || x + pos.x >= r3d->fb->width || y + pos.y < 0 || y + pos.y >= r3d->fb->height)
+			if (x + pos.x < 0 || x + pos.x >= r3d->width || y + pos.y < 0 || y + pos.y >= r3d->height)
 			{
 				y++;
 				continue ;
 			}
 
 			if (x + mappos.x < 0 || x + mappos.x >= minimap->background->width || y + mappos.y < 0 || y + mappos.y >= minimap->background->height)
-				r3d->fb->color[(x + pos.x) + (y + pos.y) * r3d->fb->width] = hex(0);
+				r3d->color_buffer[(x + pos.x) + (y + pos.y) * r3d->width] = hex(0);
 			else
-				r3d->fb->color[(x + pos.x) + (y + pos.y) * r3d->fb->width] = ((t_color *)minimap->background->data)[(x + mappos.x) + (y + mappos.y) * minimap->background->width];
+				r3d->color_buffer[(x + pos.x) + (y + pos.y) * r3d->width] = ((t_color *)minimap->background->data)[(x + mappos.x) + (y + mappos.y) * minimap->background->width];
 			y++;
 		}
 		x++;

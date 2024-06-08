@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 13:04:47 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/06/08 13:26:57 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,7 @@ typedef struct s_box
 {
 	t_v3 min;
 	t_v3 max;
-}			t_box;
-
+}	t_box;
 
 void	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
 void	draw_map(t_r3d *r3d, t_map *map);

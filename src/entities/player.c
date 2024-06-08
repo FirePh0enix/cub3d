@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phoenix <phoenix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 12:42:08 by phoenix          ###   ########.fr       */
+/*   Updated: 2024/06/08 13:28:21 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "mlx.h"
 #include "../math/utils.h"
 #include <stdio.h>
+#include "../math/mat4_init.h"
 
 void	player_tick(t_vars *vars, t_player *player);
 void	player_draw(t_r3d *r3d, t_player *player, t_camera *camera, t_vars *vars);
