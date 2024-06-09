@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/09 10:01:19 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:07:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,14 @@ static void	loop_hook(t_vars *vars)
 
 	r3d_raycast_world(vars->r3d, vars->map, vars);
 
+	draw_gun(&vars->scene->player->gun, vars->r3d);
+
 	// print_fps(vars, delta, getms() - vars->last_update);
 
 	// minimap_draw(&vars->minimap, vars->r3d, (t_v2i){}, (t_v2i){
 	// 	vars->r3d->camera->position.x * 20 - 150,
 	// 	vars->r3d->camera->position.z * 20 - 150,
 	// });
-
-	// draw_gun(&vars->shotgun, vars->r3d);
-	// tick_gun(&vars->shotgun);
 
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
@@ -170,7 +169,7 @@ int	main(int argc, char *argv[])
 		"assets/textures/SHTFA0.tga",
 		"assets/textures/SHTFB0.tga"
 	), 2, false, 200);
-	vars.shotgun.offset = (t_v2i){-22, 96};
+	vars.shotgun.offset = (t_v2i){-18, 96};
 
 	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga"));
 
@@ -218,6 +217,7 @@ int	main(int argc, char *argv[])
 	minimap_create(&vars.minimap, vars.map);
 
 	player->base.transform = vars.map->spawns[0];
+	player->gun = vars.shotgun;
 
 	vars.r3d->camera = vars.scene->player->camera;
 

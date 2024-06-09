@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/09 10:39:10 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/09 10:56:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,8 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 		const float	x = 8.0;
 		const float	y = 8.0;
 
+		const float	scale = 1.0;
+
 		//translate sprite position to relative to camera
 		double spriteX = x - r3d->camera->position.x;
 		double spriteY = y - r3d->camera->position.z;
@@ -173,7 +175,7 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 		int spriteScreenX = (int)((r3d->width / 2.0) * (1 + transformX / transformY));
 
 		//calculate height of the sprite on screen
-		int spriteHeight = abs2((r3d->height / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+		int spriteHeight = abs2(r3d->height / transformY) * scale; //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
 		int drawStartY = -spriteHeight / 2 + r3d->height / 2;
 		if(drawStartY < 0) drawStartY = 0;
@@ -181,7 +183,7 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 		if(drawEndY >= r3d->height) drawEndY = r3d->height - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = abs2((r3d->height / (transformY)));
+		int spriteWidth = abs2(r3d->height / transformY) * scale;
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
 		if(drawStartX < 0) drawStartX = 0;
 		int drawEndX = spriteWidth / 2 + spriteScreenX;

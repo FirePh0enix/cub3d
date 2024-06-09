@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 19:40:28 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 21:35:05 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:02:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_gun
 
 	bool		automatic;
 	bool		reloading;
+	bool		has_shoot;
 
 	t_v2i		offset;
 }	t_gun;

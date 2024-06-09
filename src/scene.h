@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 17:04:55 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:01:13 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "math/v3.h"
 # include "render/render.h"
+# include "gun.h"
 # include <stdbool.h>
 
 /* Entities definition */
@@ -54,6 +55,8 @@ typedef struct s_player
 	t_camera	*camera;
 	bool		has_jump;
 	bool		has_open_door;
+
+	t_gun		gun;
 }	t_player;
 
 t_player	*player_new(t_vars *vars, t_scene *scene, int id);

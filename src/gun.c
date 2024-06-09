@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 19:40:13 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 22:04:26 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:09:47 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 
 void	tick_gun(t_gun *gun)
 {
+	if (!gun->has_shoot)
+	{
+		gun->main_anim.current_frame = 0;
+		gun->reloading = false;
+		return ;
+	}
+
 	if (!gun->automatic)
 	{
 		if (gun->reloading)
@@ -25,7 +32,10 @@ void	tick_gun(t_gun *gun)
 			gun->shoot_anim.last_frame_tick = getms();
 			sprite_tick(&gun->main_anim);
 			if (sprite_is_end(&gun->main_anim))
+			{
 				gun->reloading = false;
+				gun->has_shoot = false;
+			}
 		}
 		else
 		{
@@ -49,7 +59,7 @@ void	draw_gun(t_gun *gun, t_r3d *r3d)
 	pos = (t_v2i){r3d->width / 2.0 - image->width * scale / 2, r3d->height - image->height * scale};
 	sprite_draw(r3d, &gun->main_anim, pos, scale);
 
-	if (!gun->reloading)
+	if (!gun->reloading && gun->has_shoot)
 	{
 		scale = 4;
 		image = sprite_get_image(&gun->shoot_anim);

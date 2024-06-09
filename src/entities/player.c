@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 16:53:35 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:14:00 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,13 @@ void	player_tick(t_vars *vars, t_player *player)
 	//
 	// Interactions
 	//
+
+	tick_gun(&player->gun);
+
+	if (vars->buttons[1] && !player->gun.has_shoot)
+	{
+		player->gun.has_shoot = true;
+	}
 
 	if (vars->keys[XK_e] && !player->has_open_door)
 	{
