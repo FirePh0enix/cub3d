@@ -17,6 +17,13 @@ inline float_t	min2(float x, float y)
 	return (y);
 }
 
+inline float	abs2(float f)
+{
+	if (f < 0)
+		return (-f);
+	return (f);
+}
+
 inline float	max3f(float a, float b, float c)
 {
 	return (max2(a, max2(b, c)));

@@ -6,14 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 21:58:43 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/09 10:39:10 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "font.h"
 #include "render.h"
 #include "../cub3d.h"
-#include <stdio.h>
+#include "../math/utils.h"
 
 static void	draw_vert_line(t_r3d *r3d, int x, int min_y, int max_y, t_color col)
 {
@@ -27,7 +27,7 @@ static void	draw_vert_line(t_r3d *r3d, int x, int min_y, int max_y, t_color col)
 	}
 }
 
-void	r3d_raycast_world(t_r3d *r3d, t_map *map)
+void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 {
 	int	x;
 
@@ -141,8 +141,69 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map)
 					r3d->color_buffer[x + y * r3d->width] = ((t_color *)texture->data)[tex_x + tex_y * texture->width];
 				}
 			}
+
+			r3d->depth_buffer[x] = perpWallDist;
 		}
 
+		// TODO: Sort 3d sprites for farset to closest.
+
 		x++;
+	}
+
+	for(int i = 0; i < 1; i++)
+	{
+		t_image	*image = sprite_get_image(&vars->player_sprite);
+		const float	x = 8.0;
+		const float	y = 8.0;
+
+		//translate sprite position to relative to camera
+		double spriteX = x - r3d->camera->position.x;
+		double spriteY = y - r3d->camera->position.z;
+
+		//transform sprite with the inverse camera matrix
+		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
+		// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
+		// [ planeY   dirY ]                                          [ -planeY  planeX ]
+
+		double invDet = 1.0 / (r3d->camera->plane_x * r3d->camera->dir_y - r3d->camera->dir_x * r3d->camera->plane_y); //required for correct matrix multiplication
+
+		double transformX = invDet * (r3d->camera->dir_y * spriteX - r3d->camera->dir_x * spriteY);
+		double transformY = invDet * (-r3d->camera->plane_y * spriteX + r3d->camera->plane_x * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+
+		int spriteScreenX = (int)((r3d->width / 2.0) * (1 + transformX / transformY));
+
+		//calculate height of the sprite on screen
+		int spriteHeight = abs2((r3d->height / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStartY = -spriteHeight / 2 + r3d->height / 2;
+		if(drawStartY < 0) drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + r3d->height / 2;
+		if(drawEndY >= r3d->height) drawEndY = r3d->height - 1;
+
+		//calculate width of the sprite
+		int spriteWidth = abs2((r3d->height / (transformY)));
+		int drawStartX = -spriteWidth / 2 + spriteScreenX;
+		if(drawStartX < 0) drawStartX = 0;
+		int drawEndX = spriteWidth / 2 + spriteScreenX;
+		if(drawEndX >= r3d->width) drawEndX = r3d->width - 1;
+		//loop through every vertical stripe of the sprite on screen
+		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+		{
+			int texX = (256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * image->width / spriteWidth) / 256;
+			//the conditions in the if are:
+			//1) it's in front of camera plane so you don't see things behind you
+			//2) it's on the screen (left)
+			//3) it's on the screen (right)
+			//4) ZBuffer, with perpendicular distance
+			if(transformY > 0 && stripe > 0 && stripe < r3d->width && transformY < r3d->depth_buffer[stripe])
+				for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+				{
+					int d = (y) * 256 - r3d->height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int texY = ((d * image->height) / spriteHeight) / 256;
+					t_color color = ((t_color *)image->data)[image->width * texY + texX]; //get current color from the texture
+					if (color.t == 0)
+						r3d->color_buffer[stripe + y * r3d->width] = color; //paint pixel if it isn't black, black is the invisible color
+				}
+		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 22:13:24 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/09 10:01:19 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	print_fps(t_vars *vars, suseconds_t delta, suseconds_t frame_time)
 
 	f = (1.0 / (delta / 16.0)) * 60.0;
 	ft_sprintf(buf, "fps: %d, delta: %d ms", (int) f, (int) frame_time);
-	r3d_draw_text(vars->r3d, vars->font, buf, (t_v2){-1.0, -1.0});
+	font_draw_str(vars->r3d, vars->font, buf, (t_v2i){0, 0});
 }
 
 #define LIMIT_HIGH 0.0167
@@ -67,7 +67,7 @@ static void	print_scoreboard(t_vars *vars)
 		if (vars->scoreboard.entries[i].present)
 		{
 			ft_sprintf(buf, "%s | %d | %d", vars->scoreboard.entries[i].username, vars->scoreboard.entries[i].kills, vars->scoreboard.entries[i].death);
-			r3d_draw_text(vars->r3d, vars->font, buf, (t_v2){r3d_get_text_size(vars->r3d, vars->font, buf) / 2.0, y});
+			// r3d_draw_text(vars->r3d, vars->font, buf, (t_v2){r3d_get_text_size(vars->r3d, vars->font, buf) / 2.0, y});
 		}
 		y += step;
 		i++;
@@ -106,7 +106,7 @@ static void	loop_hook(t_vars *vars)
 		netclient_pulse(&vars->client);
 	}
 
-	r3d_raycast_world(vars->r3d, vars->map);
+	r3d_raycast_world(vars->r3d, vars->map, vars);
 
 	// print_fps(vars, delta, getms() - vars->last_update);
 
@@ -115,8 +115,8 @@ static void	loop_hook(t_vars *vars)
 	// 	vars->r3d->camera->position.z * 20 - 150,
 	// });
 
-	draw_gun(&vars->shotgun, vars->r3d);
-	tick_gun(&vars->shotgun);
+	// draw_gun(&vars->shotgun, vars->r3d);
+	// tick_gun(&vars->shotgun);
 
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }
@@ -172,8 +172,9 @@ int	main(int argc, char *argv[])
 	), 2, false, 200);
 	vars.shotgun.offset = (t_v2i){-22, 96};
 
-	// vars.font = font_load_from_file("assets/JetBrainsMono.tga");
+	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga"));
 
+	vars.font = font_create();
 	vars.scene = create_scene();
 
 	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));

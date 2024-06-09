@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 21:34:38 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 23:03:57 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct s_vars
 	t_minimap		minimap;
 
 	t_gun			shotgun;
+
+	t_sprite		player_sprite;
 }	t_vars;
 
 inline int	next_entity_id(t_vars *vars)

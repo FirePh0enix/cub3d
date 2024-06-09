@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 19:27:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/08 23:06:43 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,13 @@ int		r3d_key_hook(int keycode, t_r3d *r3d);
  */
 
 void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);
-void	r3d_draw_text(t_r3d *r3d, t_font *font, char *text, t_v2 pos);
 float	r3d_get_text_size(t_r3d *r3d, t_font *font, char *text);
 
 /*
 	Raycasting
  */
 
-void	r3d_raycast_world(t_r3d *r3d, t_map *map);
+void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars);
 
 /*
 	HUD sprite rendering
@@ -114,6 +113,7 @@ void		sprite_tick(t_sprite *sprite);
 bool		sprite_is_end(t_sprite *sprite);
 
 void		sprite_draw(t_r3d *r3d, t_sprite *sprite, t_v2i pos, float scale);
+void		sprite_draw_single(t_r3d *r3d, t_image *image, t_v2i pos, float scale);
 
 /*
 	Minimap

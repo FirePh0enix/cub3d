@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/08 19:55:21 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/08 22:43:42 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,6 @@ SOURCES=\
 	src/render/init.c \
 	src/render/color.c \
 	src/render/tga.c \
-	src/render/draw_text.c \
 	src/render/gui.c \
 	src/render/font.c \
 	src/render/raycast.c \
