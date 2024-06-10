@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/09 11:14:00 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:44:13 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,23 +143,18 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	if (vars->buttons[1] && !player->gun.has_shoot)
 	{
+		t_entity *entity = raycast_entity(vars->scene, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
+			player->camera->rotation}, 10.0, ENTITY_FAKE_PLAYER);
 		player->gun.has_shoot = true;
-	}
-
-	if (vars->keys[XK_e] && !player->has_open_door)
-	{
-		t_door *entity = (void *) raycast_entity(vars->scene, (t_transform){player->camera->position, player->camera->rotation}, 3.0, ENTITY_DOOR);
-		if (entity != NULL)
+		if (entity)
 		{
-			if (entity->target_angle == 90.0)
-				entity->target_angle = 0.0;
-			else
-				entity->target_angle = 90.0;
+			printf("TEST\n");
+			t_fake_player *fake_player = (t_fake_player *)entity;
+			fake_player->health--;
+			if (fake_player->health <= 0)
+				fake_player->base.is_dead = true;
 		}
-		player->has_open_door = true;
 	}
-	else if (!vars->keys[XK_e])
-		player->has_open_door = false;
 
 	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2.0, 720 / 2.0);
 

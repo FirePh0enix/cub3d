@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/09 11:07:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:44:26 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,10 +180,11 @@ int	main(int argc, char *argv[])
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
 
-	t_door	*door = door_new(&vars, vars.scene, 0, next_entity_id(&vars));
-	door->base.transform.position.z = -4.0;
-	door->base.transform.position.y = 1.5;
-	scene_add_entity(vars.scene, door);
+	t_fake_player *fake_player = fake_player_new(&vars, vars.scene, next_entity_id(&vars));
+	fake_player->base.transform.position.x = 10;
+	fake_player->base.transform.position.z = 10;
+	fake_player->health = 3;
+	scene_add_entity(vars.scene, fake_player);
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
