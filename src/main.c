@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 14:44:26 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/10 23:32:25 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "render/render.h"
 #include "mlx.h"
 #include "scene.h"
+#include "sound/sound.h"
 
 #include <netinet/in.h>
 #include <pthread.h>
@@ -164,12 +165,13 @@ int	main(int argc, char *argv[])
 		"assets/textures/SHTGD0.tga",
 		"assets/textures/SHTGC0.tga",
 		"assets/textures/SHTGB0.tga"
-	), 6, false, 200);
+	), 6, false, 100);
 	vars.shotgun.shoot_anim = sprite_create_anim(load_images(2,
 		"assets/textures/SHTFA0.tga",
 		"assets/textures/SHTFB0.tga"
-	), 2, false, 200);
+	), 2, false, 100);
 	vars.shotgun.offset = (t_v2i){-18, 96};
+	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav");
 
 	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga"));
 
@@ -189,7 +191,7 @@ int	main(int argc, char *argv[])
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
 	vars.map = ft_calloc(sizeof(t_map), 1);
-	line = read_to_string(argv[1]);
+	line = read_to_string(argv[1], NULL);
 	if (!line)
 		return 1;
 	map_file = ft_split(line, '\n');
@@ -250,6 +252,12 @@ int	main(int argc, char *argv[])
 	{
 		vars.is_server = true;
 	}
+
+	t_sound	sound;
+
+	sound_read_from_wav(&sound, "bfg.wav");
+
+	sound_play(&sound);
 
 	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
 	mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory

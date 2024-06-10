@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 23:03:57 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:15:12 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ t_image	**load_images(int num, ...);
 void	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
 void	draw_map(t_r3d *r3d, t_map *map);
 
-char	*read_to_string(char *filename);
+char	*read_to_string(char *filename, size_t *len);
 char	**create_map(char **cub_file, t_map *map);
 bool	is_map_surrounded(char **maps, t_map *map);
 char	**fill_map_with_space(char **map, size_t width, size_t height);
