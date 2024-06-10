@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 12:13:25 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:52:01 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,14 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 		x++;
 	}
 
-	for(int i = 0; i < 1; i++)
+	for(size_t i = 0; i < ft_vector_size(vars->scene->entities); i++)
 	{
+		t_entity *entity = vars->scene->entities[i];
+		if (entity->type == ENTITY_PLAYER || entity->is_dead)
+			continue ;
 		t_image	*image = sprite_get_image(&vars->player_sprite);
-		const float	x = 8.0;
-		const float	y = 8.0;
+		const float	x = entity->transform.position.x;
+		const float	y = entity->transform.position.z;
 
 		const float	scale = 1.0;
 

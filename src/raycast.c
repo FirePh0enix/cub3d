@@ -13,6 +13,7 @@ t_entity	*raycast_entity(t_scene *scene, t_transform ray, float size, uint32_t e
 	// printf("%f %f %f\n", dir.x, dir.y, dir.z);
 
 	int	len = size / precision;
+	
 	int	i = 0;
 	size_t	j = 0;
 	while (i < len)

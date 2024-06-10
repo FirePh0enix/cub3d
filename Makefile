@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/10 14:51:34 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/10 14:51:56 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SOURCES=\
 	src/load.c \
 	src/gun.c \
 	src/entities/player.c \
-	src/entities/door.c \
+	src/entities/fake_player.c \
 	src/gui/panel.c \
 	src/network/serv.c \
 	src/network/serv_send.c \

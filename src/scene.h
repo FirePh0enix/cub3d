@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/09 11:01:13 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:38:02 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ typedef void	(*t_tick_hook)(t_vars *vars, void *entity);
 enum e_type
 {
 	ENTITY_PLAYER,
-	ENTITY_MESH,
-	ENTITY_DOOR
+	ENTITY_FAKE_PLAYER
 };
 
 typedef struct s_entity
@@ -42,6 +41,8 @@ typedef struct s_entity
 	float		depth;
 	t_draw_hook	draw;
 	t_tick_hook	tick;
+
+	bool		is_dead;
 
 	t_scene		*scene;
 	t_transform	transform;
@@ -59,7 +60,16 @@ typedef struct s_player
 	t_gun		gun;
 }	t_player;
 
-t_player	*player_new(t_vars *vars, t_scene *scene, int id);
+typedef struct s_fake_player
+{
+	t_entity	base;
+	int			health;
+}	t_fake_player;
+
+
+
+t_player		*player_new(t_vars *vars, t_scene *scene, int id);
+t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id);
 void		player_mouse_event(int x, int y, t_vars *vars);
 
 typedef struct s_door
