@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/08 22:43:42 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/10 14:51:34 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,9 +64,9 @@ mlx/libmlx.a:
 	make -C mlx
 
 $(NAME): $(OBJECTS) libft/libft.a mlx/libmlx.a
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext -pthread
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext -lpulse -lpulse-simple
 
-bonus: CFLAGS+=-D_BONUS=1 #-D_USE_RENDER_THREAD=1
+bonus: CFLAGS+=-D_BONUS=1 -D_ENABLE_MULTIPLAYER=1 -D_ENABLE_SOUND=1
 bonus: $(NAME)
 
 perf: CFLAGS+=-pg
@@ -81,3 +81,6 @@ fclean: clean
 	rm -f cub3d
 
 re: fclean all
+
+youtube-dl:
+
