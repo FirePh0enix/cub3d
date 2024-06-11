@@ -15,10 +15,10 @@ void    netclient_init(t_client *client, char *addr, int port)
     client->socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
 	client->unique_id = -1;
 
-    if (bind(client->socket, (void *) &addr_in, sizeof(struct sockaddr_in)) == -1)
-	{
-		ft_printf("Failed to bind on port %d\n", addr, CLIENT_PORT);
-	}
+	// if (bind(client->socket, (void *) &addr_in, sizeof(struct sockaddr_in)) == -1)
+	// {
+	// 	ft_printf("Failed to bind on port %d\n", CLIENT_PORT);
+	// }
 }
 
 static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars)
@@ -82,8 +82,6 @@ void	netclient_poll(t_client *client, t_vars *vars)
 			vars->scoreboard.entries[p->index].death = p->death;
 			vars->scoreboard.entries[p->index].present = p->present;
 			ft_memcpy(vars->scoreboard.entries[p->index].username, p->username, 16);
-
-			printf("dweldlwkdkwjedwd\n");
 		}
 	}
 
