@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:16:49 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/11 10:31:33 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/11 10:37:58 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void	sound_play(t_sound *sound)
 	// Don't create one thread every time the sound is played, it causes freezes !
 	if (sound->thread)
 		pthread_join(sound->thread, NULL);
-	if (!sound->valid)
+	if (sound->valid)
 		pthread_create(&sound->thread, NULL, (void *) sound_routine, sound);
 }
