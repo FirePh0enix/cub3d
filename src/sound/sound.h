@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:17:14 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 23:10:12 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/11 10:48:07 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 # include <stdint.h>
 # include <pulse/simple.h>
 # include <stdbool.h>
-
-# define SOUND_RATE 48000
-# define SOUND_CHANNELS 2
 
 typedef struct s_wav_hdr
 {

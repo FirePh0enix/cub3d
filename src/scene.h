@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 23:22:55 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/11 10:47:27 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "math/v3.h"
 # include "render/render.h"
 # include "gun.h"
-#include "sound/sound.h"
+# include "sound/sound.h"
 # include <stdbool.h>
 
 /* Entities definition */

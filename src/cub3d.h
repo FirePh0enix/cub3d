@@ -6,14 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 19:15:12 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/11 10:52:19 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include "gun.h"
+# include "gun.h"
 # include "math/mat4.h"
 # include "math/v2i.h"
 # include "math/v3.h"
@@ -22,6 +22,7 @@
 # include "render/render.h"
 # include "render/types.h"
 # include "scene.h"
+# include "menu.h"
 
 # define YELLOW	"\033[0;33m"
 # define GREEN	"\033[0;32m"
@@ -67,8 +68,8 @@ typedef struct s_vars
 	int				entity_id;
 	t_map			*map;
 
-	t_panel			*panel;
 	t_font			*font;
+	t_menu			menu;
 
 	bool			*keys;
 	bool			buttons[8];

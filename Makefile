@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/10 23:16:08 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/11 11:49:12 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,14 +32,12 @@ SOURCES=\
 	src/sound/sound.c \
 	src/entities/player.c \
 	src/entities/fake_player.c \
-	src/gui/panel.c \
 	src/network/serv.c \
 	src/network/serv_send.c \
 	src/network/client.c \
 	src/render/init.c \
 	src/render/color.c \
 	src/render/tga.c \
-	src/render/gui.c \
 	src/render/font.c \
 	src/render/raycast.c \
 	src/render/minimap.c \

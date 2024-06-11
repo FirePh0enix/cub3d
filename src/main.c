@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 23:32:25 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:00:26 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,11 +253,11 @@ int	main(int argc, char *argv[])
 		vars.is_server = true;
 	}
 
-	t_sound	sound;
+	// t_sound	sound;
 
-	sound_read_from_wav(&sound, "bfg.wav");
+	// sound_read_from_wav(&sound, "bfg.wav");
 
-	sound_play(&sound);
+	// sound_play(&sound);
 
 	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
 	mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
