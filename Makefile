@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/12 10:12:43 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/12 10:22:22 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ $(NAME): $(OBJECTS) libft/libft.a mlx/libmlx.a
 
 bonus: CFLAGS+=-D_BONUS=1 -D_ENABLE_MULTIPLAYER=1 -D_ENABLE_SOUND=1
 bonus: LDFLAGS+=-lpulse -lpulse-simple -pthread
-bonus: $(NAME) music
+bonus: $(NAME)
 
 perf: CFLAGS+=-pg
 perf: bonus

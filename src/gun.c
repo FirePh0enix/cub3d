@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 19:40:13 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/09 11:09:47 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/12 10:31:22 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,28 @@ void	tick_gun(t_gun *gun)
 	}
 }
 
+static void	draw_crosshair(t_r3d *r3d)
+{
+	const int	w = r3d->width;
+	const int	h = r3d->height;
+	const int	w2 = 4;
+	const int	h2 = 4;
+	int			x;
+	int			y;
+
+	x = 0;
+	while (x < w2)
+	{
+		y = 0;
+		while (y < h2)
+		{
+			r3d->color_buffer[(x + w / 2 - w2 / 2) + (y + h / 2 - h2 / 2) * w] = hex(0x00FFFFFF);
+			y++;
+		}
+		x++;
+	}
+}
+
 void	draw_gun(t_gun *gun, t_r3d *r3d)
 {
 	float	scale;
@@ -66,4 +88,6 @@ void	draw_gun(t_gun *gun, t_r3d *r3d)
 		pos = (t_v2i){r3d->width / 2.0 - image->width * scale / 2, r3d->height - image->height * scale};
 		sprite_draw(r3d, &gun->shoot_anim, v2i_sub(pos, gun->offset), scale);
 	}
+
+	draw_crosshair(r3d);
 }

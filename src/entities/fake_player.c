@@ -31,8 +31,8 @@ t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id)
 	fake_player->base.scene = scene;
 	fake_player->base.velocity = v3(0, 0, 0);
 	fake_player->base.height = 1.0;
-	fake_player->base.width = 0.3;
-	fake_player->base.depth = 0.3;
+	fake_player->base.width = 0.7;
+	fake_player->base.depth = 0.7;
 
 	return (fake_player);
 }
