@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   net.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 17:11:31 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:41:30 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ enum e_packet_type
 	PACKET_NEW_ENTITY,
 	PACKET_DEL_ENTITY,
 	PACKET_SYNC_SCOREBOARD,
+	PACKET_HIT,
+	PACKET_DEAD_PLAYER,
 };
 
 typedef struct s_packet_connect
@@ -55,6 +57,7 @@ typedef struct s_packet_connect_response
 {
 	int	type;
 	int	unique_id;
+	int	entity_id;
 }	t_packet_connect_response;
 
 typedef struct s_packet_pulse
@@ -105,6 +108,19 @@ typedef struct s_packet_sync_score
 	char	username[MAX_CLIENT_NAME + 1];
 }	t_packet_sync_score;
 
+typedef struct s_packet_hit
+{
+	int		type;
+	int		entity_id;
+	int		damage_taken;
+}	t_packet_hit;
+
+typedef struct s_packet_dead
+{
+	int		type;
+	int		entity_id;
+}	t_packet_dead;
+
 typedef struct s_remote_client
 {
 	int					present;
@@ -130,6 +146,7 @@ void	netserv_broadcast(t_server *server, void *packet_addr, size_t size, int mas
 
 void	netserv_broadcast_pos(t_server *server, t_player *player, int mask);
 void	netserv_broadcast_del(t_server *server, int entity_id, int mask);
+void 	netserv_broadcast_dead_player(t_server *server, int entity_id, int mask);
 
 typedef struct s_scoreboard	t_scoreboard;
 
@@ -140,6 +157,7 @@ typedef struct s_client
     int					socket;
     struct sockaddr_in	server_addr;
 	int					unique_id;
+	int					entity_id;
 	suseconds_t			last_pulse;
 }   t_client;
 
@@ -149,5 +167,5 @@ void	netclient_connect(t_client *client, char *username);
 void	netclient_send_pos(t_client *client, t_transform transform);
 
 void	netclient_pulse(t_client *client);
-
+void	netclient_send_hit(t_client *client, t_entity *entity, int damage_taken);
 #endif
