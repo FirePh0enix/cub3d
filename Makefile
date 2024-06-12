@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/10 14:51:56 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/10 16:11:41 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,5 +82,9 @@ fclean: clean
 
 re: fclean all
 
-youtube-dl:
+yt-dlp:
+	wget https://github.com/yt-dlp/yt-dlp/releases/download/2024.05.27/yt-dlp_linux -O yt-dlp
+	chmod +x yt-dlp
 
+music: yt-dlp
+	./yt-dlp -x --audio-format wav -v "https://www.youtube.com/watch?v=HsLOxbLZMy8" -o menu.wav
