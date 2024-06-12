@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 23:06:43 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/11 10:52:08 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define RENDER_H
 
 # include "types.h"
-# include "../gui/gui.h"
 # include "font.h"
 # include "mlx_int.h"
 # include <stdbool.h>
@@ -80,7 +79,6 @@ int		r3d_key_hook(int keycode, t_r3d *r3d);
 	GUI rendering
  */
 
-void	r3d_draw_gui(t_r3d *r3d, t_panel *panel);
 float	r3d_get_text_size(t_r3d *r3d, t_font *font, char *text);
 
 /*

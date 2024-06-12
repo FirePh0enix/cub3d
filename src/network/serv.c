@@ -53,11 +53,11 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	server->clients[i].last_pulse = getms();
 	ft_printf("info : Client `%s` connected\n", conn->username);
 
-	// t_mesh_inst	*mesh = mesh_inst_new(vars, vars->scene, vars->enemy_mesh, next_entity_id(vars));
-	// mesh->base.transform.position = v3(0, 0, 0);
-	// scene_add_entity(vars->scene, mesh);
+	t_fake_player	*fake_player = fake_player_new(vars, vars->scene, next_entity_id(vars));
+	fake_player->base.transform.position = v3(0, 0, 0);
+	scene_add_entity(vars->scene, fake_player);
 
-	// server->clients[i].entity = (void *) mesh;
+	server->clients[i].entity = (void *) fake_player;
 
 	vars->scoreboard.entries[i + 1].present = 1;
 	vars->scoreboard.entries[i + 1].kills = 0;
@@ -74,11 +74,10 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	// Add the server entity.
 	t_packet_new_entity		new_ent;
 	new_ent.type = PACKET_NEW_ENTITY;
-	// new_ent.entity_type = ENTITY_MESH;
-	// ft_memcpy(new_ent.buf, "assets/enemy.obj", ft_strlen("assets/enemy.obj") + 1);
-	// new_ent.entity_id = server->player_id;
-	// new_ent.transform = (t_transform){v3(0, 0, 0), v3(0, 0, 0)};
-	// netserv_send(server, &new_ent, sizeof(t_packet_new_entity), i);
+	new_ent.entity_type = ENTITY_FAKE_PLAYER;
+	new_ent.entity_id = server->player_id;
+	new_ent.transform = (t_transform){v3(0, 0, 0), v3(0, 0, 0)};
+	netserv_send(server, &new_ent, sizeof(t_packet_new_entity), i);
 
 	new_ent.entity_id = server->clients[i].entity->id;
 	netserv_broadcast(server, &new_ent, sizeof(t_packet_new_entity), i);
@@ -92,12 +91,11 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 			continue ;
 		}
 		// printf("new entity\n");
-		// new_ent.type = PACKET_NEW_ENTITY;
-		// new_ent.entity_type = ENTITY_MESH;
-		// ft_memcpy(new_ent.buf, "assets/enemy.obj", ft_strlen("assets/enemy.obj") + 1);
-		// new_ent.entity_id = server->clients[i2].entity->id;
-		// new_ent.transform = (t_transform){v3(0, 0, 0), v3(0, 0, 0)};
-		// netserv_send(server, &new_ent, sizeof(t_packet_new_entity), i);
+		new_ent.type = PACKET_NEW_ENTITY;
+		new_ent.entity_type = ENTITY_FAKE_PLAYER;
+		new_ent.entity_id = server->clients[i2].entity->id;
+		new_ent.transform = (t_transform){v3(0, 0, 0), v3(0, 0, 0)};
+		netserv_send(server, &new_ent, sizeof(t_packet_new_entity), i);
 		i2++;
 	}
 }

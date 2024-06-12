@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 14:44:13 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/10 23:28:34 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void	player_tick(t_vars *vars, t_player *player)
 		t_entity *entity = raycast_entity(vars->scene, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
 			player->camera->rotation}, 10.0, ENTITY_FAKE_PLAYER);
 		player->gun.has_shoot = true;
+		sound_play(&player->gun.main_sound);
 		if (entity)
 		{
 			printf("TEST\n");

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 22:02:54 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:19:49 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-char	*read_to_string(char *filename)
+char	*read_to_string(char *filename, size_t *len)
 {
 	int		fd;
 	char	*str;
@@ -45,6 +45,8 @@ char	*read_to_string(char *filename)
 		str[str_size + n] = '\0';
 		str_size += n;
 	}
+	if (len)
+		*len = str_size;
 	return (close(fd), str);
 }
 
@@ -133,7 +135,7 @@ static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf)
 
 t_image	*tga_load_from_file(char *filename)
 {
-	const char	*s = read_to_string(filename);
+	const char	*s = read_to_string(filename, NULL);
 	t_tga_hdr	hdr;
 	t_image		*image;
 
