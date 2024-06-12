@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/11 10:52:19 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:06:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_vars
 
 	t_font			*font;
 	t_menu			menu;
+	bool			menu_open;
 
 	bool			*keys;
 	bool			buttons[8];

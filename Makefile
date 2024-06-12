@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/12 10:22:22 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/12 11:09:38 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SOURCES=\
 	src/scene.c \
 	src/load.c \
 	src/gun.c \
+	src/menu.c \
+	src/menu_button.c \
 	src/sound/sound.c \
 	src/entities/player.c \
 	src/entities/fake_player.c \

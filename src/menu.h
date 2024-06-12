@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 19:45:22 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/11 11:09:52 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:01:22 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,12 @@ typedef struct s_menu
 	t_state		state;
 
 	t_button	singleplayer;
+	t_button	multiplayer;
+
+	// Multiplayer
 	t_button	host;
 	t_button	join;
-	t_text_edit	join_ip;
+	t_text_edit	ip;
 }	t_menu;
 
 void	menu_draw(t_menu *menu, t_r3d *r3d);

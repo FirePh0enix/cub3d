@@ -6,13 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/11 12:00:26 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:53:33 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "gun.h"
 #include "libft.h"
+#include "menu.h"
 #include "network/net.h"
 #include "render/font.h"
 #include "render/render.h"
@@ -93,7 +94,10 @@ static void	loop_hook(t_vars *vars)
 	r3d_clear_color_buffer(vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(vars->r3d);
 
-	tick_scene(vars, vars->scene);
+	if (!vars->menu_open)
+		tick_scene(vars, vars->scene);
+	else
+		menu_draw(&vars->menu, vars->r3d);
 	// draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
 
 	if (vars->is_server)
@@ -109,7 +113,10 @@ static void	loop_hook(t_vars *vars)
 
 	r3d_raycast_world(vars->r3d, vars->map, vars);
 
-	draw_gun(&vars->scene->player->gun, vars->r3d);
+	if (!vars->menu_open)
+		draw_gun(&vars->scene->player->gun, vars->r3d);
+	else
+		menu_tick(&vars->menu, vars);
 
 	// print_fps(vars, delta, getms() - vars->last_update);
 
@@ -119,6 +126,11 @@ static void	loop_hook(t_vars *vars)
 	// });
 
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
+}
+
+static void	singleplayer_pressed(t_vars *vars)
+{
+	vars->menu_open = false;
 }
 
 int	main(int argc, char *argv[])
@@ -177,6 +189,25 @@ int	main(int argc, char *argv[])
 
 	vars.font = font_create();
 	vars.scene = create_scene();
+
+	vars.menu.state = STATE_MAIN;
+	vars.menu_open = true;
+
+	t_image *img = tga_load_from_file("assets/M_SING.tga");
+	vars.menu.singleplayer = (t_button){
+		.disabled = false,
+		.label = NULL,
+		.scale = 3.0,
+		.image = img,
+		.box = { .min = {
+			vars.r3d->width / 2 - img->width * 3 / 2,
+			vars.r3d->height / 2 - img->height * 3 / 2
+		}, .max = {
+			vars.r3d->width / 2 - img->width * 3 / 2 + img->width * 3,
+			vars.r3d->height / 2 - img->height * 3 / 2 + img->height * 3
+		} },
+		.pressed = (void *) singleplayer_pressed,
+	};
 
 	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));
 	scene_add_entity(vars.scene, player);
@@ -260,7 +291,7 @@ int	main(int argc, char *argv[])
 	// sound_play(&sound);
 
 	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
-	mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
+	// mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
 
 	mlx_do_key_autorepeatoff(vars.mlx);
 	mlx_loop(vars.mlx);

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 23:28:34 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:10:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ void	player_mouse_event(int x, int y, t_vars *vars)
 	const float y_speed = y - 720 / 2.0;
 	t_player	*player;
 
-	if (!vars->is_focused)
+	if (!vars->is_focused || vars->menu_open)
 		return ;
 	player = vars->scene->player;
 

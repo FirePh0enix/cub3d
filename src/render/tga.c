@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 19:19:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:53:08 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ typedef struct s_tga_hdr
 	uint8_t		cmapent;
 	uint16_t	x;
 	uint16_t	y;
-	uint16_t	h;
 	uint16_t	w;
+	uint16_t	h;
 	uint8_t		bpp;
 	uint8_t		pixel_type;
 } __attribute__((packed))	t_tga_hdr;
@@ -74,6 +74,7 @@ static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf)
 	t_rgb		*pixels24;
 	uint8_t		*pixels8;
 	int			i;
+	t_color		col;
 
 	if (image->bpp == 32)
 	{
@@ -81,7 +82,9 @@ static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf)
 		i = 0;
 		while (i < image->width * image->height)
 		{
-			image->data[i] = pixels[i];
+			col = *(t_color *)&pixels[i];
+			col.t = 255 - col.t;
+			image->data[i] = col.raw;
 			i++;
 		}
 	}
@@ -98,8 +101,8 @@ static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf)
 	else if (image->bpp == 8 && hdr->colormap == 1 && hdr->cmapent == 32)
 	{
 		// WHAT THE ACTUAL FUCK?
-		image->width = hdr->h;
-		image->height = hdr->w;
+		// image->width = hdr->h;
+		// image->height = hdr->w;
 
 		pixels = (uint32_t *) buf;
 		pixels8 = (uint8_t *)(buf + (hdr->cmapent >> 3) * hdr->cmaplen);
