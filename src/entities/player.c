@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 23:28:34 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:50:34 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_player	*player_new(t_vars *vars, t_scene *scene, int id)
 
 	player->camera->dir_x = 0;
 	player->camera->dir_y = -1;
+
+	player->health = 1;
 
 	return (player);
 }
@@ -149,11 +151,11 @@ void	player_tick(t_vars *vars, t_player *player)
 		sound_play(&player->gun.main_sound);
 		if (entity)
 		{
-			printf("TEST\n");
 			t_fake_player *fake_player = (t_fake_player *)entity;
-			fake_player->health--;
-			if (fake_player->health <= 0)
-				fake_player->base.is_dead = true;
+			if (!vars->is_server)
+				netclient_send_hit(&vars->client, entity, 1);
+			else
+				fake_player->health -= 1;
 		}
 	}
 

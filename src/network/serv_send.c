@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serv_send.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:25:15 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 18:37:53 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:51:58 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@ void	netserv_broadcast_del(t_server *server, int entity_id, int mask)
 	del_entity.type = PACKET_DEL_ENTITY;
 	del_entity.entity_id = entity_id;
 	netserv_broadcast(server, &del_entity, sizeof(t_packet_del_entity), mask);
+}
+
+void netserv_broadcast_dead_player(t_server *server, int entity_id, int mask)
+{
+	t_packet_dead	dead_player;
+
+	dead_player.type = PACKET_DEAD_PLAYER;
+	dead_player.entity_id = entity_id;
+	netserv_broadcast(server, &dead_player, sizeof(t_packet_dead), mask);
 }
 
 void	netserv_broadcast_scoreboard(t_server *server, t_scoreboard *scoreboard)

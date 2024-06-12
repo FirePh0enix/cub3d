@@ -9,13 +9,17 @@ void	fake_player_tick(t_vars *vars, t_fake_player *fake_player)
 {
 	(void) vars;
 	(void) fake_player;
+	if (fake_player->health <= 0 && vars->is_server)
+	{
+		// printf("PACKET SENT\n");
+		fake_player->base.is_dead = true;
+		netserv_broadcast_dead_player(&vars->server, fake_player->base.id, -1);
+	}
 }
-
 
 void	fake_player_draw(t_r3d *r3d, t_fake_player *fake_player, t_vars *vars)
 {
 }
-
 
 t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id)
 {
@@ -33,6 +37,7 @@ t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id)
 	fake_player->base.height = 1.0;
 	fake_player->base.width = 0.7;
 	fake_player->base.depth = 0.7;
+	fake_player->health = 1;
 
 	return (fake_player);
 }

@@ -20,7 +20,7 @@ void    netserv_init(t_server *server, t_vars *vars, int port)
 	{
 		ft_printf("Failed to bind address 0.0.0.0 on port %d\n", port);
 	}
-	server->player_id = next_entity_id(vars);
+	server->player_id = vars->scene->player->base.id;
 }
 
 static int	find_free_client(t_server *server)
@@ -68,6 +68,7 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	t_packet_connect_response	packet;
 	packet.type = PACKET_CONNECT_RESPONSE;
 	packet.unique_id = i;
+	packet.entity_id = server->clients[i].entity->id;
 	sendto(server->socket, &packet, sizeof(t_packet_connect_response), 0,
 		(void *) &server->clients[i].addr, sizeof(struct sockaddr_in));
 
@@ -131,6 +132,30 @@ static void	handle_pulse(t_server *server, t_packet_pulse *pulse)
 	netserv_send(server, pulse, sizeof(t_packet_pulse), pulse->unique_id);
 }
 
+static void	player_hit(t_server *server, t_packet_hit *hit, t_vars *vars)
+{
+	t_entity		*entity;
+	t_fake_player	*fake_player;
+
+	(void)server;
+	entity = scene_get_entity_by_id(vars->scene, hit->entity_id);
+	printf("ENTITY ID: %d\n", hit->entity_id);
+	if (!entity)
+	{
+		printf("NO ENTITY %p\n", entity);
+		return ;
+	}
+	if (entity->type == ENTITY_FAKE_PLAYER)
+	{
+		fake_player = (t_fake_player *) entity;
+		fake_player->health -= hit->damage_taken;
+	}
+	else if (entity->type == ENTITY_PLAYER)
+	{
+		((t_player *) entity)->health -= hit->damage_taken;
+	}
+}
+
 static void	disconnect(t_server *server, int i, t_vars *vars)
 {
 	t_remote_client	*client;
@@ -161,6 +186,8 @@ void	netserv_poll(t_server *server, t_vars *vars)
 			move_player(server, (void *) buf, vars);
 		else if (type == PACKET_PULSE)
 			handle_pulse(server, (void *) buf);
+		else if (type == PACKET_HIT)
+			player_hit(server, (void *) buf, vars);
 	}
 	int	i = 0;
 	while (i < MAX_CLIENT)

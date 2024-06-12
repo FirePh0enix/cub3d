@@ -47,6 +47,8 @@ void	netclient_poll(t_client *client, t_vars *vars)
 		{
 			ft_printf("Response received from the server.\n");
 			client->unique_id = ((t_packet_connect_response *) buf)->unique_id;
+			client->entity_id = ((t_packet_connect_response *) buf)->entity_id;
+			vars->scene->player->base.id = client->entity_id;
 			client->last_pulse = getms();
 		}
 		else if (type == PACKET_POS)
@@ -82,6 +84,15 @@ void	netclient_poll(t_client *client, t_vars *vars)
 			vars->scoreboard.entries[p->index].death = p->death;
 			vars->scoreboard.entries[p->index].present = p->present;
 			ft_memcpy(vars->scoreboard.entries[p->index].username, p->username, 16);
+		}
+		else if (type == PACKET_DEAD_PLAYER)
+		{
+			t_packet_dead	*packet = (void *)buf;
+			t_entity *entity = scene_get_entity_by_id(vars->scene, packet->entity_id);
+			if (entity == NULL)
+				continue ;
+			entity->is_dead = true;
+			printf("PACKET DEAD\n");
 		}
 	}
 
@@ -122,5 +133,18 @@ void	netclient_send_pos(t_client *client, t_transform transform)
 	packet.rot = transform.rotation;
 	packet.eid = client->unique_id;
 	sendto(client->socket, &packet, sizeof(t_packet_pos), 0,
+		(void *) &client->server_addr, sizeof(struct sockaddr_in));
+}
+
+void	netclient_send_hit(t_client *client, t_entity *entity, int damage_taken)
+{
+	t_packet_hit	packet;
+
+	if (client->unique_id == -1)
+		return ;
+	packet.type = PACKET_HIT;
+	packet.entity_id = entity->id;
+	packet.damage_taken = damage_taken;
+	sendto(client->socket, &packet, sizeof(t_packet_hit), 0,
 		(void *) &client->server_addr, sizeof(struct sockaddr_in));
 }
