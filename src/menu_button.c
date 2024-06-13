@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:04:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/12 14:27:44 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:35:19 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "cub3d.h"
 #include "mlx.h"
 #include "render/render.h"
-#include <stdio.h>
 
 void	button_draw(t_button *button, t_r3d *r3d)
 {
@@ -29,6 +28,11 @@ void	button_tick(t_button *button, t_vars *vars)
 	int	y;
 
 	mlx_mouse_get_pos(vars->mlx, vars->win, &x, &y);
-	if (x >= button->box.min.x && x <= button->box.max.x && y >= button->box.min.y && y <= button->box.max.y && vars->buttons[1] && button->pressed)
+	if (x >= button->box.min.x && x <= button->box.max.x && y >= button->box.min.y && y <= button->box.max.y
+		&& vars->buttons[1] && button->pressed
+		&& !vars->menu.already_pressed)
+	{
 		button->pressed(vars);
+		vars->menu.already_pressed = true;
+	}
 }

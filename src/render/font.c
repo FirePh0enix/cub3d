@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 22:51:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/13 11:34:52 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,33 @@ t_font	*font_create()
 
 t_image	*font_get_image(t_font *font, char c)
 {
+	if (c >= 'a' && c <= 'z')
+		return (font->images[(int)c - 32]);
 	return (font->images[(int)c]);
 }
 
-void	font_draw_str(t_r3d *r3d, t_font *font, char *str, t_v2i pos)
+void	font_draw_str(t_r3d *r3d, t_font *font, char *str, t_v2i pos, float scale)
 {
-	const float		scale = 10;
 	size_t			x_adv;
 	size_t			i;
 	t_image			*image;
 
-	if (font->images[32] == NULL)
+	if (font->images[33] == NULL)
 		x_adv = 0;
 	else
-		x_adv = font->images[32]->width * scale;
+		x_adv = font->images[33]->width * scale;
 	i = 0;
 	while (i < ft_strlen(str))
 	{
-		if (str[i] > 32)
+		if (str[i] == 32)
 		{
-			image = font_get_image(font, str[i]);
-			if (image)
-				sprite_draw_single(r3d, image, pos, scale);
+			pos.x += x_adv;
+			i++;
+			return ;
 		}
+		image = font_get_image(font, str[i]);
+		if (image)
+			sprite_draw_single(r3d, image, pos, scale);
 		pos.x += x_adv;
 		i++;
 	}

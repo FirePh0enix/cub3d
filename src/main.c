@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/12 14:55:46 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:28:57 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	print_fps(t_vars *vars, suseconds_t delta, suseconds_t frame_time)
 
 	f = (1.0 / (delta / 16.0)) * 60.0;
 	ft_sprintf(buf, "fps: %d, delta: %d ms", (int) f, (int) frame_time);
-	font_draw_str(vars->r3d, vars->font, buf, (t_v2i){0, 0});
+	font_draw_str(vars->r3d, vars->font, buf, (t_v2i){0, 0}, 3);
 }
 
 #define LIMIT_HIGH 0.0167
@@ -97,7 +97,7 @@ static void	loop_hook(t_vars *vars)
 	if (!vars->menu_open)
 		tick_scene(vars, vars->scene);
 	else
-		menu_draw(&vars->menu, vars->r3d);
+		menu_draw(&vars->menu, vars->r3d, vars);
 	// draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
 
 	if (vars->is_server)
@@ -112,7 +112,7 @@ static void	loop_hook(t_vars *vars)
 			return ;
 		}
 	}
-	else
+	else if (vars->client.has_send_connect)
 	{
 		netclient_poll(&vars->client, vars);
 		netclient_pulse(&vars->client);
@@ -133,11 +133,6 @@ static void	loop_hook(t_vars *vars)
 	// });
 
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
-}
-
-static void	singleplayer_pressed(t_vars *vars)
-{
-	vars->menu_open = false;
 }
 
 int	main(int argc, char *argv[])
@@ -200,21 +195,7 @@ int	main(int argc, char *argv[])
 	vars.menu.state = STATE_MAIN;
 	vars.menu_open = true;
 
-	t_image *img = tga_load_from_file("assets/M_SING.tga");
-	vars.menu.singleplayer = (t_button){
-		.disabled = false,
-		.label = NULL,
-		.scale = 3.0,
-		.image = img,
-		.box = { .min = {
-			vars.r3d->width / 2 - img->width * 3 / 2,
-			vars.r3d->height / 2 - img->height * 3 / 2
-		}, .max = {
-			vars.r3d->width / 2 - img->width * 3 / 2 + img->width * 3,
-			vars.r3d->height / 2 - img->height * 3 / 2 + img->height * 3
-		} },
-		.pressed = (void *) singleplayer_pressed,
-	};
+	menu_init(&vars.menu, vars.r3d);
 
 	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));
 	scene_add_entity(vars.scene, player);
@@ -261,35 +242,6 @@ int	main(int argc, char *argv[])
 	player->gun = vars.shotgun;
 
 	vars.r3d->camera = vars.scene->player->camera;
-
-	if (argc == 4 && !ft_strcmp(argv[2], "host"))
-	{
-		vars.is_server = true;
-		netserv_init(&vars.server, &vars, SERVER_PORT);
-		strncpy(vars.scoreboard.entries[0].username, argv[3], 16);
-	}
-	else if (argc == 4 && !ft_strcmp(argv[2], "local-host"))
-	{
-		vars.is_server = true;
-		netserv_init(&vars.server, &vars, SERVER_LOCAL_PORT);
-		strncpy(vars.scoreboard.entries[0].username, argv[3], 16);
-	}
-	else if (argc == 5 && !ft_strcmp(argv[2], "connect"))
-	{
-		vars.is_server = false;
-		netclient_init(&vars.client, argv[3], SERVER_PORT);
-		netclient_connect(&vars.client, argv[4]);
-	}
-	else if (argc == 5 && !ft_strcmp(argv[2], "connect-local"))
-	{
-		vars.is_server = false;
-		netclient_init(&vars.client, argv[3], SERVER_LOCAL_PORT);
-		netclient_connect(&vars.client, argv[4]);
-	}
-	else
-	{
-		vars.is_server = true;
-	}
 
 	// t_sound	sound;
 

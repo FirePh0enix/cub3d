@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 19:45:22 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/12 11:01:22 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:33:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,46 @@ typedef struct s_button
 void	button_draw(t_button *button, t_r3d *r3d);
 void	button_tick(t_button *button, t_vars *vars);
 
+# define TEXT_EDIT_SIZE 16
+
+typedef bool (*t_text_edit_filter)(char c);
+
 typedef struct s_text_edit
 {
-	char	*buffer;
-	size_t	len;
+	char				buffer[TEXT_EDIT_SIZE + 1];
+	size_t				len;
 
-	t_boxi	box;
-	bool	disabled;
+	t_boxi				box;
+	bool				disabled;
+	bool				focused;
+
+	t_text_edit_filter	filter;
 }	t_text_edit;
+
+void	text_edit_draw(t_text_edit *text_edit, t_r3d *r3d, t_vars *vars);
+void	text_edit_tick(t_text_edit *text_edit, t_vars *vars);
+
+void	text_edit_key(t_text_edit *text_edit, int c);
+
+typedef struct s_menu_img
+{
+	t_image	*image;
+	t_v2i	pos;
+	float	scale;
+}	t_menu_img;
+
+void	img_draw(t_menu_img *img, t_r3d *r3d);
 
 typedef enum e_state
 {
 	STATE_MAIN,
+	STATE_MULTIPLAYER
 }	t_state;
 
 typedef struct s_menu
 {
 	t_state		state;
+	bool		already_pressed;
 
 	t_button	singleplayer;
 	t_button	multiplayer;
@@ -66,10 +89,20 @@ typedef struct s_menu
 	// Multiplayer
 	t_button	host;
 	t_button	join;
+
+	t_menu_img	ip_img;
 	t_text_edit	ip;
+
+	t_menu_img	name_img;
+	t_text_edit	name;
 }	t_menu;
 
-void	menu_draw(t_menu *menu, t_r3d *r3d);
+void	menu_init(t_menu *menu, t_r3d *r3d);
+void	menu_draw(t_menu *menu, t_r3d *r3d, t_vars *vars);
 void	menu_tick(t_menu *menu, t_vars *vars);
+
+void	menu_key(t_menu *menu, t_vars *vars, int c);
+
+bool	mouse_click_over(t_vars *vars, t_boxi box);
 
 #endif

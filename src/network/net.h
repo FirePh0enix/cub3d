@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   net.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/12 14:41:30 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:29:17 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,13 +159,16 @@ typedef struct s_client
 	int					unique_id;
 	int					entity_id;
 	suseconds_t			last_pulse;
+
+	bool				has_send_connect;
 }   t_client;
 
 void    netclient_init(t_client *client, char *addr, int port);
 void	netclient_poll(t_client *client, t_vars *vars);
 void	netclient_connect(t_client *client, char *username);
-void	netclient_send_pos(t_client *client, t_transform transform);
 
+void	netclient_send_pos(t_client *client, t_transform transform);
 void	netclient_pulse(t_client *client);
 void	netclient_send_hit(t_client *client, t_entity *entity, int damage_taken);
+
 #endif

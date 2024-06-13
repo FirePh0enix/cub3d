@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/12 11:09:38 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/13 11:52:53 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ SOURCES=\
 	src/gun.c \
 	src/menu.c \
 	src/menu_button.c \
+	src/menu_text_edit.c \
+	src/menu_img.c \
 	src/sound/sound.c \
 	src/entities/player.c \
 	src/entities/fake_player.c \
@@ -52,7 +54,7 @@ CC=clang
 
 OPTS=-O3 -fno-builtin
 DEBUG=-g #-fsanitize=address
-CFLAGS=-Imlx -Ilibft -g -MMD $(OPTS) $(DEBUG) -Wall -Wextra #-Werror
+CFLAGS=-Imlx -Ilibft -MMD $(OPTS) $(DEBUG) -Wall -Wextra #-Werror
 
 all: $(NAME)
 

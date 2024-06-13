@@ -14,6 +14,7 @@ void    netclient_init(t_client *client, char *addr, int port)
     client->server_addr = (struct sockaddr_in) {AF_INET, htons(port), {inet_addr(addr)}, {0}};
     client->socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
 	client->unique_id = -1;
+	client->last_pulse = getms();
 
 	// if (bind(client->socket, (void *) &addr_in, sizeof(struct sockaddr_in)) == -1)
 	// {
@@ -108,6 +109,7 @@ void	netclient_connect(t_client *client, char *username)
 	ft_memcpy(packet.username, username, ft_strlen(username) + 1);
 	sendto(client->socket, &packet, sizeof(t_packet_connect), 0,
 		(void *) &client->server_addr, sizeof(struct sockaddr_in));
+	client->has_send_connect = true;
 }
 
 void	netclient_pulse(t_client *client)
