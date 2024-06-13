@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/13 11:52:53 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/13 13:21:52 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,7 @@ clean:
 	rm -rf $(OBJECTS) $(OBJECTS:.o=.d)
 
 fclean: clean
-	rm -f cub3d
+	rm -f cub3d cub3d-ip cub3d-name
 
 re: fclean all
 

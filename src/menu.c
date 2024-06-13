@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/13 12:46:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:21:22 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ static void	save_data(t_menu *menu)
 {
 	int	fd;
 
-	fd = open("cub3d-ip", O_RDWR | O_CREAT, 777);
-	printf("%d\n", fd);
+	fd = open("cub3d-ip", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return ;
 	if (write(fd, menu->ip.buffer, menu->ip.len) == -1)
 		return ;
 	close(fd);
-	fd = open("cub3d-name", O_RDWR | O_CREAT, 777);
+	fd = open("cub3d-name", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return ;
 	if (write(fd, menu->name.buffer, menu->name.len) == -1)
 		return ;
+	close(fd);
 }
 
 static void	load_data(t_menu *menu)
@@ -43,6 +43,8 @@ static void	load_data(t_menu *menu)
 	if (s)
 	{
 		strncpy(menu->ip.buffer, s, 16);
+		// FIXME: Could segfault
+		menu->ip.buffer[ft_strlen(s)] = '\0'; 
 		menu->ip.len = ft_strlen(menu->ip.buffer);
 		free(s);
 	}
@@ -50,6 +52,7 @@ static void	load_data(t_menu *menu)
 	if (s)
 	{
 		strncpy(menu->name.buffer, s, 16);
+		menu->name.buffer[ft_strlen(s)] = '\0'; 
 		menu->name.len = ft_strlen(menu->name.buffer);
 		free(s);
 	}
