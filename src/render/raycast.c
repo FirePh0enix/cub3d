@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 14:52:01 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:32:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,82 @@ static void	draw_vert_line(t_r3d *r3d, int x, int min_y, int max_y, t_color col)
 	}
 }
 
+static void	raycast_floor_and_ceiling(t_r3d *r3d, t_map *map)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < r3d->height)
+	{
+		// rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
+		float rayDirX0 = r3d->camera->dir_x - r3d->camera->plane_x;
+		float rayDirY0 = r3d->camera->dir_y - r3d->camera->plane_y;
+		float rayDirX1 = r3d->camera->dir_x + r3d->camera->plane_x;
+		float rayDirY1 = r3d->camera->dir_y + r3d->camera->plane_y;
+
+		// Current y position compared to the center of the screen (the horizon)
+		int p = y - r3d->height / 2;
+
+		// Vertical position of the camera.
+		float posZ = 0.5 * r3d->height;
+
+		// Horizontal distance from the camera to the floor for the current row.
+		// 0.5 is the z position exactly in the middle between floor and ceiling.
+		float rowDistance = posZ / p;
+
+		// calculate the real world step vector we have to add for each x (parallel to camera plane)
+		// adding step by step avoids multiplications with a weight in the inner loop
+		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / r3d->width;
+		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / r3d->width;
+
+		// real world coordinates of the leftmost column. This will be updated as we step to the right.
+		float floorX = r3d->camera->position.x + rowDistance * rayDirX0;
+		float floorY = r3d->camera->position.y + rowDistance * rayDirY0;
+
+		x = 0;
+		while (x < r3d->width)
+		{
+			// the cell coord is simply got from the integer parts of floorX and floorY
+			int cell_x = (int)(floorX);
+			int cell_y = (int)(floorY);
+
+			// get the texture coordinate from the fractional part
+			// int tx = (int)(texWidth * (floorX - cellX)) & (texWidth - 1);
+			// int ty = (int)(texHeight * (floorY - cellY)) & (texHeight - 1);
+
+			floorX += floorStepX;
+			floorY += floorStepY;
+
+			// // choose texture and draw the pixel
+			// int floorTexture = 3;
+			// int ceilingTexture = 6;
+			// Uint32 color;
+
+			// // floor
+			// color = texture[floorTexture][texWidth * ty + tx];
+			// color = (color >> 1) & 8355711; // make a bit darker
+			// buffer[y][x] = color;
+
+			// //ceiling (symmetrical, at screenHeight - y - 1 instead of y)
+			// color = texture[ceilingTexture][texWidth * ty + tx];
+			// color = (color >> 1) & 8355711; // make a bit darker
+			// buffer[screenHeight - y - 1][x] = color;
+
+			// TODO: Add floor/ceiling texturing
+			r3d->color_buffer[x + y * r3d->width] = map->floor_color;
+			r3d->color_buffer[x + (r3d->height - y - 1) * r3d->width] = map->ceiling_color;
+			x++;
+ 		}
+		y++;
+	}
+}
+
 void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 {
 	int	x;
+
+	raycast_floor_and_ceiling(r3d, map);
 
 	x = 0;
 	while (x < r3d->width)

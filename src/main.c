@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/13 12:28:57 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:30:30 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void	loop_hook(t_vars *vars)
 	if (!vars->menu_open)
 		tick_scene(vars, vars->scene);
 	else
-		menu_draw(&vars->menu, vars->r3d, vars);
+		menu_tick(&vars->menu, vars);
 	// draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
 
 	if (vars->is_server)
@@ -118,12 +118,13 @@ static void	loop_hook(t_vars *vars)
 		netclient_pulse(&vars->client);
 	}
 
-	r3d_raycast_world(vars->r3d, vars->map, vars);
-
 	if (!vars->menu_open)
+	{
+		r3d_raycast_world(vars->r3d, vars->map, vars);
 		draw_gun(&vars->scene->player->gun, vars->r3d);
+	}
 	else
-		menu_tick(&vars->menu, vars);
+		menu_draw(&vars->menu, vars->r3d, vars);
 
 	// print_fps(vars, delta, getms() - vars->last_update);
 
