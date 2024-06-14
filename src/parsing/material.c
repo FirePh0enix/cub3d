@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   material.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:56:28 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/08 21:48:17 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:57:36 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-#include "libft.h"
-#include <stdio.h>
+#include "../parsing/parsing.h"
+
 
 bool	create_material(char *identifier, t_map *map, t_image *image)
 {

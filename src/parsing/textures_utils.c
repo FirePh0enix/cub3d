@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:54:07 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 14:35:38 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:57:47 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include "../parsing/parsing.h"
 
 char	**create_textures(char **map)
 {

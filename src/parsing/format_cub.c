@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/07 16:18:11 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:57:28 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-#include "libft.h"
+#include "../parsing/parsing.h"
+
 
 static int	identify_extension_index(char *str)
 {

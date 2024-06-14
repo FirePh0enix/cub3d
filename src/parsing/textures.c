@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 14:35:56 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:57:49 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include "../parsing/parsing.h"
 
 bool	fill_texture(t_map *map, char **maps)
 {

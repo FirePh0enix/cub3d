@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/12 11:06:38 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:03:22 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,9 @@
 # include "scene.h"
 # include "menu.h"
 
-# define YELLOW	"\033[0;33m"
-# define GREEN	"\033[0;32m"
-# define BLUE	"\033[0;34m"
-# define RED	"\033[0;31m"
-# define PURPLE	"\033[0;35m"
-# define CYAN	"\033[0;36m"
-# define BLACK	"\033[0;30"
-# define WHITE	"\033[0;37m"
-# define RESET "\033[0m"
-
-# define EPSILON 1e-1
-
 # include <stdbool.h>
+
+# include "./parsing/parsing.h"
 
 # ifdef _USE_RENDER_THREAD
 #  include <pthread.h>
@@ -143,35 +133,20 @@ t_image	**load_images(int num, ...);
 void	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
 void	draw_map(t_r3d *r3d, t_map *map);
 
-char	*read_to_string(char *filename, size_t *len);
-char	**create_map(char **cub_file, t_map *map);
-bool	is_map_surrounded(char **maps, t_map *map);
-char	**fill_map_with_space(char **map, size_t width, size_t height);
-bool	find_player_pos(char **maps, t_map *map);
-int		calc_map_height(char **maps);
-int		calc_map_max_width(char **maps);
-bool	fill_texture(t_map *map, char **maps);
-char	**create_textures(char **map);
-char	*detect_texture_path(char *path);
-t_image	*load_texture(char *textures, char *identifier);
-char	*detect_identifier(char *texture);
-bool 	is_valid_identifier_text(char *str);
-bool 	create_material(char *identifier, t_map *map, t_image	*image);
-bool 	check_all_materials(t_map *map);
-bool	is_valid_identifier_color(char *str);
-bool	is_valid_rgb(char **colors, t_map *map);
-char	**create_colors(char **map);
 
-void	adjust_player_pos(t_player *player, t_map *map, float delta, t_entity **entities);
-bool	collide_point_vs_aabb(t_v3 point, t_box b);
-bool	is_valid_file_name(char *str);
-bool	is_valid_char_in_map(char **maps, t_map *map);
-void	putstr_sep(char *str, char n);
-t_box	box_from_entity(t_entity *entity);
-bool	is_rgb_range(char *s);
-char	**create_colors(char **map);
-int		ft_nblen(int nb);
-void	fill_color(char *identifier, t_map *map, unsigned char color, int i);
 t_entity	*raycast_entity(t_scene *scene, t_transform ray, float size, uint32_t entity_type);
 
+t_box	box_from_entity(t_entity *entity);
+t_box	box_from_velocity_x(t_entity *entity, float delta);
+t_box	box_from_velocity_y(t_entity *entity, float delta);
+t_box	box_from_velocity_z(t_entity *entity, float delta);
+t_box	box_from_wall(int x, int y);
+
+bool	collide_aabb_vs_aabb(t_box a, t_box b);
+bool	collide_point_vs_aabb(t_v3 point, t_box b);
+bool	collide_wall(t_box player, int x, int y);
+bool 	collide_map(t_box player, t_map *map);
+bool 	collide_entities(t_entity **entities, t_box player);
+
+void	adjust_vel(t_player *player, t_map *map, float delta, t_entity **ent);
 #endif

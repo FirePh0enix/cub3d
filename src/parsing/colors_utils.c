@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:05:48 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/07 16:11:32 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:57:25 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include "../parsing/parsing.h"
 
 void	putstr_sep(char *str, char n)
 {

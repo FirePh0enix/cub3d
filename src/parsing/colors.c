@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/07 16:16:01 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:56:41 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include "../parsing/parsing.h"
 
 static bool	invalid_rgb_char(char *color)
 {

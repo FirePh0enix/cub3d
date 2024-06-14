@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/07 16:23:08 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:57:45 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-#include "libft.h"
+#include "../parsing/parsing.h"
+
 
 static t_v3	fill_position(int x, int y)
 {

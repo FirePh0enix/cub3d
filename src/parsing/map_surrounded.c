@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:38:23 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/04 16:00:39 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:57:33 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include "../parsing/parsing.h"
 
 static	bool	is_map_border(int x, int y, t_map *map, char **maps)
 {

@@ -6,11 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/10 14:14:23 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:57:41 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include "../parsing/parsing.h"
 
 char	**create_map(char **cub_file, t_map *map)
 {
