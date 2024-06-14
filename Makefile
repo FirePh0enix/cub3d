@@ -6,11 +6,13 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/14 15:46:03 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/14 19:07:01 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
+	src/parsing/free.c \
+	src/parsing/map.c \
 	src/bounding_box.c \
 	src/adjust_velocity.c \
 	src/raycast.c \

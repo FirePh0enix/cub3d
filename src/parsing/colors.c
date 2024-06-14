@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 15:56:41 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 18:05:31 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static bool	invalid_rgb_char(char *color)
 	{
 		if (!ft_isdigit(color[i]) && color[i] != ',' && color[i] != ' ')
 		{
-			printf(RED"CHARACTER %c iS NOT ALLOWED\n"WHITE, color[i]);
+			ft_putstr_fd(RED"Error\n", 2);
+			ft_putstr_fd(RED"Character "BRED, 2);
+			ft_putchar_fd(color[i], 2);
+			ft_putstr_fd(RED" is not allowed\n"RESET, 2);
 			return (false);
 		}
 		++i;
@@ -44,9 +47,9 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 			return (false);
 		if (!is_rgb_range(color + i))
 		{
-			write(2, RED"ERROR\n", 6);
+			ft_putstr_fd(RED"Error\n"BRED, 2);
 			putstr_sep(color + i, ',');
-			write(2, " IS NOT IN RGB RANGE (0-255)\n"RESET, 29);
+			ft_putstr_fd(RED" is not in RGB range (0-255)\n"RESET, 2);
 			return (false);
 		}
 		rgb = ft_atoi(color + i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/13 14:30:30 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/14 19:35:44 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ int	main(int argc, char *argv[])
 	char	*line;
 	char	**map_file;
 	char	**map;
-	char	**map_rectangular;
 	char	**colors;
 
 	(void) argc;
@@ -216,14 +215,13 @@ int	main(int argc, char *argv[])
 		return 1;
 	map_file = ft_split(line, '\n');
 	map = create_map(map_file, vars.map);
-	map_rectangular = fill_map_with_space(map, vars.map->width, vars.map->height);
-	vars.map->maps = map_rectangular;
-	map_to_tiles(vars.map, map_rectangular, vars.scene, &vars);
-	if (!is_valid_char_in_map(map_rectangular, vars.map))
+	vars.map->maps = fill_map_with_space(map, vars.map->width, vars.map->height);
+	map_to_tiles(vars.map, vars.map->maps, vars.scene, &vars);
+	if (!is_valid_char_in_map(vars.map->maps, vars.map))
 		return 1;
-	if (!is_map_surrounded(map_rectangular, vars.map))
+	if (!is_map_surrounded(vars.map->maps, vars.map))
 		return 1;
-	if (!find_player_pos(map_rectangular, vars.map))
+	if (!find_player_pos(vars.map->maps, vars.map))
 		return 1;
 	if (!fill_texture(vars.map, map_file))
 		return 1;
@@ -259,5 +257,7 @@ int	main(int argc, char *argv[])
 
 	mlx_destroy_window(vars.mlx, vars.win);
 	mlx_destroy_display(vars.mlx);
+
 	free(vars.mlx);
+
 }

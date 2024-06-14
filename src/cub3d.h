@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/14 17:03:22 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:29:39 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,23 +130,30 @@ typedef struct s_box
 
 t_image	**load_images(int num, ...);
 
-void	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
 void	draw_map(t_r3d *r3d, t_map *map);
-
-
 t_entity	*raycast_entity(t_scene *scene, t_transform ray, float size, uint32_t entity_type);
 
+//############################################################################//
+								// BOUNDARY BOX//
+//############################################################################//
 t_box	box_from_entity(t_entity *entity);
 t_box	box_from_velocity_x(t_entity *entity, float delta);
 t_box	box_from_velocity_y(t_entity *entity, float delta);
 t_box	box_from_velocity_z(t_entity *entity, float delta);
 t_box	box_from_wall(int x, int y);
 
+//############################################################################//
+								// COLLISION //
+//############################################################################//
 bool	collide_aabb_vs_aabb(t_box a, t_box b);
 bool	collide_point_vs_aabb(t_v3 point, t_box b);
 bool	collide_wall(t_box player, int x, int y);
 bool 	collide_map(t_box player, t_map *map);
 bool 	collide_entities(t_entity **entities, t_box player);
 
+//############################################################################//
+								// VELOCITY //
+//############################################################################//
 void	adjust_vel(t_player *player, t_map *map, float delta, t_entity **ent);
+
 #endif

@@ -6,12 +6,25 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:38:23 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 15:57:33 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 18:23:11 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+
+static	bool	error_surr(int y, int x)
+{
+	ft_putstr_fd(RED"Error\n", 2);
+	ft_putstr_fd("Map is not surrounded at "BRED, 2);
+	ft_putstr_fd("[", 2);
+	ft_putnbr_fd(y, 2);
+	ft_putstr_fd("]", 2);
+	ft_putstr_fd("[", 2);
+	ft_putnbr_fd(x, 2);
+	ft_putstr_fd("]\n"RESET, 2);
+	return (false);
+}
 
 static	bool	is_map_border(int x, int y, t_map *map, char **maps)
 {
@@ -55,8 +68,7 @@ bool	is_map_surrounded(char **maps, t_map *map)
 		{
 			if (is_map_border(x, y, map, maps) && maps[y][x] != '1')
 			{
-				printf(RED"MAP IS NOT SURROUNDED AT [%d][%d]"RESET, y ,x);
-				return (false);
+				return (error_surr(y, x));
 			}
 			++x;
 		}

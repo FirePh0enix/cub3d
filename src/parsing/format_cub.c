@@ -6,13 +6,33 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 15:57:28 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 18:15:55 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
+static bool	err_length(int len)
+{
+	ft_putstr_fd(RED"Error\nA .cub file length should be atleast equal to 4", 2);
+	ft_putstr_fd("\nActual length is"BRED, 2);
+	ft_putnbr_fd(len, 2);
+	ft_putstr_fd(RESET"\n", 2);
+	return (false);
+}
+
+static	bool	err_extension(char *str, int i, bool hidden)
+{
+	ft_putstr_fd(RED"Error\nThe file is not ending with .cub\n", 2);
+	ft_putstr_fd(RED"Actual extension: "BRED, 2);
+	ft_putstr_fd(str + i, 2);
+	if (hidden)
+		ft_putstr_fd(" (hidden file)"RESET, 2);
+	ft_putstr_fd(RESET"\n", 2);
+	return (false);
+}
 
 static int	identify_extension_index(char *str)
 {
@@ -30,15 +50,13 @@ static int	identify_extension_index(char *str)
 
 bool	is_valid_file_name(char *str)
 {
-	int	len;
-	int	i;
+	int		len;
+	int		i;
 
 	len = ft_strlen(str);
 	if (len < 4)
 	{
-		ft_putstr_fd(RED"ERROR\nA .CUB FILE LENGTH SHOULD BE ATLEAST EQUAL TO 4\n", 2);
-		printf("ACTUAL LENGTH IS %d\n"RESET, len);
-		return (false);
+		return (err_length(len));
 	}
 	i = identify_extension_index(str);
 	if (!ft_strcmp(str + i, ".cub") && str[i - 1] && str[i - 1] != '/')
@@ -47,12 +65,9 @@ bool	is_valid_file_name(char *str)
 	{
 		if (str[i - 1] == '/')
 		{
-			ft_putstr_fd(RED"ERROR\nTHE FILE IS NOT ENDING WITH .CUB\n", 2);
-			printf(RED"ACTUAL EXTENSION: %s (hidden file)\n"RESET, str + i);
-			return (false);
+			return (err_extension(str, i, true));
 		}
-		ft_putstr_fd(RED"ERROR\nTHE FILE IS NOT ENDING WITH .CUB\n", 2);
-		printf("ACTUAL EXTENSION: %s\n"RESET, str + i);
-		return (false);
+		else
+			return (err_extension(str, i, false));
 	}
 }

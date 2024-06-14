@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:55:24 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 15:57:31 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 18:52:16 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*detect_identifier(char *texture)
 	identifier = ft_calloc(ft_strlen(texture) + 1, 1);
 	if (!identifier)
 	{
-		ft_putstr_fd("Error\nIdentifier malloc failed\n", 2);
+		ft_putstr_fd(RED"Error\nIdentifier malloc failed\n"RESET, 2);
 		return (NULL);
 	}
 	while (texture[i])

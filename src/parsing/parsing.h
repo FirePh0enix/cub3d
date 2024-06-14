@@ -23,6 +23,15 @@
 # define WHITE	"\033[0;37m"
 # define RESET "\033[0m"
 
+# define BYELLOW	"\033[1;33m"
+# define BGREEN		"\033[1;32m"
+# define BBLUE		"\033[1;34m"
+# define BRED		"\033[1;31m"
+# define BPURPLE	"\033[1;35m"
+# define BCYAN		"\033[1;36m"
+# define BBLACK		"\033[1;30m"
+# define BWHITE		"\033[1;37m"
+
 // ---------------------------------------------------------------------------//
 //	+	+	+	+	+	+	+	// STRUCTURES //	+	+	+	+	+	+	+ //
 // ---------------------------------------------------------------------------//
@@ -52,6 +61,7 @@ char	**create_map(char **cub_file, t_map *map);
 char	**fill_map_with_space(char **map, size_t width, size_t height);
 int		calc_map_height(char **maps);
 int		calc_map_max_width(char **maps);
+void	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
 
 //############################################################################//
 								// ERROR MESSAGE //
@@ -87,5 +97,6 @@ bool	find_player_pos(char **maps, t_map *map);
 								// UTILS //
 //############################################################################//
 char	*read_to_string(char *filename, size_t *len);
+bool	free_identifier(char *identifier);
 
 #endif

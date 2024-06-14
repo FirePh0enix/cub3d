@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:05:48 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 15:57:25 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 19:13:30 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
 void	putstr_sep(char *str, char n)
 {
@@ -56,7 +57,10 @@ char	**create_colors(char **map)
 	colors = NULL;
 	colors = ft_calloc(3, sizeof(char *));
 	if (!colors)
+	{
+		ft_putstr_fd(RED"Error\nFailed to malloc colors\n"RESET, 2);
 		return (NULL);
+	}
 	while (j < 2)
 	{
 		colors[j] = map[i];

@@ -6,13 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 15:57:45 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 18:39:10 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
-
 
 static t_v3	fill_position(int x, int y)
 {
@@ -31,6 +30,17 @@ static t_v3	fill_rotation(char c)
 		return (v3(0, 3 * M_PI, 0));
 	else
 		return (v3(0, 0, 0));
+}
+
+static	bool	valid_spawn_count(int spawn_count)
+{
+	if (spawn_count == 0)
+	{
+		ft_putstr_fd(RED"Error\nPlace atleast 1 spawn: N | S | W | E\n"RESET, 2);
+		return (false);
+	}
+	else
+		return (true);
 }
 
 bool	find_player_pos(char **maps, t_map *map)
@@ -58,11 +68,5 @@ bool	find_player_pos(char **maps, t_map *map)
 		}
 		++y;
 	}
-	if (map->spawn_count == 0)
-	{
-		ft_putstr_fd(RED"ERROR\nPLACE ATLEAST 1 SPAWN: N | S | W | E\n", 2);
-		return (false);
-	}
-	else
-		return (true);
+	return (valid_spawn_count(map->spawn_count));
 }
