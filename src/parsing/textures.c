@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 19:18:29 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/14 19:45:52 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
 static	bool	err_material(char *identifier)
 {
@@ -33,11 +34,26 @@ static	bool	err_identifier(char *identifier)
 	return (false);
 }
 
+static char *which_ident_miss(int no, int so, int we, int ea)
+{
+	if (no == 0)
+		return ("NO");
+	else if (so == 0)
+		return ("SO");
+	else if (we == 0)
+		return ("EA");
+	else if (ea == 0)
+		return ("WE");
+	else
+		return (0);
+}
+
 static	bool	is_valid_number_ident(char **textures, int no, int so, int we)
 {
 	int		i;
 	int		ea;
 	char	*identifier;
+	char	*miss_ident;
 
 	i = -1;
 	ea = 0;
@@ -58,7 +74,14 @@ static	bool	is_valid_number_ident(char **textures, int no, int so, int we)
 		free(identifier);
 	}
 	if (no != 1 || so != 1 || we != 1 || ea != 1)
+	{
+		miss_ident = which_ident_miss(no, so, we, ea);
+		ft_putstr_fd(RED"Error\n", 2);
+		ft_putstr_fd("Identifier "BRED, 2);
+		ft_putstr_fd(miss_ident, 2);
+		ft_putstr_fd(RED" is missing\n"RESET, 2);
 		return (false);
+	}
 	return (true);
 }
 
@@ -88,16 +111,5 @@ bool	fill_texture(t_map *map, char **maps)
 			return (err_identifier(identifier));
 		free(identifier);
 	}
-	i = 0;
-	while (i < 5)
-	{
-		if (textures[i])
-		{
-			textures[i] = NULL;
-			free (textures[i]);
-		}
-		++i;
-	}
-	free(textures);
 	return (true);
 }
