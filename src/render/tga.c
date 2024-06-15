@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tga.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/15 16:07:50 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:18:58 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,4 +169,12 @@ t_image	*tga_create(int width, int height)
 	image->width = width;
 	image->height = height;
 	return (image);
+}
+
+void	image_destroy(t_image *image)
+{
+	if (!image)
+		return ;
+	free(image->data);
+	free(image);
 }

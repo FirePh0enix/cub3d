@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 19:40:28 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/10 23:27:35 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:15:16 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "math/v2i.h"
 # include "render/render.h"
-#include "sound/sound.h"
+# include "sound/sound.h"
 
 typedef struct s_gun
 {
@@ -24,7 +24,6 @@ typedef struct s_gun
 
 	t_sound		main_sound;
 
-	bool		automatic;
 	bool		reloading;
 	bool		has_shoot;
 

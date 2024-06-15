@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/11 10:52:08 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:18:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_image
 
 t_image	*tga_load_from_file(char *filename);
 t_image	*tga_create(int width, int height);
+void	image_destroy(t_image *image);
 
 typedef struct s_camera
 {

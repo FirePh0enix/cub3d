@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
+#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/14 19:07:01 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/16 01:24:27 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SOURCES=\
 	src/main.c \
 	src/input.c \
 	src/scene.c \
+	src/scene_update.c \
 	src/load.c \
 	src/gun.c \
 	src/menu.c \

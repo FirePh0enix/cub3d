@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/14 17:29:39 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:25:52 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ typedef struct s_box
 t_image	**load_images(int num, ...);
 
 void	draw_map(t_r3d *r3d, t_map *map);
-t_entity	*raycast_entity(t_scene *scene, t_transform ray, float size, uint32_t entity_type);
+t_entity	*raycast_entity(t_map *map, t_scene *scene, t_transform ray, float size, uint32_t entity_type);
 
 //############################################################################//
 								// BOUNDARY BOX//

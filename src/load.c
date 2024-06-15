@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:12:43 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 17:47:20 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:38:02 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,31 @@
 #include "render/font.h"
 #include "render/render.h"
 #include <stdarg.h>
+#include <stdio.h>
+
+static t_image	**check_images(int num, t_image **images)
+{
+	int	i;
+
+	i = 0;
+	while (i < num)
+	{
+		if (!images[i])
+		{
+			i = 0;
+			while (i < num)
+			{
+				if (images[i])
+					image_destroy(images[i]);
+				i++;
+			}
+			free(images);
+			return (NULL);
+		}
+		i++;
+	}
+	return (images);
+}
 
 t_image	**load_images(int num, ...)
 {
@@ -26,13 +51,11 @@ t_image	**load_images(int num, ...)
 	images = ft_calloc(num, sizeof(t_image *));
 	if (!images)
 	{
-		// while (++i < num)
-		// 	va_arg(list, char *);
 		va_end(list);
 		return (NULL);
 	}
 	while (++i < num)
-		images[i] = tga_load_from_file(va_arg(list, char *)); // TODO: Check at the end of null pointers
+		images[i] = tga_load_from_file(va_arg(list, char *));
 	va_end(list);
-	return (images);
+	return (check_images(num, images));
 }

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 19:40:13 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/12 10:31:22 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:15:01 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,24 @@ void	tick_gun(t_gun *gun)
 		gun->reloading = false;
 		return ;
 	}
-
-	if (!gun->automatic)
+	if (gun->reloading)
 	{
-		if (gun->reloading)
+		gun->shoot_anim.current_frame = 0;
+		gun->shoot_anim.last_frame_tick = getms();
+		sprite_tick(&gun->main_anim);
+		if (sprite_is_end(&gun->main_anim))
 		{
-			gun->shoot_anim.current_frame = 0;
-			gun->shoot_anim.last_frame_tick = getms();
-			sprite_tick(&gun->main_anim);
-			if (sprite_is_end(&gun->main_anim))
-			{
-				gun->reloading = false;
-				gun->has_shoot = false;
-			}
+			gun->reloading = false;
+			gun->has_shoot = false;
 		}
-		else
-		{
-			gun->main_anim.current_frame = 0;
-			gun->main_anim.last_frame_tick = getms();
-			sprite_tick(&gun->shoot_anim);
-			if (sprite_is_end(&gun->shoot_anim))
-				gun->reloading = true;
-		}
+	}
+	else
+	{
+		gun->main_anim.current_frame = 0;
+		gun->main_anim.last_frame_tick = getms();
+		sprite_tick(&gun->shoot_anim);
+		if (sprite_is_end(&gun->shoot_anim))
+			gun->reloading = true;
 	}
 }
 
@@ -52,18 +48,17 @@ static void	draw_crosshair(t_r3d *r3d)
 {
 	const int	w = r3d->width;
 	const int	h = r3d->height;
-	const int	w2 = 4;
-	const int	h2 = 4;
 	int			x;
 	int			y;
 
 	x = 0;
-	while (x < w2)
+	while (x < 4)
 	{
 		y = 0;
-		while (y < h2)
+		while (y < 4)
 		{
-			r3d->color_buffer[(x + w / 2 - w2 / 2) + (y + h / 2 - h2 / 2) * w] = hex(0x00FFFFFF);
+			r3d->color_buffer[(x + w / 2 - 4 / 2)
+				+ (y + h / 2 - 4 / 2) * w] = hex(0x00FFFFFF);
 			y++;
 		}
 		x++;
@@ -78,16 +73,16 @@ void	draw_gun(t_gun *gun, t_r3d *r3d)
 
 	scale = 4;
 	image = sprite_get_image(&gun->main_anim);
-	pos = (t_v2i){r3d->width / 2.0 - image->width * scale / 2, r3d->height - image->height * scale};
+	pos = (t_v2i){r3d->width / 2.0 - image->width * scale / 2,
+		r3d->height - image->height * scale};
 	sprite_draw(r3d, &gun->main_anim, pos, scale);
-
 	if (!gun->reloading && gun->has_shoot)
 	{
 		scale = 4;
 		image = sprite_get_image(&gun->shoot_anim);
-		pos = (t_v2i){r3d->width / 2.0 - image->width * scale / 2, r3d->height - image->height * scale};
+		pos = (t_v2i){r3d->width / 2.0 - image->width * scale / 2,
+			r3d->height - image->height * scale};
 		sprite_draw(r3d, &gun->shoot_anim, v2i_sub(pos, gun->offset), scale);
 	}
-
 	draw_crosshair(r3d);
 }
