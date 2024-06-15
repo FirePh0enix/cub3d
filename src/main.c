@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/15 15:43:12 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:12:36 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <netinet/in.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/select.h>
 #include <sys/socket.h>
@@ -261,5 +262,37 @@ int	main(int argc, char *argv[])
 	mlx_destroy_display(vars.mlx);
 
 	free(vars.mlx);
+
+	for (int i = 0; map_file[i]; i++)
+	{
+		if (map_file[i])
+		{
+			// map_file[i] = NULL;
+			free(map_file[i]);
+		}
+	}
+	free (map_file);
+
+	for (int i = 0; colors[i]; i++)
+	{
+		if (colors[i])
+		{
+			colors[i] = NULL;
+			free(colors[i]);
+		}
+	}
+	free (colors);
+
+	for (int i = 0; map[i]; i++)
+	{
+		if (map[i])
+		{
+			map[i] = NULL;
+			free(map[i]);
+		}
+	}
+	free (map);
+
+	free (line);
 
 }

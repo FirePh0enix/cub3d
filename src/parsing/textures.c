@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/15 15:25:08 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:13:32 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static char *which_ident_miss(int no, int so, int we, int ea)
 	else if (so == 0)
 		return ("SO");
 	else if (we == 0)
-		return ("EA");
-	else if (ea == 0)
 		return ("WE");
+	else if (ea == 0)
+		return ("EA");
 	else
 		return (0);
 }
@@ -103,7 +103,10 @@ bool	fill_texture(t_map *map, char **maps)
 		{
 			image = load_texture(textures[i], identifier);
 			if (!image)
+			{
+				free(identifier);
 				return (false);
+			}
 			if (!create_material(identifier, map, image))
 				return (err_material(identifier));
 		}
@@ -111,5 +114,14 @@ bool	fill_texture(t_map *map, char **maps)
 			return (err_identifier(identifier));
 		free(identifier);
 	}
+	for (int i = 0; i < 5; i++)
+	{
+		if (textures[i])
+		{
+			textures[i] = NULL;
+			free(textures[i]);
+		}
+	}
+	free(textures);
 	return (true);
 }
