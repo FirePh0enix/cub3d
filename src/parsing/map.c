@@ -46,3 +46,42 @@ bool	is_valid_char_in_map(char **maps, t_map *map)
 	}
 	return (true);
 }
+
+static bool err_floor_and_ceilling(void)
+{
+	ft_putstr_fd(RED"Error\n", 2);
+	ft_putstr_fd("You need to add "BRED, 2);
+	ft_putstr_fd("floor ", 2);
+	ft_putstr_fd(RED"and "BRED, 2);
+	ft_putstr_fd("ceilling", 2);
+	ft_putstr_fd(RED" colors\n"RESET, 2);
+	return (false);
+}
+
+bool check_enough_line(char **map_file)
+{
+	int	i;
+
+	i = 0;
+	while (map_file[i])
+		++i;
+	if (i < 4)
+	{
+		ft_putstr_fd(RED"Error\n", 2);
+		ft_putstr_fd("You need to add "BRED, 2);
+		ft_putstr_fd("4 textures\n"RESET, 2);
+		return (false);
+	}
+	else if (i < 6)
+	{
+		return (err_floor_and_ceilling());
+	}
+	else if (i < 7)
+	{
+		ft_putstr_fd(RED"Error\n", 2);
+		ft_putstr_fd("You need to add a "BRED, 2);
+		ft_putstr_fd("map\n"RESET, 2);
+		return (false);
+	}
+	return (true);
+}

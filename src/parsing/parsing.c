@@ -6,13 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 19:30:58 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:43:49 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
-#include "libft.h"
 
 char	**create_map(char **cub_file, t_map *map)
 {
@@ -55,7 +54,7 @@ char	**fill_map_with_space(char **map, size_t width, size_t height)
 			new_map[i] = ft_calloc(width + 1, sizeof(char));
 			if (!new_map[i])
 			{
-				ft_putstr_fd(RED"Error\nMAlloc failed for new_map[i]", 2);
+				ft_putstr_fd(RED"Error\nMalloc failed for new_map[i]", 2);
 				return (NULL);
 			}
 			ft_memset(new_map[i], ' ', width);

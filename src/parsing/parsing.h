@@ -99,4 +99,6 @@ bool	find_player_pos(char **maps, t_map *map);
 char	*read_to_string(char *filename, size_t *len);
 bool	free_identifier(char *identifier);
 
+bool 	check_enough_line(char **map_file);
+
 #endif
