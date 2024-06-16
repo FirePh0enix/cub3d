@@ -1,6 +1,6 @@
 #include "cub3d.h"
 #include "libft.h"
-#include "math/mat4_init.h"
+#include "math/matrix.h"
 #include "math/v3.h"
 #include "scene.h"
 #include <stdio.h>

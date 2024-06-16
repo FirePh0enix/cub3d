@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:06:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/17 19:38:41 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/16 12:09:25 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "v3.h"
 # include "v3_basic.h"
+# include "v3_convert.h"
 # include "v3_complex.h"
 
 # include "v2.h"

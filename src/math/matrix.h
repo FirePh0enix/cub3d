@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 20:46:04 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/03/02 15:43:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/16 12:14:24 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,7 @@
 # include "vec.h"
 # include "mat4.h"
 # include "mat4_init.h"
+# include "mat4_rot.h"
+# include "mat4_mul.h"
 
 #endif

@@ -1,41 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   v3_basic.h                                         :+:      :+:    :+:   */
+/*   v3_convert.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/02 12:18:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 12:07:20 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/06/16 12:07:14 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/06/16 12:09:32 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef V3_BASIC_H
-# define V3_BASIC_H
+#ifndef V3_CONVERT_H
+# define V3_CONVERT_H
 
 # include "v3.h"
 # include "v2.h"
 # include "v2i.h"
 # include <math.h>
 
-inline t_v3	v3_add(t_v3 a, t_v3 b)
+inline t_v2i	v3_to_v2i(t_v3 v)
 {
-	return (v3(a.x + b.x, a.y + b.y, a.z + b.z));
+	return ((t_v2i){round(v.x), round(v.y)});
 }
 
-inline t_v3	v3_sub(t_v3 a, t_v3 b)
+inline t_v2	v3_to_v2(t_v3 v)
 {
-	return (v3(a.x - b.x, a.y - b.y, a.z - b.z));
-}
-
-inline t_v3	v3_scale(t_v3 v, float scale)
-{
-	return (v3(v.x * scale, v.y * scale, v.z * scale));
-}
-
-inline t_v3	v3_div(t_v3 v, float scale)
-{
-	return (v3(v.x / scale, v.y / scale, v.z / scale));
+	return ((t_v2){v.x, v.y});
 }
 
 #endif

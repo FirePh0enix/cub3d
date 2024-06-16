@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   v2_complex.h                                       :+:      :+:    :+:   */
+/*   utils2.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/16 10:53:30 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 12:06:30 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/06/16 12:09:54 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/06/16 12:11:13 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef V2_COMPLEX_H
-# define V2_COMPLEX_H
+#ifndef UTILS2_H
+# define UTILS2_H
 
-# include "v2.h"
-# include <math.h>
-
-inline float	v2_length(t_v2 v)
+inline float	max2(float x, float y)
 {
-	return (sqrtf(v.x * v.x + v.y * v.y));
+	if (x > y)
+		return (x);
+	return (y);
+}
+
+inline float	min2(float x, float y)
+{
+	if (x < y)
+		return (x);
+	return (y);
+}
+
+inline float	abs2(float f)
+{
+	if (f < 0)
+		return (-f);
+	return (f);
 }
 
 #endif

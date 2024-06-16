@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 01:35:03 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/16 12:15:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "mlx.h"
 #include "../math/utils.h"
 #include <stdio.h>
-#include "../math/mat4_init.h"
+#include "../math/matrix.h"
 
 void	player_tick(t_vars *vars, t_player *player);
 void	player_draw(t_r3d *r3d, t_player *player, t_camera *camera, t_vars *vars);
