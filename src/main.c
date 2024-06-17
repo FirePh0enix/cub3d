@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/15 16:12:36 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:05:44 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,16 +123,15 @@ static void	loop_hook(t_vars *vars)
 	{
 		r3d_raycast_world(vars->r3d, vars->map, vars);
 		draw_gun(&vars->scene->player->gun, vars->r3d);
+		minimap_draw(&vars->minimap, vars->r3d, (t_v2i){}, (t_v2i){
+			vars->r3d->camera->position.x * 20 - 150,
+			vars->r3d->camera->position.z * 20 - 150,
+		});
 	}
 	else
 		menu_draw(&vars->menu, vars->r3d, vars);
 
 	// print_fps(vars, delta, getms() - vars->last_update);
-
-	// minimap_draw(&vars->minimap, vars->r3d, (t_v2i){}, (t_v2i){
-	// 	vars->r3d->camera->position.x * 20 - 150,
-	// 	vars->r3d->camera->position.z * 20 - 150,
-	// });
 
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
 }

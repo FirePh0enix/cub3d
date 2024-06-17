@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 01:34:25 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:58:53 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,21 @@ static void	raycast_floor_and_ceiling(t_r3d *r3d, t_map *map)
  		}
 		y++;
 	}
+}
+
+static t_image	*texture_for_wall(t_map *map, int side, int ray_dir_x, int ray_dir_y)
+{
+	if (side == 1)
+		return (map->ea);
+	else if (side == 0)
+		return (map->no);
+	// else if (side == 1 && ray_dir_y < 0)
+	// 	return (map->so);
+	// else if (side == 0 && ray_dir_x >= 0)
+	// 	return (map->we);
+	// else if (side == 0 && ray_dir_x < 0)
+	// 	return (map->ea);
+	return (map->no);
 }
 
 void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
@@ -194,7 +209,7 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 			}
 			else
 			{
-				t_image	*texture = map->no;
+				t_image	*texture = texture_for_wall(map, side, ray_dir_x, ray_dir_y);
 				double	wall_x;
 
 				if (side == 0) wall_x = r3d->camera->position.z + perpWallDist * ray_dir_y;
@@ -218,7 +233,7 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 			r3d->depth_buffer[x] = perpWallDist;
 		}
 
-		// TODO: Sort 3d sprites for farset to closest.
+		// TODO: Sort 3d sprites for farsest to closest.
 
 		x++;
 	}

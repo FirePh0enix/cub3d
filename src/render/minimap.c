@@ -40,7 +40,7 @@ void	minimap_create(t_minimap *minimap, t_map *map)
 			if (map->tiles[x + y * map->width] == TILE_FULL)
 				put_tile(x, y, hex(0x00FF0000), minimap->background);
 			else
-				put_tile(x, y, hex(0x00), minimap->background);
+				put_tile(x, y, hex(0xFF000000), minimap->background);
 			y++;
 		}
 		x++;
@@ -71,6 +71,11 @@ static void	print_camera(t_r3d *r3d, t_v2i pos, t_v2i mappos)
 #define WIDTH 300
 #define HEIGHT 300
 
+static float	distance_circle(float x, float y)
+{
+	return (sqrt(x * x + y * y));
+}
+
 void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_v2i pos, t_v2i mappos)
 {
 	int	x;
@@ -82,16 +87,19 @@ void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_v2i pos, t_v2i mappos)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			if (x + pos.x < 0 || x + pos.x >= r3d->width || y + pos.y < 0 || y + pos.y >= r3d->height)
+			int x2 = x + pos.x + RES / 2;
+			int y2 = y + pos.y + RES / 2;
+
+			if (x2 < 0 || x2 >= r3d->width || y2 < 0 || y2 >= r3d->height || distance_circle(x - WIDTH / 2, y) > WIDTH)
 			{
 				y++;
 				continue ;
 			}
 
 			if (x + mappos.x < 0 || x + mappos.x >= minimap->background->width || y + mappos.y < 0 || y + mappos.y >= minimap->background->height)
-				r3d->color_buffer[(x + pos.x) + (y + pos.y) * r3d->width] = hex(0);
-			else
-				r3d->color_buffer[(x + pos.x) + (y + pos.y) * r3d->width] = ((t_color *)minimap->background->data)[(x + mappos.x) + (y + mappos.y) * minimap->background->width];
+				r3d->color_buffer[x2 + y2 * r3d->width] = hex(0xFF000000);
+			else //if (((t_color *)minimap->background->data)[(x + mappos.x) + (y + mappos.y) * minimap->background->width].t == 0)
+				r3d->color_buffer[x2 + y2 * r3d->width] = ((t_color *)minimap->background->data)[(x + mappos.x) + (y + mappos.y) * minimap->background->width];
 			y++;
 		}
 		x++;
