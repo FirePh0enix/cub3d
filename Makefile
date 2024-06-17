@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
+#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/16 01:24:27 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/17 14:31:28 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,7 @@ bonus: $(NAME)
 
 perf: CFLAGS+=-pg
 perf: bonus
-	./cub3D map2.cub
+	./cub3D map3.cub
 	gprof cub3D gmon.out > profile.txt
 
 clean:

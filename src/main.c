@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/15 16:12:36 by vopekdas         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
 #include "gun.h"
 #include "libft.h"
@@ -221,23 +209,20 @@ int	main(int argc, char *argv[])
 	vars.map->maps = fill_map_with_space(map, vars.map->width, vars.map->height);
 	map_to_tiles(vars.map, vars.map->maps, vars.scene, &vars);
 	if (!is_valid_char_in_map(vars.map->maps, vars.map))
-		return 1;
+		return (1);
 	if (!is_map_surrounded(vars.map->maps, vars.map))
-		return 1;
+		return (1);
 	if (!find_player_pos(vars.map->maps, vars.map))
-		return 1;
+		return (1);
 	if (!fill_texture(vars.map, map_file))
-		return 1;
+		return (1);
 	colors = create_colors(map_file);
 	if (!colors)
-	{
-		ft_putstr_fd("Error\nColors malloc failed\n", 2);
-		return (1);
-	}
+		return ((1));
 	if (!is_valid_rgb(colors, vars.map))
-		return 1;
+		return (1);
 	if (!is_valid_file_name(argv[1]))
-		return 1;
+		return (1);
 	minimap_create(&vars.minimap, vars.map);
 
 	player->base.transform = vars.map->spawns[0];
@@ -266,10 +251,7 @@ int	main(int argc, char *argv[])
 	for (int i = 0; map_file[i]; i++)
 	{
 		if (map_file[i])
-		{
-			// map_file[i] = NULL;
 			free(map_file[i]);
-		}
 	}
 	free (map_file);
 

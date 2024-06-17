@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 01:25:52 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:10:43 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int	mouse_button_released_hook(int btn, int _i1, int _i2, t_vars *vars);
 enum e_tile
 {
 	TILE_EMPTY,
-	TILE_FULL
+	TILE_FULL,
+	TILE_DOOR,
 };
 
 typedef struct s_map
