@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/17 13:58:53 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:51:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "render.h"
 #include "../cub3d.h"
 #include "../math/utils.h"
+#include <stdio.h>
 
 static void	draw_vert_line(t_r3d *r3d, int x, int min_y, int max_y, t_color col)
 {
@@ -68,8 +69,8 @@ static void	raycast_floor_and_ceiling(t_r3d *r3d, t_map *map)
 			int cell_y = (int)(floorY);
 
 			// get the texture coordinate from the fractional part
-			// int tx = (int)(texWidth * (floorX - cellX)) & (texWidth - 1);
-			// int ty = (int)(texHeight * (floorY - cellY)) & (texHeight - 1);
+			// int tx = (int)(texWidth * (floorX - cell_x)) & (texWidth - 1);
+			// int ty = (int)(texHeight * (floorY - cell_y)) & (texHeight - 1);
 
 			floorX += floorStepX;
 			floorY += floorStepY;
@@ -209,7 +210,11 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 			}
 			else
 			{
-				t_image	*texture = texture_for_wall(map, side, ray_dir_x, ray_dir_y);
+				t_image	*texture;
+				if (map->tiles[mapX + mapY * map->width] == TILE_DOOR)
+					texture = vars->door;
+				else
+					texture = texture_for_wall(map, side, ray_dir_x, ray_dir_y);
 				double	wall_x;
 
 				if (side == 0) wall_x = r3d->camera->position.z + perpWallDist * ray_dir_y;
@@ -226,7 +231,8 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 				{
 					int tex_y = (int)texPos; // & (texture->height - 1);
 					texPos += step;
-					r3d->color_buffer[x + y * r3d->width] = ((t_color *)texture->data)[tex_x + tex_y * texture->width];
+					if (((t_color *)texture->data)[tex_x + tex_y * texture->width].t == 0)
+						r3d->color_buffer[x + y * r3d->width] = ((t_color *)texture->data)[tex_x + tex_y * texture->width];
 				}
 			}
 

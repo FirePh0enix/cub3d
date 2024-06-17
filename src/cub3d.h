@@ -20,10 +20,6 @@
 
 # include "./parsing/parsing.h"
 
-# ifdef _USE_RENDER_THREAD
-#  include <pthread.h>
-# endif
-
 typedef struct s_map	t_map;
 
 typedef struct s_scoreboard_entry
@@ -72,6 +68,7 @@ typedef struct s_vars
 	t_gun			shotgun;
 
 	t_sprite		player_sprite;
+	t_image			*door;
 }	t_vars;
 
 inline int	next_entity_id(t_vars *vars)
