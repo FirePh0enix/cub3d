@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/17 15:51:34 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:09:13 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ static bool	invalid_rgb_char(char *color)
 	int	i;
 
 	i = 0;
+
 	while (color[i])
 	{
+
 		if (!ft_isdigit(color[i]) && color[i] != ',' && color[i] != ' ')
 		{
+			if (_BONUS == 1)
+				return (false);
 			ft_putstr_fd(RED"Error\n", 2);
 			ft_putstr_fd(RED"Character "BRED, 2);
 			ft_putchar_fd(color[i], 2);
@@ -41,8 +45,8 @@ bool	create_image_fc(char *identifier, t_map *map, t_image *image)
 		map->floor_image = image;
 		if (!map->floor_image)
 		{
-			ft_putstr_fd("Error\nFailed to create "BRED, 2);
-			ft_putstr_fd("F (floor)"RED, 2);
+			ft_putstr_fd(RED"Error\nFailed to create "BRED, 2);
+			ft_putstr_fd("F (floor) "RED, 2);
 			ft_putstr_fd("textures \n"RESET, 2);
 			return (false);
 		}
@@ -50,10 +54,10 @@ bool	create_image_fc(char *identifier, t_map *map, t_image *image)
 	else if (!ft_strcmp(identifier, "C"))
 	{
 		map->ceilling_image = image;
-		if (map->ceilling_image)
+		if (!map->ceilling_image)
 		{
-			ft_putstr_fd("Error\nFailed to create "BRED, 2);
-			ft_putstr_fd("C (ceilling)"RED, 2);
+			ft_putstr_fd(RED"Error\nFailed to create "BRED, 2);
+			ft_putstr_fd("C (ceilling) "RED, 2);
 			ft_putstr_fd("textures \n"RESET, 2);
 			return (false);
 		}

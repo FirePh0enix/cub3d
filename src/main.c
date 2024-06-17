@@ -203,7 +203,7 @@ int	main(int argc, char *argv[])
 		return 1;
 	map_file = ft_split(line, '\n');
 	if (!check_enough_line(map_file))
-		return 1;
+		return (1);
 	map = create_map(map_file, vars.map);
 	vars.map->maps = fill_map_with_space(map, vars.map->width, vars.map->height);
 	map_to_tiles(vars.map, vars.map->maps, vars.scene, &vars);
