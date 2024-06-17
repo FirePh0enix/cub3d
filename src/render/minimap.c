@@ -1,6 +1,7 @@
 #include "font.h"
 #include "render.h"
 #include "../cub3d.h"
+#include <stdio.h>
 
 #define RES 20
 
@@ -47,6 +48,16 @@ void	minimap_create(t_minimap *minimap, t_map *map)
 	}
 }
 
+#define WIDTH 300
+#define HEIGHT 300
+#define BORDER_WIDTH 6
+#define CAM_WIDTH 10
+
+static float	distance_circle(float x, float y, float center_x, float center_y)
+{
+	return (sqrt((center_x - x) * (center_x - x) + (center_y - y) * (center_y - y)));
+}
+
 static void	print_camera(t_r3d *r3d, t_v2i pos, t_v2i mappos)
 {
 	const int	x = r3d->camera->position.x * RES + pos.x + RES / 2.0 - mappos.x;
@@ -55,25 +66,17 @@ static void	print_camera(t_r3d *r3d, t_v2i pos, t_v2i mappos)
 	int	i;
 	int	j;
 
-	i = -5;
-	while (i < 5)
+	i = -CAM_WIDTH / 2;
+	while (i < CAM_WIDTH / 2)
 	{
-		j = -5;
-		while (j < 5)
+		j = -CAM_WIDTH / 2;
+		while (j < CAM_WIDTH / 2)
 		{
 			r3d->color_buffer[(x + i) + (y + j) * r3d->width] = hex(0x00FFFFFF);
 			j++;
 		}
 		i++;
 	}
-}
-
-#define WIDTH 300
-#define HEIGHT 300
-
-static float	distance_circle(float x, float y)
-{
-	return (sqrt(x * x + y * y));
 }
 
 void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_v2i pos, t_v2i mappos)
@@ -90,9 +93,22 @@ void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_v2i pos, t_v2i mappos)
 			int x2 = x + pos.x + RES / 2;
 			int y2 = y + pos.y + RES / 2;
 
-			if (x2 < 0 || x2 >= r3d->width || y2 < 0 || y2 >= r3d->height || distance_circle(x - WIDTH / 2, y) > WIDTH)
+			if (x2 < 0 || x2 >= r3d->width || y2 < 0 || y2 >= r3d->height)
 			{
 				y++;
+				continue ;
+			}
+
+			if (distance_circle(x, y, WIDTH / 2.0, HEIGHT / 2.0) > WIDTH / 2.0)
+			{
+				y++;
+				continue ;
+			}
+
+			if (distance_circle(x, y, WIDTH / 2.0, HEIGHT / 2.0) > WIDTH / 2.0 - BORDER_WIDTH)
+			{
+				y++;
+				r3d->color_buffer[x2 + y2 * r3d->width] = hex(0x00FFFFFF);
 				continue ;
 			}
 
