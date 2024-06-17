@@ -91,6 +91,15 @@ enum e_tile
 	TILE_EMPTY,
 	TILE_FULL,
 	TILE_DOOR,
+
+	TILE_2 = 3,
+	TILE_3,
+	TILE_4,
+	TILE_5,
+	TILE_6,
+	TILE_7,
+	TILE_8,
+	TILE_9,
 };
 
 typedef struct s_map

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/17 15:51:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:15:43 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ static void	raycast_floor_and_ceiling(t_r3d *r3d, t_map *map)
 {
 	int	x;
 	int	y;
+
+	const t_image	*ci = map->ceilling_image;
+	const t_image	*fi = map->floor_image;
 
 	y = 0;
 	while (y < r3d->height)
@@ -59,7 +62,7 @@ static void	raycast_floor_and_ceiling(t_r3d *r3d, t_map *map)
 
 		// real world coordinates of the leftmost column. This will be updated as we step to the right.
 		float floorX = r3d->camera->position.x + rowDistance * rayDirX0;
-		float floorY = r3d->camera->position.y + rowDistance * rayDirY0;
+		float floorY = r3d->camera->position.z + rowDistance * rayDirY0;
 
 		x = 0;
 		while (x < r3d->width)
@@ -69,30 +72,35 @@ static void	raycast_floor_and_ceiling(t_r3d *r3d, t_map *map)
 			int cell_y = (int)(floorY);
 
 			// get the texture coordinate from the fractional part
-			// int tx = (int)(texWidth * (floorX - cell_x)) & (texWidth - 1);
-			// int ty = (int)(texHeight * (floorY - cell_y)) & (texHeight - 1);
+			int tx_f = 0;
+			int ty_f = 0;
+
+			if (fi)
+			{
+				tx_f = (int)(fi->width * (floorX - cell_x)) & (fi->width - 1);
+				ty_f = (int)(fi->height * (floorY - cell_y)) & (fi->height - 1);
+			}
+
+			int tx_c = 0;
+			int ty_c = 0;
+
+			if (ci)
+			{
+				tx_c = (int)(ci->width * (floorX - cell_x)) & (ci->width - 1);
+				ty_c = (int)(ci->height * (floorY - cell_y)) & (ci->height - 1);
+			}
 
 			floorX += floorStepX;
 			floorY += floorStepY;
 
-			// // choose texture and draw the pixel
-			// int floorTexture = 3;
-			// int ceilingTexture = 6;
-			// Uint32 color;
-
-			// // floor
-			// color = texture[floorTexture][texWidth * ty + tx];
-			// color = (color >> 1) & 8355711; // make a bit darker
-			// buffer[y][x] = color;
-
-			// //ceiling (symmetrical, at screenHeight - y - 1 instead of y)
-			// color = texture[ceilingTexture][texWidth * ty + tx];
-			// color = (color >> 1) & 8355711; // make a bit darker
-			// buffer[screenHeight - y - 1][x] = color;
-
-			// TODO: Add floor/ceiling texturing
-			r3d->color_buffer[x + y * r3d->width] = map->floor_color;
-			r3d->color_buffer[x + (r3d->height - y - 1) * r3d->width] = map->ceiling_color;
+			if (!fi)
+				r3d->color_buffer[x + y * r3d->width]                     = map->floor_color;
+			else
+				r3d->color_buffer[x + y * r3d->width]                     = hex(fi->data[tx_f + ty_f * fi->width]);
+			if (!ci)
+				r3d->color_buffer[x + (r3d->height - y - 1) * r3d->width] = map->ceiling_color;
+			else
+				r3d->color_buffer[x + (r3d->height - y - 1) * r3d->width] = hex(ci->data[tx_c + ty_c * ci->width]);
 			x++;
  		}
 		y++;
