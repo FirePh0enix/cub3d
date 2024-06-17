@@ -3,7 +3,7 @@ SO assets/textures/AQMETL06.tga
 WE assets/textures/AQCONC09.tga
 EA assets/textures/AQF018.tga
 
-F 100,100,0
+F assets/textures/AQCONC09.tga
 C 225,30,0
 
 111111111111111111111111111111111111111111

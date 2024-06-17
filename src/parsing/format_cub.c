@@ -6,13 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 18:15:55 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:22:34 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
-#include "libft.h"
 
 static bool	err_length(int len)
 {
