@@ -1,17 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/17 15:25:25 by ledelbec         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef CUB3D_H
 # define CUB3D_H
+
+# ifndef _BONUS
+#  define _BONUS 0
+# endif
 
 # include "gun.h"
 # include "math/mat4.h"
@@ -113,6 +105,9 @@ typedef struct s_map
 	t_image		*so;
 	t_image		*we;
 	t_image		*ea;
+
+	t_image		*floor_image;
+	t_image		*ceilling_image;
 
 	int			*tiles;
 	t_transform	spawns[MAX_CLIENT];

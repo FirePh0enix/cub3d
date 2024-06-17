@@ -47,7 +47,7 @@ bool	is_valid_char_in_map(char **maps, t_map *map)
 	return (true);
 }
 
-static bool err_floor_and_ceilling(void)
+static	bool	err_floor_and_ceilling(void)
 {
 	ft_putstr_fd(RED"Error\n", 2);
 	ft_putstr_fd("You need to add "BRED, 2);

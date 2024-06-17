@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 18:05:31 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:51:34 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
 static bool	invalid_rgb_char(char *color)
 {
@@ -29,6 +30,33 @@ static bool	invalid_rgb_char(char *color)
 			return (false);
 		}
 		++i;
+	}
+	return (true);
+}
+
+bool	create_image_fc(char *identifier, t_map *map, t_image *image)
+{
+	if (!ft_strcmp(identifier, "F"))
+	{
+		map->floor_image = image;
+		if (!map->floor_image)
+		{
+			ft_putstr_fd("Error\nFailed to create "BRED, 2);
+			ft_putstr_fd("F (floor)"RED, 2);
+			ft_putstr_fd("textures \n"RESET, 2);
+			return (false);
+		}
+	}
+	else if (!ft_strcmp(identifier, "C"))
+	{
+		map->ceilling_image = image;
+		if (map->ceilling_image)
+		{
+			ft_putstr_fd("Error\nFailed to create "BRED, 2);
+			ft_putstr_fd("C (ceilling)"RED, 2);
+			ft_putstr_fd("textures \n"RESET, 2);
+			return (false);
+		}
 	}
 	return (true);
 }
@@ -67,6 +95,7 @@ bool	is_valid_rgb(char **colors, t_map *map)
 	int		i;
 	char	*identifier;
 	char	*color_path;
+	t_image	*image;
 
 	i = 0;
 	while (colors[i])
@@ -78,7 +107,24 @@ bool	is_valid_rgb(char **colors, t_map *map)
 		{
 			color_path = detect_texture_path(colors[i]);
 			if (!check_rgb(color_path, map, identifier))
-				return (false);
+			{
+				if (_BONUS == 1)
+				{
+					image = load_texture(colors[i], identifier);
+					if (!image)
+					{
+						free(identifier);
+						return (false);
+					}
+					if (!create_image_fc(identifier, map, image))
+						return (false);
+				}
+				else
+				{
+					free (identifier);
+					return (false);
+				}
+			}
 		}
 		free(identifier);
 		++i;
