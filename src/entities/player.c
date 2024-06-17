@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 12:15:03 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/17 11:21:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	player_tick(t_vars *vars, t_player *player)
 	player->base.velocity.y -= 0.8;
 
 	// TODO: Redo collisions.
-	// adjust_player_pos(player, vars->map, vars->delta_sec, vars->scene->entities);
+	adjust_vel(player, vars->map, vars->delta_sec, vars->scene->entities);
 
 	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
 

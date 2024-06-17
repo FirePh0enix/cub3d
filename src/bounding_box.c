@@ -68,11 +68,11 @@ t_box	box_from_wall(int x, int y)
 {
 	t_box	box;
 
-	box.min.x = x * WALL_SIZE - WALL_SIZE / 2;
-	box.max.x = x * WALL_SIZE + WALL_SIZE / 2;
+	box.min.x = x * WALL_SIZE - WALL_SIZE / 2 + 0.5;
+	box.max.x = x * WALL_SIZE + WALL_SIZE / 2 + 0.5;
 	box.min.y = WALL_SIZE / 2 - WALL_SIZE / 2;
 	box.max.y = WALL_SIZE / 2 + WALL_SIZE / 2;
-	box.min.z = y * WALL_SIZE - WALL_SIZE / 2;
-	box.max.z = y * WALL_SIZE + WALL_SIZE / 2;
+	box.min.z = y * WALL_SIZE - WALL_SIZE / 2 + 0.5;
+	box.max.z = y * WALL_SIZE + WALL_SIZE / 2 + 0.5;
 	return (box);
 }
