@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:27:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/17 15:10:43 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:25:25 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@
 # include <stdbool.h>
 
 # include "./parsing/parsing.h"
-
-# ifdef _USE_RENDER_THREAD
-#  include <pthread.h>
-# endif
 
 typedef struct s_map	t_map;
 
@@ -80,6 +76,7 @@ typedef struct s_vars
 	t_gun			shotgun;
 
 	t_sprite		player_sprite;
+	t_image			*door;
 }	t_vars;
 
 inline int	next_entity_id(t_vars *vars)

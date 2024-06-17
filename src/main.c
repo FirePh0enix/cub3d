@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:00:23 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/17 15:13:12 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:44:43 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,7 @@ int	main(int argc, char *argv[])
 	vars.r3d = ft_calloc(sizeof(t_r3d), 1);
 	vars.last_update = 0;
 	vars.mlx = mlx_init();
-	if (argc == 4 && (!ft_strcmp(argv[2], "host") || !ft_strcmp(argv[2], "local-host")))
-		vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D - HOST");
-	else if (argc == 5 && (!ft_strcmp(argv[2], "connect") || !ft_strcmp(argv[2], "connect-local")))
-		vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D - CLIENT");
-	else
-		vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
+	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
@@ -168,9 +163,7 @@ int	main(int argc, char *argv[])
 	vars.keys = ft_calloc(0xFFFF, sizeof(bool));
 	vars.scoreboard.entries[0].present = 1;
 
-	// vars.panel = gui_panel_new((t_v2){-1.0, -1.0});
-	// vars.panel->bg_color = hex(0xFF000000);
-	// vars.panel->size = (t_v2){0.0, 0.0};
+	vars.door = tga_load_from_file("assets/textures/DOOR2_4.tga");
 
 	vars.shotgun.main_anim = sprite_create_anim(load_images(6,
 		"assets/textures/SHTGA0.tga",
@@ -200,12 +193,6 @@ int	main(int argc, char *argv[])
 	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
-
-	// t_fake_player *fake_player = fake_player_new(&vars, vars.scene, next_entity_id(&vars));
-	// fake_player->base.transform.position.x = 10;
-	// fake_player->base.transform.position.z = 10;
-	// fake_player->health = 3;
-	// scene_add_entity(vars.scene, fake_player);
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
