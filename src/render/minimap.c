@@ -1,6 +1,7 @@
 #include "font.h"
 #include "render.h"
 #include "../cub3d.h"
+#include <stdio.h>
 
 #define RES 20
 
@@ -40,11 +41,21 @@ void	minimap_create(t_minimap *minimap, t_map *map)
 			if (map->tiles[x + y * map->width] == TILE_FULL)
 				put_tile(x, y, hex(0x00FF0000), minimap->background);
 			else
-				put_tile(x, y, hex(0x00), minimap->background);
+				put_tile(x, y, hex(0xFF000000), minimap->background);
 			y++;
 		}
 		x++;
 	}
+}
+
+#define WIDTH 300
+#define HEIGHT 300
+#define BORDER_WIDTH 6
+#define CAM_WIDTH 10
+
+static float	distance_circle(float x, float y, float center_x, float center_y)
+{
+	return (sqrt((center_x - x) * (center_x - x) + (center_y - y) * (center_y - y)));
 }
 
 static void	print_camera(t_r3d *r3d, t_v2i pos, t_v2i mappos)
@@ -55,11 +66,11 @@ static void	print_camera(t_r3d *r3d, t_v2i pos, t_v2i mappos)
 	int	i;
 	int	j;
 
-	i = -5;
-	while (i < 5)
+	i = -CAM_WIDTH / 2;
+	while (i < CAM_WIDTH / 2)
 	{
-		j = -5;
-		while (j < 5)
+		j = -CAM_WIDTH / 2;
+		while (j < CAM_WIDTH / 2)
 		{
 			r3d->color_buffer[(x + i) + (y + j) * r3d->width] = hex(0x00FFFFFF);
 			j++;
@@ -67,9 +78,6 @@ static void	print_camera(t_r3d *r3d, t_v2i pos, t_v2i mappos)
 		i++;
 	}
 }
-
-#define WIDTH 300
-#define HEIGHT 300
 
 void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_v2i pos, t_v2i mappos)
 {
@@ -82,16 +90,32 @@ void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_v2i pos, t_v2i mappos)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			if (x + pos.x < 0 || x + pos.x >= r3d->width || y + pos.y < 0 || y + pos.y >= r3d->height)
+			int x2 = x + pos.x + RES / 2;
+			int y2 = y + pos.y + RES / 2;
+
+			if (x2 < 0 || x2 >= r3d->width || y2 < 0 || y2 >= r3d->height)
 			{
 				y++;
 				continue ;
 			}
 
+			if (distance_circle(x, y, WIDTH / 2.0, HEIGHT / 2.0) > WIDTH / 2.0)
+			{
+				y++;
+				continue ;
+			}
+
+			if (distance_circle(x, y, WIDTH / 2.0, HEIGHT / 2.0) > WIDTH / 2.0 - BORDER_WIDTH)
+			{
+				y++;
+				r3d->color_buffer[x2 + y2 * r3d->width] = hex(0x00FFFFFF);
+				continue ;
+			}
+
 			if (x + mappos.x < 0 || x + mappos.x >= minimap->background->width || y + mappos.y < 0 || y + mappos.y >= minimap->background->height)
-				r3d->color_buffer[(x + pos.x) + (y + pos.y) * r3d->width] = hex(0);
-			else
-				r3d->color_buffer[(x + pos.x) + (y + pos.y) * r3d->width] = ((t_color *)minimap->background->data)[(x + mappos.x) + (y + mappos.y) * minimap->background->width];
+				r3d->color_buffer[x2 + y2 * r3d->width] = hex(0xFF000000);
+			else //if (((t_color *)minimap->background->data)[(x + mappos.x) + (y + mappos.y) * minimap->background->width].t == 0)
+				r3d->color_buffer[x2 + y2 * r3d->width] = ((t_color *)minimap->background->data)[(x + mappos.x) + (y + mappos.y) * minimap->background->width];
 			y++;
 		}
 		x++;
