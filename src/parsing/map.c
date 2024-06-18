@@ -21,6 +21,8 @@ static bool	is_valid_char(char c)
 		return (true);
 	else if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
 		return (true);
+	else if (_BONUS && ft_isdigit(c))
+		return (true);
 	else
 		return (false);
 }

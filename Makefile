@@ -6,11 +6,12 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/17 14:31:28 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/18 14:45:42 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
+	src/parsing/create_map.c \
 	src/parsing/free.c \
 	src/parsing/map.c \
 	src/bounding_box.c \

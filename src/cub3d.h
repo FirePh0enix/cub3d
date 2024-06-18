@@ -89,9 +89,9 @@ int	mouse_button_released_hook(int btn, int _i1, int _i2, t_vars *vars);
 enum e_tile
 {
 	TILE_EMPTY,
-	TILE_FULL,
 	TILE_DOOR,
 
+	TILE_FULL = 2,
 	TILE_2 = 3,
 	TILE_3,
 	TILE_4,
@@ -158,4 +158,6 @@ bool 	collide_entities(t_entity **entities, t_box player);
 //############################################################################//
 void	adjust_vel(t_player *player, t_map *map, float delta, t_entity **ent);
 
+
+bool parsing(t_vars *vars, char **argv);
 #endif
