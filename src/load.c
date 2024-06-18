@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:12:43 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 01:38:02 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:17:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_image	**load_images(int num, ...)
 		va_end(list);
 		return (NULL);
 	}
+	// FIXME: If one file does not exist it can `malloc(): corrupted top`
 	while (++i < num)
 		images[i] = tga_load_from_file(va_arg(list, char *));
 	va_end(list);

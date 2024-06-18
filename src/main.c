@@ -182,6 +182,10 @@ int	main(int argc, char *argv[])
 	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
 
+	t_fake_player	*fake_player = fake_player_new(&vars, vars.scene, next_entity_id(&vars));
+	fake_player->base.transform.position = v3(2.5, 0, 2.5);
+	scene_add_entity(vars.scene, fake_player);
+
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
 	vars.map = ft_calloc(sizeof(t_map), 1);
@@ -215,6 +219,16 @@ int	main(int argc, char *argv[])
 	player->gun = vars.shotgun;
 
 	vars.r3d->camera = vars.scene->player->camera;
+
+	const float s = 1.0;
+
+	printf("%f\n", s);
+
+	float *s2 = (void *)&s;
+	*s2 = 0.1;
+
+	printf("%f\n", s);
+	printf("%f\n", *s2);
 
 	// t_sound	sound;
 

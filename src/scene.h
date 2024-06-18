@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 01:23:16 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:14:33 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,28 @@ typedef struct s_player
 	int			health;
 }	t_player;
 
+t_player		*player_new(t_vars *vars, t_scene *scene, int id);
+void			player_mouse_event(int x, int y, t_vars *vars);
+
+# define FORW   0
+# define FORW_L 1
+# define LEFT   2
+# define BACK_L 3
+# define BACK   4
+# define BACK_R 5
+# define RIGHT  6
+# define FORW_R 7
+
 typedef struct s_fake_player
 {
 	t_entity	base;
 	int			health;
+
+	t_sprite	sp[8];
 }	t_fake_player;
 
-t_player		*player_new(t_vars *vars, t_scene *scene, int id);
 t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id);
-void			player_mouse_event(int x, int y, t_vars *vars);
-
-typedef struct s_door
-{
-	t_entity	base;
-	float		angle;
-	float		target_angle;
-
-	t_v3		initial_pos;
-}	t_door;
-
-t_door			*door_new(t_vars *vars, t_scene *scene, int dir, int id);
+t_image			*fake_player_get_image(t_fake_player *fp, t_vars *vars);
 
 /* Scene definition */
 

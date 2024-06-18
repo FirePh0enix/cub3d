@@ -1,9 +1,13 @@
-NO assets/cobblestone.tga
-SO assets/cobblestone.tga
-WE assets/cobblestone.tga
-EA assets/cobblestone.tga
+NO assets/textures/DOBWIRE.tga
+SO assets/textures/DOBWIRE.tga
+WE assets/textures/DOBWIRE.tga
+EA assets/textures/DOBWIRE.tga
 
 F 100,100,0
 C 225,30,0
 
-1
+111111
+100001
+100001
+10N001
+111111
