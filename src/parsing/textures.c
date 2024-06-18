@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/17 15:50:33 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:08:51 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
 static	bool	err_material(char *identifier)
 {
@@ -56,7 +57,7 @@ static	bool	is_valid_number_ident(char **textures, int no, int so, int we)
 
 	i = -1;
 	ea = 0;
-	while (textures[++i])
+	while (++i < 4)
 	{
 		identifier = detect_identifier(textures[i]);
 		if (is_valid_identifier_text(identifier))
@@ -88,14 +89,19 @@ bool	fill_texture(t_map *map, char **maps)
 {
 	int		i;
 	char	*identifier;
-	char	**textures;
+	char	*textures[4];
 	t_image	*image;
 
 	i = -1;
-	textures = create_textures(maps);
+	ft_bzero(textures, 4);
+	while (++i < 4)
+	{
+		textures[i] = maps[i];
+	}
 	if (!is_valid_number_ident(textures, 0, 0, 0))
 		return (false);
-	while (textures[++i])
+	i = -1;
+	while (++i < 4)
 	{
 		identifier = detect_identifier(textures[i]);
 		if (is_valid_identifier_text(identifier))
@@ -113,14 +119,5 @@ bool	fill_texture(t_map *map, char **maps)
 			return (err_identifier(identifier));
 		free(identifier);
 	}
-	for (int i = 0; i < 5; i++)
-	{
-		if (textures[i])
-		{
-			textures[i] = NULL;
-			free(textures[i]);
-		}
-	}
-	free(textures);
 	return (true);
 }

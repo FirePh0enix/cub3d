@@ -127,13 +127,11 @@ static void	loop_hook(t_vars *vars)
 int	main(int argc, char *argv[])
 {
 	t_vars	vars;
-	char	*line;
-	char	**map_file;
-	char	**map;
-	char	**colors;
 
 	(void) argc;
 	ft_bzero(&vars, sizeof(t_vars));
+	if (!parsing(&vars, argv))
+		return (-1);
 	vars.r3d = ft_calloc(sizeof(t_r3d), 1);
 	vars.last_update = 0;
 	vars.mlx = mlx_init();
@@ -184,31 +182,6 @@ int	main(int argc, char *argv[])
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
-	vars.map = ft_calloc(sizeof(t_map), 1);
-	line = read_to_string(argv[1], NULL);
-	if (!line)
-		return 1;
-	map_file = ft_split(line, '\n');
-	if (!check_enough_line(map_file))
-		return (1);
-	map = create_map(map_file, vars.map);
-	vars.map->maps = fill_map_with_space(map, vars.map->width, vars.map->height);
-	map_to_tiles(vars.map, vars.map->maps, vars.scene, &vars);
-	if (!is_valid_char_in_map(vars.map->maps, vars.map))
-		return (1);
-	if (!is_map_surrounded(vars.map->maps, vars.map))
-		return (1);
-	if (!find_player_pos(vars.map->maps, vars.map))
-		return (1);
-	if (!fill_texture(vars.map, map_file))
-		return (1);
-	colors = create_colors(map_file);
-	if (!colors)
-		return ((1));
-	if (!is_valid_rgb(colors, vars.map))
-		return (1);
-	if (!is_valid_file_name(argv[1]))
-		return (1);
 	minimap_create(&vars.minimap, vars.map);
 
 	player->base.transform = vars.map->spawns[0];
@@ -233,34 +206,5 @@ int	main(int argc, char *argv[])
 	mlx_destroy_display(vars.mlx);
 
 	free(vars.mlx);
-
-	for (int i = 0; map_file[i]; i++)
-	{
-		if (map_file[i])
-			free(map_file[i]);
-	}
-	free (map_file);
-
-	for (int i = 0; colors[i]; i++)
-	{
-		if (colors[i])
-		{
-			colors[i] = NULL;
-			free(colors[i]);
-		}
-	}
-	free (colors);
-
-	for (int i = 0; map[i]; i++)
-	{
-		if (map[i])
-		{
-			map[i] = NULL;
-			free(map[i]);
-		}
-	}
-	free (map);
-
-	free (line);
 
 }

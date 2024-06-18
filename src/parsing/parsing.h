@@ -61,7 +61,7 @@ char	**create_map(char **cub_file, t_map *map);
 char	**fill_map_with_space(char **map, size_t width, size_t height);
 int		calc_map_height(char **maps);
 int		calc_map_max_width(char **maps);
-void	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
+bool	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
 
 //############################################################################//
 								// ERROR MESSAGE //
@@ -75,7 +75,7 @@ bool	is_valid_identifier_color(char *str);
 bool	is_valid_identifier_text(char *str);
 bool	is_valid_char_in_map(char **maps, t_map *map);
 bool	is_map_surrounded(char **maps, t_map *map);
-bool	is_valid_rgb(char **colors, t_map *map);
+bool	is_valid_rgb(t_map *map, char **map_file); 
 bool	is_valid_file_name(char *str);
 char	*detect_identifier(char *texture);
 char	*detect_texture_path(char *path);
