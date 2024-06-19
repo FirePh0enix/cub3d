@@ -60,12 +60,12 @@ static	bool	err_floor_and_ceilling(void)
 	return (false);
 }
 
-bool	check_enough_line(char **map_file)
+bool	check_enough_line(char **map_config)
 {
 	int	i;
 
 	i = 0;
-	while (map_file[i])
+	while (map_config[i])
 		++i;
 	if (i < 4)
 	{

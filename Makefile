@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/19 16:32:34 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/19 16:54:36 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SOURCES=\
 	src/parsing/format_cub.c \
 	src/collision.c \
 	src/parsing/colors.c \
-	src/parsing/material.c \
 	src/parsing/identifier.c \
 	src/parsing/textures.c \
 	src/parsing/textures_utils.c \

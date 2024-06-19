@@ -67,7 +67,7 @@ bool	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
 								// ERROR MESSAGE //
 //############################################################################//
 void	putstr_sep(char *str, char n);
-
+bool	err_textures(char *identifier);
 //############################################################################//
 					// IDENTIFIER VALIDATION AND DETECTION //
 //############################################################################//
@@ -75,7 +75,7 @@ bool	is_valid_identifier_color(char *str);
 bool	is_valid_identifier_text(char *str);
 bool	is_valid_char_in_map(char **maps, t_map *map);
 bool	is_map_surrounded(char **maps, t_map *map);
-bool	is_valid_rgb(t_map *map, char **map_file); 
+bool	is_valid_rgb(t_map *map, char **map_config);
 bool	is_valid_file_name(char *str);
 char	*detect_identifier(char *texture);
 char	*detect_texture_path(char *path);
@@ -83,7 +83,7 @@ char	*detect_texture_path(char *path);
 //############################################################################//
 								// TEXTURES //
 //############################################################################//
-bool	create_material(char *identifier, t_map *map, t_image *image);
+bool	assign_textures(char *identifier, t_map *map, t_image *image);
 char	**create_textures(char **map);
 t_image	*load_texture(char *textures, char *identifier);
 bool	fill_texture(t_map *map, char **maps);
@@ -99,6 +99,6 @@ bool	find_player_pos(char **maps, t_map *map);
 char	*read_to_string(char *filename, size_t *len);
 bool	free_identifier(char *identifier);
 
-bool 	check_enough_line(char **map_file);
+bool 	check_enough_line(char **map_config);
 
 #endif
