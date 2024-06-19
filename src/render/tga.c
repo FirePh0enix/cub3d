@@ -6,13 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/18 15:22:46 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:27:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "render.h"
 #include "types.h"
+#include "../cub3d.h"
 #include <stdint.h>
 #include <stdio.h>
 
@@ -150,7 +151,7 @@ static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf)
 
 t_image	*tga_load_from_file(char *filename)
 {
-	const char	*s = read_to_string(filename, NULL);
+	const char	*s = read_file(filename);
 	t_tga_hdr	hdr;
 	t_image		*image;
 

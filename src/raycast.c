@@ -5,11 +5,27 @@
 #include "scene.h"
 #include <stdio.h>
 
+static const char __test_tga[] = {};
+
+static void *map[][2] = {
+	{ "assets/texture/PLAYA1.tga", (void *)__test_tga }
+};
+
+char *get_file(char *name)
+{
+	for (size_t i = 0; i < sizeof(map) / sizeof(map[0]); i++)
+	{
+		if (!strcmp(name, map[i][0]))
+			return (map[i][1]);
+	}
+	return (NULL);
+}
+
 static inline bool	is_full_tile(t_v3 v, t_map *map)
 {
 	return ((int)v.x >= 0 && (int)v.x <= map->width && (int)v.z >= 0
 		&& (int)v.z <= map->height
-		&& map->tiles[(int)v.x + (int)v.y * map->width] == TILE_FULL);
+		&& map->tiles[(int)v.x + (int)v.z * map->width] != TILE_EMPTY);
 }
 
 t_entity	*raycast_entity(t_map *map, t_scene *scene, t_transform ray,
@@ -27,7 +43,7 @@ t_entity	*raycast_entity(t_map *map, t_scene *scene, t_transform ray,
 	while (++i < size / precision)
 	{
 		v = v3_add(ray.position, v3_scale(dir, precision * i));
-		if (is_full_tile(v, map))
+		if (is_full_tile(v3_add(v, v3(0.5, 0.0, 0.5)), map))
 			break ;
 		j = 0;
 		while (j < ft_vector_size(scene->entities))

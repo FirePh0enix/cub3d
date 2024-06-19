@@ -98,7 +98,10 @@ void	netclient_poll(t_client *client, t_vars *vars)
 	}
 
 	if (getms() - client->last_pulse >= 500)
+	{
 		vars->menu_open = true;
+		// TODO: Reset the scene
+	}
 }
 
 void	netclient_connect(t_client *client, char *username)

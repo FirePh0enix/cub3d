@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
+#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/18 14:45:42 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/19 16:32:34 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SOURCES=\
 	src/parsing/map_surrounded.c \
 	src/parsing/parsing.c \
 	src/parsing/colors_utils.c \
+	src/resource_gen.c \
 	src/main.c \
 	src/input.c \
 	src/scene.c \
@@ -78,6 +79,9 @@ $(NAME): $(OBJECTS) libft/libft.a mlx/libmlx.a
 bonus: CFLAGS+=-D_BONUS=1 -D_ENABLE_MULTIPLAYER=1 -D_ENABLE_SOUND=1
 bonus: LDFLAGS+=-lpulse -lpulse-simple -pthread
 bonus: $(NAME)
+
+res:
+	./tools/resource.py
 
 perf: CFLAGS+=-pg
 perf: bonus

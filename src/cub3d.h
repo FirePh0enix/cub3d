@@ -1,6 +1,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+#include <stddef.h>
 # ifndef _BONUS
 #  define _BONUS 0
 # endif
@@ -129,6 +130,10 @@ typedef struct s_box
 	t_v3 min;
 	t_v3 max;
 }	t_box;
+
+char	*_get_file_data(char *filename);
+size_t	_get_file_size(char *filename);
+char	*read_file(char *filename);
 
 t_image	**load_images(int num, ...);
 
