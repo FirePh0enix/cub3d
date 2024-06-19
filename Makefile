@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/18 14:45:42 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/19 15:36:29 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SOURCES=\
 	src/parsing/format_cub.c \
 	src/collision.c \
 	src/parsing/colors.c \
-	src/parsing/material.c \
 	src/parsing/identifier.c \
 	src/parsing/textures.c \
 	src/parsing/textures_utils.c \

@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/18 14:50:06 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:44:31 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 	return (true);
 }
 
-bool	is_valid_rgb(t_map *map, char **map_file)
+bool	is_valid_rgb(t_map *map, char **map_config)
 {
 	int		i;
 	char	*identifier;
@@ -106,7 +106,7 @@ bool	is_valid_rgb(t_map *map, char **map_file)
 	ft_bzero(colors, 2);
 	while (i < 2)
 	{
-		colors[i] = map_file[i + 4];
+		colors[i] = map_config[i + 4];
 		++i;
 	}
 	i = 0;

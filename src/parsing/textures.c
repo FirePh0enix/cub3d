@@ -6,15 +6,14 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/18 14:08:51 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:35:37 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
-#include "libft.h"
 
-static	bool	err_material(char *identifier)
+bool	err_textures(char *identifier)
 {
 	ft_putstr_fd(RED"Error\n"BRED, 2);
 	ft_putstr_fd(identifier, 2);
@@ -112,8 +111,8 @@ bool	fill_texture(t_map *map, char **maps)
 				free(identifier);
 				return (false);
 			}
-			if (!create_material(identifier, map, image))
-				return (err_material(identifier));
+			if (!assign_textures(identifier, map, image))
+				return (err_textures(identifier));
 		}
 		else
 			return (err_identifier(identifier));
