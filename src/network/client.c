@@ -98,7 +98,7 @@ void	netclient_poll(t_client *client, t_vars *vars)
 	}
 
 	if (getms() - client->last_pulse >= 500)
-		mlx_loop_end(vars->mlx);
+		vars->menu_open = true;
 }
 
 void	netclient_connect(t_client *client, char *username)
