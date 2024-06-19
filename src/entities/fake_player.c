@@ -70,7 +70,7 @@ t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id)
 
 t_image	*fake_player_get_image(t_fake_player *fp, t_vars *vars)
 {
-	const t_v3 dir_cam = mat4_multiply_v3(mat4_rotation(vars->r3d->camera->rotation), v3(0, 0, -1));
+	const t_v3 dir_cam =  mat4_multiply_v3(mat4_rotation(vars->r3d->camera->rotation), v3(0, 0, -1)); //v3_sub(fp->base.transform.position, vars->r3d->camera->position);
 	const t_v3 dir_fp = mat4_multiply_v3(mat4_rotation(fp->base.transform.rotation), v3(0, 0, 1));
 
 	float dot = v3_dot(dir_cam, dir_fp);
@@ -91,12 +91,19 @@ t_image	*fake_player_get_image(t_fake_player *fp, t_vars *vars)
 
 	// printf("%f\n", dot);
 
+
+	//         < -0.75
+	// < -0.5   / - \  < -0.5
+	// <  0.0   |   |  <  0.0
+	// <  0.5   \ - /  <  0.5
+	//
+
 	if (dot < -0.75)
 		return sprite_get_image(&fp->sp[BACK]);
 
-	else if (dot < 0.0 && dir_cam.x < dir_fp.x)
+	else if (dot < -0.25 && dir_cam.x < dir_fp.x)
 		return sprite_get_image(&fp->sp[BACK_R]);
-	else if (dot < 0.0 && dir_cam.x > dir_fp.x)
+	else if (dot < -0.25 && dir_cam.x > dir_fp.x)
 		return sprite_get_image(&fp->sp[BACK_L]);
 
 	else if (dot < 0.25 && dir_cam.x < dir_fp.x)
@@ -104,9 +111,9 @@ t_image	*fake_player_get_image(t_fake_player *fp, t_vars *vars)
 	else if (dot < 0.25 && dir_cam.x > dir_fp.x)
 		return sprite_get_image(&fp->sp[LEFT]);
 
-	else if (dot < 0.5 && dir_cam.x < dir_fp.x)
+	else if (dot < 0.75 && dir_cam.x < dir_fp.x)
 		return sprite_get_image(&fp->sp[FORW_R]);
-	else if (dot < 0.5 && dir_cam.x > dir_fp.x)
+	else if (dot < 0.75 && dir_cam.x > dir_fp.x)
 		return sprite_get_image(&fp->sp[FORW_L]);
 
 	else
