@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:54:07 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/19 15:33:59 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/19 19:06:57 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,53 +69,28 @@ t_image	*load_texture(char *textures, char *identifier)
 	}
 	return (image);
 }
-bool	assign_textures(char *identifier, t_map *map, t_image *image)
+void	assign_textures(char *identifier, t_map *map, t_image *image)
 {
 	if (!ft_strcmp(identifier, "NO"))
-	{
 		map->no = image;
-		if (!map->no)
-			return (false);
-	}
 	else if (!ft_strcmp(identifier, "SO"))
-	{
 		map->so = image;
-		if (!map->so)
-			return (false);
-	}
 	else if (!ft_strcmp(identifier, "WE"))
-	{
 		map->we = image;
-		if (!map->we)
-			return (false);
-	}
 	else if (!ft_strcmp(identifier, "EA"))
-	{
 		map->ea = image;
-		if (!map->ea)
-			return (false);
-	}
-	return (true);
 }
 
 bool	check_all_textures(t_map *map)
 {
 	if (!map->no)
-	{
 		return (err_textures("NO"));
-	}
 	else if (!map->so)
-	{
 		return (err_textures("SO"));
-	}
 	else if (!map->we)
-	{
 		return (err_textures("WE"));
-	}
 	else if (!map->ea)
-	{
 		return (err_textures("EA"));
-	}
 	else
 		return (true);
 }

@@ -83,7 +83,7 @@ char	*detect_texture_path(char *path);
 //############################################################################//
 								// TEXTURES //
 //############################################################################//
-bool	assign_textures(char *identifier, t_map *map, t_image *image);
+void	assign_textures(char *identifier, t_map *map, t_image *image);
 char	**create_textures(char **map);
 t_image	*load_texture(char *textures, char *identifier);
 bool	fill_texture(t_map *map, char **maps);

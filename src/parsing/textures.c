@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/19 15:35:37 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/19 19:07:53 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,7 @@ bool	fill_texture(t_map *map, char **maps)
 				free(identifier);
 				return (false);
 			}
-			if (!assign_textures(identifier, map, image))
-				return (err_textures(identifier));
+			assign_textures(identifier, map, image);
 		}
 		else
 			return (err_identifier(identifier));
