@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tga.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:35:43 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:12:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,27 @@
 #include <stdio.h>
 #include "../mem.h"
 
+size_t	get_file_size(char *filename)
+{
+	char	b[4096];
+	int		n;
+	size_t	size;
+	int		fd;
+
+	size = 0;
+	n = 4096;
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		return (0);
+	while (n == 4096)
+	{
+		n = read(fd, b, 4096);
+		size += n;
+	}
+	close(fd);
+	return (size);
+}
+
 char	*read_to_string(char *filename, size_t *len, t_alloc_table *at)
 {
 	int		fd;
@@ -25,11 +46,15 @@ char	*read_to_string(char *filename, size_t *len, t_alloc_table *at)
 	char	buffer[4096];
 	int		str_size;
 	int		n;
+	size_t	file_size;
 
+	file_size = get_file_size(filename);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
-	str = NULL;
+	str = salloc(at, file_size);
+	if (!str)
+		return (close(fd), NULL);
 	str_size = 0;
 	n = 4096;
 	while (n == 4096)
@@ -37,12 +62,6 @@ char	*read_to_string(char *filename, size_t *len, t_alloc_table *at)
 		n = read(fd, buffer, 4096);
 		if (n == -1)
 			return (NULL);
-		// FIXME Realloc is too slow because it use ft_calloc instead of malloc
-		//       Maybe ft_realloc should be splitted ft_realloc (w/o calloc) and
-		//       ft_recalloc which use ft_calloc
-		str = ft_realloc(str, str_size + 1, str_size + n + 1, at);
-		if (!str)
-			return (close(fd), NULL);
 		ft_memcpy(str + str_size, buffer, n);
 		str[str_size + n] = '\0';
 		str_size += n;

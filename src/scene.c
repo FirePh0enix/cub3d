@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:53:16 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 17:19:16 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:13:31 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	destroy_scene(t_scene *scene)
 	free(scene);
 }
 
-void	scene_add_entity(t_scene *scene, void *entity, t_alloc_table *at)
+void	scene_add_entity(t_scene *scene, void *entity)
 {
-	ft_vector_add(&scene->entities, &entity, at);
+	ft_vector_add(&scene->entities, &entity);
 }
 
 void	scene_remove_entity(t_scene *scene, t_entity *entity)

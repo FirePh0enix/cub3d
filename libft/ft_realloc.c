@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 22:34:16 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 17:05:58 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:08:39 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void	*salloc(t_alloc_table *at, size_t n);
-
-void	*ft_realloc(void *p, size_t on, size_t n, t_alloc_table *at)
+void	*ft_realloc(void *p, size_t on, size_t n)
 {
 	void	*np;
 
-	np = salloc(at, n);
+	np = malloc(n);
 	if (!np)
 		return (NULL);
 	if (p)

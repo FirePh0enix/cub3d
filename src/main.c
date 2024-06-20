@@ -185,7 +185,7 @@ int	main(int argc, char *argv[])
 	menu_init(&vars.menu, vars.r3d, at);
 
 	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));
-	scene_add_entity(vars.scene, player, at);
+	scene_add_entity(vars.scene, player);
 	vars.scene->player = player;
 
 	// t_fake_player	*fake_player = fake_player_new(&vars, vars.scene, next_entity_id(&vars));

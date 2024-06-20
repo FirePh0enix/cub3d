@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:48:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 17:18:57 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:08:50 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-
-typedef struct s_alloc			t_alloc;
-typedef struct s_alloc_table	t_alloc_table;
 
 # include <stddef.h>
 # include <stdlib.h>
@@ -45,18 +42,18 @@ char		*ft_strstr(char *str, char *to_find);
 char		*ft_strnstr(const char *big, const char *little, size_t n);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);
-char		*ft_strdup(const char *s, t_alloc_table *at);
+char		*ft_strdup(const char *s);
 char		*ft_strndup(const char *s, size_t n);
 
 int			ft_atoi(const char *s);
 
 void		*ft_calloc(size_t n, size_t size);
-void		*ft_realloc(void *p, size_t old_size, size_t size, t_alloc_table *at);
+void		*ft_realloc(void *p, size_t old_size, size_t size);
 
 char		*ft_substr(const char *s, unsigned int start, size_t len);
 char		*ft_strtrim(const char *s1, const char *set);
 char		*ft_strjoin(const char *s1, const char *s2);
-char		**ft_split(const char *s, char c, t_alloc_table *at);
+char		**ft_split(const char *s, char c);
 char		*ft_itoa(int n);
 char		*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
@@ -96,8 +93,6 @@ typedef struct s_vecdata
 	size_t	el_size;
 }	t_vecdata;
 
-void	*salloc(t_alloc_table *at, size_t n);
-
 void		*ft_vector(size_t el_size, size_t capacity);
 /*
  * Free the memory used by the vector. `vec` should be the vector itself.
@@ -120,7 +115,7 @@ void		ft_vector_deep_free(void *vec);
  * The function returns the new address of the vector data or `NULL` if the
  * reallocation failed.
  */
-void		*ft_vector_add(void *vec, void *elp, t_alloc_table *at);
+void		*ft_vector_add(void *vec, void *elp);
 /*
  * Delete the element at `index`. After deletion the order of the remaining
  * elements is preserved.

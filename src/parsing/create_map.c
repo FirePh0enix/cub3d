@@ -51,7 +51,7 @@ char	**fill_map_with_space(char **map, size_t width, size_t height, t_alloc_tabl
 		}
 		else
 		{
-			new_map[i] = ft_strdup(map[i], at);
+			new_map[i] = ft_strdup(map[i]);
 			if (!new_map[i])
 			{
 				ft_putstr_fd(RED"Error\nMalloc failed for new_map[i] (strdup)", 2);
