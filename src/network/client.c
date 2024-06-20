@@ -65,7 +65,7 @@ void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
 		else if (type == PACKET_NEW_ENTITY)
 		{
 			t_entity *entity = new_entity((void *) buf, vars, at);
-			scene_add_entity(vars->scene, entity, at);
+			scene_add_entity(vars->scene, entity);
 		}
 		else if (type == PACKET_DEL_ENTITY)
 		{

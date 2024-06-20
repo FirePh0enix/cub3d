@@ -55,7 +55,7 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 
 	t_fake_player	*fake_player = fake_player_new(vars, vars->scene, next_entity_id(vars), at);
 	fake_player->base.transform.position = v3(0, 0, 0);
-	scene_add_entity(vars->scene, fake_player, at);
+	scene_add_entity(vars->scene, fake_player);
 
 	server->clients[i].entity = (void *) fake_player;
 

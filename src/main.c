@@ -177,7 +177,7 @@ int	main(int argc, char *argv[])
 	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga", at), at);
 
 	vars.font = font_create(at);
-	vars.scene = create_scene(at);
+	vars.scene = create_scene();
 
 	vars.menu.state = STATE_MAIN;
 	vars.menu_open = true;
@@ -217,8 +217,6 @@ int	main(int argc, char *argv[])
 	mlx_destroy_window(vars.mlx, vars.win);
 	mlx_destroy_display(vars.mlx);
 
-	free(vars.mlx);
 
 	sfreeall(at);
-	free(at);
 }

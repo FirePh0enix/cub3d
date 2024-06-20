@@ -6,14 +6,14 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 14:07:17 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:45:54 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:34:02 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-char	*ft_strdup(const char *s, t_alloc_table *at)
+char	*ft_strdup(const char *s)
 {
 	char	*dup;
 
