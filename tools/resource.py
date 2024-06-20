@@ -45,8 +45,12 @@ def genRes(file):
 		elif j < len(data) - 1:
 			s += ", "
 			i += 1
+		else:
+			s += ","
+			i += 1
 		j += 1
 
+	s += "\n\t0x0"
 	s += "\n};"
 
 	return s
