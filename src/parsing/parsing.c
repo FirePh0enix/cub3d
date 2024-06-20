@@ -32,7 +32,7 @@ bool	parsing(t_vars *vars, char **argv, t_alloc_table *at)
 	vars->map = scalloc(at, sizeof(t_map), 1);
 	if (!vars->map)
 		return (false);
-	map_config = ft_split(line, '\n', at);
+	map_config = ft_split(line, '\n');
 	if (!check_enough_line(map_config))
 		return (false);
 	map = create_map(map_config, vars->map, at);

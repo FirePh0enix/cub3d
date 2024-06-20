@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 18:10:39 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:18:08 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ typedef struct s_scene
 	t_player	*player;
 }	t_scene;
 
-t_scene			*create_scene(t_alloc_table *at);
-void			scene_add_entity(t_scene *scene, void *entity, t_alloc_table *at);
+t_scene			*create_scene(void);
+void			scene_add_entity(t_scene *scene, void *entity);
 void			scene_remove_entity(t_scene *scene, t_entity *entity);
 t_entity		*scene_get_entity_by_id(t_scene *scene, int id);
 void			destroy_scene(t_scene *scene);
