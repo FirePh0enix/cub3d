@@ -17,6 +17,7 @@
 # include "render/types.h"
 # include "scene.h"
 # include "menu.h"
+# include "minimap.h"
 
 # include <stdbool.h>
 

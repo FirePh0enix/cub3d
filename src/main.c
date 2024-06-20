@@ -194,7 +194,7 @@ int	main(int argc, char *argv[])
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
-	minimap_create(&vars.minimap, vars.map, at);
+	minimap_create(&vars.minimap, vars.r3d, vars.map);
 
 	player->base.transform = vars.map->spawns[0];
 	player->gun = vars.shotgun;
