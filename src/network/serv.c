@@ -37,7 +37,7 @@ static int	find_free_client(t_server *server)
 	return (-1);
 }
 
-static void connect_client(t_server *server, t_packet_connect *conn, struct sockaddr_in addr, t_vars *vars)
+static void connect_client(t_server *server, t_packet_connect *conn, struct sockaddr_in addr, t_vars *vars, t_alloc_table *at)
 {
 	int	i = find_free_client(server);
 
@@ -55,7 +55,7 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 
 	t_fake_player	*fake_player = fake_player_new(vars, vars->scene, next_entity_id(vars));
 	fake_player->base.transform.position = v3(0, 0, 0);
-	scene_add_entity(vars->scene, fake_player);
+	scene_add_entity(vars->scene, fake_player, at);
 
 	server->clients[i].entity = (void *) fake_player;
 
@@ -169,7 +169,7 @@ static void	disconnect(t_server *server, int i, t_vars *vars)
 	ft_printf("Player %s has timed out\n", client->username);
 }
 
-void	netserv_poll(t_server *server, t_vars *vars)
+void	netserv_poll(t_server *server, t_vars *vars, t_alloc_table *at)
 {
 	char				buf[MAX_PACKET_SIZE];
 	struct sockaddr_in addr;
@@ -181,7 +181,7 @@ void	netserv_poll(t_server *server, t_vars *vars)
 	{
 		type = *(int *)(buf);
 		if (type == PACKET_CONNECT)
-			connect_client(server, (void *) buf, addr, vars);
+			connect_client(server, (void *) buf, addr, vars, at);
 		else if (type == PACKET_POS)
 			move_player(server, (void *) buf, vars);
 		else if (type == PACKET_PULSE)

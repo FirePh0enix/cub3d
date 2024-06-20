@@ -66,7 +66,7 @@ static void	print_scoreboard(t_vars *vars)
 	}
 }
 
-static void	loop_hook(t_vars *vars)
+static void	loop_hook(t_vars *vars, t_alloc_table *at)
 {
 	suseconds_t	delta;
 
@@ -92,7 +92,7 @@ static void	loop_hook(t_vars *vars)
 
 	if (vars->is_server)
 	{
-		netserv_poll(&vars->server, vars);
+		netserv_poll(&vars->server, vars, at);
 		netserv_broadcast_scoreboard(&vars->server, &vars->scoreboard);
 
 		if (vars->scene->player->health <= 0 && vars->is_server)
@@ -104,7 +104,7 @@ static void	loop_hook(t_vars *vars)
 	}
 	else if (vars->client.has_send_connect)
 	{
-		netclient_poll(&vars->client, vars);
+		netclient_poll(&vars->client, vars, at);
 		netclient_pulse(&vars->client);
 	}
 
@@ -185,7 +185,7 @@ int	main(int argc, char *argv[])
 	menu_init(&vars.menu, vars.r3d, at);
 
 	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));
-	scene_add_entity(vars.scene, player);
+	scene_add_entity(vars.scene, player, at);
 	vars.scene->player = player;
 
 	// t_fake_player	*fake_player = fake_player_new(&vars, vars.scene, next_entity_id(&vars));

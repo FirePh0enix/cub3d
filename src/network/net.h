@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   net.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/13 12:29:17 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:20:44 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ typedef struct s_server
 }   t_server;
 
 void    netserv_init(t_server *server, t_vars *vars, int port);
-void	netserv_poll(t_server *server, t_vars *vars);
+void	netserv_poll(t_server *server, t_vars *vars, t_alloc_table *at);
 void    netserv_destroy(t_server *server);
 
 void	netserv_send(t_server *server, void *packet_addr, size_t size, int i);
@@ -164,7 +164,7 @@ typedef struct s_client
 }   t_client;
 
 void    netclient_init(t_client *client, char *addr, int port);
-void	netclient_poll(t_client *client, t_vars *vars);
+void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at);
 void	netclient_connect(t_client *client, char *username);
 
 void	netclient_send_pos(t_client *client, t_transform transform);

@@ -32,7 +32,7 @@ static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars)
 	return (entity);
 }
 
-void	netclient_poll(t_client *client, t_vars *vars)
+void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
 {
 	char				buf[MAX_PACKET_SIZE];
 	struct sockaddr_in addr;
@@ -65,7 +65,7 @@ void	netclient_poll(t_client *client, t_vars *vars)
 		else if (type == PACKET_NEW_ENTITY)
 		{
 			t_entity *entity = new_entity((void *) buf, vars);
-			scene_add_entity(vars->scene, entity);
+			scene_add_entity(vars->scene, entity, at);
 		}
 		else if (type == PACKET_DEL_ENTITY)
 		{
