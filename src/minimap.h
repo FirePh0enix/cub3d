@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:22:45 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:25:57 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:39:13 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 
 typedef struct s_minimap
 {
-	t_image			*background;
-
 	t_rasterizer	rast;
 	t_map			*map;
 }	t_minimap;

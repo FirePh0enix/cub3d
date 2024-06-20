@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   resource_gen.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 00:31:51 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/06/21 00:31:51 by ledelbec         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static const char	g__assets_m_disp_tga[] = {
@@ -3717,12 +3729,22 @@ static const char	g__assets_textures_lava1_tga[] = {
 	0xa7, 0x29, 0xa7, 0xa7, 0xa7, 0xa7, 0xa7, 0xa7, 0xa6, 0xa6,
 	0x0
 };
-static void	*g__file_map[][3] = {
-{"assets/M_DISP.tga", (void *) g__assets_m_disp_tga, (void *) 2137},
-{"assets/M_HOST.tga", (void *) g__assets_m_host_tga, (void *) 2778},
-{"assets/textures/DOBWIRE.tga", (void *) g__assets_textures_dobwire_tga, (void *) 17426},
-{"assets/textures/HELL5_1.tga", (void *) g__assets_textures_hell5_1_tga, (void *) 17170},
-{"assets/textures/LAVA1.tga", (void *) g__assets_textures_lava1_tga, (void *) 4882},
+static const void	*g__file_map[][3] = {
+{"assets/M_DISP.tga",
+	(void *) g__assets_m_disp_tga,
+	(void *) 2137},
+{"assets/M_HOST.tga",
+	(void *) g__assets_m_host_tga,
+	(void *) 2778},
+{"assets/textures/DOBWIRE.tga",
+	(void *) g__assets_textures_dobwire_tga,
+	(void *) 17426},
+{"assets/textures/HELL5_1.tga",
+	(void *) g__assets_textures_hell5_1_tga,
+	(void *) 17170},
+{"assets/textures/LAVA1.tga",
+	(void *) g__assets_textures_lava1_tga,
+	(void *) 4882},
 };
 
 char	*_get_file_data(char *filename)
@@ -3733,7 +3755,7 @@ char	*_get_file_data(char *filename)
 	while (i < 5)
 	{
 		if (!ft_strcmp(filename, g__file_map[i][0]))
-			return (g__file_map[i][1]);
+			return ((void *)g__file_map[i][1]);
 		i++;
 	}
 	return (NULL);

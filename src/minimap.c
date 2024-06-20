@@ -1,10 +1,12 @@
 #include "minimap.h"
 #include "math/mat4.h"
 #include "math/mat4_init.h"
+#include "math/mat4_mul.h"
 #include "mem.h"
 #include "rasterizer/rasterizer.h"
 #include "render/render.h"
 #include "cub3d.h"
+#include "render/types.h"
 #include <stdio.h>
 
 #define WIDTH 300
@@ -47,6 +49,7 @@ void	minimap_create(t_minimap *minimap, t_r3d *r3d, t_map *map, t_alloc_table *a
 
 static void	draw_cube(t_minimap *minimap, t_v3 pos)
 {
+	// const t_mat4	m = mat4_mul_mat4(mat4_rotation(v3(M_PI / 3, 0, minimap->rast.r3d->camera->rotation.y)), mat4_translation(pos));
 	const t_mat4	m = mat4_mul_mat4(mat4_rotation(v3(0, 0, minimap->rast.r3d->camera->rotation.y)), mat4_translation(pos));
 
 	//
@@ -150,13 +153,49 @@ static void	draw_cube(t_minimap *minimap, t_v3 pos)
 	rasterize_triangle(&minimap->rast, tri10, hex(0x00DDDDDD));
 }
 
+t_color	blend(t_color fg, t_color bg)
+{
+	t_color	result;
+    const unsigned int alpha = (255 - fg.t) + 1;
+    const unsigned int inv_alpha = 256 - (255 - fg.t);
+
+    result.r = (unsigned char)((alpha * fg.r + inv_alpha * bg.r) >> 8);
+    result.g = (unsigned char)((alpha * fg.g + inv_alpha * bg.g) >> 8);
+    result.b = (unsigned char)((alpha * fg.b + inv_alpha * bg.b) >> 8);
+    result.t = 0x00;
+	return (result);
+}
+
+static void	draw_background(t_r3d *r3d, t_rect rect)
+{
+	int		x;
+	int		y;
+	t_color	col;
+	const t_color	bg = hex(0x99FF0000);
+
+	x = 0;
+	while (x < rect.max.x - rect.min.x)
+	{
+		y = 0;
+		while (y < rect.max.y - rect.min.y)
+		{
+			col = r3d->color_buffer[(rect.min.x + x) + (rect.min.y + y) * r3d->width];
+			r3d->color_buffer[(rect.min.x + x) + (rect.min.y + y) * r3d->width] = blend(bg, col);
+			y++;
+		}
+		x++;
+	}
+}
+
 void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_v2i pos, t_v2i mappos)
 {
 	int	x;
 	int	y;
 
+	(void) pos;
+	(void) mappos;
 	rasterizer_clear(&minimap->rast);
-
+	draw_background(minimap->rast.r3d, minimap->rast.rect);
 	x = 0;
 	while (x < minimap->map->width)
 	{

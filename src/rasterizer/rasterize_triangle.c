@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:14:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:36:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 20:06:07 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,12 @@ void	rasterize_triangle(t_rasterizer *rast, t_tri tri, t_color col)
 	tri.v1 = mat4_multiply_v3(rast->projection_matrix, tri.v1);
 	tri.v2 = mat4_multiply_v3(rast->projection_matrix, tri.v2);
 
-	// NOTE:
+	// FIXME:
 	// This fix the depth buffer bug. There is still a performance hit when the camera enters a mesh.
-	// if (tri.v0.z < 0.1 || tri.v1.z < 0.1 || tri.v2.z < 0.1)
-	// {
-	// 	return ;
-	// }
+	if (tri.v0.z < 0.1 || tri.v1.z < 0.1 || tri.v2.z < 0.1)
+	{
+		return ;
+	}
 
 	// Convert from screen space to NDC then raster (in one go)
 	tri.v0.x = (1 + tri.v0.x) * 0.5 * size.x, tri.v0.y = (1 + tri.v0.y) * 0.5 * size.y;
