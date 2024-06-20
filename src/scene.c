@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:53:16 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:04:27 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:42:25 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_scene	*create_scene(t_alloc_table *at)
 	scene = scalloc(at, 1, sizeof(t_scene));
 	if (!scene)
 		return (NULL);
-	scene->entities = ft_vector(sizeof(t_entity *), 0);
+	scene->entities = ft_vector(sizeof(t_entity *), 0, at);
 	if (!scene->entities)
 		return (free(scene), NULL);
 	return (scene);

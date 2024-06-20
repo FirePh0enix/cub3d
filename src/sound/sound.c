@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:16:49 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/12 13:35:12 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:34:52 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@
 #include <sys/select.h>
 #include <unistd.h>
 
-void	sound_read_from_wav(t_sound *sound, char *filename)
+void	sound_read_from_wav(t_sound *sound, char *filename, t_alloc_table *at)
 {
 	const char	*data;
 	size_t		len;
 
-	data = read_to_string(filename, &len);
+	data = read_to_string(filename, &len, at);
 	if (!data)
 		return ;
 	sound->valid = true;

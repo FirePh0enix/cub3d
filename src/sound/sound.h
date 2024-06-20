@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sound.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:17:14 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/11 10:48:07 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:35:14 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdint.h>
 # include <pulse/simple.h>
 # include <stdbool.h>
+# include "../mem.h"
 
 typedef struct s_wav_hdr
 {
@@ -45,7 +46,7 @@ typedef struct s_sound
 	pthread_t	thread;
 }	t_sound;
 
-void	sound_read_from_wav(t_sound *sound, char *filename);
+void	sound_read_from_wav(t_sound *sound, char *filename, t_alloc_table *at);
 void	sound_play(t_sound *sound);
 
 #endif

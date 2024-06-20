@@ -172,7 +172,7 @@ int	main(int argc, char *argv[])
 		"assets/textures/SHTFB0.tga"
 	), 2, false, 100);
 	vars.shotgun.offset = (t_v2i){-18, 96};
-	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav");
+	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav", at);
 
 	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga", at), at);
 
@@ -194,7 +194,7 @@ int	main(int argc, char *argv[])
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
-	minimap_create(&vars.minimap, vars.r3d, vars.map);
+	minimap_create(&vars.minimap, vars.r3d, vars.map, at);
 
 	player->base.transform = vars.map->spawns[0];
 	player->gun = vars.shotgun;

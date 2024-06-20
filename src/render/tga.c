@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:09:50 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:35:43 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include "../mem.h"
 
-char	*read_to_string(char *filename, size_t *len)
+char	*read_to_string(char *filename, size_t *len, t_alloc_table *at)
 {
 	int		fd;
 	char	*str;
@@ -40,7 +40,7 @@ char	*read_to_string(char *filename, size_t *len)
 		// FIXME Realloc is too slow because it use ft_calloc instead of malloc
 		//       Maybe ft_realloc should be splitted ft_realloc (w/o calloc) and
 		//       ft_recalloc which use ft_calloc
-		str = realloc(str, /*str_size + 1,*/ str_size + n + 1);
+		str = ft_realloc(str, str_size + 1, str_size + n + 1, at);
 		if (!str)
 			return (close(fd), NULL);
 		ft_memcpy(str + str_size, buffer, n);

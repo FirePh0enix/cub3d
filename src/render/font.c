@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 14:48:50 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:43:23 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ t_font	*font_create(t_alloc_table *at)
 	int		i;
 	t_font	*font;
 
-	font = ft_calloc(1, sizeof(t_font));
+	font = scalloc(at, 1, sizeof(t_font));
 	if (!font)
 		return (NULL);
-	font->images = ft_calloc(127, sizeof(void *));
+	font->images = scalloc(at, 127, sizeof(void *));
 	if (!font->images)
 		return (free(font), NULL);
 	i = 33;

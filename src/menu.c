@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 14:48:29 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:34:42 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ static void	save_data(t_menu *menu)
 	close(fd);
 }
 
-static void	load_data(t_menu *menu)
+static void	load_data(t_menu *menu, t_alloc_table *at)
 {
 	char	*s;
 
-	s = read_to_string("cub3d-ip", NULL);
+	s = read_to_string("cub3d-ip", NULL, at);
 	if (s)
 	{
 		strncpy(menu->ip.buffer, s, 16);
@@ -49,7 +49,7 @@ static void	load_data(t_menu *menu)
 		menu->ip.len = ft_strlen(menu->ip.buffer);
 		free(s);
 	}
-	s = read_to_string("cub3d-name", NULL);
+	s = read_to_string("cub3d-name", NULL, at);
 	if (s)
 	{
 		strncpy(menu->name.buffer, s, 16);
@@ -219,7 +219,7 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		},
 	};
 
-	load_data(menu);
+	load_data(menu, at);
 }
 
 bool	mouse_click_over(t_vars *vars, t_boxi box)

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   rasterizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:23:56 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 13:42:28 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:23:50 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rasterizer.h"
 #include <math.h>
 
-void	rasterizer_init_overlay(t_rasterizer *rast, t_r3d *r3d, t_rect rect, float fov)
+void	rasterizer_init_overlay(t_rasterizer *rast, t_r3d *r3d, t_rect rect, float fov, t_alloc_table *at)
 {
 	t_v2i	size;
 
@@ -21,7 +21,7 @@ void	rasterizer_init_overlay(t_rasterizer *rast, t_r3d *r3d, t_rect rect, float 
 	rast->overlay = true;
 	rast->rect = rect;
 	size = rasterizer_get_size(rast);
-	rast->depth_buffer = malloc(size.x * size.y * sizeof(float));
+	rast->depth_buffer = salloc(at, size.x * size.y * sizeof(float));
 	if (!rast->depth_buffer)
 		return ;
 	rast->projection_matrix = mat4_projection(fov, size.x, size.x);

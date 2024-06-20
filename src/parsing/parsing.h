@@ -57,11 +57,11 @@ void	fill_color(char *identifier, t_map *map, unsigned char color, int i);
 //############################################################################//
 								// MAP //
 //############################################################################//
-char	**create_map(char **cub_file, t_map *map);
-char	**fill_map_with_space(char **map, size_t width, size_t height);
+char	**create_map(char **cub_file, t_map *map, t_alloc_table *at);
+char	**fill_map_with_space(char **map, size_t width, size_t height, t_alloc_table *at);
 int		calc_map_height(char **maps);
 int		calc_map_max_width(char **maps);
-bool	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars);
+bool	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars, t_alloc_table *at);
 
 //############################################################################//
 								// ERROR MESSAGE //
@@ -96,7 +96,7 @@ bool	find_player_pos(char **maps, t_map *map);
 //############################################################################//
 								// UTILS //
 //############################################################################//
-char	*read_to_string(char *filename, size_t *len);
+char	*read_to_string(char *filename, size_t *len, t_alloc_table *at);
 bool	free_identifier(char *identifier);
 
 bool 	check_enough_line(char **map_config);

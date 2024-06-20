@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:12:43 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 14:55:04 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:34:19 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,5 @@ char	*read_file(char *filename, t_alloc_table *at)
 	if (data)
 		return (dupbin(data, _get_file_size(filename), at));
 	printf("info : '%s' not embeded, reading from disk.\n", filename);
-	return (read_to_string(filename, NULL));
+	return (read_to_string(filename, NULL, at));
 }

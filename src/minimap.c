@@ -1,6 +1,7 @@
 #include "minimap.h"
 #include "math/mat4.h"
 #include "math/mat4_init.h"
+#include "mem.h"
 #include "rasterizer/rasterizer.h"
 #include "render/render.h"
 #include "cub3d.h"
@@ -56,11 +57,11 @@ static void	put_tile(int x, int y, t_color col, t_image *image)
 	}
 }*/
 
-void	minimap_create(t_minimap *minimap, t_r3d *r3d, t_map *map)
+void	minimap_create(t_minimap *minimap, t_r3d *r3d, t_map *map, t_alloc_table *at)
 {
 	rasterizer_init_overlay(&minimap->rast, r3d, (t_rect){
 		{0, 0}, {WIDTH, HEIGHT}
-	}, 70.0);
+	}, 70.0, at);
 	minimap->map = map;
 }
 

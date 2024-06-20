@@ -2,7 +2,7 @@
 #include "../parsing/parsing.h"
 #include "libft.h"
 
-char	**create_map(char **cub_file, t_map *map)
+char	**create_map(char **cub_file, t_map *map, t_alloc_table *at)
 {
 	char	**maps;
 	int		i;
@@ -11,7 +11,7 @@ char	**create_map(char **cub_file, t_map *map)
 	i = 6;
 	j = 0;
 	map->height = calc_map_height(cub_file);
-	maps = ft_calloc(map->height + 1, sizeof(char *));
+	maps = scalloc(at, map->height + 1, sizeof(char *));
 	if (!maps)
 	{
 		ft_putstr_fd(RED"Error\nFailed to malloc maps (create_map)\n"RESET, 2);
@@ -23,13 +23,13 @@ char	**create_map(char **cub_file, t_map *map)
 	return (maps);
 }
 
-char	**fill_map_with_space(char **map, size_t width, size_t height)
+char	**fill_map_with_space(char **map, size_t width, size_t height, t_alloc_table *at)
 {
 	char	**new_map;
 	size_t	i;
 
 	new_map = NULL;
-	new_map = ft_calloc(height + 1, sizeof(char *));
+	new_map = scalloc(at, height + 1, sizeof(char *));
 	if (!new_map)
 	{
 		ft_putstr_fd(RED"Error\nMalloc failed for new map (fill_map_with_space)\n"RESET, 2);
@@ -40,7 +40,7 @@ char	**fill_map_with_space(char **map, size_t width, size_t height)
 	{
 		if (ft_strlen(map[i]) < width)
 		{
-			new_map[i] = ft_calloc(width + 1, sizeof(char));
+			new_map[i] = scalloc(at, width + 1, sizeof(char));
 			if (!new_map[i])
 			{
 				ft_putstr_fd(RED"Error\nMalloc failed for new_map[i] (fill_map_with_space)", 2);
@@ -51,7 +51,7 @@ char	**fill_map_with_space(char **map, size_t width, size_t height)
 		}
 		else
 		{
-			new_map[i] = ft_strdup(map[i]);
+			new_map[i] = ft_strdup(map[i], at);
 			if (!new_map[i])
 			{
 				ft_putstr_fd(RED"Error\nMalloc failed for new_map[i] (strdup)", 2);
@@ -63,7 +63,7 @@ char	**fill_map_with_space(char **map, size_t width, size_t height)
 	return (new_map);
 }
 
-bool	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars)
+bool	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars, t_alloc_table *at)
 {
 	int		i;
 	int		j;
@@ -71,7 +71,7 @@ bool	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars)
 
 	i = 0;
 	tile_index = 0;
-	map->tiles = ft_calloc(map->width * map->height, sizeof(int));
+	map->tiles = scalloc(at, map->width * map->height, sizeof(int));
 	if (!map->tiles)
 	{
 		ft_putstr_fd(RED"Error\nMalloc failed for map->tiles (map_to_tiles)", 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rasterizer.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:14:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 14:09:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:23:34 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_rasterizer
 	Create a rasterizer which works as an overlay on the raycasting, managing
 	its own depth buffer.
  */
-void	rasterizer_init_overlay(t_rasterizer *rast, t_r3d *r3d, t_rect rect, float fov);
+void	rasterizer_init_overlay(t_rasterizer *rast, t_r3d *r3d, t_rect rect, float fov, t_alloc_table *at);
 
 void	rasterizer_clear(t_rasterizer *rast);
 
