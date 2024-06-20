@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:05:24 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/18 16:09:44 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:34:02 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ void	*scalloc(t_alloc_table *at, size_t size, size_t n)
 	alloc->ptr = ptr;
 	alloc->next = NULL;
 	if (!at->first)
+	{
 		at->first = alloc;
+		return (NULL);
+	}
 	it = at->first;
 	while (it->next)
 		it = it->next;
