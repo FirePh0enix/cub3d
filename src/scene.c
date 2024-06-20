@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:53:16 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:42:25 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:17:09 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 #include "mem.h"
 #include <stddef.h>
 
-t_scene	*create_scene(t_alloc_table *at)
+t_scene	*create_scene(void)
 {
 	t_scene	*scene;
 
-	scene = scalloc(at, 1, sizeof(t_scene));
+	scene = ft_calloc(1, sizeof(t_scene));
 	if (!scene)
 		return (NULL);
-	scene->entities = ft_vector(sizeof(t_entity *), 0, at);
+	scene->entities = ft_vector(sizeof(t_entity *), 0);
 	if (!scene->entities)
 		return (free(scene), NULL);
 	return (scene);
