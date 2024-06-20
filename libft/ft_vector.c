@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_vector.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 22:57:13 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 18:35:23 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:46:39 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*ft_vector(size_t el_size, size_t capacity)
 
 	if (capacity == 0)
 		capacity = 1;
-	data = ft_calloc(sizeof(t_vecdata) + capacity * el_size);
+	data = ft_calloc(sizeof(t_vecdata) + capacity * el_size, 1);
 	if (!data)
 		return (NULL);
 	data->el_size = el_size;
@@ -28,7 +28,7 @@ void	*ft_vector(size_t el_size, size_t capacity)
 	return (data + 1);
 }
 
-void	*ft_vector_add(void *_vec, void *elp, t_alloc_table *at)
+void	*ft_vector_add(void *_vec, void *elp)
 {
 	t_vecdata	*vec_data;
 	void		**vec;

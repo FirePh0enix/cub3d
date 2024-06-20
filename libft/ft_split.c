@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 14:51:08 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:53:19 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:47:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
-
-void	*scalloc(t_alloc_table *at, size_t size, size_t n);
 
 static int	count_words(const char *str, char c)
 {
@@ -62,7 +60,7 @@ static void	*error(char **res)
 	return (NULL);
 }
 
-char	**ft_split(const char *s, char c, t_alloc_table *at)
+char	**ft_split(const char *s, char c)
 {
 	char			**res;
 	size_t			len;
@@ -70,7 +68,7 @@ char	**ft_split(const char *s, char c, t_alloc_table *at)
 	size_t			k;
 	const size_t	slen = ft_strlen(s);
 
-	res = scalloc(at, sizeof(char *), (count_words(s, c) + 1));
+	res = ft_calloc(sizeof(char *), (count_words(s, c) + 1));
 	if (!res)
 		return (NULL);
 	len = 0;
