@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 01:18:23 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:23:11 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,17 +113,5 @@ bool		sprite_is_end(t_sprite *sprite);
 
 void		sprite_draw(t_r3d *r3d, t_sprite *sprite, t_v2i pos, float scale);
 void		sprite_draw_single(t_r3d *r3d, t_image *image, t_v2i pos, float scale);
-
-/*
-	Minimap
- */
-
-typedef struct s_minimap
-{
-	t_image	*background;
-}	t_minimap;
-
-void	minimap_create(t_minimap *minimap, t_map *map);
-void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_v2i pos, t_v2i size);
 
 #endif

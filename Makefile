@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/19 16:54:36 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/20 13:25:55 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,8 @@ SOURCES=\
 	src/parsing/map_surrounded.c \
 	src/parsing/parsing.c \
 	src/parsing/colors_utils.c \
+	src/rasterizer/rasterizer.c \
+	src/rasterizer/rasterize_triangle.c \
 	src/resource_gen.c \
 	src/main.c \
 	src/input.c \
@@ -39,6 +41,7 @@ SOURCES=\
 	src/menu_button.c \
 	src/menu_text_edit.c \
 	src/menu_img.c \
+	src/minimap.c \
 	src/sound/sound.c \
 	src/entities/player.c \
 	src/entities/fake_player.c \
@@ -50,7 +53,6 @@ SOURCES=\
 	src/render/tga.c \
 	src/render/font.c \
 	src/render/raycast.c \
-	src/render/minimap.c \
 	src/render/sprite.c
 
 OBJECTS=$(SOURCES:.c=.o)
