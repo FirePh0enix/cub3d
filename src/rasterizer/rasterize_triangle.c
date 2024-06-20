@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:14:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 14:08:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:36:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,11 @@ void	rasterize_triangle(t_rasterizer *rast, t_tri tri, t_color col)
 				// t_v3	n = int_v3(tri.n0, tri.n1, tri.n2, w, one_z);
 
 				size_t	index = i + (size.y - j - 1) * size.x;
-				size_t	index2 = rast->rect.min.x + i + (rast->r3d->height - (rast->rect.min.y + j) - 1) * rast->r3d->width;
+				size_t	index2;
+				if (rast->flip)
+					index2 = rast->rect.min.x + i + (rast->r3d->height - (rast->rect.min.y + j) - 1) * rast->r3d->width;
+				else
+					index2 = rast->rect.min.x + i + (rast->rect.min.y + j) * rast->r3d->width;
 
 				// FIXME: When camera is near the mesh, fps drops
 				if (z < rast->depth_buffer[index] || z < 0.0 || z > 1.0)

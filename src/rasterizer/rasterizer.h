@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:14:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 14:09:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:33:37 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_rasterizer
 	t_effect	effect;
 
 	bool		overlay;
+	bool		flip;
 	float		*depth_buffer;
 }	t_rasterizer;
 
