@@ -21,7 +21,7 @@ void	fake_player_draw(t_r3d *r3d, t_fake_player *fake_player, t_vars *vars)
 {
 }
 
-t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id)
+t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id, t_alloc_table *at)
 {
 	t_fake_player	*fake_player;
 
@@ -39,29 +39,29 @@ t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id)
 	fake_player->base.depth = 0.7;
 	fake_player->health = 1;
 
-	fake_player->sp[FORW] = sprite_create_anim(load_images(1,
+	fake_player->sp[FORW] = sprite_create_anim(load_images(at, 1,
 		"assets/player/A/PLAYA1.tga"
 	), 1, true, 40);
-	fake_player->sp[FORW_L] = sprite_create_anim(load_images(1,
+	fake_player->sp[FORW_L] = sprite_create_anim(load_images(at, 1,
 		"assets/player/A/PLAYA2.tga"
 	), 1, true, 40);
-	fake_player->sp[LEFT] = sprite_create_anim(load_images(1,
+	fake_player->sp[LEFT] = sprite_create_anim(load_images(at, 1,
 		"assets/player/A/PLAYA3.tga"
 	), 1, true, 40);
-	fake_player->sp[BACK_L] = sprite_create_anim(load_images(1,
+	fake_player->sp[BACK_L] = sprite_create_anim(load_images(at, 1,
 		"assets/player/A/PLAYA4.tga"
 	), 1, true, 40);
 
-	fake_player->sp[BACK] = sprite_create_anim(load_images(1,
+	fake_player->sp[BACK] = sprite_create_anim(load_images(at, 1,
 		"assets/player/A/PLAYA5.tga"
 	), 1, true, 40);
-	fake_player->sp[BACK_R] = sprite_create_anim(load_images(1,
+	fake_player->sp[BACK_R] = sprite_create_anim(load_images(at, 1,
 		"assets/player/A/PLAYA6.tga"
 	), 1, true, 40);
-	fake_player->sp[RIGHT] = sprite_create_anim(load_images(1,
+	fake_player->sp[RIGHT] = sprite_create_anim(load_images(at, 1,
 		"assets/player/A/PLAYA7.tga"
 	), 1, true, 40);
-	fake_player->sp[FORW_R] = sprite_create_anim(load_images(1,
+	fake_player->sp[FORW_R] = sprite_create_anim(load_images(at, 1,
 		"assets/player/A/PLAYA8.tga"
 	), 1, true, 40);
 

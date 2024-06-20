@@ -53,7 +53,7 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	server->clients[i].last_pulse = getms();
 	ft_printf("info : Client `%s` connected\n", conn->username);
 
-	t_fake_player	*fake_player = fake_player_new(vars, vars->scene, next_entity_id(vars));
+	t_fake_player	*fake_player = fake_player_new(vars, vars->scene, next_entity_id(vars), at);
 	fake_player->base.transform.position = v3(0, 0, 0);
 	scene_add_entity(vars->scene, fake_player, at);
 

@@ -22,13 +22,13 @@ void    netclient_init(t_client *client, char *addr, int port)
 	// }
 }
 
-static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars)
+static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars, t_alloc_table *at)
 {
 	t_entity	*entity;
 
 	entity = NULL;
 	if (p->entity_type == ENTITY_FAKE_PLAYER)
-		entity = (void *) fake_player_new(vars, vars->scene, p->entity_id);
+		entity = (void *) fake_player_new(vars, vars->scene, p->entity_id, at);
 	return (entity);
 }
 
@@ -64,7 +64,7 @@ void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
 		}
 		else if (type == PACKET_NEW_ENTITY)
 		{
-			t_entity *entity = new_entity((void *) buf, vars);
+			t_entity *entity = new_entity((void *) buf, vars, at);
 			scene_add_entity(vars->scene, entity, at);
 		}
 		else if (type == PACKET_DEL_ENTITY)

@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 17:19:28 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:10:39 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_fake_player
 	t_sprite	sp[8];
 }	t_fake_player;
 
-t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id);
+t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id, t_alloc_table *at);
 t_image			*fake_player_get_image(t_fake_player *fp, t_vars *vars);
 
 /* Scene definition */
@@ -95,7 +95,7 @@ typedef struct s_scene
 	t_player	*player;
 }	t_scene;
 
-t_scene			*create_scene(void);
+t_scene			*create_scene(t_alloc_table *at);
 void			scene_add_entity(t_scene *scene, void *entity, t_alloc_table *at);
 void			scene_remove_entity(t_scene *scene, t_entity *entity);
 t_entity		*scene_get_entity_by_id(t_scene *scene, int id);

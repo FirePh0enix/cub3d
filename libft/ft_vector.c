@@ -6,20 +6,20 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 22:57:13 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 17:16:03 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:11:25 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-void	*ft_vector(size_t el_size, size_t capacity)
+void	*ft_vector(size_t el_size, size_t capacity, t_alloc_table *at)
 {
 	t_vecdata	*data;
 
 	if (capacity == 0)
 		capacity = 1;
-	data = malloc(sizeof(t_vecdata) + capacity * el_size);
+	data = salloc(at, sizeof(t_vecdata) + capacity * el_size);
 	if (!data)
 		return (NULL);
 	data->el_size = el_size;

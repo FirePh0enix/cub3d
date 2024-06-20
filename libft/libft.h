@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:48:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 17:18:57 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:11:35 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ typedef struct s_vecdata
 
 void	*salloc(t_alloc_table *at, size_t n);
 
-void		*ft_vector(size_t el_size, size_t capacity);
+void		*ft_vector(size_t el_size, size_t capacity, t_alloc_table *at);
 /*
  * Free the memory used by the vector. `vec` should be the vector itself.
  */
