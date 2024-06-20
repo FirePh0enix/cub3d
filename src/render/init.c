@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 23:27:18 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/08 16:59:42 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:58:18 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "render.h"
 #include "../math/mat4_init.h"
 
-void	r3d_init(t_r3d *r3d, void *mlx, int width, int height)
+void	r3d_init(t_r3d *r3d, void *mlx, int width, int height, t_alloc_table *at)
 {
 	r3d->canvas = mlx_new_image(mlx, width, height);
 	r3d->width = width;
@@ -23,7 +23,7 @@ void	r3d_init(t_r3d *r3d, void *mlx, int width, int height)
 	r3d->mode = MODE_NORMAL;
 
 	r3d->color_buffer = (void *) r3d->canvas->data;
-	r3d->depth_buffer = (void *) ft_calloc(width * height * sizeof(float), 1);
+	r3d->depth_buffer = (void *) scalloc(at, width * height * sizeof(float), 1);
 	if (!r3d)
 		return ; // TODO: Free the renderer
 }

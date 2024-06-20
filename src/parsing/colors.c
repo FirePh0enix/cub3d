@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/19 15:44:31 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:45:05 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 	return (true);
 }
 
-bool	is_valid_rgb(t_map *map, char **map_config)
+bool	is_valid_rgb(t_map *map, char **map_config, t_alloc_table *at)
 {
 	int		i;
 	char	*identifier;
@@ -122,7 +122,7 @@ bool	is_valid_rgb(t_map *map, char **map_config)
 			{
 				if (_BONUS == 1)
 				{
-					image = load_texture(colors[i], identifier);
+					image = load_texture(colors[i], identifier, at);
 					if (!image)
 					{
 						free(identifier);

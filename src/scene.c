@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:53:16 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 01:24:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:04:27 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
 #include "libft.h"
+#include "mem.h"
 #include <stddef.h>
 
-t_scene	*create_scene(void)
+t_scene	*create_scene(t_alloc_table *at)
 {
 	t_scene	*scene;
 
-	scene = ft_calloc(1, sizeof(t_scene));
+	scene = scalloc(at, 1, sizeof(t_scene));
 	if (!scene)
 		return (NULL);
 	scene->entities = ft_vector(sizeof(t_entity *), 0);

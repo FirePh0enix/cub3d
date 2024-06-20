@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 13:23:11 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:19:39 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 # include "types.h"
 # include "font.h"
+# include "../mem.h"
 # include "mlx_int.h"
 # include <stdbool.h>
+# include <stdint.h>
 # include <stdint.h>
 
 typedef struct s_map	t_map;
@@ -30,8 +32,8 @@ typedef struct s_image
 	uint8_t		bpp;
 }	t_image;
 
-t_image	*tga_load_from_file(char *filename);
-t_image	*tga_create(int width, int height);
+t_image	*tga_load_from_file(char *filename, t_alloc_table *at);
+t_image	*tga_create(int width, int height, t_alloc_table *at);
 void	image_destroy(t_image *image);
 
 typedef struct s_camera
@@ -70,7 +72,7 @@ typedef struct s_r3d
 	t_mode			mode;
 }	t_r3d;
 
-void	r3d_init(t_r3d *r3d, void *mlx, int width, int height);
+void	r3d_init(t_r3d *r3d, void *mlx, int width, int height, t_alloc_table *at);
 void	r3d_clear_depth_buffer(t_r3d *r3d);
 void	r3d_clear_color_buffer(t_r3d *r3d, t_color color);
 
@@ -104,7 +106,7 @@ typedef struct s_sprite
 	bool		loop;
 }	t_sprite;
 
-t_sprite	sprite_create(t_image *image);
+t_sprite	sprite_create(t_image *image, t_alloc_table *at);
 t_sprite	sprite_create_anim(t_image **images, int num, bool loop, suseconds_t ms);
 
 t_image		*sprite_get_image(t_sprite *sprite);

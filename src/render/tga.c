@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tga.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/19 16:27:48 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:09:50 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "../cub3d.h"
 #include <stdint.h>
 #include <stdio.h>
+#include "../mem.h"
 
 char	*read_to_string(char *filename, size_t *len)
 {
@@ -149,19 +150,19 @@ static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf)
 		ft_printf("Invalid Targa format (%d bpp, colormap = %d, colormap bpp = %d)\n", image->bpp, hdr->colormap, hdr->cmapent);
 }
 
-t_image	*tga_load_from_file(char *filename)
+t_image	*tga_load_from_file(char *filename, t_alloc_table *at)
 {
-	const char	*s = read_file(filename);
+	const char	*s = read_file(filename, at);
 	t_tga_hdr	hdr;
 	t_image		*image;
 
 	if (!s)
 		return (NULL);
 	ft_memcpy(&hdr, s, sizeof(t_tga_hdr));
-	image = malloc(sizeof(t_image));
+	image = salloc(at, sizeof(t_image));
 	if (!image)
 		return (free((void *)s), NULL);
-	image->data = malloc(sizeof(uint32_t) * hdr.w * hdr.h);
+	image->data = salloc(at, sizeof(uint32_t) * hdr.w * hdr.h);
 	image->width = hdr.w;
 	image->height = hdr.h;
 	image->bpp = hdr.bpp;
@@ -169,14 +170,14 @@ t_image	*tga_load_from_file(char *filename)
 	return (image);
 }
 
-t_image	*tga_create(int width, int height)
+t_image	*tga_create(int width, int height, t_alloc_table *at)
 {
 	t_image	*image;
 
-	image = malloc(sizeof(t_image));
+	image = salloc(at, sizeof(t_image));
 	if (!image)
 		return (NULL);
-	image->data = malloc(sizeof(uint32_t) * width * height);
+	image->data = salloc(at, sizeof(uint32_t) * width * height);
 	if (!image->data)
 		return (free(image), NULL);
 	image->width = width;

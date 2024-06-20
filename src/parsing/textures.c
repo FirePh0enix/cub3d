@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/19 19:07:53 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:45:27 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static	bool	is_valid_number_ident(char **textures, int no, int so, int we)
 	return (true);
 }
 
-bool	fill_texture(t_map *map, char **maps)
+bool	fill_texture(t_map *map, char **maps, t_alloc_table *at)
 {
 	int		i;
 	char	*identifier;
@@ -105,7 +105,7 @@ bool	fill_texture(t_map *map, char **maps)
 		identifier = detect_identifier(textures[i]);
 		if (is_valid_identifier_text(identifier))
 		{
-			image = load_texture(textures[i], identifier);
+			image = load_texture(textures[i], identifier, at);
 			if (!image)
 			{
 				free(identifier);
