@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:23:56 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:23:50 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:02:08 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	rasterizer_init_overlay(t_rasterizer *rast, t_r3d *r3d, t_rect rect, float 
 	if (!rast->depth_buffer)
 		return ;
 	rast->projection_matrix = mat4_projection(fov, size.x, size.x);
+	rast->flip = false;
 }
 
 t_v2i	rasterizer_get_size(t_rasterizer *rast)

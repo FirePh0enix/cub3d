@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:14:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:23:34 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:57:16 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_rasterizer
 	t_effect	effect;
 
 	bool		overlay;
+	bool		flip;
 	float		*depth_buffer;
 }	t_rasterizer;
 
