@@ -23,9 +23,9 @@ static void	put_tile(int x, int y, t_color col, t_image *image)
 	}
 }
 
-void	minimap_create(t_minimap *minimap, t_map *map)
+void	minimap_create(t_minimap *minimap, t_map *map, t_alloc_table *at)
 {
-	minimap->background = tga_create(map->width * RES, map->height * RES);
+	minimap->background = tga_create(map->width * RES, map->height * RES, at);
 	if (!minimap->background)
 		return ;
 

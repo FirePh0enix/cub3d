@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/13 13:21:22 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:48:29 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "menu.h"
 #include "cub3d.h"
+#include "mem.h"
 #include "mlx.h"
 #include "network/net.h"
 #include "render/render.h"
@@ -97,14 +98,14 @@ static bool	name_filter(char c)
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
 
-void	menu_init(t_menu *menu, t_r3d *r3d)
+void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 {
 	const int	w = r3d->width;
 	const int	h = r3d->height;
 	const int 	s = 3;
 
 	// Main state
-	t_image *img = tga_load_from_file("assets/M_SING.tga");
+	t_image *img = tga_load_from_file("assets/M_SING.tga", at);
 	menu->singleplayer = (t_button){
 		.disabled = false,
 		.label = NULL,
@@ -119,7 +120,7 @@ void	menu_init(t_menu *menu, t_r3d *r3d)
 		} },
 		.pressed = (void *) singleplayer_pressed,
 	};
-	t_image *img2 = tga_load_from_file("assets/textures/M_MULTI.tga");
+	t_image *img2 = tga_load_from_file("assets/textures/M_MULTI.tga", at);
 	menu->multiplayer = (t_button){
 		.disabled = false,
 		.label = NULL,
@@ -136,7 +137,7 @@ void	menu_init(t_menu *menu, t_r3d *r3d)
 	};
 
 	// Multiplayer state
-	t_image *img3 = tga_load_from_file("assets/M_HOST.tga");
+	t_image *img3 = tga_load_from_file("assets/M_HOST.tga", at);
 	menu->host = (t_button){
 		.disabled = false,
 		.label = NULL,
@@ -151,7 +152,7 @@ void	menu_init(t_menu *menu, t_r3d *r3d)
 		} },
 		.pressed = (void *) host_pressed,
 	};
-	t_image *img4 = tga_load_from_file("assets/M_JOIN.tga");
+	t_image *img4 = tga_load_from_file("assets/M_JOIN.tga", at);
 	menu->join = (t_button){
 		.disabled = false,
 		.label = NULL,
@@ -166,7 +167,7 @@ void	menu_init(t_menu *menu, t_r3d *r3d)
 		} },
 		.pressed = (void *) join_pressed,
 	};
-	t_image	*img5 = tga_load_from_file("assets/M_IP.tga");
+	t_image	*img5 = tga_load_from_file("assets/M_IP.tga", at);
 	menu->ip_img = (t_menu_img){
 		.scale = 3.0,
 		.image = img5,
@@ -192,7 +193,7 @@ void	menu_init(t_menu *menu, t_r3d *r3d)
 		},
 	};
 
-	t_image	*img6 = tga_load_from_file("assets/M_NAME.tga");
+	t_image	*img6 = tga_load_from_file("assets/M_NAME.tga", at);
 	menu->name_img = (t_menu_img){
 		.scale = 3.0,
 		.image = img6,

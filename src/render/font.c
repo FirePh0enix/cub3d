@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   font.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/13 11:34:52 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:48:50 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-t_font	*font_create()
+t_font	*font_create(t_alloc_table *at)
 {
 	char	buf[64];
 	int		i;
@@ -34,7 +34,7 @@ t_font	*font_create()
 			ft_sprintf(buf, "assets/textures/STCFN0%d.tga", i);
 		else
 			ft_sprintf(buf, "assets/textures/STCFN%d.tga", i);
-		font->images[i] = tga_load_from_file(buf);
+		font->images[i] = tga_load_from_file(buf, at);
 		i++;
 	}
 	return (font);

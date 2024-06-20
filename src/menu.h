@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 19:45:22 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/13 12:33:23 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:48:04 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MENU_H
 
 # include "libft.h"
+# include "mem.h"
 # include "math/v2i.h"
 # include "render/font.h"
 # include <stdbool.h>
@@ -97,7 +98,7 @@ typedef struct s_menu
 	t_text_edit	name;
 }	t_menu;
 
-void	menu_init(t_menu *menu, t_r3d *r3d);
+void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at);
 void	menu_draw(t_menu *menu, t_r3d *r3d, t_vars *vars);
 void	menu_tick(t_menu *menu, t_vars *vars);
 

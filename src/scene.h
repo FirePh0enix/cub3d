@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/18 15:14:33 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:04:13 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SCENE_H
 
 # include "math/v3.h"
+#include "mem.h"
 # include "render/render.h"
 # include "gun.h"
 # include "sound/sound.h"
@@ -94,7 +95,7 @@ typedef struct s_scene
 	t_player	*player;
 }	t_scene;
 
-t_scene			*create_scene(void);
+t_scene			*create_scene(t_alloc_table *at);
 void			scene_add_entity(t_scene *scene, void *entity);
 void			scene_remove_entity(t_scene *scene, t_entity *entity);
 t_entity		*scene_get_entity_by_id(t_scene *scene, int id);

@@ -1,7 +1,7 @@
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
 
-static bool	is_map_config_valid(t_vars *vars, char **map_config)
+static bool	is_map_config_valid(t_vars *vars, char **map_config, t_alloc_table *at)
 {
 	if (!is_valid_char_in_map(vars->map->maps, vars->map))
 		return (false);
@@ -9,16 +9,16 @@ static bool	is_map_config_valid(t_vars *vars, char **map_config)
 		return (false);
 	if (!find_player_pos(vars->map->maps, vars->map))
 		return (false);
-	if (!fill_texture(vars->map, map_config))
+	if (!fill_texture(vars->map, map_config, at))
 		return (false);
-	if (!is_valid_rgb(vars->map, map_config))
+	if (!is_valid_rgb(vars->map, map_config, at))
 		return (false);
 	if (!map_to_tiles(vars->map, vars->map->maps, vars->scene, vars))
 		return (false);
 	return (true);
 }
 
-bool	parsing(t_vars *vars, char **argv)
+bool	parsing(t_vars *vars, char **argv, t_alloc_table *at)
 {
 	char	*line;
 	char	**map_config;
@@ -41,7 +41,7 @@ bool	parsing(t_vars *vars, char **argv)
 	vars->map->maps = fill_map_with_space(map, vars->map->width, vars->map->height);
 	if (!vars->map->maps)
 		return (false);
-	if (!is_map_config_valid(vars, map_config))
+	if (!is_map_config_valid(vars, map_config, at))
 		return (false);
 	return (true);
 }

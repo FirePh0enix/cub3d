@@ -75,7 +75,7 @@ bool	is_valid_identifier_color(char *str);
 bool	is_valid_identifier_text(char *str);
 bool	is_valid_char_in_map(char **maps, t_map *map);
 bool	is_map_surrounded(char **maps, t_map *map);
-bool	is_valid_rgb(t_map *map, char **map_config);
+bool	is_valid_rgb(t_map *map, char **map_config, t_alloc_table *at);
 bool	is_valid_file_name(char *str);
 char	*detect_identifier(char *texture);
 char	*detect_texture_path(char *path);
@@ -85,8 +85,8 @@ char	*detect_texture_path(char *path);
 //############################################################################//
 void	assign_textures(char *identifier, t_map *map, t_image *image);
 char	**create_textures(char **map);
-t_image	*load_texture(char *textures, char *identifier);
-bool	fill_texture(t_map *map, char **maps);
+t_image	*load_texture(char *textures, char *identifier, t_alloc_table *at);
+bool	fill_texture(t_map *map, char **maps, t_alloc_table *at);
 
 //############################################################################//
 								// PLAYER //

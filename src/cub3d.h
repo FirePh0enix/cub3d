@@ -1,6 +1,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+#include "mem.h"
 #include <stddef.h>
 # ifndef _BONUS
 #  define _BONUS 0
@@ -133,9 +134,9 @@ typedef struct s_box
 
 char	*_get_file_data(char *filename);
 size_t	_get_file_size(char *filename);
-char	*read_file(char *filename);
+char	*read_file(char *filename, t_alloc_table *at);
 
-t_image	**load_images(int num, ...);
+t_image	**load_images(t_alloc_table *at ,int num, ...);
 
 void	draw_map(t_r3d *r3d, t_map *map);
 t_entity	*raycast_entity(t_map *map, t_scene *scene, t_transform ray, float size, uint32_t entity_type);
@@ -164,5 +165,5 @@ bool 	collide_entities(t_entity **entities, t_box player);
 void	adjust_vel(t_player *player, t_map *map, float delta, t_entity **ent);
 
 
-bool parsing(t_vars *vars, char **argv);
+bool	parsing(t_vars *vars, char **argv, t_alloc_table *at);
 #endif

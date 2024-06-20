@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:00:36 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/12 12:10:57 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:04:54 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 #include <stdio.h>
 #include <sys/select.h>
 
-t_sprite	sprite_create(t_image *image)
+t_sprite	sprite_create(t_image *image, t_alloc_table *at)
 {
 	t_sprite	sprite;
 
 	sprite.current_frame = 0;
 	sprite.num_frames = 1;
-	sprite.images = ft_calloc(sizeof(t_image *), 1);
+	sprite.images = scalloc(at, sizeof(t_image *), 1);
 	sprite.images[0] = image;
 	sprite.ms = 0;
 	sprite.last_frame_tick = 0;

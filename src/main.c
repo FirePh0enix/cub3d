@@ -1,6 +1,7 @@
 #include "cub3d.h"
 #include "gun.h"
 #include "libft.h"
+#include "mem.h"
 #include "menu.h"
 #include "network/net.h"
 #include "render/font.h"
@@ -126,15 +127,22 @@ static void	loop_hook(t_vars *vars)
 
 int	main(int argc, char *argv[])
 {
-	t_vars	vars;
+	t_vars			vars;
+	t_alloc_table	*at;
 
 	(void) argc;
+	at = ft_calloc(sizeof(t_alloc_table), 1);
 	ft_bzero(&vars, sizeof(t_vars));
-	if (!parsing(&vars, argv))
+	if (!parsing(&vars, argv, at))
 		return (-1);
-	vars.r3d = ft_calloc(sizeof(t_r3d), 1);
+	vars.r3d = scalloc(at, sizeof(t_r3d), 1);
 	vars.last_update = 0;
 	vars.mlx = mlx_init();
+	if (!vars.mlx)
+	{
+		ft_putstr_fd(RED"Error\nMLX pointed returned NULL\n"RESET, 2);
+		return (1);
+	}
 	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
@@ -144,14 +152,14 @@ int	main(int argc, char *argv[])
 
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 
-	r3d_init(vars.r3d, vars.mlx, 1280, 720);
+	r3d_init(vars.r3d, vars.mlx, 1280, 720, at);
 
-	vars.keys = ft_calloc(0xFFFF, sizeof(bool));
+	vars.keys = scalloc(at, 0xFFFF, sizeof(bool));
 	vars.scoreboard.entries[0].present = 1;
 
-	vars.door = tga_load_from_file("assets/textures/DOOR2_4.tga");
+	vars.door = tga_load_from_file("assets/textures/DOOR2_4.tga", at);
 
-	vars.shotgun.main_anim = sprite_create_anim(load_images(6,
+	vars.shotgun.main_anim = sprite_create_anim(load_images(at, 6,
 		"assets/textures/SHTGA0.tga",
 		"assets/textures/SHTGB0.tga",
 		"assets/textures/SHTGC0.tga",
@@ -159,22 +167,22 @@ int	main(int argc, char *argv[])
 		"assets/textures/SHTGC0.tga",
 		"assets/textures/SHTGB0.tga"
 	), 6, false, 100);
-	vars.shotgun.shoot_anim = sprite_create_anim(load_images(2,
+	vars.shotgun.shoot_anim = sprite_create_anim(load_images(at, 2,
 		"assets/textures/SHTFA0.tga",
 		"assets/textures/SHTFB0.tga"
 	), 2, false, 100);
 	vars.shotgun.offset = (t_v2i){-18, 96};
 	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav");
 
-	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga"));
+	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga", at), at);
 
-	vars.font = font_create();
-	vars.scene = create_scene();
+	vars.font = font_create(at);
+	vars.scene = create_scene(at);
 
 	vars.menu.state = STATE_MAIN;
 	vars.menu_open = true;
 
-	menu_init(&vars.menu, vars.r3d);
+	menu_init(&vars.menu, vars.r3d, at);
 
 	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));
 	scene_add_entity(vars.scene, player);
@@ -186,7 +194,7 @@ int	main(int argc, char *argv[])
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
-	minimap_create(&vars.minimap, vars.map);
+	minimap_create(&vars.minimap, vars.map, at);
 
 	player->base.transform = vars.map->spawns[0];
 	player->gun = vars.shotgun;
@@ -211,4 +219,6 @@ int	main(int argc, char *argv[])
 
 	free(vars.mlx);
 
+	sfreeall(at);
+	free(at);
 }

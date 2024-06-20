@@ -3,14 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
+#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/19 16:54:36 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/20 14:49:37 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
+	src/mem.c \
 	src/parsing/create_map.c \
 	src/parsing/free.c \
 	src/parsing/map.c \

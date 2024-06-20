@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   textures_utils.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 18:54:07 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/19 19:06:57 by vopekdas         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
 
@@ -50,13 +38,13 @@ char	*detect_texture_path(char *path)
 	return (path + i);
 }
 
-t_image	*load_texture(char *textures, char *identifier)
+t_image	*load_texture(char *textures, char *identifier, t_alloc_table *at)
 {
 	char	*textures_path;
 	t_image	*image;
 
 	textures_path = detect_texture_path(textures);
-	image = tga_load_from_file(textures_path);
+	image = tga_load_from_file(textures_path, at);
 	if (!image)
 	{
 		ft_putstr_fd(RED"Error\n", 2);
@@ -69,6 +57,7 @@ t_image	*load_texture(char *textures, char *identifier)
 	}
 	return (image);
 }
+
 void	assign_textures(char *identifier, t_map *map, t_image *image)
 {
 	if (!ft_strcmp(identifier, "NO"))
