@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:05:24 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/21 17:50:35 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:38:21 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	sfreeall(t_alloc_table *at)
 	t_alloc	*next;
 
 	it = at->first;
-	while (it->next)
+	while (it)
 	{
 		next = it->next;
 		free(it->ptr);
