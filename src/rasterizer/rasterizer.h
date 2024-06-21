@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rasterizer.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:14:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 16:57:16 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:25:18 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ void	rasterizer_clear(t_rasterizer *rast);
 t_v2i	rasterizer_get_size(t_rasterizer *rast);
 bool	rasterizer_is_overlay(t_rasterizer *rast);
 
-void	rasterize_triangle(t_rasterizer *rast, t_tri tri, t_color col);
+void	rasterize_triangle(t_rasterizer *rast, t_tri tri, t_image *image, t_color col);
 
 #endif

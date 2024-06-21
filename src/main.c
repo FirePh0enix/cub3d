@@ -112,10 +112,7 @@ static void	loop_hook(t_vars *vars, t_alloc_table *at)
 	{
 		r3d_raycast_world(vars->r3d, vars->map, vars);
 		draw_gun(&vars->scene->player->gun, vars->r3d);
-		minimap_draw(&vars->minimap, vars->r3d, (t_v2i){}, (t_v2i){
-			vars->r3d->camera->position.x * 20 - 150,
-			vars->r3d->camera->position.z * 20 - 150,
-		});
+		minimap_draw(&vars->minimap, vars->r3d, vars);
 	}
 	else
 		menu_draw(&vars->menu, vars->r3d, vars);

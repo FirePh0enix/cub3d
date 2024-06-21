@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/07 17:59:42 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/17 11:21:38 by ledelbec         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../scene.h"
 #include "../cub3d.h"
 #include "mlx.h"
@@ -88,17 +76,17 @@ void	player_tick(t_vars *vars, t_player *player)
 	if (vars->keys[XK_d])
 		player->base.velocity = v3_sub(player->base.velocity, v3_scale(left, speed));
 
-	if (vars->keys[XK_space] && !player->has_jump && is_on_ground(player))
-	{
-		player->base.velocity.y += jump_force;
-		player->has_jump = true;
-	}
-	else if (!vars->keys[XK_space] && is_on_ground(player))
-		player->has_jump = false;
+	// TODO: Uncomment when moving up/down is done in raycasting
+	// if (vars->keys[XK_space] && !player->has_jump && is_on_ground(player))
+	// {
+	// 	player->base.velocity.y += jump_force;
+	// 	player->has_jump = true;
+	// }
+	// else if (!vars->keys[XK_space] && is_on_ground(player))
+	// 	player->has_jump = false;
 
 	player->base.velocity.y -= 0.8;
 
-	// TODO: Redo collisions.
 	adjust_vel(player, vars->map, vars->delta_sec, vars->scene->entities);
 
 	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));

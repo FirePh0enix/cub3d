@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/18 13:45:47 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:54:45 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,8 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 				{
 					int tex_y = (int)texPos; // & (texture->height - 1);
 					texPos += step;
-					if (((t_color *)texture->data)[tex_x + tex_y * texture->width].t == 0)
+					// FIXME: Does not work for some textures
+					// if (((t_color *)texture->data)[tex_x + tex_y * texture->width].t == 0)
 						r3d->color_buffer[x + y * r3d->width] = ((t_color *)texture->data)[tex_x + tex_y * texture->width];
 				}
 			}

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:14:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 20:06:07 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:50:20 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ inline float	int_v1(float v0, float v1, float v2, t_v3 w, float z)
 	return ((w.x * v0 + w.y * v1 + w.z * v2) * z);
 }
 
-void	rasterize_triangle(t_rasterizer *rast, t_tri tri, t_color col)
+void	rasterize_triangle(t_rasterizer *rast, t_tri tri, t_image *image, t_color col)
 {
 	const t_v2i	size = rasterizer_get_size(rast);
 
@@ -152,8 +152,13 @@ void	rasterize_triangle(t_rasterizer *rast, t_tri tri, t_color col)
 				if (z < rast->depth_buffer[index] || z < 0.0 || z > 1.0)
 					continue ;
 
-				rast->depth_buffer[index] = z;
-				rast->r3d->color_buffer[index2] = shader(rast->r3d, uv, col);
+				t_color pixel = shader(rast->r3d, uv, image, col);
+
+				// if (pixel.t == 0)
+				// {
+					rast->r3d->color_buffer[index2] = pixel;
+					rast->depth_buffer[index] = z;
+				// }
 			}
 		}
 	}
