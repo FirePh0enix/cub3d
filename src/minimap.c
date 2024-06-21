@@ -282,6 +282,36 @@ static void	draw_door(t_minimap *minimap, t_vars *vars, t_v3 pos)
 	rasterize_triangle(&minimap->rast, tri10, NULL, hex(0x00222222));
 }
 
+static void	draw_floor(t_minimap *minimap, t_vars *vars, t_v3 pos)
+{
+	const t_mat4	m = mat4_mul_mat4(mat4_rotation(v3(0, 0, minimap->rast.r3d->camera->rotation.y)), mat4_translation(pos));
+
+	t_tri	tri = (t_tri){
+		.v0 = v3(-0.5, -0.5, -0.5),
+		.v1 = v3(+0.5, -0.5, -0.5),
+		.v2 = v3(-0.5, +0.5, -0.5),
+
+		.t0 = (t_v2){0, 0},
+		.t1 = (t_v2){1, 0},
+		.t2 = (t_v2){0, 1}
+	};
+	t_tri	tri2 = (t_tri){
+		.v0 = v3(+0.5, -0.5, -0.5),
+		.v1 = v3(+0.5, +0.5, -0.5),
+		.v2 = v3(-0.5, +0.5, -0.5),
+
+		.t0 = (t_v2){1, 0},
+		.t1 = (t_v2){1, 1},
+		.t2 = (t_v2){0, 1}
+	};
+
+	tri.v0 = mat4_multiply_v3(m, tri.v0), tri.v1 = mat4_multiply_v3(m, tri.v1), tri.v2 = mat4_multiply_v3(m, tri.v2);
+	tri2.v0 = mat4_multiply_v3(m, tri2.v0), tri2.v1 = mat4_multiply_v3(m, tri2.v1), tri2.v2 = mat4_multiply_v3(m, tri2.v2);
+
+	rasterize_triangle(&minimap->rast, tri, vars->map->floor_image, hex(0x00222222));
+	rasterize_triangle(&minimap->rast, tri2, vars->map->floor_image, hex(0x00222222));
+}
+
 t_color	blend(t_color fg, t_color bg)
 {
 	t_color	result;
@@ -333,7 +363,12 @@ void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_vars *vars)
 				&& minimap->map->tiles[x + y * minimap->map->width] != TILE_DOOR)
 				draw_cube(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x, r3d->camera->position.z, 0)));
 			else if (minimap->map->tiles[x + y * minimap->map->width] == TILE_DOOR)
+			{
+				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x, r3d->camera->position.z, 0)));
 				draw_door(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x, r3d->camera->position.z, 0)));
+			}
+			else
+				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x, r3d->camera->position.z, 0)));
 			y++;
 		}
 		x++;
