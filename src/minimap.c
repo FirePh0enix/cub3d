@@ -14,12 +14,40 @@
 #define BORDER_WIDTH 6
 #define CAM_WIDTH 10
 
+static t_color	calc_avg_color(t_map *map)
+{
+	int				pixel_count;
+	unsigned long	r;
+	unsigned long	g;
+	unsigned long	b;
+	t_color			col;
+	int				i;
+
+	if (!map->floor_image)
+		return (rgba(map->floor_color.r, map->floor_color.g, map->floor_color.b, 0x99));
+	pixel_count = map->floor_image->width * map->floor_image->height;
+	i = 0;
+	r = 0;
+	g = 0;
+	b = 0;
+	while (i < pixel_count)
+	{
+		col = ((t_color *)map->floor_image)[i];
+		r += col.r;
+		g += col.g;
+		b += col.b;
+		i++;
+	}
+	return (rgba(r / pixel_count, g / pixel_count, b / pixel_count, 0x99));
+}
+
 void	minimap_create(t_minimap *minimap, t_r3d *r3d, t_map *map, t_alloc_table *at)
 {
 	rasterizer_init_overlay(&minimap->rast, r3d, (t_rect){
 		{0, 0}, {WIDTH, HEIGHT}
 	}, 70.0, at);
 	minimap->map = map;
+	minimap->bg = calc_avg_color(map);
 }
 
 static void	draw_cube(t_minimap *minimap, t_vars *vars, t_v3 pos)
@@ -308,8 +336,8 @@ static void	draw_floor(t_minimap *minimap, t_vars *vars, t_v3 pos)
 	tri.v0 = mat4_multiply_v3(m, tri.v0), tri.v1 = mat4_multiply_v3(m, tri.v1), tri.v2 = mat4_multiply_v3(m, tri.v2);
 	tri2.v0 = mat4_multiply_v3(m, tri2.v0), tri2.v1 = mat4_multiply_v3(m, tri2.v1), tri2.v2 = mat4_multiply_v3(m, tri2.v2);
 
-	rasterize_triangle(&minimap->rast, tri, vars->map->floor_image, hex(0x00222222));
-	rasterize_triangle(&minimap->rast, tri2, vars->map->floor_image, hex(0x00222222));
+	rasterize_triangle(&minimap->rast, tri, vars->map->floor_image, vars->map->floor_color);
+	rasterize_triangle(&minimap->rast, tri2, vars->map->floor_image, vars->map->floor_color);
 }
 
 t_color	blend(t_color fg, t_color bg)
@@ -325,12 +353,11 @@ t_color	blend(t_color fg, t_color bg)
 	return (result);
 }
 
-static void	draw_background(t_r3d *r3d, t_rect rect)
+static void	draw_background(t_minimap *minimap, t_r3d *r3d, t_rect rect)
 {
 	int		x;
 	int		y;
 	t_color	col;
-	const t_color	bg = hex(0x99FF0000);
 
 	x = 0;
 	while (x < rect.max.x - rect.min.x)
@@ -339,7 +366,7 @@ static void	draw_background(t_r3d *r3d, t_rect rect)
 		while (y < rect.max.y - rect.min.y)
 		{
 			col = r3d->color_buffer[(rect.min.x + x) + (rect.min.y + y) * r3d->width];
-			r3d->color_buffer[(rect.min.x + x) + (rect.min.y + y) * r3d->width] = blend(bg, col);
+			r3d->color_buffer[(rect.min.x + x) + (rect.min.y + y) * r3d->width] = blend(minimap->bg, col);
 			y++;
 		}
 		x++;
@@ -352,7 +379,7 @@ void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_vars *vars)
 	int	y;
 
 	rasterizer_clear(&minimap->rast);
-	draw_background(minimap->rast.r3d, minimap->rast.rect);
+	draw_background(minimap, minimap->rast.r3d, minimap->rast.rect);
 	x = 0;
 	while (x < minimap->map->width)
 	{
