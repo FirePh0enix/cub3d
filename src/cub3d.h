@@ -125,6 +125,7 @@ typedef struct s_map
 	t_transform	spawns[MAX_CLIENT];
 	int			spawn_count;
 	char		**maps;
+	char		**map_config;
 }	t_map;
 
 typedef struct s_box
@@ -165,6 +166,14 @@ bool 	collide_entities(t_entity **entities, t_box player);
 //############################################################################//
 void	adjust_vel(t_player *player, t_map *map, float delta, t_entity **ent);
 
+//############################################################################//
+								// FREE MEMORY //
+//############################################################################//
+void	ft_free(t_vars *vars, t_alloc_table *at);
 
+//############################################################################//
+								// PARSING //
+//############################################################################//
 bool	parsing(t_vars *vars, char **argv, t_alloc_table *at);
+
 #endif

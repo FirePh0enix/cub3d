@@ -128,16 +128,24 @@ int	main(int argc, char *argv[])
 	t_alloc_table	*at;
 
 	(void) argc;
+	if (!is_valid_file_name(argv[1]))
+		return (false);
 	at = ft_calloc(sizeof(t_alloc_table), 1);
+	if (!at)
+		return (-1);
 	ft_bzero(&vars, sizeof(t_vars));
 	if (!parsing(&vars, argv, at))
+	{
+		ft_free(&vars, at);
 		return (-1);
+	}
 	vars.r3d = scalloc(at, sizeof(t_r3d), 1);
 	vars.last_update = 0;
 	vars.mlx = mlx_init();
 	if (!vars.mlx)
 	{
 		ft_putstr_fd(RED"Error\nMLX pointed returned NULL\n"RESET, 2);
+		ft_free(&vars, at);
 		return (1);
 	}
 	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
@@ -214,6 +222,6 @@ int	main(int argc, char *argv[])
 	mlx_destroy_window(vars.mlx, vars.win);
 	mlx_destroy_display(vars.mlx);
 
+	ft_free(&vars, at);
 
-	sfreeall(at);
 }

@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:34:42 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:54:07 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	load_data(t_menu *menu, t_alloc_table *at)
 		// FIXME: Could segfault
 		menu->ip.buffer[ft_strlen(s)] = '\0'; 
 		menu->ip.len = ft_strlen(menu->ip.buffer);
-		free(s);
+		// free(s);
 	}
 	s = read_to_string("cub3d-name", NULL, at);
 	if (s)
@@ -55,7 +55,7 @@ static void	load_data(t_menu *menu, t_alloc_table *at)
 		strncpy(menu->name.buffer, s, 16);
 		menu->name.buffer[ft_strlen(s)] = '\0'; 
 		menu->name.len = ft_strlen(menu->name.buffer);
-		free(s);
+		// free(s);
 	}
 }
 

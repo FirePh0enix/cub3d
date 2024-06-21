@@ -21,27 +21,26 @@ static bool	is_map_config_valid(t_vars *vars, char **map_config, t_alloc_table *
 bool	parsing(t_vars *vars, char **argv, t_alloc_table *at)
 {
 	char	*line;
-	char	**map_config;
 	char	**map;
 
-	if (!is_valid_file_name(argv[1]))
-		return (false);
 	line = read_to_string(argv[1], NULL, at);
 	if (!line)
 		return (false);
 	vars->map = scalloc(at, sizeof(t_map), 1);
 	if (!vars->map)
 		return (false);
-	map_config = ft_split(line, '\n');
-	if (!check_enough_line(map_config))
+	vars->map->map_config = ft_split(line, '\n');
+	if (!vars->map->map_config)
 		return (false);
-	map = create_map(map_config, vars->map, at);
+	if (!check_enough_line(vars->map->map_config))
+		return (false);
+	map = create_map(vars->map->map_config, vars->map, at);
 	if (!map)
 		return (false);
 	vars->map->maps = fill_map_with_space(map, vars->map->width, vars->map->height, at);
 	if (!vars->map->maps)
 		return (false);
-	if (!is_map_config_valid(vars, map_config, at))
+	if (!is_map_config_valid(vars, vars->map->map_config, at))
 		return (false);
 	return (true);
 }

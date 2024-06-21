@@ -50,14 +50,7 @@ char	**fill_map_with_space(char **map, size_t width, size_t height, t_alloc_tabl
 			ft_memcpy(new_map[i], map[i], ft_strlen(map[i]));
 		}
 		else
-		{
-			new_map[i] = ft_strdup(map[i]);
-			if (!new_map[i])
-			{
-				ft_putstr_fd(RED"Error\nMalloc failed for new_map[i] (strdup)", 2);
-				return (NULL);
-			}
-		}
+			new_map[i] = map[i];
 		++i;
 	}
 	return (new_map);

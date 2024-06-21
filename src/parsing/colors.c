@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/20 14:45:05 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/21 16:15:33 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,10 @@ bool	create_image_fc(char *identifier, t_map *map, t_image *image)
 	if (!ft_strcmp(identifier, "F"))
 	{
 		map->floor_image = image;
-		if (!map->floor_image)
-		{
-			ft_putstr_fd(RED"Error\nFailed to create "BRED, 2);
-			ft_putstr_fd("F (floor) "RED, 2);
-			ft_putstr_fd("textures \n"RESET, 2);
-			return (false);
-		}
 	}
 	else if (!ft_strcmp(identifier, "C"))
 	{
 		map->ceilling_image = image;
-		if (!map->ceilling_image)
-		{
-			ft_putstr_fd(RED"Error\nFailed to create "BRED, 2);
-			ft_putstr_fd("C (ceilling) "RED, 2);
-			ft_putstr_fd("textures \n"RESET, 2);
-			return (false);
-		}
 	}
 	return (true);
 }
