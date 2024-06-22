@@ -51,6 +51,7 @@ void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
 			client->entity_id = ((t_packet_connect_response *) buf)->entity_id;
 			vars->scene->player->base.id = client->entity_id;
 			client->last_pulse = getms();
+			vars->menu_open = false;
 		}
 		else if (type == PACKET_POS)
 		{

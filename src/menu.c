@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/21 17:54:07 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/23 01:00:55 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ static void	join_pressed(t_vars *vars)
 	vars->is_server = false;
 	netclient_init(&vars->client, vars->menu.ip.buffer, SERVER_PORT);
 	netclient_connect(&vars->client, vars->menu.name.buffer);
-	vars->menu_open = false;
 }
 
 static bool	ip_filter(char c)

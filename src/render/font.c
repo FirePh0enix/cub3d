@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   font.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:43:23 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/23 00:57:17 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	font_draw_str(t_r3d *r3d, t_font *font, char *str, t_v2i pos, float scale)
 	if (font->images[33] == NULL)
 		x_adv = 0;
 	else
-		x_adv = font->images[33]->width * scale;
+		x_adv = font->images[33]->width * scale * 1.5;
 	i = 0;
 	while (i < ft_strlen(str))
 	{
