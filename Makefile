@@ -6,11 +6,12 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/21 17:26:10 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/22 16:18:51 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SOURCES=\
+	src/parsing/textures_msg.c \
 	src/free.c \
 	src/mem.c \
 	src/parsing/create_map.c \

@@ -6,23 +6,20 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/21 16:15:33 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/22 15:56:51 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
-#include "libft.h"
 
 static bool	invalid_rgb_char(char *color)
 {
 	int	i;
 
 	i = 0;
-
 	while (color[i])
 	{
-
 		if (!ft_isdigit(color[i]) && color[i] != ',' && color[i] != ' ')
 		{
 			if (_BONUS == 1)
@@ -80,52 +77,43 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 	return (true);
 }
 
+static bool	texture_fc(char *colors, char *iden, t_alloc_table *at, t_map *map)
+{
+	t_image	*image;
+
+	image = load_texture(colors, iden, at);
+	if (!image)
+	{
+		free(iden);
+		return (false);
+	}
+	if (!create_image_fc(iden, map, image))
+		return (false);
+	return (true);
+}
+
 bool	is_valid_rgb(t_map *map, char **map_config, t_alloc_table *at)
 {
 	int		i;
 	char	*identifier;
-	char	*color_path;
-	char	*colors[2];
-	t_image	*image;
 
-	i = 0;
-	ft_bzero(colors, 2);
-	while (i < 2)
+	i = -1;
+	while (++i < 2)
 	{
-		colors[i] = map_config[i + 4];
-		++i;
-	}
-	i = 0;
-	while (i < 2)
-	{
-		identifier = detect_identifier(colors[i]);
+		identifier = detect_identifier(map_config[i + 4]);
 		if (!identifier)
-			return (NULL);
-		if (is_valid_identifier_color(identifier))
+			return (false);
+		if (is_valid_identifier_color(identifier)
+			&& !check_rgb(texture_path(map_config[i + 4]), map, identifier))
 		{
-			color_path = detect_texture_path(colors[i]);
-			if (!check_rgb(color_path, map, identifier))
+			if ((_BONUS != 1)
+				|| (!texture_fc(map_config[i + 4], identifier, at, map)))
 			{
-				if (_BONUS == 1)
-				{
-					image = load_texture(colors[i], identifier, at);
-					if (!image)
-					{
-						free(identifier);
-						return (false);
-					}
-					if (!create_image_fc(identifier, map, image))
-						return (false);
-				}
-				else
-				{
-					free (identifier);
-					return (false);
-				}
+				free (identifier);
+				return (false);
 			}
 		}
 		free(identifier);
-		++i;
 	}
 	return (true);
 }

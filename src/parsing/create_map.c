@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_map.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/22 15:55:28 by vopekdas          #+#    #+#             */
+/*   Updated: 2024/06/22 16:08:49 by vopekdas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
-#include "libft.h"
 
 char	**create_map(char **cub_file, t_map *map, t_alloc_table *at)
 {
@@ -23,35 +34,43 @@ char	**create_map(char **cub_file, t_map *map, t_alloc_table *at)
 	return (maps);
 }
 
-char	**fill_map_with_space(char **map, size_t width, size_t height, t_alloc_table *at)
+static char	*create_longer_line(char *map, t_alloc_table *at, int wid)
+{
+	char	*new_map;
+
+	new_map = scalloc(at, wid + 1, sizeof(char));
+	if (!new_map)
+	{
+		ft_putstr_fd(RED"Error\nMalloc failed in (create_longer_line)", 2);
+		return (NULL);
+	}
+	ft_memset(new_map, ' ', wid);
+	ft_memcpy(new_map, map, ft_strlen(map));
+	return (new_map);
+}
+
+char	**map_space(char **map, size_t wid, size_t hei, t_alloc_table *at)
 {
 	char	**new_map;
 	size_t	i;
 
-	new_map = NULL;
-	new_map = scalloc(at, height + 1, sizeof(char *));
+	new_map = scalloc(at, hei + 1, sizeof(char *));
 	if (!new_map)
 	{
-		ft_putstr_fd(RED"Error\nMalloc failed for new map (fill_map_with_space)\n"RESET, 2);
+		ft_putstr_fd(RED"Error\nMalloc failed for new map (map_space)\n"RESET, 2);
 		return (NULL);
 	}
-	i = 0;
-	while (i < height)
+	i = -1;
+	while (++i < hei)
 	{
-		if (ft_strlen(map[i]) < width)
+		if (ft_strlen(map[i]) < wid)
 		{
-			new_map[i] = scalloc(at, width + 1, sizeof(char));
+			new_map[i] = create_longer_line(map[i], at, wid);
 			if (!new_map[i])
-			{
-				ft_putstr_fd(RED"Error\nMalloc failed for new_map[i] (fill_map_with_space)", 2);
 				return (NULL);
-			}
-			ft_memset(new_map[i], ' ', width);
-			ft_memcpy(new_map[i], map[i], ft_strlen(map[i]));
 		}
 		else
 			new_map[i] = map[i];
-		++i;
 	}
 	return (new_map);
 }

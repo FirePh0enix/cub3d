@@ -6,34 +6,15 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/21 17:30:56 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/22 16:25:13 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include <stdbool.h>
 
-bool	err_textures(char *identifier)
-{
-	ft_putstr_fd(RED"Error\n"BRED, 2);
-	ft_putstr_fd(identifier, 2);
-	ft_putstr_fd(RED" has not been created\n"RESET, 2);
-	free_identifier(identifier);
-	return (false);
-}
-
-static	bool	err_identifier(char *identifier)
-{
-	ft_putstr_fd(RED"Error\n", 2);
-	ft_putstr_fd("Wrong identifier: "BRED, 2);
-	ft_putstr_fd(identifier, 2);
-	ft_putstr_fd(RED"\nIdentifier should be: "BRED, 2);
-	ft_putstr_fd("NO | SO | WE | EA\n"RESET, 2);
-	free_identifier(identifier);
-	return (false);
-}
-
-static char *which_ident_miss(int no, int so, int we, int ea)
+static char	*which_ident_miss(int no, int so, int we, int ea)
 {
 	if (no == 0)
 		return ("NO");
@@ -47,12 +28,27 @@ static char *which_ident_miss(int no, int so, int we, int ea)
 		return (0);
 }
 
+bool	check_nb_identifer(int no, int so, int we, int ea)
+{
+	char	*miss_ident;
+
+	if (no != 1 || so != 1 || we != 1 || ea != 1)
+	{
+		miss_ident = which_ident_miss(no, so, we, ea);
+		ft_putstr_fd(RED"Error\n", 2);
+		ft_putstr_fd("Identifier "BRED, 2);
+		ft_putstr_fd(miss_ident, 2);
+		ft_putstr_fd(RED" is missing\n"RESET, 2);
+		return (false);
+	}
+	return (true);
+}
+
 static	bool	is_valid_number_ident(char **textures, int no, int so, int we)
 {
 	int		i;
 	int		ea;
 	char	*identifier;
-	char	*miss_ident;
 
 	i = -1;
 	ea = 0;
@@ -74,15 +70,20 @@ static	bool	is_valid_number_ident(char **textures, int no, int so, int we)
 		}
 		free(identifier);
 	}
-	if (no != 1 || so != 1 || we != 1 || ea != 1)
+	return (check_nb_identifer(no, so, we, ea));
+}
+
+static bool	load_if_valid(char *maps, char *ide, t_alloc_table *at, t_map *map)
+{
+	t_image	*image;
+
+	image = load_texture(maps, ide, at);
+	if (!image)
 	{
-		miss_ident = which_ident_miss(no, so, we, ea);
-		ft_putstr_fd(RED"Error\n", 2);
-		ft_putstr_fd("Identifier "BRED, 2);
-		ft_putstr_fd(miss_ident, 2);
-		ft_putstr_fd(RED" is missing\n"RESET, 2);
+		free(ide);
 		return (false);
 	}
+	assign_textures(ide, map, image);
 	return (true);
 }
 
@@ -90,30 +91,19 @@ bool	fill_texture(t_map *map, char **maps, t_alloc_table *at)
 {
 	int		i;
 	char	*identifier;
-	char	*textures[4];
-	t_image	*image;
 
 	i = -1;
-	ft_bzero(textures, 4);
-	while (++i < 4)
-		textures[i] = maps[i];
-	if (!is_valid_number_ident(textures, 0, 0, 0))
+	if (!is_valid_number_ident(maps, 0, 0, 0))
 		return (false);
-	i = -1;
 	while (++i < 4)
 	{
-		identifier = detect_identifier(textures[i]);
+		identifier = detect_identifier(maps[i]);
 		if (!identifier)
 			return (false);
 		if (is_valid_identifier_text(identifier))
 		{
-			image = load_texture(textures[i], identifier, at);
-			if (!image)
-			{
-				free(identifier);
+			if (!load_if_valid(maps[i], identifier, at, map))
 				return (false);
-			}
-			assign_textures(identifier, map, image);
 		}
 		else
 			return (err_identifier(identifier));

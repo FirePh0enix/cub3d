@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:38:23 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 18:23:11 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/22 16:29:14 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,8 @@ static	bool	error_surr(int y, int x)
 	return (false);
 }
 
-static	bool	is_map_border(int x, int y, t_map *map, char **maps)
+static bool	is_wall(int x, int y, t_map *map, char **maps)
 {
-	if (maps[y][x] == ' ')
-		return (false);
-	if (x <= 0 || x >= (int)ft_strlen(maps[y]) || y <= 0 || y >= map->height - 1)
-		return (true);
 	if (y - 1 >= 0)
 	{
 		if (maps[y - 1][x] == ' ')
@@ -53,6 +49,16 @@ static	bool	is_map_border(int x, int y, t_map *map, char **maps)
 			return (true);
 	}
 	return (false);
+}
+
+static	bool	is_map_border(int x, int y, t_map *map, char **maps)
+{
+	if (maps[y][x] == ' ')
+		return (false);
+	if (x <= 0 || x >= (int)ft_strlen(maps[y])
+		|| y <= 0 || y >= map->height - 1)
+		return (true);
+	return (is_wall(x, y, map, maps));
 }
 
 bool	is_map_surrounded(char **maps, t_map *map)

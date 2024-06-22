@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/22 15:55:49 by vopekdas          #+#    #+#             */
+/*   Updated: 2024/06/22 16:17:23 by vopekdas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_H
 
 # define PARSING_H
@@ -58,16 +70,18 @@ void	fill_color(char *identifier, t_map *map, unsigned char color, int i);
 								// MAP //
 //############################################################################//
 char	**create_map(char **cub_file, t_map *map, t_alloc_table *at);
-char	**fill_map_with_space(char **map, size_t width, size_t height, t_alloc_table *at);
+char	**map_space(char **map, size_t width, size_t height, t_alloc_table *at);
 int		calc_map_height(char **maps);
 int		calc_map_max_width(char **maps);
-bool	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars, t_alloc_table *at);
+bool	map_to_tiles(t_map *map, char **maps, t_scene *scene,
+			t_vars *vars, t_alloc_table *at);
 
 //############################################################################//
 								// ERROR MESSAGE //
 //############################################################################//
 void	putstr_sep(char *str, char n);
 bool	err_textures(char *identifier);
+bool	err_identifier(char *identifier);
 //############################################################################//
 					// IDENTIFIER VALIDATION AND DETECTION //
 //############################################################################//
@@ -78,7 +92,7 @@ bool	is_map_surrounded(char **maps, t_map *map);
 bool	is_valid_rgb(t_map *map, char **map_config, t_alloc_table *at);
 bool	is_valid_file_name(char *str);
 char	*detect_identifier(char *texture);
-char	*detect_texture_path(char *path);
+char	*texture_path(char *path);
 
 //############################################################################//
 								// TEXTURES //
@@ -98,7 +112,6 @@ bool	find_player_pos(char **maps, t_map *map);
 //############################################################################//
 char	*read_to_string(char *filename, size_t *len, t_alloc_table *at);
 bool	free_identifier(char *identifier);
-
-bool 	check_enough_line(char **map_config);
+bool	check_enough_line(char **map_config);
 
 #endif
