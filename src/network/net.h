@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   net.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 17:20:44 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/23 22:17:40 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,9 @@
 # include <arpa/inet.h>
 # include <unistd.h>
 
-# include "../math/vec.h"
 # include "../scene.h"
 
 # define SERVER_PORT       25566
-# define SERVER_LOCAL_PORT 25577
-# define CLIENT_PORT       25566
 
 # define MAX_CLIENT 8
 # define MAX_CLIENT_NAME 16
@@ -45,6 +42,7 @@ enum e_packet_type
 	PACKET_SYNC_SCOREBOARD,
 	PACKET_HIT,
 	PACKET_DEAD_PLAYER,
+	PACKET_RESPAWN
 };
 
 typedef struct s_packet_connect
@@ -121,6 +119,12 @@ typedef struct s_packet_dead
 	int		entity_id;
 }	t_packet_dead;
 
+typedef struct s_packet_respawn
+{
+	int		type;
+	int		entity_id;
+}	t_packet_respawn;
+
 typedef struct s_remote_client
 {
 	int					present;
@@ -138,8 +142,10 @@ typedef struct s_server
 }   t_server;
 
 void    netserv_init(t_server *server, t_vars *vars, int port);
-void	netserv_poll(t_server *server, t_vars *vars, t_alloc_table *at);
+void	netserv_poll(t_server *server, t_vars *vars);
 void    netserv_destroy(t_server *server);
+
+int		netserv_client_from_entity_id(t_server *server, int entity_id);
 
 void	netserv_send(t_server *server, void *packet_addr, size_t size, int i);
 void	netserv_broadcast(t_server *server, void *packet_addr, size_t size, int mask);
@@ -147,6 +153,7 @@ void	netserv_broadcast(t_server *server, void *packet_addr, size_t size, int mas
 void	netserv_broadcast_pos(t_server *server, t_player *player, int mask);
 void	netserv_broadcast_del(t_server *server, int entity_id, int mask);
 void 	netserv_broadcast_dead_player(t_server *server, int entity_id, int mask);
+void	netserv_broadcast_respawn(t_server *server, int entity_id, int mask);
 
 typedef struct s_scoreboard	t_scoreboard;
 
@@ -164,11 +171,12 @@ typedef struct s_client
 }   t_client;
 
 void    netclient_init(t_client *client, char *addr, int port);
-void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at);
+void	netclient_poll(t_client *client, t_vars *vars);
 void	netclient_connect(t_client *client, char *username);
 
 void	netclient_send_pos(t_client *client, t_transform transform);
 void	netclient_pulse(t_client *client);
 void	netclient_send_hit(t_client *client, t_entity *entity, int damage_taken);
+void	netclient_send_respawn(t_client *client);
 
 #endif

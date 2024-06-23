@@ -25,18 +25,18 @@ t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_alloc_table *
 	t_fake_player	*fake_player;
 
 	(void) vars;
-	fake_player = ft_calloc(1, sizeof(t_player));
+	fake_player = ft_calloc(1, sizeof(t_fake_player));
 	fake_player->base.type = ENTITY_FAKE_PLAYER;
 	fake_player->base.id = id;
 	fake_player->base.tick = (void *) fake_player_tick;
 	fake_player->base.draw = (void *) fake_player_draw;
-	fake_player->base.transform = (t_transform){};
+	fake_player->base.transform = (t_transform){0};
 	fake_player->base.map = map;
 	fake_player->base.velocity = v3(0, 0, 0);
 	fake_player->base.height = 1.0;
 	fake_player->base.width = 0.7;
 	fake_player->base.depth = 0.7;
-	fake_player->health = 1;
+	fake_player->health = MAX_HEALTH;
 
 	fake_player->sp[FORW] = sprite_create_anim(load_images(at, 1,
 		"assets/player/A/PLAYA1.tga"

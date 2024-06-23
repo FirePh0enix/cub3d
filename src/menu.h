@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 19:45:22 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 14:48:04 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:35:34 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void	img_draw(t_menu_img *img, t_r3d *r3d);
 typedef enum e_state
 {
 	STATE_MAIN,
-	STATE_MULTIPLAYER
+	STATE_MULTIPLAYER,
+
+	STATE_DEAD
 }	t_state;
 
 typedef struct s_menu
@@ -84,6 +86,7 @@ typedef struct s_menu
 	t_state		state;
 	bool		already_pressed;
 
+	// Main
 	t_button	singleplayer;
 	t_button	multiplayer;
 
@@ -96,6 +99,10 @@ typedef struct s_menu
 
 	t_menu_img	name_img;
 	t_text_edit	name;
+
+	// Dead
+	t_button	dead_msg;
+	t_button	respawn;
 }	t_menu;
 
 void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at);

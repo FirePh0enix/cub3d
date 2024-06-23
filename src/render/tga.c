@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 18:52:50 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/23 22:38:32 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*read_to_string(char *filename, size_t *len, t_alloc_table *at)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
-	str = salloc(at, file_size + 1);
+	str = malloc(file_size + 1);
 	if (!str)
 		return (close(fd), NULL);
 	str_size = 0;
@@ -198,16 +198,8 @@ t_image	*tga_create(int width, int height, t_alloc_table *at)
 		return (NULL);
 	image->data = salloc(at, sizeof(uint32_t) * width * height);
 	if (!image->data)
-		return (free(image), NULL);
+		return (NULL);
 	image->width = width;
 	image->height = height;
 	return (image);
-}
-
-void	image_destroy(t_image *image)
-{
-	if (!image)
-		return ;
-	free(image->data);
-	free(image);
 }

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 01:00:55 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/23 22:57:19 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "mlx.h"
 #include "network/net.h"
 #include "render/render.h"
+#include "scene.h"
 #include <stdio.h>
 
 static void	save_data(t_menu *menu)
@@ -85,6 +86,19 @@ static void	join_pressed(t_vars *vars)
 	vars->is_server = false;
 	netclient_init(&vars->client, vars->menu.ip.buffer, SERVER_PORT);
 	netclient_connect(&vars->client, vars->menu.name.buffer);
+}
+
+static void	respawn_pressed(t_vars *vars)
+{
+	if (vars->is_server)
+		netserv_broadcast_respawn(&vars->server, vars->server.player_id, -1);
+	else
+		netclient_send_respawn(&vars->client);
+	vars->menu_open = false;
+	vars->map.player->base.transform = vars->map.player->spawn_transform;
+	vars->map.player->base.is_dead = false;
+	if (vars->is_server)
+		vars->map.player->health = MAX_HEALTH; 
 }
 
 static bool	ip_filter(char c)
@@ -219,6 +233,45 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 	};
 
 	load_data(menu, at);
+
+	// Dead
+	t_image	*img7 = tga_load_from_file("assets/M_DEAD.tga", at);
+
+	menu->dead_msg = (t_button){
+		.disabled = false,
+		.label = NULL,
+		.scale = 3.0,
+		.image = img7,
+		.box = {
+			.min = {
+				w / 2 - img7->width * s / 2,
+				h / 2 - img7->height * s / 2 - 140
+			}, .max = {
+				w / 2 - img7->width * s / 2 + img7->width * s,
+				h / 2 - img7->height * s / 2 + img7->height * s - 140
+			}
+		},
+		.pressed = NULL
+	};
+
+	t_image	*img8 = tga_load_from_file("assets/M_RESPAWN.tga", at);
+
+	menu->respawn = (t_button){
+		.disabled = false,
+		.label = NULL,
+		.scale = 3.0,
+		.image = img8,
+		.box = {
+			.min = {
+				w / 2 - img8->width * s / 2,
+				h / 2 - img8->height * s / 2
+			}, .max = {
+				w / 2 - img8->width * s / 2 + img8->width * s,
+				h / 2 - img8->height * s / 2 + img8->height * s
+			}
+		},
+		.pressed = (void *) respawn_pressed
+	};
 }
 
 bool	mouse_click_over(t_vars *vars, t_boxi box)
@@ -248,6 +301,11 @@ void	menu_draw(t_menu *menu, t_r3d *r3d, t_vars *vars)
 		img_draw(&menu->name_img, r3d);
 		text_edit_draw(&menu->name, r3d, vars);
 	}
+	else if (menu->state == STATE_DEAD)
+	{
+		button_draw(&menu->dead_msg, r3d);
+		button_draw(&menu->respawn, r3d);
+	}
 }
 
 void	menu_tick(t_menu *menu, t_vars *vars)
@@ -275,6 +333,10 @@ void	menu_tick(t_menu *menu, t_vars *vars)
 			menu->ip.focused = false;
 			menu->name.focused = true;
 		}
+	}
+	else if (menu->state == STATE_DEAD)
+	{
+		button_tick(&menu->respawn, vars);
 	}
 	if (!vars->buttons[1])
 		menu->already_pressed = false;

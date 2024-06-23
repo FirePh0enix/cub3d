@@ -37,7 +37,7 @@ static int	find_free_client(t_server *server)
 	return (-1);
 }
 
-static void connect_client(t_server *server, t_packet_connect *conn, struct sockaddr_in addr, t_vars *vars, t_alloc_table *at)
+static void connect_client(t_server *server, t_packet_connect *conn, struct sockaddr_in addr, t_vars *vars)
 {
 	int	i = find_free_client(server);
 
@@ -53,7 +53,7 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	server->clients[i].last_pulse = getms();
 	ft_printf("info : Client `%s` connected\n", conn->username);
 
-	t_fake_player	*fake_player = fake_player_new(vars, &vars->map, next_entity_id(vars), at);
+	t_fake_player	*fake_player = fake_player_new(vars, &vars->map, next_entity_id(vars), &vars->at);
 	fake_player->base.transform.position = v3(0, 0, 0);
 	map_add_entity(&vars->map, fake_player);
 
@@ -139,12 +139,8 @@ static void	player_hit(t_server *server, t_packet_hit *hit, t_vars *vars)
 
 	(void)server;
 	entity = map_get_entity_by_id(&vars->map, hit->entity_id);
-	printf("ENTITY ID: %d\n", hit->entity_id);
 	if (!entity)
-	{
-		printf("NO ENTITY %p\n", entity);
 		return ;
-	}
 	if (entity->type == ENTITY_FAKE_PLAYER)
 	{
 		fake_player = (t_fake_player *) entity;
@@ -169,7 +165,23 @@ static void	disconnect(t_server *server, int i, t_vars *vars)
 	ft_printf("Player %s has timed out\n", client->username);
 }
 
-void	netserv_poll(t_server *server, t_vars *vars, t_alloc_table *at)
+static void	respawn_player(t_server *server, t_packet_respawn *p, t_vars *vars)
+{
+	int			i;
+	t_entity	*entity;
+
+	(void) vars;
+	i = netserv_client_from_entity_id(server, p->entity_id);
+	if (i == -1)
+		return ;
+	entity = map_get_entity_by_id(&vars->map, p->entity_id);
+	if (!entity || entity->type != ENTITY_FAKE_PLAYER)
+		return ;
+	((t_fake_player *) entity)->health = MAX_HEALTH;
+	netserv_broadcast(server, p, sizeof(t_packet_respawn), i);
+}
+
+void	netserv_poll(t_server *server, t_vars *vars)
 {
 	char				buf[MAX_PACKET_SIZE];
 	struct sockaddr_in addr;
@@ -181,13 +193,15 @@ void	netserv_poll(t_server *server, t_vars *vars, t_alloc_table *at)
 	{
 		type = *(int *)(buf);
 		if (type == PACKET_CONNECT)
-			connect_client(server, (void *) buf, addr, vars, at);
+			connect_client(server, (void *) buf, addr, vars);
 		else if (type == PACKET_POS)
 			move_player(server, (void *) buf, vars);
 		else if (type == PACKET_PULSE)
 			handle_pulse(server, (void *) buf);
 		else if (type == PACKET_HIT)
 			player_hit(server, (void *) buf, vars);
+		else if (type == PACKET_RESPAWN)
+			respawn_player(server, (void *) buf, vars);
 	}
 	int	i = 0;
 	while (i < MAX_CLIENT)
@@ -196,6 +210,20 @@ void	netserv_poll(t_server *server, t_vars *vars, t_alloc_table *at)
 			disconnect(server, i, vars);
 		i++;
 	}
+}
+
+int		netserv_client_from_entity_id(t_server *server, int entity_id)
+{
+	int	i;
+
+	i = 0;
+	while (i < MAX_CLIENT)
+	{
+		if (server->clients[i].entity->id == entity_id)
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
 void    netserv_destroy(t_server *server)

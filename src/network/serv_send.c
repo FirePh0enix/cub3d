@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serv_send.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:25:15 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/12 13:51:58 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:50:04 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,13 @@ void	netserv_broadcast_scoreboard(t_server *server, t_scoreboard *scoreboard)
 	// 	netserv_broadcast(server, &p, sizeof(t_packet_sync_score), -1);
 	// 	i++;
 	// }
+}
+
+void	netserv_broadcast_respawn(t_server *server, int entity_id, int mask)
+{
+	t_packet_respawn	p;
+
+	p.type = PACKET_RESPAWN;
+	p.entity_id = entity_id;
+	netserv_broadcast(server, &p, sizeof(t_packet_respawn), mask);
 }

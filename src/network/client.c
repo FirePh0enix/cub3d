@@ -12,17 +12,17 @@ void    netclient_init(t_client *client, char *addr, int port)
 	client->unique_id = -1;
 	client->last_pulse = getms();}
 
-static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars, t_alloc_table *at)
+static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars)
 {
 	t_entity	*entity;
 
 	entity = NULL;
 	if (p->entity_type == ENTITY_FAKE_PLAYER)
-		entity = (void *) fake_player_new(vars, &vars->map, p->entity_id, at);
+		entity = (void *) fake_player_new(vars, &vars->map, p->entity_id, &vars->at);
 	return (entity);
 }
 
-void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
+void	netclient_poll(t_client *client, t_vars *vars)
 {
 	char				buf[MAX_PACKET_SIZE];
 	struct sockaddr_in addr;
@@ -36,7 +36,7 @@ void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
 		type = *(int *)(buf);
 		if (type == PACKET_CONNECT_RESPONSE)
 		{
-			ft_printf("Response received from the server.\n");
+			ft_printf("info : response received from the server!\n");
 			client->unique_id = ((t_packet_connect_response *) buf)->unique_id;
 			client->entity_id = ((t_packet_connect_response *) buf)->entity_id;
 			vars->map.player->base.id = client->entity_id;
@@ -55,7 +55,7 @@ void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
 		}
 		else if (type == PACKET_NEW_ENTITY)
 		{
-			t_entity *entity = new_entity((void *) buf, vars, at);
+			t_entity *entity = new_entity((void *) buf, vars);
 			map_add_entity(&vars->map, entity);
 		}
 		else if (type == PACKET_DEL_ENTITY)
@@ -84,7 +84,23 @@ void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
 			if (entity == NULL)
 				continue ;
 			entity->is_dead = true;
-			printf("PACKET DEAD\n");
+			if (entity->type == ENTITY_PLAYER)
+			{
+				vars->menu_open = true;
+				vars->menu.state = STATE_DEAD;
+			}
+		} else if (type == PACKET_RESPAWN)
+		{
+			t_packet_respawn *p = (void *) buf;
+			t_entity *entity = map_get_entity_by_id(&vars->map, p->entity_id);
+			if (entity == NULL)
+				continue ;
+			entity->is_dead = false;
+
+			if (entity->type == ENTITY_PLAYER)
+				((t_player *) entity)->health = MAX_HEALTH;
+			else if (entity->type == ENTITY_FAKE_PLAYER)
+				((t_fake_player *) entity)->health = MAX_HEALTH;
 		}
 	}
 
@@ -100,6 +116,7 @@ void	netclient_connect(t_client *client, char *username)
 	t_packet_connect	packet;
 
 	packet.type = PACKET_CONNECT;
+	ft_memset(packet.username, 0, MAX_CLIENT_NAME);
 	ft_memcpy(packet.username, username, ft_strlen(username) + 1);
 	sendto(client->socket, &packet, sizeof(t_packet_connect), 0,
 		(void *) &client->server_addr, sizeof(struct sockaddr_in));
@@ -124,6 +141,7 @@ void	netclient_send_pos(t_client *client, t_transform transform)
 
 	if (client->unique_id == -1)
 		return ;
+	// FIXME: Uninitialized bytes when calling `sendto`
 	packet.type = PACKET_POS;
 	packet.pos = transform.position;
 	packet.rot = transform.rotation;
@@ -141,6 +159,18 @@ void	netclient_send_hit(t_client *client, t_entity *entity, int damage_taken)
 	packet.type = PACKET_HIT;
 	packet.entity_id = entity->id;
 	packet.damage_taken = damage_taken;
+	sendto(client->socket, &packet, sizeof(t_packet_hit), 0,
+		(void *) &client->server_addr, sizeof(struct sockaddr_in));
+}
+
+void	netclient_send_respawn(t_client *client)
+{
+	t_packet_respawn	packet;
+
+	if (client->unique_id == -1)
+		return ;
+	packet.type = PACKET_RESPAWN;
+	packet.entity_id = client->entity_id;
 	sendto(client->socket, &packet, sizeof(t_packet_hit), 0,
 		(void *) &client->server_addr, sizeof(struct sockaddr_in));
 }

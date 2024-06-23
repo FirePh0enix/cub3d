@@ -6,12 +6,11 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:12:43 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 13:52:27 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/23 22:43:25 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "libft.h"
 #include "mem.h"
 #include "parsing/parsing.h"
 #include "render/font.h"
@@ -29,13 +28,6 @@ static t_image	**check_images(int num, t_image **images)
 	{
 		if (!images[i])
 		{
-			i = 0;
-			while (i < num)
-			{
-				if (images[i])
-					image_destroy(images[i]);
-				i++;
-			}
 			free(images);
 			return (NULL);
 		}
@@ -67,11 +59,11 @@ t_image	**load_images(t_alloc_table *at, int num, ...)
 
 char	*read_file(char *filename, t_alloc_table *at)
 {
-	char	*data;
-
-	data = _get_file_data(filename);
-	if (data)
-		return (data);
-	printf("info : '%s' not embeded, reading from disk.\n", filename);
+	// char	*data;
+    //
+	// data = _get_file_data(filename);
+	// if (data)
+	// 	return (data);
+	// printf("info : '%s' not embeded, reading from disk.\n", filename);
 	return (read_to_string(filename, NULL, at));
 }

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 14:00:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/23 22:57:09 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_entity
 	t_v3		velocity;
 }	t_entity;
 
+# define MAX_HEALTH 3
+
 typedef struct s_player
 {
 	t_entity	base;
@@ -62,6 +64,8 @@ typedef struct s_player
 
 	t_gun		gun;
 	int			health;
+
+	t_transform	spawn_transform;
 }	t_player;
 
 t_player		*player_new(t_vars *vars, t_map *map, int id);

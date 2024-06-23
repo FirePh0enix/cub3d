@@ -20,7 +20,7 @@ t_player	*player_new(t_vars *vars, t_map *map, int id)
 	player->base.tick = (void *) player_tick;
 	player->base.draw = (void *) player_draw;
 	player->base.free = (void *) player_free;
-	player->base.transform = (t_transform){};
+	player->base.transform = (t_transform){0};
 	player->base.map = map;
 	player->camera = ft_calloc(1, sizeof(t_camera));
 	player->base.velocity = v3(0, 0, 0);
@@ -34,7 +34,7 @@ t_player	*player_new(t_vars *vars, t_map *map, int id)
 	player->camera->dir_x = 0;
 	player->camera->dir_y = -1;
 
-	player->health = 1;
+	player->health = MAX_HEALTH;
 
 	return (player);
 }
@@ -59,16 +59,13 @@ static void	rotate_y(t_player *player, float rot_speed)
 	player->camera->dir_y = old_dir_x * sin(-rot_speed) + player->camera->dir_y * cos(-rot_speed);
 }
 
-void	player_tick(t_vars *vars, t_player *player)
+static void	handle_inputs(t_vars *vars, t_player *player)
 {
-	const t_v3	camera_offset = v3(0.0, 1.6, 0.0);
-	const t_v3	forward = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(0, 0, -1.0)));
-	const t_v3	left = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(-1.0, 0, 0)));
 	const float	speed = 5.0;
 	const float	jump_force = 20.0;
+	const t_v3	forward = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(0, 0, -1.0)));
+	const t_v3	left = v3_norm(mat4_multiply_v3(mat4_rotation(v3(0, player->base.transform.rotation.y, 0)), v3(-1.0, 0, 0)));
 
-	if (!vars->is_focused)
-		return ;
 	if (vars->keys[XK_w])
 		player->base.velocity = v3_add(player->base.velocity, v3_scale(forward, speed));
 	if (vars->keys[XK_s])
@@ -86,24 +83,6 @@ void	player_tick(t_vars *vars, t_player *player)
 	// }
 	// else if (!vars->keys[XK_space] && is_on_ground(player))
 	// 	player->has_jump = false;
-
-	player->base.velocity.y -= 0.8;
-
-	adjust_vel(player, &vars->map, vars->delta_sec, vars->map.entities);
-
-	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
-
-	if (player->base.transform.position.y < 0)
-	{
-		player->base.transform.position.y = 0;
-		player->base.velocity.y = 0;
-	}
-
-	player->camera->position = v3_add(player->base.transform.position,
-		camera_offset);
-
-	player->base.velocity.x *= 0.5;
-	player->base.velocity.z *= 0.5;
 
 	//
 	// Camera mouvements with arrows
@@ -125,7 +104,45 @@ void	player_tick(t_vars *vars, t_player *player)
 	if (vars->keys[XK_Right])
 		rotate_y(player, -rot_speed);
 
-	// player->camera->rotation.x = clampf(player->camera->rotation.x, -M_PI / 2, M_PI / 2);
+	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2.0, 720 / 2.0);
+}
+
+void	player_tick(t_vars *vars, t_player *player)
+{
+	const t_v3	camera_offset = v3(0.0, 1.6, 0.0);
+
+	if (vars->is_focused)
+		handle_inputs(vars, player);
+
+	if (player->health <= 0 && vars->is_server)
+	{
+		player->base.is_dead = true;
+		netserv_broadcast_dead_player(&vars->server, vars->map.player->base.id, -1);
+		vars->menu_open = true;
+		vars->menu.state = STATE_DEAD;
+		return;
+	}
+
+	if (player->base.is_dead)
+		return ;
+
+	player->base.velocity.y -= 0.8;
+
+	adjust_vel(player, &vars->map, vars->delta_sec, vars->map.entities);
+
+	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
+
+	if (player->base.transform.position.y < 0)
+	{
+		player->base.transform.position.y = 0;
+		player->base.velocity.y = 0;
+	}
+
+	player->camera->position = v3_add(player->base.transform.position,
+		camera_offset);
+
+	player->base.velocity.x *= 0.5;
+	player->base.velocity.z *= 0.5;
 
 	//
 	// Interactions
@@ -148,8 +165,6 @@ void	player_tick(t_vars *vars, t_player *player)
 				fake_player->health -= 1;
 		}
 	}
-
-	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2.0, 720 / 2.0);
 
 	if (!vars->is_server)
 		netclient_send_pos(&vars->client, player->base.transform);

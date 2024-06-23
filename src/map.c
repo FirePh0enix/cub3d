@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 13:19:59 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 14:02:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:24:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	map_remove_entity(t_map *map, void *entity)
 	{
 		if (map->entities[i] == entity)
 		{
-			ft_vector_del(map, i);
+			ft_vector_del(&map->entities, i);
 			break ;
 		}
 		i++;

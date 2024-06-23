@@ -66,7 +66,7 @@ static void	print_scoreboard(t_vars *vars)
 	}
 }
 
-static void	loop_hook(t_vars *vars, t_alloc_table *at)
+static void	loop_hook(t_vars *vars)
 {
 	suseconds_t	delta;
 
@@ -88,24 +88,15 @@ static void	loop_hook(t_vars *vars, t_alloc_table *at)
 		map_tick(vars, &vars->map);
 	else
 		menu_tick(&vars->menu, vars);
-	// draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
 
 	if (vars->is_server)
 	{
-		netserv_poll(&vars->server, vars, at);
+		netserv_poll(&vars->server, vars);
 		netserv_broadcast_scoreboard(&vars->server, &vars->scoreboard);
-
-		// TODO: put in player.c
-		if (vars->map.player->health <= 0 && vars->is_server)
-		{
-			vars->map.player->base.is_dead = true;
-			netserv_broadcast_dead_player(&vars->server, vars->map.player->base.id, -1);
-			return ;
-		}
 	}
 	else if (vars->client.has_send_connect)
 	{
-		netclient_poll(&vars->client, vars, at);
+		netclient_poll(&vars->client, vars);
 		netclient_pulse(&vars->client);
 	}
 
@@ -117,9 +108,6 @@ static void	loop_hook(t_vars *vars, t_alloc_table *at)
 	}
 	else
 		menu_draw(&vars->menu, &vars->r3d, vars);
-
-	// print_fps(vars, delta, getms() - vars->last_update);
-
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d.canvas, 0, 0);
 }
 
@@ -200,6 +188,7 @@ int	main(int argc, char *argv[])
 	minimap_create(&vars.minimap, &vars.r3d, &vars.map, &vars.at);
 
 	player->base.transform = vars.map.spawns[0];
+	player->spawn_transform = vars.map.spawns[0];
 	player->gun = vars.shotgun;
 
 	vars.r3d.camera = vars.map.player->camera;
