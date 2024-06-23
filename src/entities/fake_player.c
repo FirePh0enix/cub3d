@@ -1,9 +1,5 @@
 #include "../scene.h"
 #include "../cub3d.h"
-#include "mlx.h"
-#include "../math/utils.h"
-#include <stdio.h>
-#include "../math/matrix.h"
 
 void	fake_player_tick(t_vars *vars, t_fake_player *fake_player)
 {
@@ -19,9 +15,12 @@ void	fake_player_tick(t_vars *vars, t_fake_player *fake_player)
 
 void	fake_player_draw(t_r3d *r3d, t_fake_player *fake_player, t_vars *vars)
 {
+	(void) r3d;
+	(void) fake_player;
+	(void) vars;
 }
 
-t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id, t_alloc_table *at)
+t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_alloc_table *at)
 {
 	t_fake_player	*fake_player;
 
@@ -32,7 +31,7 @@ t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id, t_alloc_tab
 	fake_player->base.tick = (void *) fake_player_tick;
 	fake_player->base.draw = (void *) fake_player_draw;
 	fake_player->base.transform = (t_transform){};
-	fake_player->base.scene = scene;
+	fake_player->base.map = map;
 	fake_player->base.velocity = v3(0, 0, 0);
 	fake_player->base.height = 1.0;
 	fake_player->base.width = 0.7;
@@ -70,7 +69,7 @@ t_fake_player	*fake_player_new(t_vars *vars, t_scene *scene, int id, t_alloc_tab
 
 t_image	*fake_player_get_image(t_fake_player *fp, t_vars *vars)
 {
-	const t_v3	dir_cam =  mat4_multiply_v3(mat4_rotation(vars->r3d->camera->rotation), v3(0, 0, -1));
+	const t_v3	dir_cam =  mat4_multiply_v3(mat4_rotation(vars->r3d.camera->rotation), v3(0, 0, -1));
 	const t_v3	dir_fp = mat4_multiply_v3(mat4_rotation(fp->base.transform.rotation), v3(0, 0, 1));
 	const float dot = v3_dot(dir_cam, dir_fp);
 

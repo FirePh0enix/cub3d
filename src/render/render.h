@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:19:39 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/23 13:37:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <stdint.h>
 
 typedef struct s_map	t_map;
-typedef struct s_scene	t_scene;
 
 typedef struct s_image
 {
@@ -40,7 +39,7 @@ typedef struct s_camera
 {
 	t_v3			position;
 	t_v3			rotation;
-	t_scene			*scene;
+	t_map			*map;
 
 	float			plane_x;
 	float			plane_y;

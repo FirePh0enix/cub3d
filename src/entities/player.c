@@ -7,8 +7,9 @@
 
 void	player_tick(t_vars *vars, t_player *player);
 void	player_draw(t_r3d *r3d, t_player *player, t_camera *camera, t_vars *vars);
+void	player_free(t_vars *vars, t_player *player);
 
-t_player	*player_new(t_vars *vars, t_scene *scene, int id)
+t_player	*player_new(t_vars *vars, t_map *map, int id)
 {
 	t_player	*player;
 
@@ -18,8 +19,9 @@ t_player	*player_new(t_vars *vars, t_scene *scene, int id)
 	player->base.id = id;
 	player->base.tick = (void *) player_tick;
 	player->base.draw = (void *) player_draw;
+	player->base.free = (void *) player_free;
 	player->base.transform = (t_transform){};
-	player->base.scene = scene;
+	player->base.map = map;
 	player->camera = ft_calloc(1, sizeof(t_camera));
 	player->base.velocity = v3(0, 0, 0);
 	player->base.height = 2.0;
@@ -87,7 +89,7 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	player->base.velocity.y -= 0.8;
 
-	adjust_vel(player, vars->map, vars->delta_sec, vars->scene->entities);
+	adjust_vel(player, &vars->map, vars->delta_sec, vars->map.entities);
 
 	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
 
@@ -133,7 +135,7 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	if (vars->buttons[1] && !player->gun.has_shoot)
 	{
-		t_entity *entity = raycast_entity(vars->map, vars->scene, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
+		t_entity *entity = raycast_entity(&vars->map, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
 			player->camera->rotation}, 10.0, ENTITY_FAKE_PLAYER);
 		player->gun.has_shoot = true;
 		sound_play(&player->gun.main_sound);
@@ -155,6 +157,11 @@ void	player_tick(t_vars *vars, t_player *player)
 		netserv_broadcast_pos(&vars->server, player, -1);
 }
 
+void	player_free(t_vars *vars, t_player *player)
+{
+	free(player->camera);
+}
+
 void	player_mouse_event(int x, int y, t_vars *vars)
 {
 	const float x_speed = x - 1280 / 2.0;
@@ -163,7 +170,7 @@ void	player_mouse_event(int x, int y, t_vars *vars)
 
 	if (!vars->is_focused || vars->menu_open)
 		return ;
-	player = vars->scene->player;
+	player = vars->map.player;
 
 	// player->camera->rotation.x -= y_speed / 1200.0;
 	// player->camera->rotation.x = clampf(player->camera->rotation.x, -M_PI / 2, M_PI / 2);

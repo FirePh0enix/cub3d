@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 00:57:17 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/23 13:49:25 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,11 @@
 #include "libft.h"
 #include <stdio.h>
 
-t_font	*font_create(t_alloc_table *at)
+bool	font_init(t_font *font, t_alloc_table *at)
 {
 	char	buf[64];
 	int		i;
-	t_font	*font;
 
-	font = scalloc(at, 1, sizeof(t_font));
-	if (!font)
-		return (NULL);
-	font->images = scalloc(at, 127, sizeof(void *));
-	if (!font->images)
-		return (free(font), NULL);
 	i = 33;
 	while (i < 126)
 	{
@@ -37,7 +30,7 @@ t_font	*font_create(t_alloc_table *at)
 		font->images[i] = tga_load_from_file(buf, at);
 		i++;
 	}
-	return (font);
+	return (true);
 }
 
 t_image	*font_get_image(t_font *font, char c)

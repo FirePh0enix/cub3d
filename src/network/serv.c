@@ -20,7 +20,7 @@ void    netserv_init(t_server *server, t_vars *vars, int port)
 	{
 		ft_printf("Failed to bind address 0.0.0.0 on port %d\n", port);
 	}
-	server->player_id = vars->scene->player->base.id;
+	server->player_id = vars->map.player->base.id;
 }
 
 static int	find_free_client(t_server *server)
@@ -53,9 +53,9 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	server->clients[i].last_pulse = getms();
 	ft_printf("info : Client `%s` connected\n", conn->username);
 
-	t_fake_player	*fake_player = fake_player_new(vars, vars->scene, next_entity_id(vars), at);
+	t_fake_player	*fake_player = fake_player_new(vars, &vars->map, next_entity_id(vars), at);
 	fake_player->base.transform.position = v3(0, 0, 0);
-	scene_add_entity(vars->scene, fake_player);
+	map_add_entity(&vars->map, fake_player);
 
 	server->clients[i].entity = (void *) fake_player;
 
@@ -138,7 +138,7 @@ static void	player_hit(t_server *server, t_packet_hit *hit, t_vars *vars)
 	t_fake_player	*fake_player;
 
 	(void)server;
-	entity = scene_get_entity_by_id(vars->scene, hit->entity_id);
+	entity = map_get_entity_by_id(&vars->map, hit->entity_id);
 	printf("ENTITY ID: %d\n", hit->entity_id);
 	if (!entity)
 	{
@@ -163,7 +163,7 @@ static void	disconnect(t_server *server, int i, t_vars *vars)
 	client = &server->clients[i];
 	client->present = 0;
 	netserv_broadcast_del(server, client->entity->id, i);
-	scene_remove_entity(vars->scene, client->entity);
+	map_remove_entity(&vars->map, client->entity);
 	vars->scoreboard.entries[i + 1].present = 0;
 	free(client->entity);
 	ft_printf("Player %s has timed out\n", client->username);

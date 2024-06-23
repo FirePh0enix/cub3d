@@ -1,15 +1,10 @@
 #include "cub3d.h"
-#include "parsing/parsing.h"
+#include "mlx.h"
 
 void	ft_free(t_vars *vars, t_alloc_table *at)
 {
-	for (int i = 0; vars->map->map_config[i]; i++) {
-		free(vars->map->map_config[i]);
-		vars->map->map_config[i] = NULL;
-	}
-	free(vars->map->map_config);
-
+	map_free(&vars->map, vars);
 	sfreeall(at);
-
-	free(at);
+	if (vars->r3d.canvas)
+		mlx_destroy_image(vars->mlx, vars->r3d.canvas);
 }

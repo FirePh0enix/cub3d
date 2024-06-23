@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/21 11:54:45 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/23 13:44:41 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,9 +253,9 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 		x++;
 	}
 
-	for(size_t i = 0; i < ft_vector_size(vars->scene->entities); i++)
+	for(size_t i = 0; i < ft_vector_size(vars->map.entities); i++)
 	{
-		t_entity *entity = vars->scene->entities[i];
+		t_entity *entity = vars->map.entities[i];
 		if (entity->type != ENTITY_FAKE_PLAYER || entity->is_dead)
 			continue ;
 		t_fake_player	*fp = (t_fake_player *) entity;

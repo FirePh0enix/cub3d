@@ -39,7 +39,7 @@ static void	print_fps(t_vars *vars, suseconds_t delta, suseconds_t frame_time)
 
 	f = (1.0 / (delta / 16.0)) * 60.0;
 	ft_sprintf(buf, "fps: %d, delta: %d ms", (int) f, (int) frame_time);
-	font_draw_str(vars->r3d, vars->font, buf, (t_v2i){0, 0}, 3);
+	font_draw_str(&vars->r3d, &vars->font, buf, (t_v2i){0, 0}, 3);
 }
 
 #define LIMIT_HIGH 0.0167
@@ -81,11 +81,11 @@ static void	loop_hook(t_vars *vars, t_alloc_table *at)
 	else if (vars->delta_sec > LIMIT_HIGH)
 		vars->delta_sec = LIMIT_HIGH;
 
-	r3d_clear_color_buffer(vars->r3d, hex(0x0));
-	r3d_clear_depth_buffer(vars->r3d);
+	r3d_clear_color_buffer(&vars->r3d, hex(0x0));
+	r3d_clear_depth_buffer(&vars->r3d);
 
 	if (!vars->menu_open)
-		tick_scene(vars, vars->scene);
+		map_tick(vars, &vars->map);
 	else
 		menu_tick(&vars->menu, vars);
 	// draw_scene(vars->r3d, vars->scene, vars->scene->player->camera, vars);
@@ -95,10 +95,11 @@ static void	loop_hook(t_vars *vars, t_alloc_table *at)
 		netserv_poll(&vars->server, vars, at);
 		netserv_broadcast_scoreboard(&vars->server, &vars->scoreboard);
 
-		if (vars->scene->player->health <= 0 && vars->is_server)
+		// TODO: put in player.c
+		if (vars->map.player->health <= 0 && vars->is_server)
 		{
-			vars->scene->player->base.is_dead = true;
-			netserv_broadcast_dead_player(&vars->server, vars->scene->player->base.id, -1);
+			vars->map.player->base.is_dead = true;
+			netserv_broadcast_dead_player(&vars->server, vars->map.player->base.id, -1);
 			return ;
 		}
 	}
@@ -110,42 +111,37 @@ static void	loop_hook(t_vars *vars, t_alloc_table *at)
 
 	if (!vars->menu_open)
 	{
-		r3d_raycast_world(vars->r3d, vars->map, vars);
-		draw_gun(&vars->scene->player->gun, vars->r3d);
-		minimap_draw(&vars->minimap, vars->r3d, vars);
+		r3d_raycast_world(&vars->r3d, &vars->map, vars);
+		draw_gun(&vars->map.player->gun, &vars->r3d);
+		minimap_draw(&vars->minimap, &vars->r3d, vars);
 	}
 	else
-		menu_draw(&vars->menu, vars->r3d, vars);
+		menu_draw(&vars->menu, &vars->r3d, vars);
 
 	// print_fps(vars, delta, getms() - vars->last_update);
 
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d->canvas, 0, 0);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d.canvas, 0, 0);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_vars			vars;
-	t_alloc_table	*at;
 
 	(void) argc;
 	if (!is_valid_file_name(argv[1]))
 		return (false);
-	at = ft_calloc(sizeof(t_alloc_table), 1);
-	if (!at)
-		return (-1);
 	ft_bzero(&vars, sizeof(t_vars));
-	if (!parsing(&vars, argv, at))
+	if (!parsing(&vars, argv, &vars.at))
 	{
-		ft_free(&vars, at);
+		ft_free(&vars, &vars.at);
 		return (-1);
 	}
-	vars.r3d = scalloc(at, sizeof(t_r3d), 1);
 	vars.last_update = 0;
 	vars.mlx = mlx_init();
 	if (!vars.mlx)
 	{
 		ft_putstr_fd(RED"Error\nMLX pointed returned NULL\n"RESET, 2);
-		ft_free(&vars, at);
+		ft_free(&vars, &vars.at);
 		return (1);
 	}
 	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
@@ -157,14 +153,13 @@ int	main(int argc, char *argv[])
 
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 
-	r3d_init(vars.r3d, vars.mlx, 1280, 720, at);
+	r3d_init(&vars.r3d, vars.mlx, 1280, 720, &vars.at);
 
-	vars.keys = scalloc(at, 0xFFFF, sizeof(bool));
 	vars.scoreboard.entries[0].present = 1;
 
-	vars.door = tga_load_from_file("assets/textures/DOOR2_4.tga", at);
+	vars.door = tga_load_from_file("assets/textures/DOOR2_4.tga", &vars.at);
 
-	vars.shotgun.main_anim = sprite_create_anim(load_images(at, 6,
+	vars.shotgun.main_anim = sprite_create_anim(load_images(&vars.at, 6,
 		"assets/textures/SHTGA0.tga",
 		"assets/textures/SHTGB0.tga",
 		"assets/textures/SHTGC0.tga",
@@ -172,26 +167,29 @@ int	main(int argc, char *argv[])
 		"assets/textures/SHTGC0.tga",
 		"assets/textures/SHTGB0.tga"
 	), 6, false, 100);
-	vars.shotgun.shoot_anim = sprite_create_anim(load_images(at, 2,
+	vars.shotgun.shoot_anim = sprite_create_anim(load_images(&vars.at, 2,
 		"assets/textures/SHTFA0.tga",
 		"assets/textures/SHTFB0.tga"
 	), 2, false, 100);
 	vars.shotgun.offset = (t_v2i){-18, 96};
-	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav", at);
+	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav", &vars.at);
 
-	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga", at), at);
+	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga", &vars.at), &vars.at);
 
-	vars.font = font_create(at);
-	vars.scene = create_scene();
+	if (!font_init(&vars.font, &vars.at))
+	{
+		ft_free(&vars, &vars.at);
+		return (1);
+	}
 
 	vars.menu.state = STATE_MAIN;
 	vars.menu_open = true;
 
-	menu_init(&vars.menu, vars.r3d, at);
+	menu_init(&vars.menu, &vars.r3d, &vars.at);
 
-	t_player	*player = player_new(&vars, vars.scene, next_entity_id(&vars));
-	scene_add_entity(vars.scene, player);
-	vars.scene->player = player;
+	t_player	*player = player_new(&vars, &vars.map, next_entity_id(&vars));
+	map_add_entity(&vars.map, player);
+	vars.map.player = player;
 
 	// t_fake_player	*fake_player = fake_player_new(&vars, vars.scene, next_entity_id(&vars));
 	// fake_player->base.transform.position = v3(5.5, 0, 5.5);
@@ -199,17 +197,15 @@ int	main(int argc, char *argv[])
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
-	minimap_create(&vars.minimap, vars.r3d, vars.map, at);
+	minimap_create(&vars.minimap, &vars.r3d, &vars.map, &vars.at);
 
-	player->base.transform = vars.map->spawns[0];
+	player->base.transform = vars.map.spawns[0];
 	player->gun = vars.shotgun;
 
-	vars.r3d->camera = vars.scene->player->camera;
+	vars.r3d.camera = vars.map.player->camera;
 
 	// t_sound	sound;
-
 	// sound_read_from_wav(&sound, "bfg.wav");
-
 	// sound_play(&sound);
 
 	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
@@ -219,9 +215,8 @@ int	main(int argc, char *argv[])
 	mlx_loop(vars.mlx);
 	mlx_do_key_autorepeaton(vars.mlx);
 
+	ft_free(&vars, &vars.at);
 	mlx_destroy_window(vars.mlx, vars.win);
 	mlx_destroy_display(vars.mlx);
-
-	ft_free(&vars, at);
-
+	free(vars.mlx);
 }

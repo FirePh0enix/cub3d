@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:49 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/22 16:17:23 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/23 13:36:46 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ char	**create_map(char **cub_file, t_map *map, t_alloc_table *at);
 char	**map_space(char **map, size_t width, size_t height, t_alloc_table *at);
 int		calc_map_height(char **maps);
 int		calc_map_max_width(char **maps);
-bool	map_to_tiles(t_map *map, char **maps, t_scene *scene,
-			t_vars *vars, t_alloc_table *at);
+bool	map_to_tiles(t_map *map, char **maps, t_vars *vars, t_alloc_table *at);
 
 //############################################################################//
 								// ERROR MESSAGE //

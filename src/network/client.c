@@ -1,5 +1,4 @@
 #include "libft.h"
-#include "mlx.h"
 #include "net.h"
 #include "../cub3d.h"
 #include <netinet/in.h>
@@ -8,19 +7,10 @@
 
 void    netclient_init(t_client *client, char *addr, int port)
 {
-    struct sockaddr_in addr_in;
-
-	addr_in = (struct sockaddr_in) {AF_INET, htons(CLIENT_PORT), {INADDR_ANY}, {0}};
     client->server_addr = (struct sockaddr_in) {AF_INET, htons(port), {inet_addr(addr)}, {0}};
     client->socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
 	client->unique_id = -1;
-	client->last_pulse = getms();
-
-	// if (bind(client->socket, (void *) &addr_in, sizeof(struct sockaddr_in)) == -1)
-	// {
-	// 	ft_printf("Failed to bind on port %d\n", CLIENT_PORT);
-	// }
-}
+	client->last_pulse = getms();}
 
 static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars, t_alloc_table *at)
 {
@@ -28,7 +18,7 @@ static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars, t_alloc_table 
 
 	entity = NULL;
 	if (p->entity_type == ENTITY_FAKE_PLAYER)
-		entity = (void *) fake_player_new(vars, vars->scene, p->entity_id, at);
+		entity = (void *) fake_player_new(vars, &vars->map, p->entity_id, at);
 	return (entity);
 }
 
@@ -49,14 +39,14 @@ void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
 			ft_printf("Response received from the server.\n");
 			client->unique_id = ((t_packet_connect_response *) buf)->unique_id;
 			client->entity_id = ((t_packet_connect_response *) buf)->entity_id;
-			vars->scene->player->base.id = client->entity_id;
+			vars->map.player->base.id = client->entity_id;
 			client->last_pulse = getms();
 			vars->menu_open = false;
 		}
 		else if (type == PACKET_POS)
 		{
 			t_packet_pos *packet = (void *)buf;
-			t_entity *entity = scene_get_entity_by_id(vars->scene, packet->eid);
+			t_entity *entity = map_get_entity_by_id(&vars->map, packet->eid);
 			if (entity != NULL)
 			{
 				entity->transform.position = packet->pos;
@@ -66,15 +56,15 @@ void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
 		else if (type == PACKET_NEW_ENTITY)
 		{
 			t_entity *entity = new_entity((void *) buf, vars, at);
-			scene_add_entity(vars->scene, entity);
+			map_add_entity(&vars->map, entity);
 		}
 		else if (type == PACKET_DEL_ENTITY)
 		{
 			t_packet_del_entity	*packet = (void *)buf;
-			t_entity *entity = scene_get_entity_by_id(vars->scene, packet->entity_id);
+			t_entity *entity = map_get_entity_by_id(&vars->map, packet->entity_id);
 			if (entity == NULL)
 				continue ;
-			scene_remove_entity(vars->scene, entity);
+			map_remove_entity(&vars->map, entity);
 		} else if (type == PACKET_PULSE)
 		{
 			client->last_pulse = getms();
@@ -90,7 +80,7 @@ void	netclient_poll(t_client *client, t_vars *vars, t_alloc_table *at)
 		else if (type == PACKET_DEAD_PLAYER)
 		{
 			t_packet_dead	*packet = (void *)buf;
-			t_entity *entity = scene_get_entity_by_id(vars->scene, packet->entity_id);
+			t_entity *entity = map_get_entity_by_id(&vars->map, packet->entity_id);
 			if (entity == NULL)
 				continue ;
 			entity->is_dead = true;

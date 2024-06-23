@@ -28,8 +28,7 @@ static inline bool	is_full_tile(t_v3 v, t_map *map)
 		&& map->tiles[(int)v.x + (int)v.z * map->width] != TILE_EMPTY);
 }
 
-t_entity	*raycast_entity(t_map *map, t_scene *scene, t_transform ray,
-	float size, uint32_t entity_type)
+t_entity	*raycast_entity(t_map *map, t_transform ray, float size, uint32_t entity_type)
 {
 	const float	precision = 0.01;
 	const t_v3	dir = mat4_multiply_v3(mat4_rotation(ray.rotation),
@@ -46,12 +45,12 @@ t_entity	*raycast_entity(t_map *map, t_scene *scene, t_transform ray,
 		if (is_full_tile(v3_add(v, v3(0.5, 0.0, 0.5)), map))
 			break ;
 		j = 0;
-		while (j < ft_vector_size(scene->entities))
+		while (j < ft_vector_size(map->entities))
 		{
-			if (scene->entities[j]->type == entity_type
+			if (map->entities[j]->type == entity_type
 				&& collide_point_vs_aabb(v,
-					box_from_entity(scene->entities[j])))
-				return (scene->entities[j]);
+					box_from_entity(map->entities[j])))
+				return (map->entities[j]);
 			j++;
 		}
 	}

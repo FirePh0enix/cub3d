@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:28 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/22 16:08:49 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/23 13:40:37 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	**map_space(char **map, size_t wid, size_t hei, t_alloc_table *at)
 	return (new_map);
 }
 
-bool	map_to_tiles(t_map *map, char **maps, t_scene *scene, t_vars *vars, t_alloc_table *at)
+bool	map_to_tiles(t_map *map, char **maps, t_vars *vars, t_alloc_table *at)
 {
 	int		i;
 	int		j;
