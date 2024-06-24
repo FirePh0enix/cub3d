@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collision.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:52:52 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 15:50:42 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:12:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ bool	collide_map(t_box player, t_map *map)
 		x = 0;
 		while (x < map->width)
 		{
-			if (map->tiles[x + y * map->width] == TILE_FULL)
+			if (map->tiles[x + y * map->width] != TILE_EMPTY && map->tiles[x + y * map->width] != TILE_DOOR_OPEN)
 			{
 				if (collide_wall(player, x, y))
 				{

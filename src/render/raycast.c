@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 13:44:41 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:08:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 			//Check if ray has hit a wall
 			if (mapX < 0 || mapX >= map->width || mapY < 0 || mapY >= map->height)
 				break ;
-			if (map->tiles[mapX + mapY * map->width] == TILE_FULL) hit = 1;
+			if (map->tiles[mapX + mapY * map->width] != TILE_DOOR_OPEN && map->tiles[mapX + mapY * map->width] != TILE_EMPTY) hit = 1;
 		}
 
 		if (hit)

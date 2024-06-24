@@ -406,13 +406,16 @@ void minimap_draw(t_minimap *minimap, t_r3d *r3d, t_vars *vars) {
 		y = 0;
 		while (y < minimap->map->height)
 		{
-			if (minimap->map->tiles[x + y * minimap->map->width] != TILE_EMPTY && minimap->map->tiles[x + y * minimap->map->width] != TILE_DOOR)
+			if (minimap->map->tiles[x + y * minimap->map->width] != TILE_EMPTY && minimap->map->tiles[x + y * minimap->map->width] != TILE_DOOR
+				&& minimap->map->tiles[x + y * minimap->map->width] != TILE_DOOR_OPEN)
 				draw_cube(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x - 0.5, r3d->camera->position.z - 0.5, 0)));
 			else if (minimap->map->tiles[x + y * minimap->map->width] == TILE_DOOR)
 			{
 				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x - 0.5, r3d->camera->position.z - 0.5, 0)));
 				draw_door(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x - 0.5, r3d->camera->position.z - 0.5, 0)));
 			}
+			else if (minimap->map->tiles[x + y * minimap->map->width] == TILE_DOOR_OPEN)
+				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x - 0.5, r3d->camera->position.z - 0.5, 0)));
 			else
 				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x - 0.5, r3d->camera->position.z - 0.5, 0)));
 			y++;

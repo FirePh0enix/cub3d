@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/24 13:40:41 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:08:01 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ typedef struct s_player
 	int			health;
 
 	t_transform	spawn_transform;
+
+	bool		e_pressed;
 }	t_player;
 
 t_player		*player_new(t_vars *vars, t_map *map, int id);

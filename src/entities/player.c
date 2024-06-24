@@ -118,6 +118,19 @@ static void	handle_inputs(t_vars *vars, t_player *player)
 		}
 	}
 
+	if (vars->keys[XK_e] && !player->e_pressed)
+	{
+		t_v2i	door = raycast_door(&vars->map, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
+			player->camera->rotation}, 3.0);
+		if (door.x >= 0 && door.y >= 0 && player->base.map->tiles[door.x + door.y * player->base.map->width] == TILE_DOOR_OPEN)
+			player->base.map->tiles[door.x + door.y * player->base.map->width] = TILE_DOOR;
+		else if (door.x >= 0 && door.y >= 0 && player->base.map->tiles[door.x + door.y * player->base.map->width] == TILE_DOOR)
+			player->base.map->tiles[door.x + door.y * player->base.map->width] = TILE_DOOR_OPEN;
+		player->e_pressed = true;
+	}
+	else if (!vars->keys[XK_e])
+		player->e_pressed = false;
+
 	float	rot_speed = 0.02;
 
 	if (vars->keys[XK_Left])
@@ -159,8 +172,7 @@ void	player_tick(t_vars *vars, t_player *player)
 		player->base.velocity.y = 0;
 	}
 
-	player->camera->position = v3_add(player->base.transform.position,
-		camera_offset);
+	player->camera->position = v3_add(player->base.transform.position, camera_offset);
 
 	player->base.velocity.x *= 0.5;
 	player->base.velocity.z *= 0.5;
