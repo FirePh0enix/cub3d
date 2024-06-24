@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/24 22:49:17 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/24 23:11:27 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ enum e_packet_type
 	PACKET_HIT,
 	PACKET_DEAD_PLAYER,
 	PACKET_RESPAWN,
-	PACKET_DENY
+	PACKET_DENY,
+	PACKET_DOOR_STATE
 };
 
 typedef struct s_packet_connect
@@ -145,6 +146,13 @@ typedef struct s_packet_deny
 	char		map[32];
 }	t_packet_deny;
 
+typedef struct s_packet_door_state
+{
+	int		type;
+	int		state;
+	t_v2i	pos;
+}	t_packet_door_state;
+
 typedef struct s_remote_client
 {
 	int					present;
@@ -176,6 +184,7 @@ void	netserv_broadcast_pos(t_server *server, t_player *player, int mask);
 void	netserv_broadcast_del(t_server *server, int entity_id, int mask);
 void 	netserv_broadcast_dead_player(t_server *server, int entity_id, int mask);
 void	netserv_broadcast_respawn(t_server *server, int entity_id, int mask);
+void	netserv_broadcast_door_state(t_server *server, t_v2i pos, int state, int mask);
 
 typedef struct s_scoreboard	t_scoreboard;
 
@@ -200,5 +209,6 @@ void	netclient_send_pos(t_client *client, t_transform transform);
 void	netclient_pulse(t_client *client);
 void	netclient_send_hit(t_client *client, t_entity *entity, int damage_taken);
 void	netclient_send_respawn(t_client *client);
+void	netclient_send_door_state(t_client *client, t_v2i pos, int state);
 
 #endif

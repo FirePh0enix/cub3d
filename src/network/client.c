@@ -119,6 +119,15 @@ void	netclient_poll(t_client *client, t_vars *vars)
 				continue ;
 			fp_reset_shoot_anim((t_fake_player *) entity);
 			((t_fake_player *) entity)->is_shooting = true;
+		} else if (type == PACKET_DOOR_STATE)
+		{
+			t_packet_door_state	*p = (void *) buf;
+			if (p->pos.x < 0 || p->pos.x >= vars->map.width || p->pos.y < 0 || p->pos.y >= vars->map.height)
+				continue ;
+			if (p->state)
+				vars->map.tiles[p->pos.x + p->pos.y * vars->map.width] = TILE_DOOR;
+			else
+				vars->map.tiles[p->pos.x + p->pos.y * vars->map.width] = TILE_DOOR_OPEN;
 		}
 	}
 
@@ -128,74 +137,4 @@ void	netclient_poll(t_client *client, t_vars *vars)
 		vars->menu.state = STATE_MAIN;
 		// TODO: Reset the scene
 	}
-}
-
-void	netclient_connect(t_client *client, char *username, t_vars *vars)
-{
-	t_packet_connect	packet;
-
-	packet.type = PACKET_CONNECT;
-	packet.hash = vars->exec_hash;
-	packet.map_hash = vars->map.hash;
-	ft_memset(packet.username, 0, MAX_CLIENT_NAME + 1);
-	ft_memcpy(packet.username, username, ft_strlen(username) + 1);
-	sendto(client->socket, &packet, sizeof(t_packet_connect), 0,
-		(void *) &client->server_addr, sizeof(struct sockaddr_in));
-	client->has_send_connect = true;
-}
-
-void	netclient_pulse(t_client *client)
-{
-	t_packet_pulse	packet;
-
-	if (client->unique_id == -1)
-		return ;
-	packet.type = PACKET_PULSE;
-	packet.unique_id = client->unique_id;
-	sendto(client->socket, &packet, sizeof(t_packet_pulse), 0,
-		(void *) &client->server_addr, sizeof(struct sockaddr_in));
-}
-
-void	netclient_send_pos(t_client *client, t_transform transform)
-{
-	t_packet_pos	packet;
-
-	if (client->unique_id == -1)
-		return ;
-	// FIXME: Uninitialized bytes when calling `sendto`
-	packet.type = PACKET_POS;
-	packet.pos = transform.position;
-	packet.rot = transform.rotation;
-	packet.eid = client->unique_id;
-	sendto(client->socket, &packet, sizeof(t_packet_pos), 0,
-		(void *) &client->server_addr, sizeof(struct sockaddr_in));
-}
-
-void	netclient_send_hit(t_client *client, t_entity *entity, int damage_taken)
-{
-	t_packet_hit	packet;
-
-	if (client->unique_id == -1)
-		return ;
-	packet.type = PACKET_HIT;
-	packet.source_id = client->entity_id;
-	if (entity)
-		packet.entity_id = entity->id;
-	else
-		packet.entity_id = -1;
-	packet.damage_taken = damage_taken;
-	sendto(client->socket, &packet, sizeof(t_packet_hit), 0,
-		(void *) &client->server_addr, sizeof(struct sockaddr_in));
-}
-
-void	netclient_send_respawn(t_client *client)
-{
-	t_packet_respawn	packet;
-
-	if (client->unique_id == -1)
-		return ;
-	packet.type = PACKET_RESPAWN;
-	packet.entity_id = client->entity_id;
-	sendto(client->socket, &packet, sizeof(t_packet_hit), 0,
-		(void *) &client->server_addr, sizeof(struct sockaddr_in));
 }

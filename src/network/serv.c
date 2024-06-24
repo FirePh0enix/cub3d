@@ -202,6 +202,18 @@ static void	respawn_player(t_server *server, t_packet_respawn *p, t_vars *vars)
 	netserv_broadcast(server, p, sizeof(t_packet_respawn), i);
 }
 
+static void	sync_door_state(t_server *server, t_packet_door_state *p, t_vars *vars)
+{
+	(void) server;
+	if (p->pos.x < 0 || p->pos.x >= vars->map.width || p->pos.y < 0 || p->pos.y >= vars->map.height)
+		return ;
+	if (p->state)
+		vars->map.tiles[p->pos.x + p->pos.y * vars->map.width] = TILE_DOOR;
+	else
+		vars->map.tiles[p->pos.x + p->pos.y * vars->map.width] = TILE_DOOR_OPEN;
+	netserv_broadcast_door_state(server, p->pos, p->state, -1);
+}
+
 void	netserv_poll(t_server *server, t_vars *vars)
 {
 	char				buf[MAX_PACKET_SIZE];
@@ -223,6 +235,8 @@ void	netserv_poll(t_server *server, t_vars *vars)
 			player_hit(server, (void *) buf, vars);
 		else if (type == PACKET_RESPAWN)
 			respawn_player(server, (void *) buf, vars);
+		else if (type == PACKET_DOOR_STATE)
+			sync_door_state(server, (void *) buf, vars);
 	}
 	int	i = 0;
 	while (i < MAX_CLIENT)

@@ -99,17 +99,6 @@ static void	handle_inputs(t_vars *vars, t_player *player)
 	// 	player->camera->rotation.x -= 0.02;
 	// }
 
-	if (vars->buttons[MOUSE_SCROLL_UP])
-	{
-		player->gun_index++;
-		if (player->gun_index >= GUN_MAX)
-			player->gun_index = 0;
-		player->gun[player->gun_index].main_anim.current_frame = 0;
-		player->gun[player->gun_index].main_anim.last_frame_tick = getms();
-		player->gun[player->gun_index].shoot_anim.current_frame = 0;
-		player->gun[player->gun_index].shoot_anim.last_frame_tick = getms();
-	}
-
 	if (vars->buttons[1] && !player->gun[vars->map.player->gun_index].has_shoot)
 	{
 		t_entity *entity = raycast_entity(&vars->map, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
@@ -139,6 +128,14 @@ static void	handle_inputs(t_vars *vars, t_player *player)
 			player->base.map->tiles[door.x + door.y * player->base.map->width] = TILE_DOOR;
 		else if (door.x >= 0 && door.y >= 0 && player->base.map->tiles[door.x + door.y * player->base.map->width] == TILE_DOOR)
 			player->base.map->tiles[door.x + door.y * player->base.map->width] = TILE_DOOR_OPEN;
+
+		if (vars->is_server)
+			netserv_broadcast_door_state(&vars->server, door,
+				player->base.map->tiles[door.x + door.y * player->base.map->width] == TILE_DOOR, -1);
+		else
+			netclient_send_door_state(&vars->client, door,
+				player->base.map->tiles[door.x + door.y * player->base.map->width] == TILE_DOOR);
+
 		player->e_pressed = true;
 	}
 	else if (!vars->keys[XK_e])

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:25:15 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 17:50:04 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/24 23:12:16 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,29 @@ void	netserv_broadcast_respawn(t_server *server, int entity_id, int mask)
 	p.type = PACKET_RESPAWN;
 	p.entity_id = entity_id;
 	netserv_broadcast(server, &p, sizeof(t_packet_respawn), mask);
+}
+
+void	netserv_deny(t_server *server, struct sockaddr_in addr, t_reason reason, t_vars *vars)
+{
+	t_packet_deny	deny;
+	size_t			size;
+
+	deny.type = PACKET_DENY;
+	deny.reason = reason;
+	ft_bzero(deny.map, 32);
+	size = ft_strlen(vars->map.name);
+	if (size >= 32)
+		size = 31;
+	ft_memcpy(deny.map, vars->map.name, ft_strlen(vars->map.name) + 1);
+	sendto(server->socket, &deny, sizeof(t_packet_deny), 0, (void *) &addr, sizeof(struct sockaddr_in));
+}
+
+void	netserv_broadcast_door_state(t_server *server, t_v2i pos, int state, int mask)
+{
+	t_packet_door_state	p;
+
+	p.type = PACKET_DOOR_STATE;
+	p.state = state;
+	p.pos = pos;
+	netserv_broadcast(server, &p, sizeof(t_packet_door_state), mask);
 }
