@@ -110,12 +110,12 @@ static void	handle_inputs(t_vars *vars, t_player *player)
 		player->gun[player->gun_index].shoot_anim.last_frame_tick = getms();
 	}
 
-	if (vars->buttons[1] && !player->gun.has_shoot)
+	if (vars->buttons[1] && !player->gun[vars->map.player->gun_index].has_shoot)
 	{
 		t_entity *entity = raycast_entity(&vars->map, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
 			player->camera->rotation}, 10.0, ENTITY_FAKE_PLAYER);
-		player->gun.has_shoot = true;
-		sound_play(&player->gun.main_sound);
+		player->gun[vars->map.player->gun_index].has_shoot = true;
+		sound_play(&player->gun[vars->map.player->gun_index].main_sound);
 		if (entity)
 		{
 			t_fake_player *fake_player = (t_fake_player *)entity;
