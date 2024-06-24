@@ -136,20 +136,29 @@ static void	player_hit(t_server *server, t_packet_hit *hit, t_vars *vars)
 {
 	t_entity		*entity;
 	t_fake_player	*fake_player;
+	int				client_id;
 
 	(void)server;
+	client_id = netserv_client_from_entity_id(server, hit->source_id);
 	entity = map_get_entity_by_id(&vars->map, hit->entity_id);
-	if (!entity)
-		return ;
-	if (entity->type == ENTITY_FAKE_PLAYER)
+
+	if (entity && entity->type == ENTITY_FAKE_PLAYER)
 	{
 		fake_player = (t_fake_player *) entity;
 		fake_player->health -= hit->damage_taken;
 	}
-	else if (entity->type == ENTITY_PLAYER)
+	else if (entity && entity->type == ENTITY_PLAYER)
 	{
 		((t_player *) entity)->health -= hit->damage_taken;
 	}
+
+	if (server->clients[client_id].present)
+	{
+		fp_reset_shoot_anim((t_fake_player *) server->clients[client_id].entity);
+		((t_fake_player *) server->clients[client_id].entity)->is_shooting = true;
+	}
+
+	netserv_broadcast(server, hit, sizeof(t_packet_hit), client_id);
 }
 
 static void	disconnect(t_server *server, int i, t_vars *vars)
@@ -219,7 +228,7 @@ int		netserv_client_from_entity_id(t_server *server, int entity_id)
 	i = 0;
 	while (i < MAX_CLIENT)
 	{
-		if (server->clients[i].entity->id == entity_id)
+		if (server->clients[i].present && server->clients[i].entity->id == entity_id)
 			return (i);
 		i++;
 	}
