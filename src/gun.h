@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gun.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 19:40:28 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 01:15:16 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:46:48 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_gun
 	bool		reloading;
 	bool		has_shoot;
 
+	t_v2i		main_offset;
 	t_v2i		offset;
 }	t_gun;
 

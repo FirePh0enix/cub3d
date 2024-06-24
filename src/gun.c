@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gun.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 19:40:13 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 01:15:01 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:47:17 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	draw_gun(t_gun *gun, t_r3d *r3d)
 	image = sprite_get_image(&gun->main_anim);
 	pos = (t_v2i){r3d->width / 2.0 - image->width * scale / 2,
 		r3d->height - image->height * scale};
-	sprite_draw(r3d, &gun->main_anim, pos, scale);
+	sprite_draw(r3d, &gun->main_anim, v2i_add(pos, gun->main_offset), scale);
 	if (!gun->reloading && gun->has_shoot)
 	{
 		scale = 4;

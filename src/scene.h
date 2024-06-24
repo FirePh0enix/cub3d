@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 22:57:09 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:01:03 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ typedef struct s_entity
 
 # define MAX_HEALTH 3
 
+typedef enum e_gun_type
+{
+	GUN_PISTOL,
+	GUN_SHOTGUN,
+	GUN_MINIGUN,
+	GUN_MAX
+}	t_gun_type;
+
 typedef struct s_player
 {
 	t_entity	base;
@@ -62,7 +70,8 @@ typedef struct s_player
 	bool		has_jump;
 	bool		has_open_door;
 
-	t_gun		gun;
+	t_gun		gun[GUN_MAX];
+	int			gun_index;
 	int			health;
 
 	t_transform	spawn_transform;

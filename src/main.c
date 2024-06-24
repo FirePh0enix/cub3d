@@ -103,7 +103,7 @@ static void	loop_hook(t_vars *vars)
 	if (!vars->menu_open)
 	{
 		r3d_raycast_world(&vars->r3d, &vars->map, vars);
-		draw_gun(&vars->map.player->gun, &vars->r3d);
+		draw_gun(&vars->map.player->gun[vars->map.player->gun_index], &vars->r3d);
 		minimap_draw(&vars->minimap, &vars->r3d, vars);
 	}
 	else
@@ -160,6 +160,27 @@ int	main(int argc, char *argv[])
 		"assets/textures/SHTFB0.tga"
 	), 2, false, 100);
 	vars.shotgun.offset = (t_v2i){-18, 96};
+
+	vars.pistol.main_anim = sprite_create_anim(load_images(&vars.at, 5,
+		"assets/textures/PISGA0.tga",
+		"assets/textures/PISGB0.tga",
+		"assets/textures/PISGC0.tga",
+		"assets/textures/PISGD0.tga",
+		"assets/textures/PISGE0.tga"), 5, false, 100);
+	vars.pistol.shoot_anim = sprite_create_anim(load_images(&vars.at, 1, "assets/textures/PISFA0.tga"
+		), 1, false , 200);
+	vars.pistol.main_offset = (t_v2i){24, 7};
+	vars.pistol.offset = (t_v2i){0, 128 * 2 + 64};
+
+	vars.minigun.main_anim = sprite_create_anim(load_images(&vars.at, 2,
+		"assets/textures/CHGGA0.tga",
+		"assets/textures/CHGGB0.tga"), 2, false, 30);
+	vars.minigun.shoot_anim = sprite_create_anim(load_images(&vars.at, 2, "assets/textures/CHGFA0.tga",
+		"assets/textures/CHGFB0.tga"
+		), 2, false , 30);
+	vars.minigun.offset = (t_v2i){0, 132};
+
+
 	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav", &vars.at);
 
 	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga", &vars.at), &vars.at);
@@ -189,7 +210,7 @@ int	main(int argc, char *argv[])
 
 	player->base.transform = vars.map.spawns[0];
 	player->spawn_transform = vars.map.spawns[0];
-	player->gun = vars.shotgun;
+	// player->gun = vars.shotgun;
 
 	vars.r3d.camera = vars.map.player->camera;
 

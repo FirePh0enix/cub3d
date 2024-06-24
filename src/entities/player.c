@@ -35,7 +35,9 @@ t_player	*player_new(t_vars *vars, t_map *map, int id)
 	player->camera->dir_y = -1;
 
 	player->health = MAX_HEALTH;
-
+	player->gun[0] = vars->pistol;
+	player->gun[1] = vars->shotgun;
+	player->gun[2] = vars->minigun;
 	return (player);
 }
 
@@ -97,6 +99,17 @@ static void	handle_inputs(t_vars *vars, t_player *player)
 	// 	player->camera->rotation.x -= 0.02;
 	// }
 
+	if (vars->buttons[MOUSE_SCROLL_UP])
+	{
+		player->gun_index++;
+		if (player->gun_index >= GUN_MAX)
+			player->gun_index = 0;
+		player->gun[player->gun_index].main_anim.current_frame = 0;
+		player->gun[player->gun_index].main_anim.last_frame_tick = getms();
+		player->gun[player->gun_index].shoot_anim.current_frame = 0;
+		player->gun[player->gun_index].shoot_anim.last_frame_tick = getms();
+	}
+
 	float	rot_speed = 0.02;
 
 	if (vars->keys[XK_Left])
@@ -148,14 +161,14 @@ void	player_tick(t_vars *vars, t_player *player)
 	// Interactions
 	//
 
-	tick_gun(&player->gun);
+	tick_gun(&player->gun[player->gun_index]);
 
-	if (vars->buttons[1] && !player->gun.has_shoot)
+	if (vars->buttons[1] && !player->gun[player->gun_index].has_shoot)
 	{
 		t_entity *entity = raycast_entity(&vars->map, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
 			player->camera->rotation}, 10.0, ENTITY_FAKE_PLAYER);
-		player->gun.has_shoot = true;
-		sound_play(&player->gun.main_sound);
+		player->gun[player->gun_index].has_shoot = true;
+		sound_play(&player->gun[player->gun_index].main_sound);
 		if (entity)
 		{
 			t_fake_player *fake_player = (t_fake_player *)entity;

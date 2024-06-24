@@ -54,6 +54,16 @@ enum e_tile
 	TILE_9,
 };
 
+typedef enum e_mouse_button
+{
+	MOUSE_LEFT_CLICK = 1,
+	MOUSE_MIDDLE_CLICK,
+	MOUSE_RIGHT_CLICK,
+	MOUSE_SCROLL_UP,
+	MOUSE_SCROLL_DOWN,
+}	t_mouse_button;
+
+
 typedef struct s_map
 {
 	int			width;
@@ -118,6 +128,8 @@ typedef struct s_vars
 	t_minimap		minimap;
 
 	t_gun			shotgun;
+	t_gun			pistol;
+	t_gun			minigun;
 
 	t_sprite		player_sprite;
 	t_image			*door;
