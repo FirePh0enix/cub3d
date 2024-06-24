@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 22:57:19 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/24 20:13:59 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	join_pressed(t_vars *vars)
 	save_data(&vars->menu);
 	vars->is_server = false;
 	netclient_init(&vars->client, vars->menu.ip.buffer, SERVER_PORT);
-	netclient_connect(&vars->client, vars->menu.name.buffer);
+	netclient_connect(&vars->client, vars->menu.name.buffer, vars);
 }
 
 static void	respawn_pressed(t_vars *vars)

@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/24 12:50:32 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/24 22:54:53 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,12 +43,15 @@ SOURCES=\
 	src/menu_text_edit.c \
 	src/menu_img.c \
 	src/minimap.c \
+	src/hash.c \
 	src/sound/sound.c \
 	src/entities/player.c \
 	src/entities/fake_player.c \
 	src/network/serv.c \
 	src/network/serv_send.c \
 	src/network/client.c \
+	src/network/client_send.c \
+	src/network/reason.c \
 	src/render/init.c \
 	src/render/color.c \
 	src/render/tga.c \
@@ -94,18 +97,3 @@ fclean: clean
 	rm -f cub3d cub3d-ip cub3d-name
 
 re: fclean all
-
-# Main Menu    - https://www.youtube.com/watch?v=_WnP1wKxW4M
-# BFG Division - https://www.youtube.com/watch?v=QHRuTYtSbJQ
-
-yt-dlp:
-	wget https://github.com/yt-dlp/yt-dlp/releases/download/2024.05.27/yt-dlp_linux -O yt-dlp
-	chmod +x yt-dlp
-
-menu.wav:
-	./yt-dlp -x --audio-format wav https://www.youtube.com/watch?v=_WnP1wKxW4M -o menu.wav
-
-bfg.wav:
-	./yt-dlp -x --audio-format wav https://www.youtube.com/watch?v=QHRuTYtSbJQ -o bfg.wav
-
-music: yt-dlp menu.wav bfg.wav

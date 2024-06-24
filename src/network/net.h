@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/24 12:57:00 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/24 22:49:17 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,16 @@ enum e_packet_type
 	PACKET_SYNC_SCOREBOARD,
 	PACKET_HIT,
 	PACKET_DEAD_PLAYER,
-	PACKET_RESPAWN
+	PACKET_RESPAWN,
+	PACKET_DENY
 };
 
 typedef struct s_packet_connect
 {
-	int		type;
-	char	username[MAX_CLIENT_NAME + 1];
+	int			type;
+	char		username[MAX_CLIENT_NAME + 1];
+	uint32_t	hash;
+	uint32_t	map_hash;
 }	t_packet_connect;
 
 typedef struct s_packet_connect_response
@@ -126,6 +129,22 @@ typedef struct s_packet_respawn
 	int		entity_id;
 }	t_packet_respawn;
 
+typedef enum e_reason
+{
+	REASON_INVALID_HASH,
+	REASON_INVALID_MAP,
+	REASON_SERVER_FULL
+}	t_reason;
+
+char	*reason_str(t_reason reason);
+
+typedef struct s_packet_deny
+{
+	int			type;
+	t_reason	reason;
+	char		map[32];
+}	t_packet_deny;
+
 typedef struct s_remote_client
 {
 	int					present;
@@ -149,6 +168,8 @@ void    netserv_destroy(t_server *server);
 int		netserv_client_from_entity_id(t_server *server, int entity_id);
 
 void	netserv_send(t_server *server, void *packet_addr, size_t size, int i);
+void	netserv_deny(t_server *server, struct sockaddr_in addr, t_reason reason, t_vars *vars);
+
 void	netserv_broadcast(t_server *server, void *packet_addr, size_t size, int mask);
 
 void	netserv_broadcast_pos(t_server *server, t_player *player, int mask);
@@ -173,7 +194,7 @@ typedef struct s_client
 
 void    netclient_init(t_client *client, char *addr, int port);
 void	netclient_poll(t_client *client, t_vars *vars);
-void	netclient_connect(t_client *client, char *username);
+void	netclient_connect(t_client *client, char *username, t_vars *vars);
 
 void	netclient_send_pos(t_client *client, t_transform transform);
 void	netclient_pulse(t_client *client);

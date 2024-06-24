@@ -1,7 +1,7 @@
 #include "cub3d.h"
 #include "gun.h"
+#include "hash.h"
 #include "libft.h"
-#include "mem.h"
 #include "menu.h"
 #include "network/net.h"
 #include "render/font.h"
@@ -119,6 +119,7 @@ int	main(int argc, char *argv[])
 	if (!is_valid_file_name(argv[1]))
 		return (false);
 	ft_bzero(&vars, sizeof(t_vars));
+	vars.map.name = argv[1];
 	if (!parsing(&vars, argv, &vars.at))
 	{
 		ft_free(&vars, &vars.at);
@@ -133,6 +134,12 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
+	if (!vars.win)
+	{
+		ft_putstr_fd(RED"Error\nFailed to create the windows\n"RESET, 2);
+		ft_free(&vars, &vars.at);
+		return (1);
+	}
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
@@ -183,8 +190,6 @@ int	main(int argc, char *argv[])
 
 	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav", &vars.at);
 
-	vars.player_sprite = sprite_create(tga_load_from_file("assets/textures/PLAYA1.tga", &vars.at), &vars.at);
-
 	if (!font_init(&vars.font, &vars.at))
 	{
 		ft_free(&vars, &vars.at);
@@ -193,6 +198,7 @@ int	main(int argc, char *argv[])
 
 	vars.menu.state = STATE_MAIN;
 	vars.menu_open = true;
+	vars.exec_hash = fnv32_hash_file("cub3D");
 
 	menu_init(&vars.menu, &vars.r3d, &vars.at);
 

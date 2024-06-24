@@ -43,7 +43,19 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 
 	if (i == -1)
 	{
-		ft_printf("Error\nThe server is full, cannot connect the client.\n");
+		netserv_deny(server, addr, REASON_SERVER_FULL, vars);
+		return ;
+	}
+
+	if (conn->hash != vars->exec_hash)
+	{
+		netserv_deny(server, addr, REASON_INVALID_HASH, vars);
+		return ;
+	}
+
+	if (conn->map_hash != vars->map.hash)
+	{
+		netserv_deny(server, addr, REASON_INVALID_MAP, vars);
 		return ;
 	}
 

@@ -44,6 +44,15 @@ void	netclient_poll(t_client *client, t_vars *vars)
 			client->last_pulse = getms();
 			vars->menu_open = false;
 		}
+		else if (type == PACKET_DENY)
+		{
+			t_packet_deny *deny = (void *) buf;
+			if (deny->reason != REASON_INVALID_MAP)
+				ft_printf("error: Connection denied: %s\n", reason_str(deny->reason));
+			else
+				ft_printf("error: Connection denied: Invalid map, `%s` was expected but `%s` was loaded\n",
+					deny->map, vars->map.name);
+		}
 		else if (type == PACKET_POS)
 		{
 			t_packet_pos *packet = (void *)buf;
@@ -121,11 +130,13 @@ void	netclient_poll(t_client *client, t_vars *vars)
 	}
 }
 
-void	netclient_connect(t_client *client, char *username)
+void	netclient_connect(t_client *client, char *username, t_vars *vars)
 {
 	t_packet_connect	packet;
 
 	packet.type = PACKET_CONNECT;
+	packet.hash = vars->exec_hash;
+	packet.map_hash = vars->map.hash;
 	ft_memset(packet.username, 0, MAX_CLIENT_NAME + 1);
 	ft_memcpy(packet.username, username, ft_strlen(username) + 1);
 	sendto(client->socket, &packet, sizeof(t_packet_connect), 0,

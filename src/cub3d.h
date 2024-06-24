@@ -89,6 +89,9 @@ typedef struct s_map
 
 	t_entity	**entities;
 	t_player	*player;
+
+	uint32_t	hash;
+	char		*name;
 }	t_map;
 
 void	map_add_entity(t_map *map, void *entity);
@@ -132,10 +135,10 @@ typedef struct s_vars
 	t_gun			pistol;
 	t_gun			minigun;
 
-	t_sprite		player_sprite;
 	t_image			*door;
 
 	t_alloc_table	at;
+	uint32_t		exec_hash;
 }	t_vars;
 
 inline int	next_entity_id(t_vars *vars)
