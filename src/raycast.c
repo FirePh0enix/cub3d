@@ -41,7 +41,7 @@ t_entity	*raycast_entity(t_map *map, t_transform ray, float size, uint32_t entit
 	j = 0;
 	while (++i < size / precision)
 	{
-		v = v3_add(v3_add(ray.position, v3(0.5, 0.0, 0.5)), v3_scale(dir, precision * i));
+		v = v3_add(v3_add(ray.position, v3(0, 0, 0)), v3_scale(dir, precision * i));
 		if (is_full_tile(v3_add(v, v3(0.5, 0.0, 0.5)), map))
 			break ;
 		j = 0;
@@ -55,4 +55,30 @@ t_entity	*raycast_entity(t_map *map, t_transform ray, float size, uint32_t entit
 		}
 	}
 	return (NULL);
+}
+
+t_v2i	raycast_door(t_map *map, t_transform ray, float size)
+{
+	const float	precision = 0.01;
+	const t_v3	dir = mat4_multiply_v3(mat4_rotation(ray.rotation), v3(0, 0, -1));
+	int			i;
+	t_v3		v;
+
+	i = -1;
+	while (++i < size / precision)
+	{
+		v = v3_add(v3_add(ray.position, v3(0, 0, 0)), v3_scale(dir, precision * i));
+		if (is_full_tile(v3_add(v, v3(0.5, 0.0, 0.5)), map))
+			break ;
+
+		for (int x = 0; x < map->width; x++)
+		{
+			for (int y = 0; y < map->height; y++)
+			{
+				if ((map->tiles[x + y * map->width] == TILE_DOOR || map->tiles[x + y * map->width] == TILE_DOOR_OPEN) && collide_point_vs_aabb(v, box_from_wall(x, y)))
+					return (t_v2i){x, y};
+			}
+		}
+	}
+	return ((t_v2i){-1, -1});
 }

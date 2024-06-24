@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/24 15:01:03 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:22:10 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ typedef struct s_player
 	int			health;
 
 	t_transform	spawn_transform;
+
+	bool		e_pressed;
 }	t_player;
 
 t_player		*player_new(t_vars *vars, t_map *map, int id);
@@ -95,9 +97,15 @@ typedef struct s_fake_player
 	int			health;
 
 	t_sprite	sp[8];
+	t_sprite	sh[8];
+
+	bool		is_shooting;
 }	t_fake_player;
 
 t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_alloc_table *at);
+
 t_image			*fake_player_get_image(t_fake_player *fp, t_vars *vars);
+t_sprite		*fake_player_get_sprite(t_fake_player *fp, t_vars *vars);
+void			fp_reset_shoot_anim(t_fake_player *fp);
 
 #endif

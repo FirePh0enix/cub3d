@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 22:17:40 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:57:00 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ enum e_packet_type
 typedef struct s_packet_connect
 {
 	int		type;
-	char	username[MAX_CLIENT_NAME];
+	char	username[MAX_CLIENT_NAME + 1];
 }	t_packet_connect;
 
 typedef struct s_packet_connect_response
@@ -109,6 +109,7 @@ typedef struct s_packet_sync_score
 typedef struct s_packet_hit
 {
 	int		type;
+	int		source_id;
 	int		entity_id;
 	int		damage_taken;
 }	t_packet_hit;

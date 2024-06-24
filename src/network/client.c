@@ -10,7 +10,8 @@ void    netclient_init(t_client *client, char *addr, int port)
     client->server_addr = (struct sockaddr_in) {AF_INET, htons(port), {inet_addr(addr)}, {0}};
     client->socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
 	client->unique_id = -1;
-	client->last_pulse = getms();}
+	client->last_pulse = getms();
+}
 
 static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars)
 {
@@ -101,12 +102,21 @@ void	netclient_poll(t_client *client, t_vars *vars)
 				((t_player *) entity)->health = MAX_HEALTH;
 			else if (entity->type == ENTITY_FAKE_PLAYER)
 				((t_fake_player *) entity)->health = MAX_HEALTH;
+		} else if (type == PACKET_HIT)
+		{
+			t_packet_hit	*p = (void *) buf;
+			t_entity *entity = map_get_entity_by_id(&vars->map, p->source_id);
+			if (!entity || entity->type != ENTITY_FAKE_PLAYER)
+				continue ;
+			fp_reset_shoot_anim((t_fake_player *) entity);
+			((t_fake_player *) entity)->is_shooting = true;
 		}
 	}
 
 	if (getms() - client->last_pulse >= 500)
 	{
 		vars->menu_open = true;
+		vars->menu.state = STATE_MAIN;
 		// TODO: Reset the scene
 	}
 }
@@ -116,7 +126,7 @@ void	netclient_connect(t_client *client, char *username)
 	t_packet_connect	packet;
 
 	packet.type = PACKET_CONNECT;
-	ft_memset(packet.username, 0, MAX_CLIENT_NAME);
+	ft_memset(packet.username, 0, MAX_CLIENT_NAME + 1);
 	ft_memcpy(packet.username, username, ft_strlen(username) + 1);
 	sendto(client->socket, &packet, sizeof(t_packet_connect), 0,
 		(void *) &client->server_addr, sizeof(struct sockaddr_in));
@@ -157,7 +167,11 @@ void	netclient_send_hit(t_client *client, t_entity *entity, int damage_taken)
 	if (client->unique_id == -1)
 		return ;
 	packet.type = PACKET_HIT;
-	packet.entity_id = entity->id;
+	packet.source_id = client->entity_id;
+	if (entity)
+		packet.entity_id = entity->id;
+	else
+		packet.entity_id = -1;
 	packet.damage_taken = damage_taken;
 	sendto(client->socket, &packet, sizeof(t_packet_hit), 0,
 		(void *) &client->server_addr, sizeof(struct sockaddr_in));

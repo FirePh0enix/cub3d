@@ -1,12 +1,12 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include "mem.h"
-#include <stddef.h>
 # ifndef _BONUS
 #  define _BONUS 0
 # endif
 
+# include "mem.h"
+# include <stddef.h>
 # include "gun.h"
 # include "math/mat4.h"
 # include "math/v2i.h"
@@ -27,7 +27,7 @@ typedef struct s_map	t_map;
 
 typedef struct s_scoreboard_entry
 {
-	char	username[MAX_CLIENT_NAME];
+	char	username[MAX_CLIENT_NAME + 1];
 	int		present;
 	int		kills;
 	int		death;
@@ -42,9 +42,10 @@ enum e_tile
 {
 	TILE_EMPTY,
 	TILE_DOOR,
+	TILE_DOOR_OPEN,
 
-	TILE_FULL = 2,
-	TILE_2 = 3,
+	TILE_FULL = 3,
+	TILE_2 = 4,
 	TILE_3,
 	TILE_4,
 	TILE_5,
@@ -166,6 +167,7 @@ t_image	**load_images(t_alloc_table *at ,int num, ...);
 
 void		draw_map(t_r3d *r3d, t_map *map);
 t_entity	*raycast_entity(t_map *map, t_transform ray, float size, uint32_t entity_type);
+t_v2i		raycast_door(t_map *map, t_transform ray, float size);
 
 //############################################################################//
 								// BOUNDARY BOX//
