@@ -41,7 +41,7 @@ t_entity	*raycast_entity(t_map *map, t_transform ray, float size, uint32_t entit
 	j = 0;
 	while (++i < size / precision)
 	{
-		v = v3_add(ray.position, v3_scale(dir, precision * i));
+		v = v3_add(v3_add(ray.position, v3(0.5, 0.0, 0.5)), v3_scale(dir, precision * i));
 		if (is_full_tile(v3_add(v, v3(0.5, 0.0, 0.5)), map))
 			break ;
 		j = 0;

@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/24 11:57:17 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/24 12:50:32 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,6 @@ SOURCES=\
 	src/parsing/colors_utils.c \
 	src/rasterizer/rasterizer.c \
 	src/rasterizer/rasterize_triangle.c \
-	src/resource_gen.c \
 	src/main.c \
 	src/input.c \
 	src/load.c \
