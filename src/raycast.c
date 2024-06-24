@@ -23,16 +23,19 @@ char *get_file(char *name)
 
 static inline bool	is_full_tile(t_v3 v, t_map *map)
 {
-	return ((int)v.x >= 0 && (int)v.x <= map->width && (int)v.z >= 0
-		&& (int)v.z <= map->height
-		&& map->tiles[(int)v.x + (int)v.z * map->width] != TILE_EMPTY);
+	int	tile;
+
+	if ((int)v.x >= 0 && (int)v.x <= map->width && (int)v.z >= 0
+		&& (int)v.z <= map->height)
+		return (false);
+	tile = map->tiles[(int)v.x + (int)v.z * map->width] ;
+	return (tile >= TILE_FULL && tile <= TILE_9);
 }
 
 t_entity	*raycast_entity(t_map *map, t_transform ray, float size, uint32_t entity_type)
 {
 	const float	precision = 0.01;
-	const t_v3	dir = mat4_multiply_v3(mat4_rotation(ray.rotation),
-			v3(0, 0, -1));
+	const t_v3	dir = mat4_multiply_v3(mat4_rotation(ray.rotation), v3(0, 0, -1));
 	int			i;
 	size_t		j;
 	t_v3		v;
@@ -71,14 +74,11 @@ t_v2i	raycast_door(t_map *map, t_transform ray, float size)
 		if (is_full_tile(v3_add(v, v3(0.5, 0.0, 0.5)), map))
 			break ;
 
-		for (int x = 0; x < map->width; x++)
-		{
-			for (int y = 0; y < map->height; y++)
-			{
-				if ((map->tiles[x + y * map->width] == TILE_DOOR || map->tiles[x + y * map->width] == TILE_DOOR_OPEN) && collide_point_vs_aabb(v, box_from_wall(x, y)))
-					return (t_v2i){x, y};
-			}
-		}
+		int	x = v.x;
+		int	y = v.z;
+
+		if ((map->tiles[x + y * map->width] == TILE_DOOR || map->tiles[x + y * map->width] == TILE_DOOR_OPEN) && collide_point_vs_aabb(v, box_from_wall(x, y)))
+			return (t_v2i){x, y};
 	}
 	return ((t_v2i){-1, -1});
 }
