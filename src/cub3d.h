@@ -136,6 +136,7 @@ typedef struct s_vars
 	t_gun			minigun;
 
 	t_image			*door;
+	t_image			*crosshair;
 
 	t_alloc_table	at;
 	uint32_t		exec_hash;
@@ -211,4 +212,6 @@ void	ft_free(t_vars *vars, t_alloc_table *at);
 //############################################################################//
 bool	parsing(t_vars *vars, char **argv, t_alloc_table *at);
 
+
+void	draw_crosshair(t_r3d *r3d, t_vars *vars);
 #endif

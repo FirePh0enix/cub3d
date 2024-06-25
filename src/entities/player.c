@@ -155,6 +155,9 @@ void	player_tick(t_vars *vars, t_player *player)
 {
 	const t_v3	camera_offset = v3(0.0, 1.6, 0.0);
 
+	if (vars->menu_open)
+		return ;
+
 	if (vars->is_focused)
 		handle_inputs(vars, player);
 

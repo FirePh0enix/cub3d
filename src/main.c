@@ -84,10 +84,10 @@ static void	loop_hook(t_vars *vars)
 	r3d_clear_color_buffer(&vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(&vars->r3d);
 
-	if (!vars->menu_open)
-		map_tick(vars, &vars->map);
-	else
+	if (vars->menu_open)
 		menu_tick(&vars->menu, vars);
+
+	map_tick(vars, &vars->map);
 
 	if (vars->is_server)
 	{
@@ -104,6 +104,7 @@ static void	loop_hook(t_vars *vars)
 	{
 		r3d_raycast_world(&vars->r3d, &vars->map, vars);
 		draw_gun(&vars->map.player->gun[vars->map.player->gun_index], &vars->r3d);
+		draw_crosshair(&vars->r3d, vars);
 		minimap_draw(&vars->minimap, &vars->r3d, vars);
 	}
 	else
@@ -153,6 +154,8 @@ int	main(int argc, char *argv[])
 	vars.scoreboard.entries[0].present = 1;
 
 	vars.door = tga_load_from_file("assets/textures/DOOR2_4.tga", &vars.at);
+
+	vars.crosshair = tga_load_from_file("assets/textures/PL_T.tga", &vars.at);
 
 	vars.shotgun.main_anim = sprite_create_anim(load_images(&vars.at, 6,
 		"assets/textures/SHTGA0.tga",
