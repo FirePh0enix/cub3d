@@ -19,7 +19,7 @@ static t_entity	*new_entity(t_packet_new_entity *p, t_vars *vars)
 
 	entity = NULL;
 	if (p->entity_type == ENTITY_FAKE_PLAYER)
-		entity = (void *) fake_player_new(vars, &vars->map, p->entity_id, &vars->at);
+		entity = (void *) fake_player_new(vars, &vars->map, p->entity_id, p->skin);
 	return (entity);
 }
 

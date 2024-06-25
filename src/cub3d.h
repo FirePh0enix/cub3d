@@ -139,7 +139,13 @@ typedef struct s_vars
 
 	t_alloc_table	at;
 	uint32_t		exec_hash;
+
+	t_sprite		skin[SKIN_MAX][8];
+	t_sprite		skin_shoot[SKIN_MAX][8];
+	t_sprite		skin_death[SKIN_MAX];
 }	t_vars;
+
+void	load_skin(t_sprite *sp, t_sprite *sh, t_sprite *death, char *name, t_alloc_table *at);
 
 inline int	next_entity_id(t_vars *vars)
 {

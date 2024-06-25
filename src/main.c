@@ -200,6 +200,9 @@ int	main(int argc, char *argv[])
 	vars.menu_open = true;
 	vars.exec_hash = fnv32_hash_file("cub3D");
 
+	load_skin(vars.skin[SKIN_MARINE], vars.skin_shoot[SKIN_MARINE], &vars.skin_death[SKIN_MARINE], "player", &vars.at);
+	load_skin(vars.skin[SKIN_GUNNER], vars.skin_shoot[SKIN_GUNNER], &vars.skin_death[SKIN_GUNNER], "gunner", &vars.at);
+
 	menu_init(&vars.menu, &vars.r3d, &vars.at);
 
 	t_player	*player = player_new(&vars, &vars.map, next_entity_id(&vars));

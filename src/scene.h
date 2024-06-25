@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 11:31:40 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:29:02 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,28 @@ void			player_mouse_event(int x, int y, t_vars *vars);
 # define RIGHT  6
 # define FORW_R 7
 
+typedef enum e_skin
+{
+	SKIN_MARINE,
+	SKIN_GUNNER,
+	SKIN_MAX
+}	t_skin;
+
 typedef struct s_fake_player
 {
 	t_entity	base;
 	int			health;
 
 	t_sprite	sp[8];
-	t_sprite	sp_b[8];
-
 	t_sprite	sh[8];
+
+	t_skin		skin;
 
 	bool		is_shooting;
 	bool		is_moving;
 }	t_fake_player;
 
-t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_alloc_table *at);
+t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_skin skin);
 
 t_image			*fake_player_get_image(t_fake_player *fp, t_vars *vars);
 t_sprite		*fake_player_get_sprite(t_fake_player *fp, t_vars *vars);

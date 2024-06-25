@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:20:00 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/24 23:11:27 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:41:59 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_packet_connect
 	char		username[MAX_CLIENT_NAME + 1];
 	uint32_t	hash;
 	uint32_t	map_hash;
+	t_skin		skin;
 }	t_packet_connect;
 
 typedef struct s_packet_connect_response
@@ -88,7 +89,8 @@ typedef struct s_packet_new_entity
 	int				entity_id;
 	int				entity_type;
 	t_transform		transform;
-	char			buf[PACKET_NE_BUFFER_SIZE];
+	t_skin			skin;
+	char			buf[PACKET_NE_BUFFER_SIZE - 4];
 }	t_packet_new_entity;
 
 typedef struct s_packet_del_entity

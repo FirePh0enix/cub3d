@@ -30,92 +30,29 @@ void	fake_player_draw(t_r3d *r3d, t_fake_player *fake_player, t_vars *vars)
 	(void) vars;
 }
 
-t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_alloc_table *at)
+t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_skin skin)
 {
-	t_fake_player	*fake_player;
+	t_fake_player	*fp;
 
 	(void) vars;
-	fake_player = ft_calloc(1, sizeof(t_fake_player));
-	fake_player->base.type = ENTITY_FAKE_PLAYER;
-	fake_player->base.id = id;
-	fake_player->base.tick = (void *) fake_player_tick;
-	fake_player->base.draw = (void *) fake_player_draw;
-	fake_player->base.transform = (t_transform){0};
-	fake_player->base.map = map;
-	fake_player->base.velocity = v3(0, 0, 0);
-	fake_player->base.height = 1.0;
-	fake_player->base.width = 0.7;
-	fake_player->base.depth = 0.7;
-	fake_player->health = MAX_HEALTH;
+	fp = ft_calloc(1, sizeof(t_fake_player));
+	fp->base.type = ENTITY_FAKE_PLAYER;
+	fp->base.id = id;
+	fp->base.tick = (void *) fake_player_tick;
+	fp->base.draw = (void *) fake_player_draw;
+	fp->base.transform = (t_transform){0};
+	fp->base.map = map;
+	fp->base.velocity = v3(0, 0, 0);
+	fp->base.height = 1.0;
+	fp->base.width = 0.7;
+	fp->base.depth = 0.7;
+	fp->health = MAX_HEALTH;
+	fp->skin = skin;
 
-	fake_player->sp[FORW] = sprite_create_anim(load_images(at, 1,
-		"assets/player/A/PLAYA1.tga"
-	), 1, true, 40);
-	fake_player->sp[FORW_L] = sprite_create_anim(load_images(at, 1,
-		"assets/player/A/PLAYA2.tga"
-	), 1, true, 40);
-	fake_player->sp[LEFT] = sprite_create_anim(load_images(at, 1,
-		"assets/player/A/PLAYA3.tga"
-	), 1, true, 40);
-	fake_player->sp[BACK_L] = sprite_create_anim(load_images(at, 1,
-		"assets/player/A/PLAYA4.tga"
-	), 1, true, 40);
+	ft_memcpy(fp->sp, vars->skin[skin], sizeof(t_sprite[8]));
+	ft_memcpy(fp->sh, vars->skin_shoot[skin], sizeof(t_sprite[8]));
 
-	fake_player->sp[BACK] = sprite_create_anim(load_images(at, 1,
-		"assets/player/A/PLAYA5.tga"
-	), 1, true, 40);
-	fake_player->sp[BACK_R] = sprite_create_anim(load_images(at, 1,
-		"assets/player/A/PLAYA6.tga"
-	), 1, true, 40);
-	fake_player->sp[RIGHT] = sprite_create_anim(load_images(at, 1,
-		"assets/player/A/PLAYA7.tga"
-	), 1, true, 40);
-	fake_player->sp[FORW_R] = sprite_create_anim(load_images(at, 1,
-		"assets/player/A/PLAYA8.tga"
-	), 1, true, 40);
-
-	fake_player->sh[FORW] = sprite_create_anim(load_images(at, 3,
-		"assets/player/E/PLAYE1.tga",
-		"assets/player/F/PLAYF1.tga",
-		"assets/player/G/PLAYG1.tga"
-	), 3, false, 100);
-	fake_player->sh[FORW_L] = sprite_create_anim(load_images(at, 3,
-		"assets/player/E/PLAYE2.tga",
-		"assets/player/F/PLAYF2.tga",
-		"assets/player/G/PLAYG2.tga"
-	), 3, false, 100);
-	fake_player->sh[LEFT] = sprite_create_anim(load_images(at, 3,
-		"assets/player/E/PLAYE3.tga",
-		"assets/player/F/PLAYF3.tga",
-		"assets/player/G/PLAYG3.tga"
-	), 3, false, 100);
-	fake_player->sh[BACK_L] = sprite_create_anim(load_images(at, 3,
-		"assets/player/E/PLAYE4.tga",
-		"assets/player/F/PLAYF4.tga",
-		"assets/player/G/PLAYG4.tga"
-	), 3, false, 100);
-	fake_player->sh[BACK] = sprite_create_anim(load_images(at, 3,
-		"assets/player/E/PLAYE5.tga",
-		"assets/player/F/PLAYF5.tga",
-		"assets/player/G/PLAYG5.tga"
-	), 3, false, 100);
-	fake_player->sh[BACK_R] = sprite_create_anim(load_images(at, 3,
-		"assets/player/E/PLAYE6.tga",
-		"assets/player/F/PLAYF6.tga",
-		"assets/player/G/PLAYG6.tga"
-	), 3, false, 100);
-	fake_player->sh[RIGHT] = sprite_create_anim(load_images(at, 3,
-		"assets/player/E/PLAYE7.tga",
-		"assets/player/F/PLAYF7.tga",
-		"assets/player/G/PLAYG7.tga"
-	), 3, false, 100);
-	fake_player->sh[FORW_R] = sprite_create_anim(load_images(at, 3,
-		"assets/player/E/PLAYE8.tga",
-		"assets/player/F/PLAYF8.tga",
-		"assets/player/G/PLAYG8.tga"
-	), 3, false, 100);
-
-	return (fake_player);
+	return (fp);
 }
 
 t_image	*fake_player_get_image(t_fake_player *fp, t_vars *vars)
@@ -129,12 +66,15 @@ t_sprite		*fake_player_get_sprite(t_fake_player *fp, t_vars *vars)
 	const t_v3	dir_fp = mat4_multiply_v3(mat4_rotation(fp->base.transform.rotation), v3(0, 0, 1));
 	const float dot = v3_dot(dir_cam, dir_fp);
 
+	t_sprite	*curr_sp = vars->skin[fp->skin];
+	t_sprite	*curr_sh = vars->skin_shoot[fp->skin];
+
 	t_sprite	*sp;
 
 	if (!fp->is_shooting)
-		sp = fp->sp;
+		sp = curr_sp;
 	else
-		sp = fp->sh;
+		sp = curr_sh;
 
 	// FIXME:
 	// Need also to check `dir_cam.y < dir_fp.y` if the camera is looking toward the X axis

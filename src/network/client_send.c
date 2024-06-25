@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:49:31 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/24 23:13:40 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:33:42 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	netclient_connect(t_client *client, char *username, t_vars *vars)
 	packet.type = PACKET_CONNECT;
 	packet.hash = vars->exec_hash;
 	packet.map_hash = vars->map.hash;
+	packet.skin = SKIN_GUNNER;
 	ft_memset(packet.username, 0, MAX_CLIENT_NAME + 1);
 	ft_memcpy(packet.username, username, ft_strlen(username) + 1);
 	sendto(client->socket, &packet, sizeof(t_packet_connect), 0,
