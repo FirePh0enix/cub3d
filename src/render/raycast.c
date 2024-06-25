@@ -6,27 +6,13 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 22:06:07 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/25 22:20:05 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "font.h"
 #include "render.h"
 #include "../cub3d.h"
-#include "../math/utils.h"
-#include <stdio.h>
-
-static void	draw_vert_line(t_r3d *r3d, int x, int min_y, int max_y, t_color col)
-{
-	int	y;
-
-	y = min_y;
-	while (y <= max_y)
-	{
-		r3d->color_buffer[x + y * r3d->width] = col;
-		y++;
-	}
-}
 
 static void	raycast_floor_and_ceiling(t_r3d *r3d, t_map *map)
 {
@@ -118,6 +104,32 @@ static t_image	*texture_for_wall(t_map *map, int side, t_v2i p, t_v2i t)
 	else if (side == 1 && p.y >= t.y)
 		return (map->so);
 	return (map->no);
+}
+
+static float	dist(t_v3 a, t_v3 b)
+{
+	return (v3_length_squared(v3_sub(a, b)));
+}
+
+static void	sort_entities_by_distance(t_entity **entities, t_v3 pos)
+{
+	t_entity	*swap;
+	size_t		i;
+	size_t		j;
+
+	i = 0;
+	while (i < ft_vector_size(entities))
+	{
+		j = i;
+		while (j > 0 && dist(entities[j - 1]->transform.position, pos) > dist(entities[j]->transform.position, pos))
+		{
+			swap = entities[j];
+			entities[j] = entities[j - 1];
+			entities[j - 1] = swap;
+			j--;
+		}
+		i++;
+	}
 }
 
 void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
@@ -240,7 +252,7 @@ void	r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars)
 		x++;
 	}
 
-	// TODO: Sort 3d sprites for farsest to closest.
+	sort_entities_by_distance(vars->map.entities, vars->map.player->base.transform.position);
 
 	for(size_t i = 0; i < ft_vector_size(vars->map.entities); i++)
 	{
