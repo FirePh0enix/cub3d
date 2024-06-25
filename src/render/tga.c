@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 22:38:32 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/25 22:55:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,6 @@ static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf)
 	}
 	else if (image->bpp == 8 && hdr->colormap == 1 && hdr->cmapent == 32)
 	{
-		// WHAT THE ACTUAL FUCK?
-		// image->width = hdr->h;
-		// image->height = hdr->w;
-
 		pixels = (uint32_t *) buf;
 		pixels8 = (uint8_t *)(buf + (hdr->cmapent >> 3) * hdr->cmaplen);
 		i = 0;
@@ -138,10 +134,6 @@ static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf)
 	}
 	else if (image->bpp == 8 && hdr->colormap == 1 && hdr->cmapent == 24)
 	{
-		// // WHAT THE ACTUAL FUCK?
-		// image->width = hdr->w;
-		// image->height = hdr->w;
-
 		pixels24 = (t_rgb *) buf;
 		pixels8 = (uint8_t *)(buf + (hdr->cmapent >> 3) * hdr->cmaplen);
 		i = 0;

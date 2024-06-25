@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gun.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 19:40:13 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 14:03:31 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/25 22:25:02 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,11 @@ void	draw_crosshair(t_r3d *r3d, t_vars *vars)
 {
 	const int	w = r3d->width;
 	const int	h = r3d->height;
-	int			x;
-	int			y;
-	int scale = 2;
+	const int	scale = 2;
+	const t_v2i	pos = {w / 2 - vars->crosshair->width * scale / 2,
+		h / 2 - vars->crosshair->height * scale / 2};
 
-	x = 0;
-	t_v2i pos = {w / 2 - vars->crosshair->width * scale / 2, h / 2 - vars->crosshair->height * scale / 2};
 	sprite_draw_single(r3d, vars->crosshair, pos, scale);
-	// while (x < 4)
-	// {
-	// 	y = 0;
-	// 	while (y < 4)
-	// 	{
-	// 		r3d->color_buffer[(x + w / 2 - 4 / 2)
-	// 			+ (y + h / 2 - 4 / 2) * w] = hex(0x00FFFFFF);
-	// 		y++;
-	// 	}
-	// 	x++;
-	// }
 }
 
 void	draw_gun(t_gun *gun, t_r3d *r3d)

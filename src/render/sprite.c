@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:00:36 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:04:54 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/25 22:53:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "render.h"
 #include "../cub3d.h"
 #include "types.h"
-#include <stdio.h>
 #include <sys/select.h>
 
 t_sprite	sprite_create(t_image *image, t_alloc_table *at)
@@ -31,7 +30,8 @@ t_sprite	sprite_create(t_image *image, t_alloc_table *at)
 	return (sprite);
 }
 
-t_sprite	sprite_create_anim(t_image **images, int num, bool loop, suseconds_t ms)
+t_sprite	sprite_create_anim(t_image **images, int num, bool loop,
+	suseconds_t ms)
 {
 	t_sprite	sprite;
 
@@ -44,17 +44,18 @@ t_sprite	sprite_create_anim(t_image **images, int num, bool loop, suseconds_t ms
 	return (sprite);
 }
 
-t_image		*sprite_get_image(t_sprite *sprite)
+t_image	*sprite_get_image(t_sprite *sprite)
 {
 	return (sprite->images[sprite->current_frame]);
 }
 
-bool		sprite_is_end(t_sprite *sprite)
+bool	sprite_is_end(t_sprite *sprite)
 {
-	return (sprite->current_frame == sprite->num_frames - 1 && getms() - sprite->last_frame_tick >= sprite->ms);
+	return (sprite->current_frame == sprite->num_frames - 1
+		&& getms() - sprite->last_frame_tick >= sprite->ms);
 }
 
-void		sprite_tick(t_sprite *sprite)
+void	sprite_tick(t_sprite *sprite)
 {
 	suseconds_t	elapsed;
 
@@ -64,7 +65,6 @@ void		sprite_tick(t_sprite *sprite)
 	if (elapsed < sprite->ms)
 		return ;
 	sprite->last_frame_tick = getms();
-
 	if (++sprite->current_frame == sprite->num_frames)
 	{
 		if (sprite->loop)
@@ -74,7 +74,7 @@ void		sprite_tick(t_sprite *sprite)
 	}
 }
 
-void		sprite_draw(t_r3d *r3d, t_sprite *sprite, t_v2i pos, float scale)
+void	sprite_draw(t_r3d *r3d, t_sprite *sprite, t_v2i pos, float scale)
 {
 	const t_image	*image = sprite_get_image(sprite);
 	int				x;
@@ -96,7 +96,7 @@ void		sprite_draw(t_r3d *r3d, t_sprite *sprite, t_v2i pos, float scale)
 	}
 }
 
-void		sprite_draw_single(t_r3d *r3d, t_image *image, t_v2i pos, float scale)
+void	sprite_draw_single(t_r3d *r3d, t_image *image, t_v2i pos, float scale)
 {
 	int				x;
 	int				y;

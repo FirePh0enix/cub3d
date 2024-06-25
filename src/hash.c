@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 19:44:46 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/24 19:58:59 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/25 22:25:55 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ uint32_t	fnv32_hash(const char *str, size_t len)
 	const unsigned char	*s = (unsigned char *)str;
 	const uint32_t		fnv_32_prime = 0x01000193;
 	uint32_t			h;
-	
+
 	h = 0x811c9dc5;
 	while (len--)
 	{
@@ -48,7 +48,7 @@ uint32_t	fnv32_hash_file(char *file)
 		if (n == -1)
 			return (UINT32_MAX);
 		else if (n == 0)
-			break;
+			break ;
 		while (n--)
 		{
 			h ^= buf[4096 - n];

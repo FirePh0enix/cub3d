@@ -43,7 +43,6 @@ enum e_tile
 	TILE_EMPTY,
 	TILE_DOOR,
 	TILE_DOOR_OPEN,
-
 	TILE_FULL = 3,
 	TILE_2 = 4,
 	TILE_3,
@@ -93,13 +92,13 @@ typedef struct s_map
 	char		*name;
 }	t_map;
 
-void	map_add_entity(t_map *map, void *entity);
-void	map_remove_entity(t_map *map, void *entity);
-void	*map_get_entity_by_id(t_map *map, int id);
-void	map_tick(t_vars *vars, t_map *map);
+void		map_add_entity(t_map *map, void *entity);
+void		map_remove_entity(t_map *map, void *entity);
+void		*map_get_entity_by_id(t_map *map, int id);
+void		map_tick(t_vars *vars, t_map *map);
 
-bool	map_init(t_map *map);
-void	map_free(t_map *map, t_vars *vars);
+bool		map_init(t_map *map);
+void		map_free(t_map *map, t_vars *vars);
 
 typedef struct s_vars
 {
@@ -146,7 +145,8 @@ typedef struct s_vars
 	t_sprite		skin_death[SKIN_MAX];
 }	t_vars;
 
-void	load_skin(t_sprite *sp, t_sprite *sh, t_sprite *death, char *name, t_alloc_table *at);
+void		load_skin(t_sprite *sp, t_sprite *sh, t_sprite *death, char *name,
+				t_alloc_table *at);
 
 inline int	next_entity_id(t_vars *vars)
 {
@@ -155,63 +155,63 @@ inline int	next_entity_id(t_vars *vars)
 
 suseconds_t	getms(void);
 
-int	key_pressed_hook(int keycode, t_vars *vars);
-int	key_released_hook(int keycode, t_vars *vars);
-int	mouse_move_hook(int x, int y, t_vars *vars);
-int	mouse_button_pressed_hook(int btn, int _i1, int _i2, t_vars *vars);
-int	mouse_button_released_hook(int btn, int _i1, int _i2, t_vars *vars);
+int			key_pressed_hook(int keycode, t_vars *vars);
+int			key_released_hook(int keycode, t_vars *vars);
+int			mouse_move_hook(int x, int y, t_vars *vars);
+int			mouse_button_pressed_hook(int btn, int _i1, int _i2, t_vars *vars);
+int			mouse_button_released_hook(int btn, int _i1, int _i2, t_vars *vars);
 
-#define WALL_SIZE 1.0
+# define WALL_SIZE 1.0
 
 typedef struct s_box
 {
-	t_v3 min;
-	t_v3 max;
+	t_v3	min;
+	t_v3	max;
 }	t_box;
 
-char	*_get_file_data(char *filename);
-size_t	_get_file_size(char *filename);
-char	*read_file(char *filename, t_alloc_table *at);
+char		*read_file(char *filename, t_alloc_table *at);
 
-t_image	**load_images(t_alloc_table *at ,int num, ...);
+t_image		**load_images(t_alloc_table *at, int num, ...);
 
 void		draw_map(t_r3d *r3d, t_map *map);
-t_entity	*raycast_entity(t_map *map, t_transform ray, float size, uint32_t entity_type);
+t_entity	*raycast_entity(t_map *map, t_transform ray, float size,
+				uint32_t entity_type);
 t_v2i		raycast_door(t_map *map, t_transform ray, float size);
 
 //############################################################################//
 								// BOUNDARY BOX//
 //############################################################################//
-t_box	box_from_entity(t_entity *entity);
-t_box	box_from_velocity_x(t_entity *entity, float delta);
-t_box	box_from_velocity_y(t_entity *entity, float delta);
-t_box	box_from_velocity_z(t_entity *entity, float delta);
-t_box	box_from_wall(int x, int y);
+t_box		box_from_entity(t_entity *entity);
+t_box		box_from_velocity_x(t_entity *entity, float delta);
+t_box		box_from_velocity_y(t_entity *entity, float delta);
+t_box		box_from_velocity_z(t_entity *entity, float delta);
+t_box		box_from_wall(int x, int y);
 
 //############################################################################//
 								// COLLISION //
 //############################################################################//
-bool	collide_aabb_vs_aabb(t_box a, t_box b);
-bool	collide_point_vs_aabb(t_v3 point, t_box b);
-bool	collide_wall(t_box player, int x, int y);
-bool 	collide_map(t_box player, t_map *map);
-bool 	collide_entities(t_entity **entities, t_box player);
+bool		collide_aabb_vs_aabb(t_box a, t_box b);
+bool		collide_point_vs_aabb(t_v3 point, t_box b);
+bool		collide_wall(t_box player, int x, int y);
+bool		collide_map(t_box player, t_map *map);
+bool		collide_entities(t_entity **entities, t_box player);
 
 //############################################################################//
 								// VELOCITY //
 //############################################################################//
-void	adjust_vel(t_player *player, t_map *map, float delta, t_entity **ent);
+void		adjust_vel(t_player *player, t_map *map, float delta,
+				t_entity **ent);
 
 //############################################################################//
 								// FREE MEMORY //
 //############################################################################//
-void	ft_free(t_vars *vars, t_alloc_table *at);
+void		ft_free(t_vars *vars, t_alloc_table *at);
 
 //############################################################################//
 								// PARSING //
 //############################################################################//
-bool	parsing(t_vars *vars, char **argv, t_alloc_table *at);
+bool		parsing(t_vars *vars, char **argv, t_alloc_table *at);
 
+void		draw_crosshair(t_r3d *r3d, t_vars *vars);
 
-void	draw_crosshair(t_r3d *r3d, t_vars *vars);
 #endif
