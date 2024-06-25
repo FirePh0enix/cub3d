@@ -174,8 +174,8 @@ int	main(int argc, char *argv[])
 		"assets/textures/PISGC0.tga",
 		"assets/textures/PISGD0.tga",
 		"assets/textures/PISGE0.tga"), 5, false, 100);
-	vars.pistol.shoot_anim = sprite_create_anim(load_images(&vars.at, 1, "assets/textures/PISFA0.tga"
-		), 1, false , 600);
+	vars.pistol.shoot_anim = sprite_create_anim(load_images(&vars.at, 2, "assets/textures/PISFA0.tga", "assets/textures/PISFA0.tga" 
+		), 2, false , 100);
 	vars.pistol.main_offset = (t_v2i){24, 7};
 	vars.pistol.offset = (t_v2i){0, 128 * 2 + 64};
 
