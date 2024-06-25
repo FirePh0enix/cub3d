@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/24 15:22:10 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:31:40 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,12 @@ typedef struct s_fake_player
 	int			health;
 
 	t_sprite	sp[8];
+	t_sprite	sp_b[8];
+
 	t_sprite	sh[8];
 
 	bool		is_shooting;
+	bool		is_moving;
 }	t_fake_player;
 
 t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_alloc_table *at);
