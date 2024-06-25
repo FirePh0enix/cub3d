@@ -64,7 +64,6 @@ typedef enum e_mouse_button
 	MOUSE_SCROLL_DOWN,
 }	t_mouse_button;
 
-
 typedef struct s_map
 {
 	int			width;

@@ -1,7 +1,7 @@
-NO assets/textures/DOBWIRE.tga
-SO assets/textures/DOBWIRE.tga
-WE assets/textures/DOBWIRE.tga
-EA assets/textures/DOBWIRE.tga
+NO assets/textures/WALL78_1.tga
+SO assets/textures/AQMETL06.tga
+WE assets/textures/WALL78_1.tga
+EA assets/textures/WALL78_1.tga
 
 F 100,100,0
 C 225,30,0
@@ -9,9 +9,9 @@ C 225,30,0
 11111111111
 10000000001
 10000000001
-10N00000001
+10001000001
 10000000001
-10000000001
+1000N000001
 10000000001
 10000000001
 10000000001
