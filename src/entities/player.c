@@ -104,7 +104,7 @@ static void	handle_inputs(t_vars *vars, t_player *player)
 		t_entity *entity = raycast_entity(&vars->map, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
 			player->camera->rotation}, 10.0, ENTITY_FAKE_PLAYER);
 		player->gun[vars->map.player->gun_index].has_shoot = true;
-		sound_play(&player->gun[vars->map.player->gun_index].main_sound);
+		sound_system_send(&vars->sfx1, player->gun[player->gun_index].main_sound);
 		if (entity)
 		{
 			t_fake_player *fake_player = (t_fake_player *)entity;
@@ -195,22 +195,6 @@ void	player_tick(t_vars *vars, t_player *player)
 	//
 
 	tick_gun(&player->gun[player->gun_index]);
-
-	if (vars->buttons[1] && !player->gun[player->gun_index].has_shoot)
-	{
-		t_entity *entity = raycast_entity(&vars->map, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
-			player->camera->rotation}, 10.0, ENTITY_FAKE_PLAYER);
-		player->gun[player->gun_index].has_shoot = true;
-		sound_play(&player->gun[player->gun_index].main_sound);
-		if (entity)
-		{
-			t_fake_player *fake_player = (t_fake_player *)entity;
-			if (!vars->is_server)
-				netclient_send_hit(&vars->client, entity, 1);
-			else
-				fake_player->health -= 1;
-		}
-	}
 
 	if (!vars->is_server)
 		netclient_send_pos(&vars->client, player->base.transform);

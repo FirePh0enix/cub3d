@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sound.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:17:14 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 15:35:14 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/25 23:18:06 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 # define SOUND_H
 
 # include <stdint.h>
-# include <pulse/simple.h>
 # include <stdbool.h>
 # include "../mem.h"
+
+# include <pulse/def.h>
+# include <pulse/sample.h>
+# include <pulse/simple.h>
 
 typedef struct s_wav_hdr
 {
@@ -42,11 +45,33 @@ typedef struct s_sound
 {
 	uint16_t	*buffer;
 	t_wav_hdr	wav;
-	bool		valid;
-	pthread_t	thread;
 }	t_sound;
 
+typedef struct s_sound_system
+{
+	pthread_t			thread;
+	pthread_mutex_t		mutex;
+
+	pa_sample_format_t	format;
+	uint32_t 			frequency;
+	uint8_t				channel_count;
+
+	pa_simple			*simple;
+
+	t_sound				sound;
+	bool				valid;
+
+	bool				shutdown;
+}	t_sound_system;
+
 void	sound_read_from_wav(t_sound *sound, char *filename, t_alloc_table *at);
-void	sound_play(t_sound *sound);
+
+void	sound_system_init(
+	t_sound_system *sys,
+	pa_sample_format_t format,
+	uint32_t frequency,
+	uint8_t channel_count);
+void	sound_system_send(t_sound_system *sys, t_sound sound);
+void	sound_system_shutdown(t_sound_system *sys);
 
 #endif

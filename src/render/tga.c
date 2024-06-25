@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 22:55:23 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/25 23:04:59 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*read_to_string(char *filename, size_t *len, t_alloc_table *at)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
-	str = malloc(file_size + 1);
+	str = salloc(at, file_size + 1);
 	if (!str)
 		return (close(fd), NULL);
 	str_size = 0;

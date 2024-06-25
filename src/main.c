@@ -162,7 +162,7 @@ int	main(int argc, char *argv[])
 
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 
-	r3d_init(&vars.r3d, vars.mlx, 1280, 720, &vars.at);
+	r3d_init(&vars.r3d, vars.mlx, v2i(1280, 720), &vars.at);
 
 	vars.scoreboard.entries[0].present = 1;
 
@@ -207,8 +207,12 @@ int	main(int argc, char *argv[])
 		), 2, false , 30);
 	vars.minigun.offset = (t_v2i){0, 132};
 
-
 	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav", &vars.at);
+
+	// printf("frequency = %d\n", vars.shotgun.main_sound.wav.frequency);
+	// printf("channel   = %d\n", vars.shotgun.main_sound.wav.channel_count);
+
+	sound_system_init(&vars.sfx1, PA_SAMPLE_U8, 11025, 1);
 
 	if (!font_init(&vars.font, &vars.at) || !font_init_big(&vars.bffont, &vars.at))
 	{

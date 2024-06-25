@@ -1,6 +1,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+#include "sound/sound.h"
 # ifndef _BONUS
 #  define _BONUS 0
 # endif
@@ -126,6 +127,8 @@ typedef struct s_vars
 	t_v2i			mouse_pos;
 
 	bool			is_focused;
+
+	t_sound_system	sfx1;
 
 	t_scoreboard	scoreboard;
 	t_minimap		minimap;
