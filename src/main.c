@@ -42,6 +42,18 @@ static void	print_fps(t_vars *vars, suseconds_t delta, suseconds_t frame_time)
 	font_draw_str(&vars->r3d, &vars->font, buf, (t_v2i){0, 0}, 3);
 }
 
+static void	print_health(t_vars *vars)
+{
+	const int	percent = ((float)vars->map.player->health / (float)MAX_HEALTH) * 100.0;
+	char	buf[32];
+
+	ft_sprintf(buf, "%d %%", percent);
+	font_draw_str(&vars->r3d, &vars->bffont, buf, (t_v2i){
+		.x = 0,
+		.y = 500
+	}, 3);
+}
+
 #define LIMIT_HIGH 0.0167
 #define LIMIT_LOW  0.0100
 
@@ -106,6 +118,7 @@ static void	loop_hook(t_vars *vars)
 		draw_gun(&vars->map.player->gun[vars->map.player->gun_index], &vars->r3d);
 		draw_crosshair(&vars->r3d, vars);
 		minimap_draw(&vars->minimap, &vars->r3d, vars);
+		print_health(vars);
 	}
 	else
 		menu_draw(&vars->menu, &vars->r3d, vars);
@@ -171,13 +184,17 @@ int	main(int argc, char *argv[])
 	), 2, false, 100);
 	vars.shotgun.offset = (t_v2i){-18, 96};
 
-	vars.pistol.main_anim = sprite_create_anim(load_images(&vars.at, 5,
+	vars.pistol.main_anim = sprite_create_anim(load_images(&vars.at, 8,
 		"assets/textures/PISGA0.tga",
 		"assets/textures/PISGB0.tga",
 		"assets/textures/PISGC0.tga",
 		"assets/textures/PISGD0.tga",
-		"assets/textures/PISGE0.tga"), 5, false, 100);
-	vars.pistol.shoot_anim = sprite_create_anim(load_images(&vars.at, 2, "assets/textures/PISFA0.tga", "assets/textures/PISFA0.tga" 
+		"assets/textures/PISGE0.tga",
+		"assets/textures/PISGD0.tga",
+		"assets/textures/PISGC0.tga",
+		"assets/textures/PISGB0.tga"
+	), 8, false, 70);
+	vars.pistol.shoot_anim = sprite_create_anim(load_images(&vars.at, 2, "assets/textures/PISFA0.tga", "assets/textures/PISFA0.tga"
 		), 2, false , 100);
 	vars.pistol.main_offset = (t_v2i){24, 7};
 	vars.pistol.offset = (t_v2i){0, 128 * 2 + 64};
@@ -193,7 +210,7 @@ int	main(int argc, char *argv[])
 
 	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav", &vars.at);
 
-	if (!font_init(&vars.font, &vars.at))
+	if (!font_init(&vars.font, &vars.at) || !font_init_big(&vars.bffont, &vars.at))
 	{
 		ft_free(&vars, &vars.at);
 		return (1);

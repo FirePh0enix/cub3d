@@ -113,6 +113,7 @@ typedef struct s_vars
 	t_map			map;
 
 	t_font			font;
+	t_font			bffont;
 	t_menu			menu;
 	bool			menu_open;
 

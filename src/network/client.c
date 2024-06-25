@@ -115,10 +115,17 @@ void	netclient_poll(t_client *client, t_vars *vars)
 		{
 			t_packet_hit	*p = (void *) buf;
 			t_entity *entity = map_get_entity_by_id(&vars->map, p->source_id);
-			if (!entity || entity->type != ENTITY_FAKE_PLAYER)
+			if (!entity)
 				continue ;
-			fp_reset_shoot_anim((t_fake_player *) entity);
-			((t_fake_player *) entity)->is_shooting = true;
+			if (entity->type == ENTITY_FAKE_PLAYER)
+			{
+				fp_reset_shoot_anim((t_fake_player *) entity);
+				((t_fake_player *) entity)->is_shooting = true;
+			}
+			else if (entity->type == ENTITY_PLAYER)
+			{
+				((t_player *) entity)->health -= p->damage_taken;
+			}
 		} else if (type == PACKET_DOOR_STATE)
 		{
 			t_packet_door_state	*p = (void *) buf;

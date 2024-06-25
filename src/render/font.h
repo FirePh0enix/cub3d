@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:52:41 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 13:50:34 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:22:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_font
 }	t_font;
 
 bool	font_init(t_font *font, t_alloc_table *at);
+bool	font_init_big(t_font *font, t_alloc_table *at);
 t_image	*font_get_image(t_font *font, char c);
 
 void	font_draw_str(t_r3d *r3d, t_font *font, char *str, t_v2i pos, float scale);
