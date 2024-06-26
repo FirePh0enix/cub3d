@@ -6,12 +6,13 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 13:19:59 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/23 18:24:38 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 11:52:25 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
+#include "scene.h"
 
 void	map_add_entity(t_map *map, void *entity)
 {
@@ -82,4 +83,23 @@ void	map_free(t_map *map, t_vars *vars)
 		free(map->entities[i]);
 	}
 	ft_vector_free(map->entities);
+}
+
+void		map_reset(t_map *map)
+{
+	size_t	i;
+
+	while (ft_vector_size(map->entities) > 1)
+	{
+		i = 0;
+		while (i < ft_vector_size(map->entities))
+		{
+			if (map->entities[i]->type != ENTITY_PLAYER)
+			{
+				map_remove_entity(map, map->entities[i]);
+				break ;
+			}
+			i++;
+		}
+	}
 }

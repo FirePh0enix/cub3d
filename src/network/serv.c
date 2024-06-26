@@ -185,7 +185,7 @@ static void	disconnect(t_server *server, int i, t_vars *vars)
 	map_remove_entity(&vars->map, client->entity);
 	vars->scoreboard.entries[i + 1].present = 0;
 	free(client->entity);
-	ft_printf("Player %s has timed out\n", client->username);
+	ft_printf("info : Player `%s` has timed out\n", client->username);
 }
 
 static void	respawn_player(t_server *server, t_packet_respawn *p, t_vars *vars)
@@ -201,6 +201,7 @@ static void	respawn_player(t_server *server, t_packet_respawn *p, t_vars *vars)
 	if (!entity || entity->type != ENTITY_FAKE_PLAYER)
 		return ;
 	((t_fake_player *) entity)->health = MAX_HEALTH;
+	((t_fake_player *) entity)->base.is_dead = false;
 	netserv_broadcast(server, p, sizeof(t_packet_respawn), i);
 }
 

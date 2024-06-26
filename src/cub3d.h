@@ -101,6 +101,8 @@ void		map_tick(t_vars *vars, t_map *map);
 bool		map_init(t_map *map);
 void		map_free(t_map *map, t_vars *vars);
 
+void		map_reset(t_map *map);
+
 typedef struct s_vars
 {
 	void			*mlx;

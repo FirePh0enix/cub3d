@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/24 20:13:59 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:14:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,15 @@ static void	load_data(t_menu *menu, t_alloc_table *at)
 	{
 		strncpy(menu->ip.buffer, s, 16);
 		// FIXME: Could segfault
-		menu->ip.buffer[ft_strlen(s)] = '\0'; 
+		menu->ip.buffer[ft_strlen(s)] = '\0';
 		menu->ip.len = ft_strlen(menu->ip.buffer);
-		// free(s);
 	}
 	s = read_to_string("cub3d-name", NULL, at);
 	if (s)
 	{
 		strncpy(menu->name.buffer, s, 16);
-		menu->name.buffer[ft_strlen(s)] = '\0'; 
+		menu->name.buffer[ft_strlen(s)] = '\0';
 		menu->name.len = ft_strlen(menu->name.buffer);
-		// free(s);
 	}
 }
 
@@ -64,6 +62,7 @@ static void	singleplayer_pressed(t_vars *vars)
 {
 	vars->menu_open = false;
 	vars->is_server = true;
+	map_reset(&vars->map);
 }
 
 static void	multiplayer_pressed(t_vars *vars)
@@ -78,6 +77,7 @@ static void	host_pressed(t_vars *vars)
 	netserv_init(&vars->server, vars, SERVER_PORT);
 	strncpy(vars->scoreboard.entries[0].username, vars->menu.name.buffer, 16);
 	vars->menu_open = false;
+	map_reset(&vars->map);
 }
 
 static void	join_pressed(t_vars *vars)
@@ -86,6 +86,7 @@ static void	join_pressed(t_vars *vars)
 	vars->is_server = false;
 	netclient_init(&vars->client, vars->menu.ip.buffer, SERVER_PORT);
 	netclient_connect(&vars->client, vars->menu.name.buffer, vars);
+	map_reset(&vars->map);
 }
 
 static void	respawn_pressed(t_vars *vars)
@@ -97,8 +98,7 @@ static void	respawn_pressed(t_vars *vars)
 	vars->menu_open = false;
 	vars->map.player->base.transform = vars->map.player->spawn_transform;
 	vars->map.player->base.is_dead = false;
-	if (vars->is_server)
-		vars->map.player->health = MAX_HEALTH; 
+	vars->map.player->health = MAX_HEALTH;
 }
 
 static bool	ip_filter(char c)
@@ -108,7 +108,8 @@ static bool	ip_filter(char c)
 
 static bool	name_filter(char c)
 {
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9'));
 }
 
 void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
