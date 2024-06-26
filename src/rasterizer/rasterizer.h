@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rasterizer.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:14:52 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 14:37:14 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:28:24 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,22 @@ void	rasterizer_clear(t_rasterizer *rast);
 
 t_v2i	rasterizer_get_size(t_rasterizer *rast);
 bool	rasterizer_is_overlay(t_rasterizer *rast);
+
+/*
+	Internal structures because the norme suck
+ */
+typedef struct s_rparam
+{
+	t_rect	rect;
+	t_tri	tri;
+	float	area;
+	t_v2i	size;
+
+	t_image	*image;
+	t_color	col;
+
+	float	z;
+}	t_rparam;
 
 void	rasterize_triangle(t_rasterizer *rast, t_tri tri,
 			t_image *image, t_color col);

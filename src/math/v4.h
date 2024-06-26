@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec.h                                              :+:      :+:    :+:   */
+/*   v4.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 20:06:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 18:11:02 by ledelbec         ###   ########.fr       */
+/*   Created: 2024/06/26 18:09:18 by ledelbec          #+#    #+#             */
+/*   Updated: 2024/06/26 18:10:53 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VEC_H
-# define VEC_H
+#ifndef V4_H
+# define V4_H
 
-# include "v4.h"
+typedef struct s_v4
+{
+	float	x;
+	float	y;
+	float	z;
+	float	w;
+}	t_v4;
 
-# include "v3.h"
-# include "v3_basic.h"
-# include "v3_convert.h"
-# include "v3_complex.h"
-
-# include "v2.h"
-# include "v2_basic.h"
-# include "v2_complex.h"
-
-# include "v2i.h"
-# include "v2i_basic.h"
+inline t_v4	v4(float x, float y, float z, float w)
+{
+	return ((t_v4){x, y, z, w});
+}
 
 #endif

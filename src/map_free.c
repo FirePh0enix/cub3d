@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 16:39:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 16:41:38 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:23:51 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@ void	map_free(t_map *map, t_vars *vars)
 
 	i = 0;
 	j = 0;
-	while (map->map_config[i])
+	if (map->map_config)
 	{
-		free(map->map_config[i]);
-		++i;
+		while (map->map_config[i])
+		{
+			free(map->map_config[i]);
+			++i;
+		}
+		free(map->map_config);
 	}
-	free(map->map_config);
 	while(j < ft_vector_size(map->entities))
 	{
 		if (map->entities[j]->free)
