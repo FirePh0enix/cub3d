@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 12:14:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:45:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	load_data(t_menu *menu, t_alloc_table *at)
 	s = read_to_string("cub3d-ip", NULL, at);
 	if (s)
 	{
+		ft_bzero(menu->ip.buffer, 16);
 		strncpy(menu->ip.buffer, s, 16);
 		// FIXME: Could segfault
 		menu->ip.buffer[ft_strlen(s)] = '\0';
@@ -52,6 +53,7 @@ static void	load_data(t_menu *menu, t_alloc_table *at)
 	s = read_to_string("cub3d-name", NULL, at);
 	if (s)
 	{
+		ft_bzero(menu->name.buffer, 16);
 		strncpy(menu->name.buffer, s, 16);
 		menu->name.buffer[ft_strlen(s)] = '\0';
 		menu->name.len = ft_strlen(menu->name.buffer);

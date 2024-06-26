@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:25:15 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/24 23:12:16 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:37:33 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	netserv_broadcast_pos(t_server *server, t_player *player, int mask)
 {
 	t_packet_pos	pos;
 
+	ft_bzero(&pos, sizeof(t_packet_pos));
 	pos.type = PACKET_POS;
 	pos.eid = server->player_id;
 	pos.pos = player->base.transform.position;

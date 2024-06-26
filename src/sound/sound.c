@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 13:16:49 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 23:42:21 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:36:01 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,6 @@ static void sound_routine(t_sound_system *sys)
 
 	ss.rate = sys->frequency;
 	ss.channels = sys->channel_count;
-	// if (sound->wav.bits_per_sample == 16)
-	// 	ss.format = PA_SAMPLE_S16LE;
-	// else if (sound->wav.bits_per_sample == 8)
-	// 	ss.format = PA_SAMPLE_U8;
 	ss.format = sys->format;
 	pthread_mutex_lock(&sys->mutex);
 	sys->simple = pa_simple_new(NULL, "MUSIC", PA_STREAM_PLAYBACK, NULL, "MUSIC", &ss, NULL, NULL, NULL);
@@ -75,7 +71,7 @@ static void sound_routine(t_sound_system *sys)
 		sys->valid = false;
 		pa_simple_write(sys->simple, sys->sound.buffer, sys->sound.wav.file_size - sizeof(t_wav_hdr), NULL);
 		pthread_mutex_unlock(&sys->mutex);
-		pa_simple_drain(sys->simple, NULL);
+		// pa_simple_drain(sys->simple, NULL);
 	}
 	pa_simple_free(sys->simple);
 }
@@ -86,26 +82,26 @@ void	sound_system_init(
 	uint32_t frequency,
 	uint8_t channel_count)
 {
-	sys->valid = false;
-	sys->frequency = frequency;
-	sys->channel_count = channel_count;
-	sys->format = format;
-	pthread_mutex_init(&sys->mutex, NULL);
-	pthread_create(&sys->thread, NULL, (void *) sound_routine, sys);
+	// sys->valid = false;
+	// sys->frequency = frequency;
+	// sys->channel_count = channel_count;
+	// sys->format = format;
+	// pthread_mutex_init(&sys->mutex, NULL);
+	// pthread_create(&sys->thread, NULL, (void *) sound_routine, sys);
 }
 
 void	sound_system_send(t_sound_system *sys, t_sound sound)
 {
-	pthread_mutex_lock(&sys->mutex);
-	pa_simple_flush(sys->simple, NULL);
-	sys->sound = sound;
-	sys->valid = true;
-	pthread_mutex_unlock(&sys->mutex);
+	// pthread_mutex_lock(&sys->mutex);
+	// pa_simple_flush(sys->simple, NULL);
+	// sys->sound = sound;
+	// sys->valid = true;
+	// pthread_mutex_unlock(&sys->mutex);
 }
 
 void	sound_system_shutdown(t_sound_system *sys)
 {
-	pthread_mutex_lock(&sys->mutex);
-	sys->shutdown = true;
-	pthread_mutex_unlock(&sys->mutex);
+	// pthread_mutex_lock(&sys->mutex);
+	// sys->shutdown = true;
+	// pthread_mutex_unlock(&sys->mutex);
 }

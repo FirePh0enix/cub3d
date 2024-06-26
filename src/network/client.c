@@ -7,9 +7,12 @@
 
 void    netclient_init(t_client *client, char *addr, int port)
 {
+	ft_bzero(client, sizeof(t_client));
     client->server_addr = (struct sockaddr_in) {AF_INET, htons(port), {inet_addr(addr)}, {0}};
     client->socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
 	client->unique_id = -1;
+	client->has_send_connect = false;
+	client->entity_id = -1;
 	client->last_pulse = getms();
 }
 

@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 13:29:02 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:47:26 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ void			player_mouse_event(int x, int y, t_vars *vars);
 
 typedef enum e_skin
 {
-	SKIN_MARINE,
-	SKIN_GUNNER,
+	SKIN_MARINE = 0,
+	SKIN_GUNNER = 1,
 	SKIN_MAX
 }	t_skin;
 

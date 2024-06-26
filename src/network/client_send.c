@@ -6,25 +6,26 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:49:31 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 13:33:42 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:23:43 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "net.h"
 #include "../cub3d.h"
+#include <stdio.h>
 #include <sys/socket.h>
 
 void	netclient_connect(t_client *client, char *username, t_vars *vars)
 {
 	t_packet_connect	packet;
 
+	ft_bzero(&packet, sizeof(t_packet_connect));
 	packet.type = PACKET_CONNECT;
 	packet.hash = vars->exec_hash;
 	packet.map_hash = vars->map.hash;
 	packet.skin = SKIN_GUNNER;
-	ft_memset(packet.username, 0, MAX_CLIENT_NAME + 1);
-	ft_memcpy(packet.username, username, ft_strlen(username) + 1);
+	ft_memcpy(packet.username, username, ft_strlen(username));
 	sendto(client->socket, &packet, sizeof(t_packet_connect), 0,
 		(void *) &client->server_addr, sizeof(struct sockaddr_in));
 	client->has_send_connect = true;

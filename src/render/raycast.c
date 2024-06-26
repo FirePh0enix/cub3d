@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 11:13:16 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:30:21 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static void	sort_entities_by_distance(t_entity **entities, t_v3 pos)
 	while (i < ft_vector_size(entities))
 	{
 		j = i;
-		while (j > 0 && dist(entities[j - 1]->transform.position, pos) > dist(entities[j]->transform.position, pos))
+		while (j > 0 && dist(entities[j - 1]->transform.position, pos) < dist(entities[j]->transform.position, pos))
 		{
 			swap = entities[j];
 			entities[j] = entities[j - 1];

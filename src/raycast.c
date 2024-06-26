@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 22:35:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 22:35:11 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:38:55 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@
 static inline bool	is_full_tile(t_v3 v, t_map *map)
 {
 	int	tile;
+	int	x;
+	int	y;
 
-	if ((int)v.x >= 0 && (int)v.x <= map->width && (int)v.z >= 0
-		&& (int)v.z <= map->height)
+	x = v.x;
+	y = v.z;
+	if (!(x >= 0 && x <= map->width && y >= 0 && y <= map->height))
 		return (false);
-	tile = map->tiles[(int)v.x + (int)v.z * map->width];
+	tile = map->tiles[x + y * map->width];
 	return (tile >= TILE_FULL && tile <= TILE_9);
 }
 

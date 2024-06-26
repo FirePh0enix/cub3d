@@ -139,6 +139,8 @@ int	main(int argc, char *argv[])
 		ft_free(&vars, &vars.at);
 		return (-1);
 	}
+	vars.exec_hash = fnv32_hash_file("cub3D");
+	printf("%x\n", vars.exec_hash);
 	vars.last_update = 0;
 	vars.mlx = mlx_init();
 	if (!vars.mlx)
@@ -222,7 +224,6 @@ int	main(int argc, char *argv[])
 
 	vars.menu.state = STATE_MAIN;
 	vars.menu_open = true;
-	vars.exec_hash = fnv32_hash_file("cub3D");
 
 	load_skin(vars.skin[SKIN_MARINE], vars.skin_shoot[SKIN_MARINE], &vars.skin_death[SKIN_MARINE], "player", &vars.at);
 	load_skin(vars.skin[SKIN_GUNNER], vars.skin_shoot[SKIN_GUNNER], &vars.skin_death[SKIN_GUNNER], "gunner", &vars.at);
