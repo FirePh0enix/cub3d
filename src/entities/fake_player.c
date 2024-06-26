@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fake_player.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 14:50:40 by vopekdas          #+#    #+#             */
+/*   Updated: 2024/06/26 14:51:03 by vopekdas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../scene.h"
 #include "../cub3d.h"
 #include <stdio.h>
@@ -9,11 +21,9 @@ void	fake_player_tick(t_vars *vars, t_fake_player *fp)
 	(void) vars;
 	if (fp->health <= 0 && vars->is_server)
 	{
-		// printf("PACKET SENT\n");
 		fp->base.is_dead = true;
 		netserv_broadcast_dead_player(&vars->server, fp->base.id, -1);
 	}
-
 	if (fp->is_shooting)
 	{
 		sp = fake_player_get_sprite(fp, vars);
@@ -48,10 +58,8 @@ t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_skin skin)
 	fp->base.depth = 0.7;
 	fp->health = MAX_HEALTH;
 	fp->skin = skin;
-
 	ft_memcpy(fp->sp, vars->skin[skin], sizeof(t_sprite[8]));
 	ft_memcpy(fp->sh, vars->skin_shoot[skin], sizeof(t_sprite[8]));
-
 	return (fp);
 }
 
@@ -65,10 +73,8 @@ t_sprite		*fake_player_get_sprite(t_fake_player *fp, t_vars *vars)
 	const t_v3	dir_cam =  mat4_multiply_v3(mat4_rotation(vars->r3d.camera->rotation), v3(0, 0, -1));
 	const t_v3	dir_fp = mat4_multiply_v3(mat4_rotation(fp->base.transform.rotation), v3(0, 0, 1));
 	const float dot = v3_dot(dir_cam, dir_fp);
-
 	t_sprite	*curr_sp = vars->skin[fp->skin];
 	t_sprite	*curr_sh = vars->skin_shoot[fp->skin];
-
 	t_sprite	*sp;
 
 	if (!fp->is_shooting)

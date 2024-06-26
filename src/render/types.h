@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 21:19:15 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/05/27 11:53:38 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:45:21 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef union s_color
 }	t_color;
 
 t_color	hex(unsigned int hex);
-t_color	rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char t);
+t_color	rgba(unsigned char r, unsigned char g,
+	unsigned char b, unsigned char t);
 t_color	rgbaf(float r, float g, float b, float t);
 t_color	grayscalef(float f);
 t_color	color_scale(t_color col, float f);

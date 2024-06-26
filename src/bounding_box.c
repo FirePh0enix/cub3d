@@ -1,13 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bounding_box.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 14:01:08 by vopekdas          #+#    #+#             */
+/*   Updated: 2024/06/26 14:01:14 by vopekdas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
-#include "libft.h"
-#include "math/v3.h"
-#include "render/render.h"
-#include "scene.h"
-#include <X11/Xlib.h>
-#include <complex.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <unistd.h>
 
 t_box	box_from_entity(t_entity *entity)
 {

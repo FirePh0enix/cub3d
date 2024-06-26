@@ -8,7 +8,6 @@
 #include "render/render.h"
 #include "mlx.h"
 #include "scene.h"
-#include "sound/sound.h"
 
 #include <netinet/in.h>
 #include <pthread.h>
@@ -104,7 +103,6 @@ static void	loop_hook(t_vars *vars)
 	if (vars->is_server)
 	{
 		netserv_poll(&vars->server, vars);
-		netserv_broadcast_scoreboard(&vars->server, &vars->scoreboard);
 	}
 	else if (vars->client.has_send_connect)
 	{
@@ -129,18 +127,16 @@ int	main(int argc, char *argv[])
 {
 	t_vars			vars;
 
-	(void) argc;
-	if (!is_valid_file_name(argv[1]))
-		return (false);
+	if (argc != 2 || !is_valid_file_name(argv[1]))
+		return (1);
 	ft_bzero(&vars, sizeof(t_vars));
 	vars.map.name = argv[1];
 	if (!parsing(&vars, argv, &vars.at))
 	{
 		ft_free(&vars, &vars.at);
-		return (-1);
+		return (1);
 	}
 	vars.exec_hash = fnv32_hash_file("cub3D");
-	printf("%x\n", vars.exec_hash);
 	vars.last_update = 0;
 	vars.mlx = mlx_init();
 	if (!vars.mlx)
@@ -209,13 +205,6 @@ int	main(int argc, char *argv[])
 		), 2, false , 30);
 	vars.minigun.offset = (t_v2i){0, 132};
 
-	sound_read_from_wav(&vars.shotgun.main_sound, "assets/sound/DSSHOTGN.wav", &vars.at);
-
-	// printf("frequency = %d\n", vars.shotgun.main_sound.wav.frequency);
-	// printf("channel   = %d\n", vars.shotgun.main_sound.wav.channel_count);
-
-	sound_system_init(&vars.sfx1, PA_SAMPLE_U8, 11025, 1);
-
 	if (!font_init(&vars.font, &vars.at) || !font_init_big(&vars.bffont, &vars.at))
 	{
 		ft_free(&vars, &vars.at);
@@ -240,7 +229,7 @@ int	main(int argc, char *argv[])
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
-	minimap_create(&vars.minimap, &vars.r3d, &vars.map, &vars.at);
+	minimap_create(&vars.minimap, &vars.r3d, &vars.map);
 
 	player->base.transform = vars.map.spawns[0];
 	player->spawn_transform = vars.map.spawns[0];

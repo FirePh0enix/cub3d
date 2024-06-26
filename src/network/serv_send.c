@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serv_send.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:25:15 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 12:37:33 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:38:07 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,6 @@ void netserv_broadcast_dead_player(t_server *server, int entity_id, int mask)
 	dead_player.type = PACKET_DEAD_PLAYER;
 	dead_player.entity_id = entity_id;
 	netserv_broadcast(server, &dead_player, sizeof(t_packet_dead), mask);
-}
-
-void	netserv_broadcast_scoreboard(t_server *server, t_scoreboard *scoreboard)
-{
-	t_packet_sync_score	p;
-	int					i;
-
-	// p.type = PACKET_SYNC_SCOREBOARD;
-	// p.index = 0;
-	// p.present = 1;
-	// p.kills = scoreboard->entries[0].kills;
-	// p.death = scoreboard->entries[0].death;
-	// netserv_broadcast(server, &p, sizeof(t_packet_sync_score), -1);
-	// i = 0;
-	// while (i < MAX_CLIENT + 1)
-	// {
-	// 	p.index = i;
-	// 	p.present = scoreboard->entries[i].present;
-	// 	p.kills = scoreboard->entries[i].kills;
-	// 	p.death = scoreboard->entries[i].death;
-	// 	netserv_broadcast(server, &p, sizeof(t_packet_sync_score), -1);
-	// 	i++;
-	// }
 }
 
 void	netserv_broadcast_respawn(t_server *server, int entity_id, int mask)

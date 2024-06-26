@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 16:16:57 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/22 16:17:28 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:49:58 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
 bool	err_textures(char *identifier)
 {

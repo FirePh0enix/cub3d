@@ -104,7 +104,6 @@ static void	handle_inputs(t_vars *vars, t_player *player)
 		t_entity *entity = raycast_entity(&vars->map, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
 			player->camera->rotation}, 10.0, ENTITY_FAKE_PLAYER);
 		player->gun[vars->map.player->gun_index].has_shoot = true;
-		sound_system_send(&vars->sfx1, player->gun[player->gun_index].main_sound);
 		if (entity)
 		{
 			t_fake_player *fake_player = (t_fake_player *)entity;
@@ -184,7 +183,7 @@ void	player_tick(t_vars *vars, t_player *player)
 
 	player->base.velocity.y -= 0.8;
 
-	adjust_vel(player, &vars->map, vars->delta_sec, vars->map.entities);
+	adjust_vel(player, &vars->map, vars->delta_sec);
 
 	player->base.transform.position = v3_add(player->base.transform.position, v3_scale(player->base.velocity, vars->delta_sec));
 

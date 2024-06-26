@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 13:19:59 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 11:52:25 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:39:43 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "libft.h"
-#include "scene.h"
 
 void	map_add_entity(t_map *map, void *entity)
 {
@@ -69,37 +67,4 @@ bool	map_init(t_map *map)
 		return (false);
 	map->player = NULL;
 	return (true);
-}
-
-void	map_free(t_map *map, t_vars *vars)
-{
-	for (int i = 0; map->map_config[i]; i++)
-		free(map->map_config[i]);
-	free(map->map_config);
-	for (size_t i = 0; i < ft_vector_size(map->entities); i++)
-	{
-		if (map->entities[i]->free)
-			map->entities[i]->free(vars, map->entities[i]);
-		free(map->entities[i]);
-	}
-	ft_vector_free(map->entities);
-}
-
-void		map_reset(t_map *map)
-{
-	size_t	i;
-
-	while (ft_vector_size(map->entities) > 1)
-	{
-		i = 0;
-		while (i < ft_vector_size(map->entities))
-		{
-			if (map->entities[i]->type != ENTITY_PLAYER)
-			{
-				map_remove_entity(map, map->entities[i]);
-				break ;
-			}
-			i++;
-		}
-	}
 }

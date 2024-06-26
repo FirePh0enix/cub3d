@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:28 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/23 13:40:37 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:25:58 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,18 @@ char	**map_space(char **map, size_t wid, size_t hei, t_alloc_table *at)
 	return (new_map);
 }
 
-bool	map_to_tiles(t_map *map, char **maps, t_vars *vars, t_alloc_table *at)
+static	bool	create_tile_array(t_map *map, t_alloc_table *at)
+{
+	map->tiles = scalloc(at, map->width * map->height, sizeof(int));
+	if (!map->tiles)
+	{
+		ft_putstr_fd(RED"Error\nMalloc failed for map->tiles (map_to_tiles)", 2);
+		return (false);
+	}
+	return (true);
+}
+
+bool	map_to_tiles(t_map *map, char **maps, t_alloc_table *at)
 {
 	int		i;
 	int		j;
@@ -83,24 +94,15 @@ bool	map_to_tiles(t_map *map, char **maps, t_vars *vars, t_alloc_table *at)
 
 	i = 0;
 	tile_index = 0;
-	map->tiles = scalloc(at, map->width * map->height, sizeof(int));
-	if (!map->tiles)
-	{
-		ft_putstr_fd(RED"Error\nMalloc failed for map->tiles (map_to_tiles)", 2);
+	if (!create_tile_array(map, at))
 		return (false);
-	}
 	while (maps[i])
 	{
 		j = 0;
 		while (maps[i][j])
 		{
 			if (maps[i][j] == 'D')
-			{
-				// t_door	*door = door_new(vars, scene, 0, next_entity_id(vars));
-				// door->base.transform.position = v3(j * WALL_SIZE, 1.5, i * WALL_SIZE);
-				// scene_add_entity(scene, door);
 				map->tiles[tile_index] = TILE_DOOR;
-			}
 			else if (maps[i][j] >= '1' && maps[i][j] <= '9')
 				map->tiles[tile_index] = TILE_FULL + (maps[i][j] - '1');
 			else

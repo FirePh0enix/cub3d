@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/24 20:05:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:28:06 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static bool	is_map_config_valid(t_vars *vars, char **mp_conf, t_alloc_table *at)
 		return (false);
 	if (!is_valid_rgb(&vars->map, mp_conf, at))
 		return (false);
-	if (!map_to_tiles(&vars->map, vars->map.maps, vars, at))
+	if (!map_to_tiles(&vars->map, vars->map.maps, at))
 		return (false);
 	return (true);
 }
@@ -42,7 +42,7 @@ bool	parsing(t_vars *vars, char **argv, t_alloc_table *at)
 		return (false);
 	vars->map.hash = fnv32_hash(line, len);
 	if (!map_init(&vars->map))
-		return (false); 
+		return (false);
 	vars->map.map_config = ft_split(line, '\n');
 	if (!vars->map.map_config)
 		return (false);

@@ -41,9 +41,9 @@ static t_color calc_avg_color(t_map *map)
 	return (rgba(r / pixel_count, g / pixel_count, b / pixel_count, 0x99));
 }
 
-void minimap_create(t_minimap *minimap, t_r3d *r3d, t_map *map, t_alloc_table *at)
+void minimap_create(t_minimap *minimap, t_r3d *r3d, t_map *map)
 {
-	rasterizer_init_overlay(&minimap->rast, r3d, (t_rect){{0, 0}, {WIDTH, HEIGHT}}, 70.0, at);
+	rasterizer_init_overlay(&minimap->rast, r3d, (t_rect){{0, 0}, {WIDTH, HEIGHT}}, 70.0);
 	minimap->map = map;
 	minimap->bg = calc_avg_color(map);
 }

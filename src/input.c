@@ -6,16 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 23:14:57 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 13:05:15 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:57:48 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "math/v2i.h"
-#include "menu.h"
-#include "render/render.h"
-#include "scene.h"
-#include <X11/Xlib.h>
+#include "mlx.h"
 
 int	key_pressed_hook(int keycode, t_vars *vars)
 {
@@ -23,8 +19,10 @@ int	key_pressed_hook(int keycode, t_vars *vars)
 		return (0);
 	r3d_key_hook(keycode, &vars->r3d);
 	menu_key(&vars->menu, vars, keycode);
-	if (keycode == XK_Escape)
+	if (keycode == XK_Control_L)
 		vars->is_focused = false;
+	else if (keycode == XK_Escape)
+		mlx_loop_end(vars->mlx);
 	vars->keys[keycode] = true;
 	return (0);
 }
@@ -51,26 +49,7 @@ int	mouse_button_pressed_hook(int btn, int _i1, int _i2, t_vars *vars)
 		vars->is_focused = true;
 	if (btn >= 0 && btn < 8)
 		vars->buttons[btn] = true;
-	if (vars->buttons[MOUSE_SCROLL_UP])
-	{
-		vars->map.player->gun_index++;
-		if (vars->map.player->gun_index >= GUN_MAX)
-			vars->map.player->gun_index = 0;
-		vars->map.player->gun[vars->map.player->gun_index].main_anim.current_frame = 0;
-		vars->map.player->gun[vars->map.player->gun_index].main_anim.last_frame_tick = getms();
-		vars->map.player->gun[vars->map.player->gun_index].has_shoot = false;
-		vars->map.player->gun[vars->map.player->gun_index].reloading = false;
-	}
-	if (vars->buttons[MOUSE_SCROLL_DOWN])
-	{
-		vars->map.player->gun_index--;
-		if (vars->map.player->gun_index < 0)
-			vars->map.player->gun_index = GUN_MAX - 1;
-		vars->map.player->gun[vars->map.player->gun_index].main_anim.current_frame = 0;
-		vars->map.player->gun[vars->map.player->gun_index].main_anim.last_frame_tick = getms();
-		vars->map.player->gun[vars->map.player->gun_index].has_shoot = false;
-		vars->map.player->gun[vars->map.player->gun_index].reloading = false;
-	}
+	mouse_scroll(vars);
 	return (0);
 }
 

@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
+/*   Updated: 2024/06/26 14:57:16 by vopekdas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include "sound/sound.h"
 # ifndef _BONUS
 #  define _BONUS 0
 # endif
@@ -130,8 +141,6 @@ typedef struct s_vars
 
 	bool			is_focused;
 
-	t_sound_system	sfx1;
-
 	t_scoreboard	scoreboard;
 	t_minimap		minimap;
 
@@ -202,13 +211,11 @@ bool		collide_aabb_vs_aabb(t_box a, t_box b);
 bool		collide_point_vs_aabb(t_v3 point, t_box b);
 bool		collide_wall(t_box player, int x, int y);
 bool		collide_map(t_box player, t_map *map);
-bool		collide_entities(t_entity **entities, t_box player);
 
 //############################################################################//
 								// VELOCITY //
 //############################################################################//
-void		adjust_vel(t_player *player, t_map *map, float delta,
-				t_entity **ent);
+void		adjust_vel(t_player *player, t_map *map, float delta);
 
 //############################################################################//
 								// FREE MEMORY //
@@ -221,5 +228,5 @@ void		ft_free(t_vars *vars, t_alloc_table *at);
 bool		parsing(t_vars *vars, char **argv, t_alloc_table *at);
 
 void		draw_crosshair(t_r3d *r3d, t_vars *vars);
-
+int			mouse_scroll(t_vars *vars);
 #endif

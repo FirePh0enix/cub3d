@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   gun.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 19:40:13 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 22:25:02 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:08:14 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gun.h"
 #include "cub3d.h"
-#include "math/v2i.h"
-#include "math/v2i_basic.h"
-#include "render/render.h"
 
 void	tick_gun(t_gun *gun)
 {

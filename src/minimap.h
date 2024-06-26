@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:22:45 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 22:28:10 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:31:48 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ typedef struct s_minimap
 	t_color			bg;
 }	t_minimap;
 
-void	minimap_create(t_minimap *minimap, t_r3d *r3d, t_map *map,
-			t_alloc_table *at);
+void	minimap_create(t_minimap *minimap, t_r3d *r3d, t_map *map);
 void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_vars *vars);
 
 #endif
