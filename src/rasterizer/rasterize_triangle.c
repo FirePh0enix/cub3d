@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:14:38 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 18:31:11 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 23:08:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 static inline void	put_to_buffers(t_rasterizer *rast, t_rparam rp,
 	t_v2i a, t_v4 w)
 {
-	rast->r3d->color_buffer[rast->rect.min.x + a.x
-		+ (rast->rect.min.y + a.y) * rast->r3d->width]
+	rast->r3d->color[rast->rect.min.x + a.x
+		+ (rast->rect.min.y + a.y) * rast->r3d->w]
 		= shader(rast->r3d, int_v2(rp.tri.t0, rp.tri.t1,
 				rp.tri.t2, w), rp.image, rp.col);
 	rast->depth_buffer[a.x + (rp.size.y - a.y - 1) * rp.size.x] = rp.z;

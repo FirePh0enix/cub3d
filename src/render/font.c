@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 22:46:09 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 23:09:25 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,31 +68,30 @@ static size_t	get_x_adv(t_font *font, float scale)
 	if (!ref)
 		x_adv = 0;
 	else
-		x_adv = ref->width * scale * 1.5;
+		x_adv = ref->w * scale * 1.5;
 	return (x_adv);
 }
 
-void	font_draw_str(t_r3d *r3d, t_font *font, char *str,
-	t_v2i pos, float scale)
+void	font_draw_str(t_r3d *r3d, t_font *font, char *str, t_posnscale p)
 {
 	size_t			x_adv;
 	size_t			i;
 	t_image			*image;
 
-	x_adv = get_x_adv(font, scale);
+	x_adv = get_x_adv(font, p.scale);
 	i = 0;
 	while (i < ft_strlen(str))
 	{
 		if (str[i] == 32)
 		{
-			pos.x += x_adv;
+			p.pos.x += x_adv;
 			i++;
 			return ;
 		}
 		image = font_get_image(font, str[i]);
 		if (image)
-			sprite_draw_single(r3d, image, pos, scale);
-		pos.x += x_adv;
+			sprite_draw_single(r3d, image, p.pos, p.scale);
+		p.pos.x += x_adv;
 		i++;
 	}
 }

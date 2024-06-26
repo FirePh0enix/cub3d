@@ -31,51 +31,20 @@ suseconds_t	getms(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-static void	print_fps(t_vars *vars, suseconds_t delta, suseconds_t frame_time)
-{
-	float	f;
-	char	buf[128];
-
-	f = (1.0 / (delta / 16.0)) * 60.0;
-	ft_sprintf(buf, "fps: %d, delta: %d ms", (int) f, (int) frame_time);
-	font_draw_str(&vars->r3d, &vars->font, buf, (t_v2i){0, 0}, 3);
-}
-
 static void	print_health(t_vars *vars)
 {
 	const int	percent = ((float)vars->map.player->health / (float)MAX_HEALTH) * 100.0;
 	char	buf[32];
 
 	ft_sprintf(buf, "%d %%", percent);
-	font_draw_str(&vars->r3d, &vars->bffont, buf, (t_v2i){
+	font_draw_str(&vars->r3d, &vars->bffont, buf, posnscale((t_v2i){
 		.x = 0,
 		.y = 500
-	}, 3);
+	}, 3));
 }
 
 #define LIMIT_HIGH 0.0167
 #define LIMIT_LOW  0.0100
-
-static void	print_scoreboard(t_vars *vars)
-{
-	const float		step = 0.1;
-	int				i;
-	float			y;
-	char			buf[128];
-
-	i = 0;
-	y = -1.0;
-	while (i < MAX_CLIENT + 1)
-	{
-		if (vars->scoreboard.entries[i].present)
-		{
-			ft_sprintf(buf, "%s | %d | %d", vars->scoreboard.entries[i].username, vars->scoreboard.entries[i].kills, vars->scoreboard.entries[i].death);
-			// r3d_draw_text(vars->r3d, vars->font, buf, (t_v2){r3d_get_text_size(vars->r3d, vars->font, buf) / 2.0, y});
-		}
-		y += step;
-		i++;
-	}
-}
 
 static void	loop_hook(t_vars *vars)
 {

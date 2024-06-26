@@ -25,7 +25,7 @@ static t_color calc_avg_color(t_map *map)
 
 	if (!map->floor_image)
 		return (rgba(map->floor_color.r, map->floor_color.g, map->floor_color.b, 0x99));
-	pixel_count = map->floor_image->width * map->floor_image->height;
+	pixel_count = map->floor_image->w * map->floor_image->h;
 	i = 0;
 	r = 0;
 	g = 0;
@@ -50,7 +50,7 @@ void minimap_create(t_minimap *minimap, t_r3d *r3d, t_map *map)
 
 static void draw_cube(t_minimap *minimap, t_vars *vars, t_v3 pos)
 {
-	const t_mat4 m = mat4_mul_mat4(mat4_rotation(v3(0, 0, minimap->rast.r3d->camera->rotation.y)), mat4_translation(pos));
+	const t_mat4 m = mat4_mul_mat4(mat4_rotation(v3(0, 0, minimap->rast.r3d->camera->rot.y)), mat4_translation(pos));
 
 	//
 	// Top face
@@ -191,7 +191,7 @@ static void draw_cube(t_minimap *minimap, t_vars *vars, t_v3 pos)
 
 static void draw_door(t_minimap *minimap, t_vars *vars, t_v3 pos)
 {
-	const t_mat4 m = mat4_mul_mat4(mat4_rotation(v3(0, 0, minimap->rast.r3d->camera->rotation.y)), mat4_translation(pos));
+	const t_mat4 m = mat4_mul_mat4(mat4_rotation(v3(0, 0, minimap->rast.r3d->camera->rot.y)), mat4_translation(pos));
 
 	//
 	// Top face
@@ -332,7 +332,7 @@ static void	draw_character(t_minimap *minimap, t_v3 pos)
 
 static void draw_floor(t_minimap *minimap, t_vars *vars, t_v3 pos)
 {
-	const t_mat4 m = mat4_mul_mat4(mat4_rotation(v3(0, 0, minimap->rast.r3d->camera->rotation.y)), mat4_translation(pos));
+	const t_mat4 m = mat4_mul_mat4(mat4_rotation(v3(0, 0, minimap->rast.r3d->camera->rot.y)), mat4_translation(pos));
 
 	t_tri tri = (t_tri){
 		.v0 = v3(-0.5, -0.5, -0.5),
@@ -385,8 +385,8 @@ static void draw_background(t_minimap *minimap, t_r3d *r3d, t_rect rect)
 		y = 0;
 		while (y < rect.max.y - rect.min.y)
 		{
-			col = r3d->color_buffer[(rect.min.x + x) + (rect.min.y + y) * r3d->width];
-			r3d->color_buffer[(rect.min.x + x) + (rect.min.y + y) * r3d->width] =
+			col = r3d->color[(rect.min.x + x) + (rect.min.y + y) * r3d->w];
+			r3d->color[(rect.min.x + x) + (rect.min.y + y) * r3d->w] =
 				blend(minimap->bg, col);
 			y++;
 		}
@@ -408,16 +408,16 @@ void minimap_draw(t_minimap *minimap, t_r3d *r3d, t_vars *vars) {
 		{
 			if (minimap->map->tiles[x + y * minimap->map->width] != TILE_EMPTY && minimap->map->tiles[x + y * minimap->map->width] != TILE_DOOR
 				&& minimap->map->tiles[x + y * minimap->map->width] != TILE_DOOR_OPEN)
-				draw_cube(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x - 0.5, r3d->camera->position.z - 0.5, 0)));
+				draw_cube(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)));
 			else if (minimap->map->tiles[x + y * minimap->map->width] == TILE_DOOR)
 			{
-				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x - 0.5, r3d->camera->position.z - 0.5, 0)));
-				draw_door(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x - 0.5, r3d->camera->position.z - 0.5, 0)));
+				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)));
+				draw_door(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)));
 			}
 			else if (minimap->map->tiles[x + y * minimap->map->width] == TILE_DOOR_OPEN)
-				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x - 0.5, r3d->camera->position.z - 0.5, 0)));
+				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)));
 			else
-				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->position.x - 0.5, r3d->camera->position.z - 0.5, 0)));
+				draw_floor(minimap, vars, v3_sub(v3(x, y, -8), v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)));
 			y++;
 		}
 		x++;

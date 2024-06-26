@@ -51,8 +51,8 @@ static void	rotate_y(t_player *player, float rot_speed)
 	const float	old_plane_x = player->camera->plane_x;
 	const float	old_dir_x = player->camera->dir_x;
 
-	player->camera->rotation.y += rot_speed;
-	player->base.transform.rotation.y = player->camera->rotation.y;
+	player->camera->rot.y += rot_speed;
+	player->base.transform.rotation.y = player->camera->rot.y;
 
 	player->camera->plane_x = old_plane_x * cos(-rot_speed) - player->camera->plane_y * sin(-rot_speed);
 	player->camera->plane_y = old_plane_x * sin(-rot_speed) + player->camera->plane_y * cos(-rot_speed);
@@ -101,8 +101,8 @@ static void	handle_inputs(t_vars *vars, t_player *player)
 
 	if (vars->buttons[1] && !player->gun[vars->map.player->gun_index].has_shoot)
 	{
-		t_entity *entity = raycast_entity(&vars->map, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
-			player->camera->rotation}, 10.0, ENTITY_FAKE_PLAYER);
+		t_entity *entity = raycast_entity(&vars->map, (t_transform){v3(player->camera->pos.x, 0, player->camera->pos.z),
+			player->camera->rot}, 10.0, ENTITY_FAKE_PLAYER);
 		player->gun[vars->map.player->gun_index].has_shoot = true;
 		if (entity)
 		{
@@ -130,8 +130,8 @@ static void	handle_inputs(t_vars *vars, t_player *player)
 
 	if (vars->keys[XK_e] && !player->e_pressed)
 	{
-		t_v2i	door = raycast_door(&vars->map, (t_transform){v3(player->camera->position.x, 0, player->camera->position.z),
-			player->camera->rotation}, 3.0);
+		t_v2i	door = raycast_door(&vars->map, (t_transform){v3(player->camera->pos.x, 0, player->camera->pos.z),
+			player->camera->rot}, 3.0);
 		if (door.x >= 0 && door.y >= 0 && player->base.map->tiles[door.x + door.y * player->base.map->width] == TILE_DOOR_OPEN)
 			player->base.map->tiles[door.x + door.y * player->base.map->width] = TILE_DOOR;
 		else if (door.x >= 0 && door.y >= 0 && player->base.map->tiles[door.x + door.y * player->base.map->width] == TILE_DOOR)
@@ -193,7 +193,7 @@ void	player_tick(t_vars *vars, t_player *player)
 		player->base.velocity.y = 0;
 	}
 
-	player->camera->position = v3_add(player->base.transform.position, camera_offset);
+	player->camera->pos = v3_add(player->base.transform.position, camera_offset);
 
 	player->base.velocity.x *= 0.5;
 	player->base.velocity.z *= 0.5;

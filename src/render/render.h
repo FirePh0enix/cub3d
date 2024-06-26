@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 22:50:01 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 23:55:44 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,29 @@
 
 typedef struct s_map	t_map;
 
+typedef struct s_tga_hdr
+{
+	uint8_t		magic;
+	uint8_t		colormap;
+	uint8_t		encoding;
+	uint16_t	cmaporig;
+	uint16_t	cmaplen;
+	uint8_t		cmapent;
+	uint16_t	x;
+	uint16_t	y;
+	uint16_t	w;
+	uint16_t	h;
+	uint8_t		bpp;
+	uint8_t		pixel_type;
+} __attribute__((packed))	t_tga_hdr;
+
+typedef uint8_t			t_rgb[3];
+
 typedef struct s_image
 {
-	uint32_t	*data;
-	int			width;
-	int			height;
+	t_color		*data;
+	int			w;
+	int			h;
 	uint8_t		bpp;
 }	t_image;
 
@@ -35,10 +53,18 @@ t_image		*tga_load_from_file(char *filename, t_alloc_table *at);
 t_image		*tga_create(int width, int height, t_alloc_table *at);
 void		image_destroy(t_image *image);
 
+void		read_pixels_nomap_32(t_image *image, char *buf, size_t len);
+void		read_pixels_nomap_24(t_image *image, char *buf, size_t len);
+void		read_pixels_map_32(t_image *image, t_tga_hdr *hdr, char *buf,
+				size_t len);
+void		read_pixels_map_24(t_image *image, t_tga_hdr *hdr, char *buf,
+				size_t len);
+void		read_pixels_gray_8(t_image *image, char *buf, size_t len);
+
 typedef struct s_camera
 {
-	t_v3			position;
-	t_v3			rotation;
+	t_v3			pos;
+	t_v3			rot;
 	t_map			*map;
 
 	float			plane_x;
@@ -48,34 +74,24 @@ typedef struct s_camera
 	float			dir_y;
 }	t_camera;
 
-typedef enum e_mode
-{
-	MODE_NORMAL,
-	MODE_DEPTH,
-}	t_mode;
-
 typedef struct s_r3d
 {
 	t_img			*canvas;
 
 	float			fov;
 
-	int				width;
-	int				height;
+	int				w;
+	int				h;
 
 	t_camera		*camera;
 
-	t_color			*color_buffer;
-	float			*depth_buffer;
-
-	t_mode			mode;
+	t_color			*color;
+	float			*depth;
 }	t_r3d;
 
 void		r3d_init(t_r3d *r3d, void *mlx, t_v2i size, t_alloc_table *at);
 void		r3d_clear_depth_buffer(t_r3d *r3d);
 void		r3d_clear_color_buffer(t_r3d *r3d, t_color color);
-
-int			r3d_key_hook(int keycode, t_r3d *r3d);
 
 /*
 	GUI rendering
@@ -87,7 +103,68 @@ float		r3d_get_text_size(t_r3d *r3d, t_font *font, char *text);
 	Raycasting
  */
 
+typedef struct s_cf_param
+{
+	t_image	*img;
+	t_color	col;
+	t_v2i	cell;
+	t_v2	floor;
+	t_v2i	p;
+}	t_cf_param;
+
+typedef struct s_cf2_param
+{
+	t_v2	ray_dir0;
+	t_v2	ray_dir1;
+	int		y;
+}	t_cf2_param;
+
+typedef struct s_ep_param
+{
+	int		side;
+	double	perp_wall_dist;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	int		x;
+}	t_ep_param;
+
+typedef struct s_re_param
+{
+	t_v2	t;
+	int		ssx;
+	t_v2i	sx;
+}	t_re_param;
+
+typedef struct s_dl_param
+{
+	int		side;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	int		map_x;
+	int		map_y;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		x;
+}	t_dl_param;
+
+typedef struct s_rw_param
+{
+	t_v2i	map_pos;
+	t_v2	dd;
+	t_v2	ray_dir;
+	int		x;
+}	t_rw_param;
+
 void		r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars);
+void		raycast_entities(t_r3d *r3d, t_vars *vars);
+t_image		*texture_for_wall(t_map *map, int side, t_v2i p, t_v2i t);
+void		raycast_floor_and_ceiling(t_r3d *r3d, t_map *map);
+void		draw_each_pixels(t_r3d *r3d, t_image *texture, t_ep_param p);
 
 /*
 	HUD sprite rendering

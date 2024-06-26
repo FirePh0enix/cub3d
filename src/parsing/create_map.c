@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:28 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 14:25:58 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/27 00:04:31 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ char	**map_space(char **map, size_t wid, size_t hei, t_alloc_table *at)
 	new_map = scalloc(at, hei + 1, sizeof(char *));
 	if (!new_map)
 	{
-		ft_putstr_fd(RED"Error\nMalloc failed for new map (map_space)\n"RESET, 2);
+		ft_putstr_fd(RED"Error\nMalloc failed for new map (map_space)\n"RESET,
+			2);
 		return (NULL);
 	}
 	i = -1;
@@ -80,7 +81,8 @@ static	bool	create_tile_array(t_map *map, t_alloc_table *at)
 	map->tiles = scalloc(at, map->width * map->height, sizeof(int));
 	if (!map->tiles)
 	{
-		ft_putstr_fd(RED"Error\nMalloc failed for map->tiles (map_to_tiles)", 2);
+		ft_putstr_fd(RED"Error\nMalloc failed for map->tiles (map_to_tiles)",
+			2);
 		return (false);
 	}
 	return (true);

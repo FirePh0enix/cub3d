@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 12:45:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 23:09:26 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	load_data(t_menu *menu, t_alloc_table *at)
 {
 	char	*s;
 
-	s = read_to_string("cub3d-ip", NULL, at);
+	s = read_to_string("cub3d-ip", at);
 	if (s)
 	{
 		ft_bzero(menu->ip.buffer, 16);
@@ -50,7 +50,7 @@ static void	load_data(t_menu *menu, t_alloc_table *at)
 		menu->ip.buffer[ft_strlen(s)] = '\0';
 		menu->ip.len = ft_strlen(menu->ip.buffer);
 	}
-	s = read_to_string("cub3d-name", NULL, at);
+	s = read_to_string("cub3d-name", at);
 	if (s)
 	{
 		ft_bzero(menu->name.buffer, 16);
@@ -116,8 +116,8 @@ static bool	name_filter(char c)
 
 void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 {
-	const int	w = r3d->width;
-	const int	h = r3d->height;
+	const int	w = r3d->w;
+	const int	h = r3d->h;
 	const int 	s = 3;
 
 	// Main state
@@ -128,11 +128,11 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		.scale = 3.0,
 		.image = img,
 		.box = { .min = {
-			w / 2 - img->width * s / 2,
-			h / 2 - img->height * s / 2 - 120
+			w / 2 - img->w * s / 2,
+			h / 2 - img->h * s / 2 - 120
 		}, .max = {
-			w / 2 - img->width * s / 2 + img->width * s,
-			h / 2 - img->height * s / 2 + img->height * s - 120
+			w / 2 - img->w * s / 2 + img->w * s,
+			h / 2 - img->h * s / 2 + img->h * s - 120
 		} },
 		.pressed = (void *) singleplayer_pressed,
 	};
@@ -143,11 +143,11 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		.scale = 3.0,
 		.image = img2,
 		.box = { .min = {
-			w / 2 - img2->width * s / 2,
-			h / 2 - img2->height * s / 2
+			w / 2 - img2->w * s / 2,
+			h / 2 - img2->h * s / 2
 		}, .max = {
-			w / 2 - img2->width * s / 2 + img2->width * s,
-			h / 2 - img2->height * s / 2 + img2->height * s
+			w / 2 - img2->w * s / 2 + img2->w * s,
+			h / 2 - img2->h * s / 2 + img2->h * s
 		} },
 		.pressed = (void *) multiplayer_pressed,
 	};
@@ -160,11 +160,11 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		.scale = 3.0,
 		.image = img3,
 		.box = { .min = {
-			w / 2 - img3->width * s / 2,
-			h / 2 - img3->height * s / 2 - 120
+			w / 2 - img3->w * s / 2,
+			h / 2 - img3->h * s / 2 - 120
 		}, .max = {
-			w / 2 - img3->width * s / 2 + img3->width * s,
-			h / 2 - img3->height * s / 2 + img3->height * s - 120
+			w / 2 - img3->w * s / 2 + img3->w * s,
+			h / 2 - img3->h * s / 2 + img3->h * s - 120
 		} },
 		.pressed = (void *) host_pressed,
 	};
@@ -175,11 +175,11 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		.scale = 3.0,
 		.image = img4,
 		.box = { .min = {
-			w / 2 - img4->width * s / 2,
-			h / 2 - img4->height * s / 2
+			w / 2 - img4->w * s / 2,
+			h / 2 - img4->h * s / 2
 		}, .max = {
-			w / 2 - img4->width * s / 2 + img4->width * s,
-			h / 2 - img4->height * s / 2 + img4->height * s
+			w / 2 - img4->w * s / 2 + img4->w * s,
+			h / 2 - img4->h * s / 2 + img4->h * s
 		} },
 		.pressed = (void *) join_pressed,
 	};
@@ -188,8 +188,8 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		.scale = 3.0,
 		.image = img5,
 		.pos = {
-			w / 2 - img5->width * s / 2 - 80,
-			h / 2 - img5->height * s / 2 + 150
+			w / 2 - img5->w * s / 2 - 80,
+			h / 2 - img5->h * s / 2 + 150
 		}
 	};
 	menu->ip = (t_text_edit){
@@ -199,11 +199,11 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		.filter = (void *) ip_filter,
 		.box = {
 			.min = {
-				w / 2 - img5->width * s / 2 - 10,
+				w / 2 - img5->w * s / 2 - 10,
 				h / 2 + 150 - 8 * 6 / 2
 			},
 			.max = {
-				w / 2 - img5->width * s / 2 - 10 + 7 * 6 * 16,
+				w / 2 - img5->w * s / 2 - 10 + 7 * 6 * 16,
 				h / 2 + 150 - 8 * 6 / 2 + 8 * 6
 			}
 		},
@@ -214,8 +214,8 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		.scale = 3.0,
 		.image = img6,
 		.pos = {
-			w / 2 - img6->width * s / 2 - 140,
-			h / 2 - img6->height * s / 2 + 210
+			w / 2 - img6->w * s / 2 - 140,
+			h / 2 - img6->h * s / 2 + 210
 		}
 	};
 	menu->name = (t_text_edit){
@@ -225,11 +225,11 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		.filter = (void *) name_filter,
 		.box = {
 			.min = {
-				w / 2 - img6->width * s / 2 + 30,
+				w / 2 - img6->w * s / 2 + 30,
 				h / 2 + 210 - 8 * 6 / 2
 			},
 			.max = {
-				w / 2 - img6->width * s / 2 + 30 + 7 * 6 * 16,
+				w / 2 - img6->w * s / 2 + 30 + 7 * 6 * 16,
 				h / 2 + 210 - 8 * 6 / 2 + 8 * 6
 			}
 		},
@@ -247,11 +247,11 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		.image = img7,
 		.box = {
 			.min = {
-				w / 2 - img7->width * s / 2,
-				h / 2 - img7->height * s / 2 - 140
+				w / 2 - img7->w * s / 2,
+				h / 2 - img7->h * s / 2 - 140
 			}, .max = {
-				w / 2 - img7->width * s / 2 + img7->width * s,
-				h / 2 - img7->height * s / 2 + img7->height * s - 140
+				w / 2 - img7->w * s / 2 + img7->w * s,
+				h / 2 - img7->h * s / 2 + img7->h * s - 140
 			}
 		},
 		.pressed = NULL
@@ -266,11 +266,11 @@ void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
 		.image = img8,
 		.box = {
 			.min = {
-				w / 2 - img8->width * s / 2,
-				h / 2 - img8->height * s / 2
+				w / 2 - img8->w * s / 2,
+				h / 2 - img8->h * s / 2
 			}, .max = {
-				w / 2 - img8->width * s / 2 + img8->width * s,
-				h / 2 - img8->height * s / 2 + img8->height * s
+				w / 2 - img8->w * s / 2 + img8->w * s,
+				h / 2 - img8->h * s / 2 + img8->h * s
 			}
 		},
 		.pressed = (void *) respawn_pressed

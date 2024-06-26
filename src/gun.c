@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gun.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 19:40:13 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 14:08:14 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/26 23:12:17 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ void	tick_gun(t_gun *gun)
 
 void	draw_crosshair(t_r3d *r3d, t_vars *vars)
 {
-	const int	w = r3d->width;
-	const int	h = r3d->height;
+	const int	w = r3d->w;
+	const int	h = r3d->h;
 	const int	scale = 2;
-	const t_v2i	pos = {w / 2 - vars->crosshair->width * scale / 2,
-		h / 2 - vars->crosshair->height * scale / 2};
+	const t_v2i	pos = {w / 2 - vars->crosshair->h * scale / 2,
+		h / 2 - vars->crosshair->w * scale / 2};
 
 	sprite_draw_single(r3d, vars->crosshair, pos, scale);
 }
@@ -60,15 +60,15 @@ void	draw_gun(t_gun *gun, t_r3d *r3d)
 
 	scale = 4;
 	image = sprite_get_image(&gun->main_anim);
-	pos = (t_v2i){r3d->width / 2.0 - image->width * scale / 2,
-		r3d->height - image->height * scale};
+	pos = (t_v2i){r3d->w / 2.0 - image->w * scale / 2,
+		r3d->h - image->h * scale};
 	sprite_draw(r3d, &gun->main_anim, v2i_add(pos, gun->main_offset), scale);
 	if (!gun->reloading && gun->has_shoot)
 	{
 		scale = 4;
 		image = sprite_get_image(&gun->shoot_anim);
-		pos = (t_v2i){r3d->width / 2.0 - image->width * scale / 2,
-			r3d->height - image->height * scale};
+		pos = (t_v2i){r3d->w / 2.0 - image->w * scale / 2,
+			r3d->h - image->h * scale};
 		sprite_draw(r3d, &gun->shoot_anim, v2i_sub(pos, gun->offset), scale);
 	}
 }

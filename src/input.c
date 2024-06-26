@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 23:14:57 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 14:57:48 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:54:04 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	key_pressed_hook(int keycode, t_vars *vars)
 {
 	if (keycode < 0 || keycode >= 0xFFFF)
 		return (0);
-	r3d_key_hook(keycode, &vars->r3d);
 	menu_key(&vars->menu, vars, keycode);
 	if (keycode == XK_Control_L)
 		vars->is_focused = false;

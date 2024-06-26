@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:49 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 14:10:19 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:37:34 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ bool	find_player_pos(char **maps, t_map *map);
 //############################################################################//
 								// UTILS //
 //############################################################################//
-char	*read_to_string(char *filename, size_t *len, t_alloc_table *at);
+char	*read_to_string(char *filename, t_alloc_table *at);
 bool	free_identifier(char *identifier);
 bool	check_enough_line(char **map_config);
 

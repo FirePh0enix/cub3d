@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fake_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:50:40 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 14:51:03 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/26 23:45:32 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_image	*fake_player_get_image(t_fake_player *fp, t_vars *vars)
 
 t_sprite		*fake_player_get_sprite(t_fake_player *fp, t_vars *vars)
 {
-	const t_v3	dir_cam =  mat4_multiply_v3(mat4_rotation(vars->r3d.camera->rotation), v3(0, 0, -1));
+	const t_v3	dir_cam =  mat4_multiply_v3(mat4_rotation(vars->r3d.camera->rot), v3(0, 0, -1));
 	const t_v3	dir_fp = mat4_multiply_v3(mat4_rotation(fp->base.transform.rotation), v3(0, 0, 1));
 	const float dot = v3_dot(dir_cam, dir_fp);
 	t_sprite	*curr_sp = vars->skin[fp->skin];

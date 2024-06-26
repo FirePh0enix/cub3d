@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_draw.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:40:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 14:41:28 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/26 23:09:26 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
 
 void	sprite_draw(t_r3d *r3d, t_sprite *sprite, t_v2i pos, float scale)
 {
@@ -21,16 +20,19 @@ void	sprite_draw(t_r3d *r3d, t_sprite *sprite, t_v2i pos, float scale)
 	t_color			col;
 
 	x = -1;
-	while (++x < image->width * scale)
+	while (++x < image->w * scale)
 	{
 		y = -1;
-		while (++y < image->height * scale)
+		while (++y < image->h * scale)
 		{
-			if (x + pos.x < 0 || x + pos.x >= r3d->width || y + pos.y < 0 || y + pos.y >= r3d->height)
+			if (x + pos.x < 0 || x + pos.x >= r3d->w || y + pos.y < 0
+				|| y + pos.y >= r3d->h)
 				continue ;
-			col = ((t_color *) image->data)[(int)(x / scale) + (int)(y / scale) * image->width];
+			col = ((t_color *) image->data)[(int)(x / scale)
+				+ (int)(y / scale) *image->w];
 			if (col.t == 0)
-				r3d->color_buffer[(int)(x + pos.x) + (int)(y + pos.y) * r3d->width] = col;
+				r3d->color[(int)(x + pos.x)
+					+ (int)(y + pos.y) *r3d->w] = col;
 		}
 	}
 }
@@ -42,16 +44,19 @@ void	sprite_draw_single(t_r3d *r3d, t_image *image, t_v2i pos, float scale)
 	t_color			col;
 
 	x = -1;
-	while (++x < image->width * scale)
+	while (++x < image->w * scale)
 	{
 		y = -1;
-		while (++y < image->height * scale)
+		while (++y < image->h * scale)
 		{
-			if (x + pos.x < 0 || x + pos.x >= r3d->width || y + pos.y < 0 || y + pos.y >= r3d->height)
+			if (x + pos.x < 0 || x + pos.x >= r3d->w || y + pos.y < 0
+				|| y + pos.y >= r3d->h)
 				continue ;
-			col = ((t_color *) image->data)[(int)(x / scale) + (int)(y / scale) * image->width];
+			col = ((t_color *) image->data)[(int)(x / scale)
+				+ (int)(y / scale) *image->w];
 			if (col.t == 0)
-				r3d->color_buffer[(int)(x + pos.x) + (int)(y + pos.y) * r3d->width] = col;
+				r3d->color[(int)(x + pos.x)
+					+ (int)(y + pos.y) *r3d->w] = col;
 		}
 	}
 }

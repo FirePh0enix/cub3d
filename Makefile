@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
+#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/26 16:39:52 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/26 23:44:51 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,8 +57,12 @@ SOURCES=\
 	src/render/init.c \
 	src/render/color.c \
 	src/render/tga.c \
+	src/render/tga_utils.c \
 	src/render/font.c \
 	src/render/raycast.c \
+	src/render/raycast_floor.c \
+	src/render/raycast_utils.c \
+	src/render/raycast_entity.c \
 	src/render/sprite.c \
 	src/render/sprite_draw.c
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 14:28:06 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:38:09 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,11 @@ bool	parsing(t_vars *vars, char **argv, t_alloc_table *at)
 {
 	char	*line;
 	char	**map;
-	size_t	len;
 
-	line = read_to_string(argv[1], &len, at);
+	line = read_to_string(argv[1], at);
 	if (!line)
 		return (false);
-	vars->map.hash = fnv32_hash(line, len);
+	vars->map.hash = fnv32_hash(line, ft_strlen(line));
 	if (!map_init(&vars->map))
 		return (false);
 	vars->map.map_config = ft_split(line, '\n');

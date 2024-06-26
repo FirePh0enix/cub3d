@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/18 12:12:20 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 00:04:12 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static	bool	valid_spawn_count(int spawn_count)
 {
 	if (spawn_count == 0)
 	{
-		ft_putstr_fd(RED"Error\nPlace atleast 1 spawn: N | S | W | E\n"RESET, 2);
+		ft_putstr_fd(RED"Error\nPlace atleast 1 spawn: N | S | W | E\n"RESET,
+			2);
 		return (false);
 	}
 	else
