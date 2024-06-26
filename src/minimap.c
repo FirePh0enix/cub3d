@@ -157,8 +157,8 @@ static void draw_cube(t_minimap *minimap, t_vars *vars, t_v3 pos)
 	tri8.v1 = mat4_multiply_v3(m, tri8.v1),
 	tri8.v2 = mat4_multiply_v3(m, tri8.v2);
 
-	rasterize_triangle(&minimap->rast, tri7, vars->map.we, hex(0x00DDDDDD));
-	rasterize_triangle(&minimap->rast, tri8, vars->map.we, hex(0x00DDDDDD));
+	rasterize_triangle(&minimap->rast, tri7, vars->map.ea, hex(0x00DDDDDD));
+	rasterize_triangle(&minimap->rast, tri8, vars->map.ea, hex(0x00DDDDDD));
 
 	//
 	// +X face
@@ -185,8 +185,8 @@ static void draw_cube(t_minimap *minimap, t_vars *vars, t_v3 pos)
 	tri9.v0 = mat4_multiply_v3(m, tri9.v0), tri9.v1 = mat4_multiply_v3(m, tri9.v1), tri9.v2 = mat4_multiply_v3(m, tri9.v2);
 	tri10.v0 = mat4_multiply_v3(m, tri10.v0), tri10.v1 = mat4_multiply_v3(m, tri10.v1), tri10.v2 = mat4_multiply_v3(m, tri10.v2);
 
-	rasterize_triangle(&minimap->rast, tri9, vars->map.ea, hex(0x00DDDDDD));
-	rasterize_triangle(&minimap->rast, tri10, vars->map.ea, hex(0x00DDDDDD));
+	rasterize_triangle(&minimap->rast, tri9, vars->map.we, hex(0x00DDDDDD));
+	rasterize_triangle(&minimap->rast, tri10, vars->map.we, hex(0x00DDDDDD));
 }
 
 static void draw_door(t_minimap *minimap, t_vars *vars, t_v3 pos)
