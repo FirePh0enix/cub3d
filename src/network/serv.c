@@ -172,7 +172,7 @@ static void	player_hit(t_server *server, t_packet_hit *hit, t_vars *vars)
 		((t_fake_player *) server->clients[client_id].entity)->is_shooting = true;
 	}
 
-	netserv_broadcast(server, hit, sizeof(t_packet_hit), -1);
+	netserv_broadcast(server, hit, sizeof(t_packet_hit), client_id);
 }
 
 static void	disconnect(t_server *server, int i, t_vars *vars)

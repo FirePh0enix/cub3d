@@ -111,7 +111,16 @@ static void	handle_inputs(t_vars *vars, t_player *player)
 			if (!vars->is_server)
 				netclient_send_hit(&vars->client, entity, 1);
 			else
+			{
 				fake_player->health -= 1;
+
+				t_packet_hit	p;
+				p.type = PACKET_HIT;
+				p.damage_taken  = 1;
+				p.source_id = player->base.id;
+				p.entity_id = fake_player->base.id;
+				netserv_broadcast(&vars->server, &p, sizeof(t_packet_hit), -1);
+			}
 		}
 		else
 		{

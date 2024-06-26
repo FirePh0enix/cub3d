@@ -146,6 +146,9 @@ typedef struct s_vars
 	t_sprite		skin[SKIN_MAX][8];
 	t_sprite		skin_shoot[SKIN_MAX][8];
 	t_sprite		skin_death[SKIN_MAX];
+
+	suseconds_t		start_time;
+	suseconds_t		game_time;
 }	t_vars;
 
 void		load_skin(t_sprite *sp, t_sprite *sh, t_sprite *death, char *name,

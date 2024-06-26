@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/25 22:20:05 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/26 11:13:16 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ static void	raycast_floor_and_ceiling(t_r3d *r3d, t_map *map)
 
 static t_image	*texture_for_wall(t_map *map, int side, t_v2i p, t_v2i t)
 {
-	if (side == 0 && p.x < t.x)
+	if (side == 0 && p.x >= t.x)
 		return (map->ea);
-	else if (side == 0 && p.x >= t.x)
+	else if (side == 0 && p.x < t.x)
 		return (map->we);
 	else if (side == 1 && p.y < t.y)
 		return (map->no);
