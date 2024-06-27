@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:00:57 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 12:13:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:53:59 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,38 +66,64 @@ static void load_shoot_anim(t_sprite *sh, char *name, t_alloc_table *at)
 	), 3, false, 100);
 }
 
+#define WALK_MS 100
+
 static void	load_main_anim(t_sprite *sp, char *name, t_alloc_table *at)
 {
 	char	buf[128];
 
-	sp[FORW] = sprite_create_anim(load_images(at, 1,
-		fmt(buf, "assets/%s/A/1.tga", name)
-	), 1, true, 40);
-	sp[FORW_L] = sprite_create_anim(load_images(at, 1,
-		fmt(buf, "assets/%s/A/2.tga", name)
-	), 1, true, 40);
-	sp[LEFT] = sprite_create_anim(load_images(at, 1,
-		fmt(buf, "assets/%s/A/3.tga", name)
-	), 1, true, 40);
-	sp[BACK_L] = sprite_create_anim(load_images(at, 1,
-		fmt(buf, "assets/%s/A/4.tga", name)
-	), 1, true, 40);
+	sp[FORW] = sprite_create_anim(load_images(at, 4,
+		fmt(buf, "assets/%s/A/1.tga", name),
+		fmt(buf, "assets/%s/B/1.tga", name),
+		fmt(buf, "assets/%s/C/1.tga", name),
+		fmt(buf, "assets/%s/D/1.tga", name)
+	), 4, true, WALK_MS);
+	sp[FORW_L] = sprite_create_anim(load_images(at, 4,
+		fmt(buf, "assets/%s/A/2.tga", name),
+		fmt(buf, "assets/%s/B/2.tga", name),
+		fmt(buf, "assets/%s/C/2.tga", name),
+		fmt(buf, "assets/%s/D/2.tga", name)
+	), 4, true, WALK_MS);
+	sp[LEFT] = sprite_create_anim(load_images(at, 4,
+		fmt(buf, "assets/%s/A/3.tga", name),
+		fmt(buf, "assets/%s/B/3.tga", name),
+		fmt(buf, "assets/%s/C/3.tga", name),
+		fmt(buf, "assets/%s/D/3.tga", name)
+	), 4, true, WALK_MS);
+	sp[BACK_L] = sprite_create_anim(load_images(at, 4,
+		fmt(buf, "assets/%s/A/4.tga", name),
+		fmt(buf, "assets/%s/B/4.tga", name),
+		fmt(buf, "assets/%s/C/4.tga", name),
+		fmt(buf, "assets/%s/D/4.tga", name)
+	), 4, true, WALK_MS);
 
-	sp[BACK] = sprite_create_anim(load_images(at, 1,
-		fmt(buf, "assets/%s/A/5.tga", name)
-	), 1, true, 40);
-	sp[BACK_R] = sprite_create_anim(load_images(at, 1,
-		fmt(buf, "assets/%s/A/6.tga", name)
-	), 1, true, 40);
-	sp[RIGHT] = sprite_create_anim(load_images(at, 1,
-		fmt(buf, "assets/%s/A/7.tga", name)
-	), 1, true, 40);
-	sp[FORW_R] = sprite_create_anim(load_images(at, 1,
-		fmt(buf, "assets/%s/A/8.tga", name)
-	), 1, true, 40);
+	sp[BACK] = sprite_create_anim(load_images(at, 4,
+		fmt(buf, "assets/%s/A/5.tga", name),
+		fmt(buf, "assets/%s/B/5.tga", name),
+		fmt(buf, "assets/%s/C/5.tga", name),
+		fmt(buf, "assets/%s/D/5.tga", name)
+	), 4, true, WALK_MS);
+	sp[BACK_R] = sprite_create_anim(load_images(at, 4,
+		fmt(buf, "assets/%s/A/6.tga", name),
+		fmt(buf, "assets/%s/B/6.tga", name),
+		fmt(buf, "assets/%s/C/6.tga", name),
+		fmt(buf, "assets/%s/D/6.tga", name)
+	), 4, true, WALK_MS);
+	sp[RIGHT] = sprite_create_anim(load_images(at, 4,
+		fmt(buf, "assets/%s/A/7.tga", name),
+		fmt(buf, "assets/%s/B/7.tga", name),
+		fmt(buf, "assets/%s/C/7.tga", name),
+		fmt(buf, "assets/%s/D/7.tga", name)
+	), 4, true, WALK_MS);
+	sp[FORW_R] = sprite_create_anim(load_images(at, 4,
+		fmt(buf, "assets/%s/A/8.tga", name),
+		fmt(buf, "assets/%s/B/8.tga", name),
+		fmt(buf, "assets/%s/C/8.tga", name),
+		fmt(buf, "assets/%s/D/8.tga", name)
+	), 4, true, WALK_MS);
 }
 
-void	load_skin(t_sprite *sp, t_sprite *sh, t_sprite *death, char *name, t_alloc_table *at)
+void	load_skin(t_sprite *sp, t_sprite *sh, char *name, t_alloc_table *at)
 {
 	load_shoot_anim(sh, name, at);
 	load_main_anim(sp, name, at);

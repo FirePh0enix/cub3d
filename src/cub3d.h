@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 14:57:16 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:32:37 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,13 +156,12 @@ typedef struct s_vars
 
 	t_sprite		skin[SKIN_MAX][8];
 	t_sprite		skin_shoot[SKIN_MAX][8];
-	t_sprite		skin_death[SKIN_MAX];
 
 	suseconds_t		start_time;
 	suseconds_t		game_time;
 }	t_vars;
 
-void		load_skin(t_sprite *sp, t_sprite *sh, t_sprite *death, char *name,
+void		load_skin(t_sprite *sp, t_sprite *sh, char *name,
 				t_alloc_table *at);
 
 inline int	next_entity_id(t_vars *vars)
@@ -229,4 +228,5 @@ bool		parsing(t_vars *vars, char **argv, t_alloc_table *at);
 
 void		draw_crosshair(t_r3d *r3d, t_vars *vars);
 int			mouse_scroll(t_vars *vars);
+
 #endif

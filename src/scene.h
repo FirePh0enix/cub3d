@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 11:38:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:58:27 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void			player_rotate_y(t_player *player, float rot_speed);
 typedef enum e_skin
 {
 	SKIN_MARINE = 0,
-	SKIN_GUNNER = 1,
 	SKIN_MAX
 }	t_skin;
 

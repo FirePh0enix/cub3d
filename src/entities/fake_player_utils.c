@@ -6,13 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:32:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 11:33:38 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:49:10 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../scene.h"
 #include "../cub3d.h"
 #include <math.h>
+#include <stdio.h>
 
 static t_sprite	*sprite_for_angle(t_v3 dir_cam, t_v3 dir_fp, t_sprite *sp)
 {

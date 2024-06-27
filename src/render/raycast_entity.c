@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:07:55 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 12:00:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:45:01 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "render.h"
 #include "../cub3d.h"
 #include "types.h"
+#include <stdio.h>
 
 static void	_raycast_entity2(t_r3d *r3d, t_image *im, t_re_param p)
 {
@@ -62,7 +63,7 @@ static void	_raycast_entity(t_r3d *r3d, t_entity *entity, t_image *image)
 		/ (r3d->camera->plane_x * r3d->camera->dir_y - r3d->camera->dir_x
 			* r3d->camera->plane_y);
 	sprite_screen_x = (int)((r3d->w / 2.0) * (1 + transform.x / transform.y));
-	sprite_size.x = abs2(r3d->h / transform.y);
+	sprite_size.x = abs2(r3d->h / transform.y / ((float)r3d->w / r3d->h));
 	sprite_size.y = abs2(r3d->h / transform.y);
 	_raycast_entity2(r3d, image, (t_re_param){transform, sprite_screen_x,
 		sprite_size});

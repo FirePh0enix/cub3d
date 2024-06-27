@@ -6,11 +6,12 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:00:36 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 12:00:02 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:51:27 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include <stdio.h>
 
 t_sprite	sprite_create(t_image *image, t_alloc_table *at)
 {

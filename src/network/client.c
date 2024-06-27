@@ -64,6 +64,8 @@ void	netclient_poll(t_client *client, t_vars *vars)
 			{
 				entity->transform.position = packet->pos;
 				entity->transform.rotation = packet->rot;
+				if (entity->type == ENTITY_FAKE_PLAYER)
+					sprite_tick(fake_player_get_sprite((t_fake_player *) entity, vars));
 			}
 		}
 		else if (type == PACKET_NEW_ENTITY)

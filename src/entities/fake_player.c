@@ -6,12 +6,13 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:50:40 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/27 11:34:05 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:33:31 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../scene.h"
 #include "../cub3d.h"
+#include <stdio.h>
 
 void	fake_player_tick(t_vars *vars, t_fake_player *fp)
 {
@@ -30,13 +31,11 @@ void	fake_player_tick(t_vars *vars, t_fake_player *fp)
 		if (sprite_is_end(sp))
 			fp->is_shooting = false;
 	}
-}
-
-void	fake_player_draw(t_r3d *r3d, t_fake_player *fake_player, t_vars *vars)
-{
-	(void) r3d;
-	(void) fake_player;
-	(void) vars;
+	else
+	{
+		sp = fake_player_get_sprite(fp, vars);
+		sprite_tick(sp);
+	}
 }
 
 t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_skin skin)
@@ -48,7 +47,6 @@ t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_skin skin)
 	fp->base.type = ENTITY_FAKE_PLAYER;
 	fp->base.id = id;
 	fp->base.tick = (void *) fake_player_tick;
-	fp->base.draw = (void *) fake_player_draw;
 	fp->base.transform = (t_transform){0};
 	fp->base.map = map;
 	fp->base.velocity = v3(0, 0, 0);

@@ -76,7 +76,6 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	vars->scoreboard.entries[i + 1].death = 0;
 	ft_memcpy(vars->scoreboard.entries[i + 1].username, conn->username, 16);
 
-	// Send response to the client
 	t_packet_connect_response	packet;
 	packet.type = PACKET_CONNECT_RESPONSE;
 	packet.unique_id = i;
@@ -84,12 +83,11 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 	sendto(server->socket, &packet, sizeof(t_packet_connect_response), 0,
 		(void *) &server->clients[i].addr, sizeof(struct sockaddr_in));
 
-	// Add the server entity.
 	t_packet_new_entity		new_ent;
 	new_ent.type = PACKET_NEW_ENTITY;
 	new_ent.entity_type = ENTITY_FAKE_PLAYER;
 	new_ent.entity_id = server->player_id;
-	new_ent.skin = SKIN_GUNNER;
+	new_ent.skin = SKIN_MARINE;
 	new_ent.transform = (t_transform){v3(0, 0, 0), v3(0, 0, 0)};
 	netserv_send(server, &new_ent, sizeof(t_packet_new_entity), i);
 
@@ -104,12 +102,11 @@ static void connect_client(t_server *server, t_packet_connect *conn, struct sock
 			i2++;
 			continue ;
 		}
-		// printf("new entity\n");
 		new_ent.type = PACKET_NEW_ENTITY;
 		new_ent.entity_type = ENTITY_FAKE_PLAYER;
 		new_ent.entity_id = server->clients[i2].entity->id;
 		new_ent.transform = (t_transform){v3(0, 0, 0), v3(0, 0, 0)};
-		new_ent.skin = SKIN_GUNNER;
+		new_ent.skin = SKIN_MARINE;
 		netserv_send(server, &new_ent, sizeof(t_packet_new_entity), i);
 		i2++;
 	}
@@ -133,6 +130,9 @@ static void	move_player(t_server *server, t_packet_pos *pos, t_vars *vars)
 
 	pos->eid = client->entity->id;
 	netserv_broadcast(server, pos, sizeof(t_packet_pos), i);
+
+	if (client->entity->type == ENTITY_FAKE_PLAYER)
+		sprite_tick(fake_player_get_sprite((t_fake_player *) client->entity, vars));
 }
 
 static void	handle_pulse(t_server *server, t_packet_pulse *pulse)
