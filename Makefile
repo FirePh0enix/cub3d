@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/27 22:27:36 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/27 22:31:31 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,12 +59,12 @@ SOURCES=\
 	src/network/serv_send2.c \
 	src/network/serv_connect.c \
 	src/network/serv_packets.c \
-	src/network/serv_packets2.c \
 	src/network/serv_utils.c \
 	src/network/client.c \
 	src/network/client_send.c \
 	src/network/client_send2.c \
 	src/network/client_packets.c \
+	src/network/client_packets2.c \
 	src/network/reason.c \
 	src/render/init.c \
 	src/render/color.c \
