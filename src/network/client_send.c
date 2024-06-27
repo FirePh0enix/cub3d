@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:49:31 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 17:36:03 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 19:11:59 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	netclient_send_pos(t_client *client, t_transform transform)
 
 	if (client->unique_id == -1)
 		return ;
-	// FIXME: Uninitialized bytes when calling `sendto`
 	packet.type = PACKET_POS;
 	packet.pos = transform.position;
 	packet.rot = transform.rotation;
@@ -83,18 +82,5 @@ void	netclient_send_respawn(t_client *client)
 	packet.type = PACKET_RESPAWN;
 	packet.entity_id = client->entity_id;
 	sendto(client->socket, &packet, sizeof(t_packet_hit), 0,
-		(void *) &client->server_addr, sizeof(struct sockaddr_in));
-}
-
-void	netclient_send_door_state(t_client *client, t_v2i pos, int state)
-{
-	t_packet_door_state	p;
-
-	if (client->unique_id == -1)
-		return ;
-	p.type = PACKET_DOOR_STATE;
-	p.pos = pos;
-	p.state = state;
-	sendto(client->socket, &p, sizeof(t_packet_hit), 0,
 		(void *) &client->server_addr, sizeof(struct sockaddr_in));
 }

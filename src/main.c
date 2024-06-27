@@ -131,8 +131,6 @@ int	main(int argc, char *argv[])
 
 	r3d_init(&vars.r3d, vars.mlx, v2i(1280, 720), &vars.at);
 
-	vars.scoreboard.entries[0].present = 1;
-
 	vars.door = tga_load_from_file("assets/textures/DOOR2_4.tga", &vars.at);
 
 	vars.crosshair = tga_load_from_file("assets/textures/PL_T.tga", &vars.at);
@@ -191,10 +189,10 @@ int	main(int argc, char *argv[])
 	map_add_entity(&vars.map, player);
 	vars.map.player = player;
 
-	t_fake_player	*fake_player = fake_player_new(&vars, &vars.map, next_entity_id(&vars), SKIN_MARINE);
-	fake_player->base.transform.position = v3(4.5, 0, 3.5);
-	fake_player->base.transform.rotation = v3(0, 0, 0);
-	map_add_entity(&vars.map, fake_player);
+	// t_fake_player	*fake_player = fake_player_new(&vars, &vars.map, next_entity_id(&vars), SKIN_MARINE);
+	// fake_player->base.transform.position = v3(4.5, 0, 3.5);
+	// fake_player->base.transform.rotation = v3(0, 0, 0);
+	// map_add_entity(&vars.map, fake_player);
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
@@ -202,13 +200,8 @@ int	main(int argc, char *argv[])
 
 	player->base.transform = vars.map.spawns[0];
 	player->spawn_transform = vars.map.spawns[0];
-	// player->gun = vars.shotgun;
 
 	vars.r3d.camera = vars.map.player->camera;
-
-	// t_sound	sound;
-	// sound_read_from_wav(&sound, "bfg.wav");
-	// sound_play(&sound);
 
 	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
 	// mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory

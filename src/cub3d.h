@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/27 12:32:37 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 22:04:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,6 @@
 # include "./parsing/parsing.h"
 
 typedef struct s_map	t_map;
-
-typedef struct s_scoreboard_entry
-{
-	char	username[MAX_CLIENT_NAME + 1];
-	int		present;
-	int		kills;
-	int		death;
-}	t_scoreboard_entry;
-
-typedef struct s_scoreboard
-{
-	t_scoreboard_entry	entries[MAX_CLIENT + 1];
-}	t_scoreboard;
 
 enum e_tile
 {
@@ -141,7 +128,6 @@ typedef struct s_vars
 
 	bool			is_focused;
 
-	t_scoreboard	scoreboard;
 	t_minimap		minimap;
 
 	t_gun			shotgun;
@@ -154,8 +140,8 @@ typedef struct s_vars
 	t_alloc_table	at;
 	uint32_t		exec_hash;
 
-	t_sprite		skin[SKIN_MAX][8];
-	t_sprite		skin_shoot[SKIN_MAX][8];
+	t_sprite		skin[8][SKIN_MAX];
+	t_sprite		skin_shoot[8][SKIN_MAX];
 
 	suseconds_t		start_time;
 	suseconds_t		game_time;

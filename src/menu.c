@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 10:49:48 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 22:04:31 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	singleplayer_pressed(t_vars *vars)
 {
 	vars->menu_open = false;
 	vars->is_server = true;
-	// map_reset(&vars->map);
+	map_reset(&vars->map);
 }
 
 static void	multiplayer_pressed(t_vars *vars)
@@ -77,7 +77,6 @@ static void	host_pressed(t_vars *vars)
 	save_data(&vars->menu);
 	vars->is_server = true;
 	netserv_init(&vars->server, vars, SERVER_PORT);
-	strncpy(vars->scoreboard.entries[0].username, vars->menu.name.buffer, 16);
 	vars->menu_open = false;
 	map_reset(&vars->map);
 }

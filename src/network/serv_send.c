@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serv_send.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:25:15 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 14:38:07 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/27 19:14:15 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	netserv_broadcast_del(t_server *server, int entity_id, int mask)
 	netserv_broadcast(server, &del_entity, sizeof(t_packet_del_entity), mask);
 }
 
-void netserv_broadcast_dead_player(t_server *server, int entity_id, int mask)
+void	netserv_broadcast_dead_player(t_server *server, int entity_id, int mask)
 {
 	t_packet_dead	dead_player;
 
@@ -52,7 +52,8 @@ void	netserv_broadcast_respawn(t_server *server, int entity_id, int mask)
 	netserv_broadcast(server, &p, sizeof(t_packet_respawn), mask);
 }
 
-void	netserv_deny(t_server *server, struct sockaddr_in addr, t_reason reason, t_vars *vars)
+void	netserv_deny(t_server *server, struct sockaddr_in addr, t_reason reason,
+	t_vars *vars)
 {
 	t_packet_deny	deny;
 	size_t			size;
@@ -64,15 +65,6 @@ void	netserv_deny(t_server *server, struct sockaddr_in addr, t_reason reason, t_
 	if (size >= 32)
 		size = 31;
 	ft_memcpy(deny.map, vars->map.name, ft_strlen(vars->map.name) + 1);
-	sendto(server->socket, &deny, sizeof(t_packet_deny), 0, (void *) &addr, sizeof(struct sockaddr_in));
-}
-
-void	netserv_broadcast_door_state(t_server *server, t_v2i pos, int state, int mask)
-{
-	t_packet_door_state	p;
-
-	p.type = PACKET_DOOR_STATE;
-	p.state = state;
-	p.pos = pos;
-	netserv_broadcast(server, &p, sizeof(t_packet_door_state), mask);
+	sendto(server->socket, &deny, sizeof(t_packet_deny), 0, (void *) &addr,
+		sizeof(struct sockaddr_in));
 }
