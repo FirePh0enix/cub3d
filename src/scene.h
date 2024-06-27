@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 12:47:26 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:38:51 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ typedef struct s_player
 
 t_player		*player_new(t_vars *vars, t_map *map, int id);
 void			player_mouse_event(int x, int y, t_vars *vars);
+void			player_handle_inputs(t_vars *vars, t_player *player);
+void			player_rotate_y(t_player *player, float rot_speed);
 
 # define FORW   0
 # define FORW_L 1

@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/26 23:44:51 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/27 11:38:23 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,9 @@ SOURCES=\
 	src/hash.c \
 	src/skin.c \
 	src/entities/player.c \
+	src/entities/player_inputs.c \
 	src/entities/fake_player.c \
+	src/entities/fake_player_utils.c \
 	src/network/serv.c \
 	src/network/serv_send.c \
 	src/network/client.c \

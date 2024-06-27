@@ -6,13 +6,12 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:50:40 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 23:45:32 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:34:05 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../scene.h"
 #include "../cub3d.h"
-#include <stdio.h>
 
 void	fake_player_tick(t_vars *vars, t_fake_player *fp)
 {
@@ -66,52 +65,4 @@ t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_skin skin)
 t_image	*fake_player_get_image(t_fake_player *fp, t_vars *vars)
 {
 	return (sprite_get_image(fake_player_get_sprite(fp, vars)));
-}
-
-t_sprite		*fake_player_get_sprite(t_fake_player *fp, t_vars *vars)
-{
-	const t_v3	dir_cam =  mat4_multiply_v3(mat4_rotation(vars->r3d.camera->rot), v3(0, 0, -1));
-	const t_v3	dir_fp = mat4_multiply_v3(mat4_rotation(fp->base.transform.rotation), v3(0, 0, 1));
-	const float dot = v3_dot(dir_cam, dir_fp);
-	t_sprite	*curr_sp = vars->skin[fp->skin];
-	t_sprite	*curr_sh = vars->skin_shoot[fp->skin];
-	t_sprite	*sp;
-
-	if (!fp->is_shooting)
-		sp = curr_sp;
-	else
-		sp = curr_sh;
-
-	// FIXME:
-	// Need also to check `dir_cam.y < dir_fp.y` if the camera is looking toward the X axis
-
-	if (dot < -0.75)
-		return &sp[BACK];
-	else if (dot < -0.25 && dir_cam.x < dir_fp.x)
-		return &sp[BACK_R];
-	else if (dot < -0.25 && dir_cam.x > dir_fp.x)
-		return &sp[BACK_L];
-	else if (dot < 0.25 && dir_cam.x < dir_fp.x)
-		return &sp[RIGHT];
-	else if (dot < 0.25 && dir_cam.x > dir_fp.x)
-		return &sp[LEFT];
-	else if (dot < 0.75 && dir_cam.x < dir_fp.x)
-		return &sp[FORW_R];
-	else if (dot < 0.75 && dir_cam.x > dir_fp.x)
-		return &sp[FORW_L];
-	else
-		return &sp[FORW];
-}
-
-void	fp_reset_shoot_anim(t_fake_player *fp)
-{
-	int	i;
-
-	i = 0;
-	while (i < 8)
-	{
-		fp->sh[i].current_frame = 0;
-		fp->sh[i].last_frame_tick = getms();
-		i++;
-	}
 }

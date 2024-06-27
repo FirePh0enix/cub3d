@@ -192,9 +192,10 @@ int	main(int argc, char *argv[])
 	map_add_entity(&vars.map, player);
 	vars.map.player = player;
 
-	// t_fake_player	*fake_player = fake_player_new(&vars, vars.scene, next_entity_id(&vars));
-	// fake_player->base.transform.position = v3(5.5, 0, 5.5);
-	// scene_add_entity(vars.scene, fake_player);
+	t_fake_player	*fake_player = fake_player_new(&vars, &vars.map, next_entity_id(&vars), SKIN_GUNNER);
+	fake_player->base.transform.position = v3(4.5, 0, 3.5);
+	fake_player->base.transform.rotation = v3(0, 0, 0);
+	map_add_entity(&vars.map, fake_player);
 
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 
