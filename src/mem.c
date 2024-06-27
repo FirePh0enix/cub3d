@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mem.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:05:24 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/21 18:38:21 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:08:50 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,34 @@ void	sfreeall(t_alloc_table *at)
 		free(it->ptr);
 		free(it);
 		it = next;
+	}
+}
+
+void	sfree(t_alloc_table *at, void *p)
+{
+	t_alloc	*it;
+	t_alloc	*prev;
+	t_alloc	*next;
+
+	if (at->first->ptr == p)
+	{
+		next = at->first->next;
+		free(p);
+		free(at->first);
+		at->first = next;
+		return ;
+	}
+	it = at->first;
+	while (it->ptr != p)
+	{
+		it = it->next;
+		prev = it;
+	}
+	if (it)
+	{
+		next = it->next;
+		free(it->ptr);
+		free(it);
+		prev->next = next;
 	}
 }

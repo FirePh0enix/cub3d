@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:07:55 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 23:38:56 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:00:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void	_raycast_entity(t_r3d *r3d, t_entity *entity, t_image *image)
 	int		sprite_screen_x;
 	t_v2i	sprite_size;
 
+	if (!image)
+		return ;
 	sp.x = entity->transform.position.x - r3d->camera->pos.x;
 	sp.y = entity->transform.position.z - r3d->camera->pos.z;
 	transform.x = (r3d->camera->dir_y * sp.x - r3d->camera->dir_x * sp.y)

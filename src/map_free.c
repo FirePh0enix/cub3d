@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 16:39:30 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 18:23:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:58:04 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	map_free(t_map *map, t_vars *vars)
 		}
 		free(map->map_config);
 	}
-	while(j < ft_vector_size(map->entities))
+	while (j < ft_vector_size(map->entities))
 	{
 		if (map->entities[j]->free)
 			map->entities[j]->free(vars, map->entities[j]);
@@ -40,7 +40,7 @@ void	map_free(t_map *map, t_vars *vars)
 	ft_vector_free(map->entities);
 }
 
-void		map_reset(t_map *map)
+void	map_reset(t_map *map)
 {
 	size_t	i;
 
