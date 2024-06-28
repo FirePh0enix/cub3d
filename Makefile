@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/28 15:16:53 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/28 15:30:25 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,9 +108,8 @@ mlx/libmlx.a:
 $(NAME): $(OBJECTS) libft/libft.a mlx/libmlx.a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext $(LDFLAGS)
 
-bonus: CFLAGS+=-D_BONUS=1
-bonus: SOURCES+=$(SOURCES_NET)
-bonus: $(NAME)
+bonus: $(SOURCES_NET:.c=.o) $(OBJECTS) libft/libft.a mlx/libmlx.a
+	$(CC) $(CFLAGS) -D_BONUS=1 -o $(NAME) $(OBJECTS) $(SOURCES_NET:.c=.o) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext $(LDFLAGS)
 
 perf: CFLAGS+=-pg
 perf: bonus
