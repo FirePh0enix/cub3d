@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 15:20:35 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:32:40 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@
 # include <stdbool.h>
 
 # include "./parsing/parsing.h"
+
+#define LIMIT_HIGH 0.0167
+#define LIMIT_LOW  0.0100
 
 typedef struct s_map	t_map;
 
@@ -207,14 +210,14 @@ void		adjust_vel(t_player *player, t_map *map, float delta);
 //############################################################################//
 								// FREE MEMORY //
 //############################################################################//
-void		ft_free(t_vars *vars, t_alloc_table *at);
+int			ft_free(t_vars *vars, t_alloc_table *at);
 
 //############################################################################//
 								// PARSING //
 //############################################################################//
-bool		parsing(t_vars *vars, char **argv, t_alloc_table *at);
+bool		parsing(t_vars *vars, char **argv, t_alloc_table *at, int ac);
 
 void		draw_crosshair(t_r3d *r3d, t_vars *vars);
 int			mouse_scroll(t_vars *vars);
-
+bool 		init_mlx(t_vars *vars);
 #endif

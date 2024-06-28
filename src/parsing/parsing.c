@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 18:38:09 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:18:03 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,41 @@ static bool	is_map_config_valid(t_vars *vars, char **mp_conf, t_alloc_table *at)
 	return (true);
 }
 
-bool	parsing(t_vars *vars, char **argv, t_alloc_table *at)
+static bool check_name_and_ac(int ac, char **av)
 {
-	char	*line;
+	if (ac != 2)
+	{
+		ft_fprintf(2, RED"Error: Incorrect number of arguments.\n");
+		ft_fprintf(2, BRED"Usage: ./cub3d <map_file>\n"RESET);
+		return (false);
+	}
+	if (!is_valid_file_name(av[1]))
+		return (false);
+	return (true);
+}
+
+static bool  check_map(t_vars *vars, t_alloc_table *at)
+{
 	char	**map;
 
+	map = create_map(vars->map.map_config, &vars->map, at);
+	if (!map)
+		return (false);
+	vars->map.maps = map_space(map, vars->map.width, vars->map.height, at);
+	if (!vars->map.maps)
+		return (false);
+	if (!is_map_config_valid(vars, vars->map.map_config, at))
+		return (false);
+	return (true);
+}
+
+bool	parsing(t_vars *vars, char **argv, t_alloc_table *at, int ac)
+{
+	char	*line;
+
+
+	if (!check_name_and_ac(ac, argv))
+		return (false);
 	line = read_to_string(argv[1], at);
 	if (!line)
 		return (false);
@@ -47,13 +77,7 @@ bool	parsing(t_vars *vars, char **argv, t_alloc_table *at)
 		return (false);
 	if (!check_enough_line(vars->map.map_config))
 		return (false);
-	map = create_map(vars->map.map_config, &vars->map, at);
-	if (!map)
-		return (false);
-	vars->map.maps = map_space(map, vars->map.width, vars->map.height, at);
-	if (!vars->map.maps)
-		return (false);
-	if (!is_map_config_valid(vars, vars->map.map_config, at))
+	if (!check_map(vars, at))
 		return (false);
 	return (true);
 }
