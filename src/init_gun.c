@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:34:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 16:42:58 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:55:02 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,11 @@ static	bool	init_minigun(t_vars *vars)
 	return (true);
 }
 
-bool	init_tile(t_vars *vars)
+bool	init_weapons(t_vars *vars)
 {
 	init_shotgun(vars);
 	init_pistol(vars);
 	init_minigun(vars);
+	vars->crosshair = tga_load_from_file("assets/textures/PL_T.tga", &vars->at);
 	return (true);
 }

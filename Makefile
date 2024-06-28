@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
+#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/28 15:30:25 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/06/28 18:18:28 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SOURCES=\
 	src/rasterizer/rasterizer.c \
 	src/rasterizer/rasterize_triangle.c \
 	src/main.c \
+	src/init_gun.c \
 	src/input.c \
 	src/input_mouse.c \
 	src/load.c \
