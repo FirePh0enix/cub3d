@@ -6,275 +6,16 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 22:04:31 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/28 12:04:23 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "menu.h"
 #include "cub3d.h"
-#include "mem.h"
 #include "mlx.h"
 #include "network/net.h"
 #include "render/render.h"
 #include "scene.h"
-#include <stdio.h>
-
-static void	save_data(t_menu *menu)
-{
-	int	fd;
-
-	fd = open("cub3d-ip", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		return ;
-	if (write(fd, menu->ip.buffer, menu->ip.len) == -1)
-		return ;
-	close(fd);
-	fd = open("cub3d-name", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		return ;
-	if (write(fd, menu->name.buffer, menu->name.len) == -1)
-		return ;
-	close(fd);
-}
-
-static void	load_data(t_menu *menu, t_alloc_table *at)
-{
-	char	*s;
-
-	s = read_to_string("cub3d-ip", at);
-	if (s)
-	{
-		ft_bzero(menu->ip.buffer, 16);
-		strncpy(menu->ip.buffer, s, 16);
-		// FIXME: Could segfault
-		menu->ip.buffer[ft_strlen(s)] = '\0';
-		menu->ip.len = ft_strlen(menu->ip.buffer);
-	}
-	s = read_to_string("cub3d-name", at);
-	if (s)
-	{
-		ft_bzero(menu->name.buffer, 16);
-		strncpy(menu->name.buffer, s, 16);
-		menu->name.buffer[ft_strlen(s)] = '\0';
-		menu->name.len = ft_strlen(menu->name.buffer);
-	}
-}
-
-static void	singleplayer_pressed(t_vars *vars)
-{
-	vars->menu_open = false;
-	vars->is_server = true;
-	map_reset(&vars->map);
-}
-
-static void	multiplayer_pressed(t_vars *vars)
-{
-	vars->menu.state = STATE_MULTIPLAYER;
-}
-
-static void	host_pressed(t_vars *vars)
-{
-	save_data(&vars->menu);
-	vars->is_server = true;
-	netserv_init(&vars->server, vars, SERVER_PORT);
-	vars->menu_open = false;
-	map_reset(&vars->map);
-}
-
-static void	join_pressed(t_vars *vars)
-{
-	save_data(&vars->menu);
-	vars->is_server = false;
-	netclient_init(&vars->client, vars->menu.ip.buffer, SERVER_PORT);
-	netclient_connect(&vars->client, vars->menu.name.buffer, vars);
-	map_reset(&vars->map);
-}
-
-static void	respawn_pressed(t_vars *vars)
-{
-	if (vars->is_server)
-		netserv_broadcast_respawn(&vars->server, vars->server.player_id, -1);
-	else
-		netclient_send_respawn(&vars->client);
-	vars->menu_open = false;
-	vars->map.player->base.transform = vars->map.player->spawn_transform;
-	vars->map.player->base.is_dead = false;
-	vars->map.player->health = MAX_HEALTH;
-}
-
-static bool	ip_filter(char c)
-{
-	return (c == '.' || (c >= '0' && c <= '9'));
-}
-
-static bool	name_filter(char c)
-{
-	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9'));
-}
-
-void	menu_init(t_menu *menu, t_r3d *r3d, t_alloc_table *at)
-{
-	const int	w = r3d->w;
-	const int	h = r3d->h;
-	const int 	s = 3;
-
-	// Main state
-	t_image *img = tga_load_from_file("assets/M_SING.tga", at);
-	menu->singleplayer = (t_button){
-		.disabled = false,
-		.label = NULL,
-		.scale = 3.0,
-		.image = img,
-		.box = { .min = {
-			w / 2 - img->w * s / 2,
-			h / 2 - img->h * s / 2 - 120
-		}, .max = {
-			w / 2 - img->w * s / 2 + img->w * s,
-			h / 2 - img->h * s / 2 + img->h * s - 120
-		} },
-		.pressed = (void *) singleplayer_pressed,
-	};
-	t_image *img2 = tga_load_from_file("assets/textures/M_MULTI.tga", at);
-	menu->multiplayer = (t_button){
-		.disabled = false,
-		.label = NULL,
-		.scale = 3.0,
-		.image = img2,
-		.box = { .min = {
-			w / 2 - img2->w * s / 2,
-			h / 2 - img2->h * s / 2
-		}, .max = {
-			w / 2 - img2->w * s / 2 + img2->w * s,
-			h / 2 - img2->h * s / 2 + img2->h * s
-		} },
-		.pressed = (void *) multiplayer_pressed,
-	};
-
-	// Multiplayer state
-	t_image *img3 = tga_load_from_file("assets/M_HOST.tga", at);
-	menu->host = (t_button){
-		.disabled = false,
-		.label = NULL,
-		.scale = 3.0,
-		.image = img3,
-		.box = { .min = {
-			w / 2 - img3->w * s / 2,
-			h / 2 - img3->h * s / 2 - 120
-		}, .max = {
-			w / 2 - img3->w * s / 2 + img3->w * s,
-			h / 2 - img3->h * s / 2 + img3->h * s - 120
-		} },
-		.pressed = (void *) host_pressed,
-	};
-	t_image *img4 = tga_load_from_file("assets/M_JOIN.tga", at);
-	menu->join = (t_button){
-		.disabled = false,
-		.label = NULL,
-		.scale = 3.0,
-		.image = img4,
-		.box = { .min = {
-			w / 2 - img4->w * s / 2,
-			h / 2 - img4->h * s / 2
-		}, .max = {
-			w / 2 - img4->w * s / 2 + img4->w * s,
-			h / 2 - img4->h * s / 2 + img4->h * s
-		} },
-		.pressed = (void *) join_pressed,
-	};
-	t_image	*img5 = tga_load_from_file("assets/M_IP.tga", at);
-	menu->ip_img = (t_menu_img){
-		.scale = 3.0,
-		.image = img5,
-		.pos = {
-			w / 2 - img5->w * s / 2 - 80,
-			h / 2 - img5->h * s / 2 + 150
-		}
-	};
-	menu->ip = (t_text_edit){
-		.len = 0,
-		.disabled = false,
-		.focused = false,
-		.filter = (void *) ip_filter,
-		.box = {
-			.min = {
-				w / 2 - img5->w * s / 2 - 10,
-				h / 2 + 150 - 8 * 6 / 2
-			},
-			.max = {
-				w / 2 - img5->w * s / 2 - 10 + 7 * 6 * 16,
-				h / 2 + 150 - 8 * 6 / 2 + 8 * 6
-			}
-		},
-	};
-
-	t_image	*img6 = tga_load_from_file("assets/M_NAME.tga", at);
-	menu->name_img = (t_menu_img){
-		.scale = 3.0,
-		.image = img6,
-		.pos = {
-			w / 2 - img6->w * s / 2 - 140,
-			h / 2 - img6->h * s / 2 + 210
-		}
-	};
-	menu->name = (t_text_edit){
-		.len = 0,
-		.disabled = false,
-		.focused = false,
-		.filter = (void *) name_filter,
-		.box = {
-			.min = {
-				w / 2 - img6->w * s / 2 + 30,
-				h / 2 + 210 - 8 * 6 / 2
-			},
-			.max = {
-				w / 2 - img6->w * s / 2 + 30 + 7 * 6 * 16,
-				h / 2 + 210 - 8 * 6 / 2 + 8 * 6
-			}
-		},
-	};
-
-	load_data(menu, at);
-
-	// Dead
-	t_image	*img7 = tga_load_from_file("assets/M_DEAD.tga", at);
-
-	menu->dead_msg = (t_button){
-		.disabled = false,
-		.label = NULL,
-		.scale = 3.0,
-		.image = img7,
-		.box = {
-			.min = {
-				w / 2 - img7->w * s / 2,
-				h / 2 - img7->h * s / 2 - 140
-			}, .max = {
-				w / 2 - img7->w * s / 2 + img7->w * s,
-				h / 2 - img7->h * s / 2 + img7->h * s - 140
-			}
-		},
-		.pressed = NULL
-	};
-
-	t_image	*img8 = tga_load_from_file("assets/M_RESPAWN.tga", at);
-
-	menu->respawn = (t_button){
-		.disabled = false,
-		.label = NULL,
-		.scale = 3.0,
-		.image = img8,
-		.box = {
-			.min = {
-				w / 2 - img8->w * s / 2,
-				h / 2 - img8->h * s / 2
-			}, .max = {
-				w / 2 - img8->w * s / 2 + img8->w * s,
-				h / 2 - img8->h * s / 2 + img8->h * s
-			}
-		},
-		.pressed = (void *) respawn_pressed
-	};
-}
 
 bool	mouse_click_over(t_vars *vars, t_boxi box)
 {
@@ -282,7 +23,8 @@ bool	mouse_click_over(t_vars *vars, t_boxi box)
 	int	y;
 
 	mlx_mouse_get_pos(vars->mlx, vars->win, &x, &y);
-	return (x >= box.min.x && x <= box.max.x && y >= box.min.y && y <= box.max.y && vars->buttons[1]);
+	return (x >= box.min.x && x <= box.max.x && y >= box.min.y
+		&& y <= box.max.y && vars->buttons[1]);
 }
 
 void	menu_draw(t_menu *menu, t_r3d *r3d, t_vars *vars)
@@ -296,10 +38,8 @@ void	menu_draw(t_menu *menu, t_r3d *r3d, t_vars *vars)
 	{
 		button_draw(&menu->host, r3d);
 		button_draw(&menu->join, r3d);
-
 		img_draw(&menu->ip_img, r3d);
 		text_edit_draw(&menu->ip, r3d, vars);
-
 		img_draw(&menu->name_img, r3d);
 		text_edit_draw(&menu->name, r3d, vars);
 	}
@@ -307,6 +47,24 @@ void	menu_draw(t_menu *menu, t_r3d *r3d, t_vars *vars)
 	{
 		button_draw(&menu->dead_msg, r3d);
 		button_draw(&menu->respawn, r3d);
+	}
+}
+
+static void	menu_tick_multi(t_menu *menu, t_vars *vars)
+{
+	button_tick(&menu->host, vars);
+	button_tick(&menu->join, vars);
+	text_edit_tick(&menu->ip, vars);
+	text_edit_tick(&menu->name, vars);
+	if (mouse_click_over(vars, menu->ip.box))
+	{
+		menu->ip.focused = true;
+		menu->name.focused = false;
+	}
+	else if (mouse_click_over(vars, menu->name.box))
+	{
+		menu->ip.focused = false;
+		menu->name.focused = true;
 	}
 }
 
@@ -319,22 +77,7 @@ void	menu_tick(t_menu *menu, t_vars *vars)
 	}
 	else if (menu->state == STATE_MULTIPLAYER)
 	{
-		button_tick(&menu->host, vars);
-		button_tick(&menu->join, vars);
-
-		text_edit_tick(&menu->ip, vars);
-		text_edit_tick(&menu->name, vars);
-
-		if (mouse_click_over(vars, menu->ip.box))
-		{
-			menu->ip.focused = true;
-			menu->name.focused = false;
-		}
-		else if (mouse_click_over(vars, menu->name.box))
-		{
-			menu->ip.focused = false;
-			menu->name.focused = true;
-		}
+		menu_tick_multi(menu, vars);
 	}
 	else if (menu->state == STATE_DEAD)
 	{
