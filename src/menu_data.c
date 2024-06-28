@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 11:37:14 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/28 12:06:17 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/28 14:55:25 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	load_data(t_menu *menu, t_alloc_table *at)
 	if (s)
 	{
 		ft_bzero(menu->ip.buffer, 16);
-		strncpy(menu->ip.buffer, s, 16);
+		ft_memcpy(menu->ip.buffer, s, strlen_max(s, 16));
 		menu->ip.buffer[strlen_max(s, 16)] = '\0';
 		menu->ip.len = ft_strlen(menu->ip.buffer);
 	}
@@ -57,7 +57,7 @@ void	load_data(t_menu *menu, t_alloc_table *at)
 	if (s)
 	{
 		ft_bzero(menu->name.buffer, 16);
-		strncpy(menu->name.buffer, s, 16);
+		ft_memcpy(menu->name.buffer, s, strlen_max(s, 16));
 		menu->name.buffer[strlen_max(s, 16)] = '\0';
 		menu->name.len = ft_strlen(menu->name.buffer);
 	}

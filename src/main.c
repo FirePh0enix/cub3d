@@ -11,9 +11,7 @@
 
 #include <netinet/in.h>
 #include <pthread.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -21,14 +19,6 @@
 static void	close_hook(t_vars *vars)
 {
 	mlx_loop_end(vars->mlx);
-}
-
-suseconds_t	getms(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
 static void	print_health(t_vars *vars)
@@ -45,6 +35,8 @@ static void	print_health(t_vars *vars)
 
 #define LIMIT_HIGH 0.0167
 #define LIMIT_LOW  0.0100
+
+#if _BONUS == 1
 
 static void	loop_hook(t_vars *vars)
 {
@@ -91,6 +83,47 @@ static void	loop_hook(t_vars *vars)
 		menu_draw(&vars->menu, &vars->r3d, vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d.canvas, 0, 0);
 }
+
+#else
+
+static void	loop_hook(t_vars *vars)
+{
+	vars->ticks++;
+	if (vars->ticks < 500)
+	{
+		sqrt(7728382);
+		return ;
+	}
+	vars->ticks = 0;
+	vars->delta_sec = 0.001;
+
+	if (vars->delta_sec < LIMIT_LOW)
+		vars->delta_sec = LIMIT_LOW;
+	else if (vars->delta_sec > LIMIT_HIGH)
+		vars->delta_sec = LIMIT_HIGH;
+
+	r3d_clear_color_buffer(&vars->r3d, hex(0x0));
+	r3d_clear_depth_buffer(&vars->r3d);
+
+	if (vars->menu_open)
+		menu_tick(&vars->menu, vars);
+
+	map_tick(vars, &vars->map);
+
+	if (!vars->menu_open)
+	{
+		r3d_raycast_world(&vars->r3d, &vars->map, vars);
+		draw_gun(&vars->map.player->gun[vars->map.player->gun_index], &vars->r3d);
+		draw_crosshair(&vars->r3d, vars);
+		minimap_draw(&vars->minimap, &vars->r3d, vars);
+		print_health(vars);
+	}
+	else
+		menu_draw(&vars->menu, &vars->r3d, vars);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d.canvas, 0, 0);
+}
+
+#endif
 
 int	main(int argc, char *argv[])
 {

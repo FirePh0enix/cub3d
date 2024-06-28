@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/27 22:04:48 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:20:35 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,8 @@ typedef struct s_vars
 
 	suseconds_t		start_time;
 	suseconds_t		game_time;
+
+	uint32_t		ticks;
 }	t_vars;
 
 void		load_skin(t_sprite *sp, t_sprite *sh, char *name,

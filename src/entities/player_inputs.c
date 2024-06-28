@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:36:30 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 11:49:41 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:08:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	shoot(t_player *player, t_vars *vars)
 			v3(player->camera->pos.x, 0, player->camera->pos.z),
 			player->camera->rot}, 10.0, ENTITY_FAKE_PLAYER);
 	player->gun[vars->map.player->gun_index].has_shoot = true;
-	if (entity)
+	if (_BONUS && entity)
 	{
 		if (!vars->is_server)
 			netclient_send_hit(&vars->client, entity, 1);
@@ -36,7 +36,7 @@ static void	shoot(t_player *player, t_vars *vars)
 			netserv_broadcast(&vars->server, &p, sizeof(t_packet_hit), -1);
 		}
 	}
-	else if (!vars->is_server)
+	else if (_BONUS && !vars->is_server)
 		netclient_send_hit(&vars->client, NULL, 1);
 }
 
@@ -52,11 +52,11 @@ static void	toggle_door(t_player *p, t_vars *vars)
 	else if (d.x >= 0 && d.y >= 0 && p->base.map->tiles[d.x
 			+ d.y * p->base.map->width] == TILE_DOOR)
 		p->base.map->tiles[d.x + d.y * p->base.map->width] = TILE_DOOR_OPEN;
-	if (vars->is_server)
+	if (_BONUS && vars->is_server)
 		netserv_broadcast_door_state(&vars->server, d,
 			p->base.map->tiles[d.x + d.y
 			* p->base.map->width] == TILE_DOOR, -1);
-	else
+	else if (_BONUS)
 		netclient_send_door_state(&vars->client, d,
 			p->base.map->tiles[d.x + d.y
 			* p->base.map->width] == TILE_DOOR);

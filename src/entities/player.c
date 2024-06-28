@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:50:03 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 11:54:51 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:07:16 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	player_tick(t_vars *v, t_player *p)
 		return ;
 	if (v->is_focused)
 		player_handle_inputs(v, p);
-	if (p->health <= 0 && v->is_server)
+	if (_BONUS && p->health <= 0 && v->is_server)
 	{
 		p->base.is_dead = true;
 		netserv_broadcast_dead_player(&v->server, v->map.player->base.id, -1);
@@ -66,9 +66,9 @@ void	player_tick(t_vars *v, t_player *p)
 	p->base.velocity.z *= 0.5;
 	p->camera->pos = p->base.transform.position;
 	tick_gun(&p->gun[p->gun_index]);
-	if (!v->is_server)
+	if (_BONUS && !v->is_server)
 		netclient_send_pos(&v->client, p->base.transform);
-	else
+	else if (_BONUS)
 		netserv_broadcast_pos(&v->server, p, -1);
 }
 

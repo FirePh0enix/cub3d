@@ -6,20 +6,19 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:50:40 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/27 17:33:31 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:12:12 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../scene.h"
 #include "../cub3d.h"
-#include <stdio.h>
 
 void	fake_player_tick(t_vars *vars, t_fake_player *fp)
 {
 	t_sprite	*sp;
 
 	(void) vars;
-	if (fp->health <= 0 && vars->is_server)
+	if (_BONUS && fp->health <= 0 && vars->is_server)
 	{
 		fp->base.is_dead = true;
 		netserv_broadcast_dead_player(&vars->server, fp->base.id, -1);
