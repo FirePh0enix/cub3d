@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:44:06 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 19:02:30 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/28 19:16:09 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ static	int	init_game(t_vars *vars)
 	minimap_create(&vars->minimap, &vars->r3d, &vars->map);
 	vars->r3d.camera = vars->map.player->camera;
 	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2, 720 / 2);
-	// mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
 	game_loop(vars);
 	return (0);
 }
