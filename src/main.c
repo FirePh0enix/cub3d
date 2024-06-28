@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/28 18:44:06 by vopekdas          #+#    #+#             */
+/*   Updated: 2024/06/28 18:57:10 by vopekdas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 #include "gun.h"
 #include "hash.h"
@@ -8,7 +20,6 @@
 #include "render/render.h"
 #include "mlx.h"
 #include "scene.h"
-
 #include <netinet/in.h>
 #include <pthread.h>
 #include <stdlib.h>
@@ -16,27 +27,20 @@
 #include <sys/socket.h>
 #include <sys/time.h>
 
-static void	close_hook(t_vars *vars)
-{
-	mlx_loop_end(vars->mlx);
-}
-
-static void	print_health(t_vars *vars)
-{
-	const int	percent = ((float)vars->map.player->health / (float)MAX_HEALTH) * 100.0;
-	char	buf[32];
-
-	ft_sprintf(buf, "%d %%", percent);
-	font_draw_str(&vars->r3d, &vars->bffont, buf, posnscale((t_v2i){
-		.x = 0,
-		.y = 500
-	}, 3));
-}
-
 #define LIMIT_HIGH 0.0167
 #define LIMIT_LOW  0.0100
 
 #if _BONUS == 1
+
+static	void	limit_frame(t_vars *vars, suseconds_t	delta)
+{
+	vars->last_update = getms();
+	vars->delta_sec = delta / 1000.0;
+	if (vars->delta_sec < LIMIT_LOW)
+		vars->delta_sec = LIMIT_LOW;
+	else if (vars->delta_sec > LIMIT_HIGH)
+		vars->delta_sec = LIMIT_HIGH;
+}
 
 static void	loop_hook(t_vars *vars)
 {
@@ -45,40 +49,21 @@ static void	loop_hook(t_vars *vars)
 	delta = getms() - vars->last_update;
 	if (delta < 16)
 		return ;
-	vars->last_update = getms();
-	vars->delta_sec = delta / 1000.0;
-
-	if (vars->delta_sec < LIMIT_LOW)
-		vars->delta_sec = LIMIT_LOW;
-	else if (vars->delta_sec > LIMIT_HIGH)
-		vars->delta_sec = LIMIT_HIGH;
-
+	limit_frame(vars, delta);
 	r3d_clear_color_buffer(&vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(&vars->r3d);
-
 	if (vars->menu_open)
 		menu_tick(&vars->menu, vars);
-
 	map_tick(vars, &vars->map);
-
 	if (vars->is_server)
-	{
 		netserv_poll(&vars->server, vars);
-	}
 	else if (vars->client.has_send_connect)
 	{
 		netclient_poll(&vars->client, vars);
 		netclient_pulse(&vars->client);
 	}
-
 	if (!vars->menu_open)
-	{
-		r3d_raycast_world(&vars->r3d, &vars->map, vars);
-		draw_gun(&vars->map.player->gun[vars->map.player->gun_index], &vars->r3d);
-		draw_crosshair(&vars->r3d, vars);
-		minimap_draw(&vars->minimap, &vars->r3d, vars);
-		print_health(vars);
-	}
+		menu_closed(vars);
 	else
 		menu_draw(&vars->menu, &vars->r3d, vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d.canvas, 0, 0);
@@ -96,28 +81,17 @@ static void	loop_hook(t_vars *vars)
 	}
 	vars->ticks = 0;
 	vars->delta_sec = 0.001;
-
 	if (vars->delta_sec < LIMIT_LOW)
 		vars->delta_sec = LIMIT_LOW;
 	else if (vars->delta_sec > LIMIT_HIGH)
 		vars->delta_sec = LIMIT_HIGH;
-
 	r3d_clear_color_buffer(&vars->r3d, hex(0x0));
 	r3d_clear_depth_buffer(&vars->r3d);
-
 	if (vars->menu_open)
 		menu_tick(&vars->menu, vars);
-
 	map_tick(vars, &vars->map);
-
 	if (!vars->menu_open)
-	{
-		r3d_raycast_world(&vars->r3d, &vars->map, vars);
-		draw_gun(&vars->map.player->gun[vars->map.player->gun_index], &vars->r3d);
-		draw_crosshair(&vars->r3d, vars);
-		minimap_draw(&vars->minimap, &vars->r3d, vars);
-		print_health(vars);
-	}
+		menu_closed(vars);
 	else
 		menu_draw(&vars->menu, &vars->r3d, vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->r3d.canvas, 0, 0);
@@ -125,35 +99,29 @@ static void	loop_hook(t_vars *vars)
 
 #endif
 
+static	void	init_player(t_vars *vars)
+{
+	t_player	*player;
+
+	player = player_new(vars, &vars->map, next_entity_id(vars));
+	vars->menu.state = STATE_MAIN;
+	vars->menu_open = true;
+	vars->map.player = player;
+	player->base.transform = vars->map.spawns[0];
+	player->spawn_transform = vars->map.spawns[0];
+	map_add_entity(&vars->map, player);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_vars			vars;
 
-	if (argc != 2 || !is_valid_file_name(argv[1]))
-		return (1);
 	ft_bzero(&vars, sizeof(t_vars));
-	vars.map.name = argv[1];
 	if (!parsing(&vars, argv, &vars.at, argc))
-	{
-		ft_free(&vars, &vars.at);
-		return (1);
-	}
+		return (ft_free(&vars, &vars.at));
 	vars.exec_hash = fnv32_hash_file("cub3D");
-	vars.last_update = 0;
-	vars.mlx = mlx_init();
-	if (!vars.mlx)
-	{
-		ft_putstr_fd(RED"Error\nMLX pointed returned NULL\n"RESET, 2);
-		ft_free(&vars, &vars.at);
-		return (1);
-	}
-	vars.win = mlx_new_window(vars.mlx, 1280, 720, "cub3D");
-	if (!vars.win)
-	{
-		ft_putstr_fd(RED"Error\nFailed to create the windows\n"RESET, 2);
-		ft_free(&vars, &vars.at);
-		return (1);
-	}
+	if (!init_mlx_settings(&vars))
+		return (ft_free(&vars, &vars.at));
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
@@ -164,29 +132,14 @@ int	main(int argc, char *argv[])
 	vars.door = tga_load_from_file("assets/textures/DOOR2_4.tga", &vars.at);
 	init_weapons(&vars);
 	if (!font_init(&vars.font, &vars.at) || !font_init_big(&vars.bffont, &vars.at))
-	{
-		ft_free(&vars, &vars.at);
-		return (1);
-	}
-	vars.menu.state = STATE_MAIN;
-	vars.menu_open = true;
+		return (ft_free(&vars, &vars.at));
 	load_skin(vars.skin[SKIN_MARINE], vars.skin_shoot[SKIN_MARINE], "player", &vars.at);
 	menu_init(&vars.menu, &vars.r3d, &vars.at);
-	t_player	*player = player_new(&vars, &vars.map, next_entity_id(&vars));
-	map_add_entity(&vars.map, player);
-	vars.map.player = player;
+	init_player(&vars);
 	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
 	minimap_create(&vars.minimap, &vars.r3d, &vars.map);
-	player->base.transform = vars.map.spawns[0];
-	player->spawn_transform = vars.map.spawns[0];
 	vars.r3d.camera = vars.map.player->camera;
 	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
 	// mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
-	mlx_do_key_autorepeatoff(vars.mlx);
-	mlx_loop(vars.mlx);
-	mlx_do_key_autorepeaton(vars.mlx);
-	ft_free(&vars, &vars.at);
-	mlx_destroy_window(vars.mlx, vars.win);
-	mlx_destroy_display(vars.mlx);
-	free(vars.mlx);
+	game_loop(&vars);
 }

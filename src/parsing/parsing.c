@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 16:18:03 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:41:36 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	parsing(t_vars *vars, char **argv, t_alloc_table *at, int ac)
 {
 	char	*line;
 
-
+	vars->map.name = argv[1];
 	if (!check_name_and_ac(ac, argv))
 		return (false);
 	line = read_to_string(argv[1], at);

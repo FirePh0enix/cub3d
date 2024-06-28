@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 16:45:40 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:54:48 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,4 +221,9 @@ void		draw_crosshair(t_r3d *r3d, t_vars *vars);
 int			mouse_scroll(t_vars *vars);
 bool 		init_mlx(t_vars *vars);
 bool		init_weapons(t_vars *vars);
+bool 		init_mlx_settings(t_vars *vars);
+void 		game_loop(t_vars *vars);
+void		close_hook(t_vars *vars);
+void		print_health(t_vars *vars);
+void 		menu_closed(t_vars *vars);
 #endif
