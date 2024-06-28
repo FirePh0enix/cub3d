@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 18:41:36 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/28 19:03:47 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static bool	is_map_config_valid(t_vars *vars, char **mp_conf, t_alloc_table *at)
 	return (true);
 }
 
-static bool check_name_and_ac(int ac, char **av)
+static	bool	check_name_and_ac(int ac, char **av)
 {
 	if (ac != 2)
 	{
@@ -44,7 +44,7 @@ static bool check_name_and_ac(int ac, char **av)
 	return (true);
 }
 
-static bool  check_map(t_vars *vars, t_alloc_table *at)
+static bool	check_map(t_vars *vars, t_alloc_table *at)
 {
 	char	**map;
 

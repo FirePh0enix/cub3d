@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:44:06 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 18:57:10 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/28 19:02:30 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,25 @@ static void	loop_hook(t_vars *vars)
 
 #endif
 
-static	void	init_player(t_vars *vars)
+static	int	init_game(t_vars *vars)
 {
-	t_player	*player;
-
-	player = player_new(vars, &vars->map, next_entity_id(vars));
-	vars->menu.state = STATE_MAIN;
-	vars->menu_open = true;
-	vars->map.player = player;
-	player->base.transform = vars->map.spawns[0];
-	player->spawn_transform = vars->map.spawns[0];
-	map_add_entity(&vars->map, player);
+	vars->door = tga_load_from_file("assets/textures/DOOR2_4.tga", &vars->at);
+	init_weapons(vars);
+	if (!font_init(&vars->font, &vars->at)
+		|| !font_init_big(&vars->bffont, &vars->at))
+		return (ft_free(vars, &vars->at));
+	load_skin(vars->skin[SKIN_MARINE], vars->skin_shoot[SKIN_MARINE],
+		"player", &vars->at);
+	menu_init(&vars->menu, &vars->r3d, &vars->at);
+	init_player(vars);
+	mlx_hook(vars->win, MotionNotify, PointerMotionMask,
+		(void *) player_mouse_event, &vars);
+	minimap_create(&vars->minimap, &vars->r3d, &vars->map);
+	vars->r3d.camera = vars->map.player->camera;
+	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2, 720 / 2);
+	// mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
+	game_loop(vars);
+	return (0);
 }
 
 int	main(int argc, char *argv[])
@@ -125,21 +133,11 @@ int	main(int argc, char *argv[])
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
-	mlx_hook(vars.win, ButtonPress, ButtonPressMask, (void *)mouse_button_pressed_hook, &vars);
-	mlx_hook(vars.win, ButtonRelease, ButtonReleaseMask, (void *)mouse_button_released_hook, &vars);
+	mlx_hook(vars.win, ButtonPress, ButtonPressMask,
+		(void *)mouse_button_pressed_hook, &vars);
+	mlx_hook(vars.win, ButtonRelease, ButtonReleaseMask,
+		(void *)mouse_button_released_hook, &vars);
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 	r3d_init(&vars.r3d, vars.mlx, v2i(1280, 720), &vars.at);
-	vars.door = tga_load_from_file("assets/textures/DOOR2_4.tga", &vars.at);
-	init_weapons(&vars);
-	if (!font_init(&vars.font, &vars.at) || !font_init_big(&vars.bffont, &vars.at))
-		return (ft_free(&vars, &vars.at));
-	load_skin(vars.skin[SKIN_MARINE], vars.skin_shoot[SKIN_MARINE], "player", &vars.at);
-	menu_init(&vars.menu, &vars.r3d, &vars.at);
-	init_player(&vars);
-	mlx_hook(vars.win, MotionNotify, PointerMotionMask, (void *) player_mouse_event, &vars);
-	minimap_create(&vars.minimap, &vars.r3d, &vars.map);
-	vars.r3d.camera = vars.map.player->camera;
-	mlx_mouse_move(vars.mlx, vars.win, 1280 / 2, 720 / 2);
-	// mlx_mouse_hide(vars.mlx, vars.win); // TODO: This may leak memory
-	game_loop(&vars);
+	init_game(&vars);
 }

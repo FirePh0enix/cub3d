@@ -6,14 +6,14 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:35:48 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 18:37:18 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/28 19:03:57 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "mlx.h"
 
-bool init_mlx_settings(t_vars *vars)
+bool	init_mlx_settings(t_vars *vars)
 {
 	vars->mlx = mlx_init();
 	if (!vars->mlx)

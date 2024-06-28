@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:02:46 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/28 18:55:04 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/28 19:03:21 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	menu_key(t_menu *menu, t_vars *vars, int c)
 	}
 }
 
-void menu_closed(t_vars *vars)
+void	menu_closed(t_vars *vars)
 {
 	r3d_raycast_world(&vars->r3d, &vars->map, vars);
 	draw_gun(&vars->map.player->gun[vars->map.player->gun_index], &vars->r3d);
