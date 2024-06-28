@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/28 19:02:12 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/28 19:07:58 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ SOURCES=\
 	src/hash.c \
 	src/skin.c \
 	src/time.c \
-	src/init_player.c \
+	src/entities/init_player.c \
 	src/entities/player.c \
 	src/entities/player_inputs.c \
 	src/entities/fake_player.c \
