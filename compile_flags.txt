@@ -2,4 +2,3 @@
 -Ilibft
 -Wall
 -Wextra
--D_BONUS=1

@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:40 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/22 15:55:41 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:51:03 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ static	bool	error_char(char c, int y, int x)
 
 static bool	is_valid_char(char c)
 {
-	if (c == '0' || c == '1' || c == ' ' || c == 'D')
+	if (c == '0' || c == '1' || c == ' ')
 		return (true);
 	else if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
 		return (true);
 	else if (_BONUS && ft_isdigit(c))
+		return (true);
+	else if (_BONUS && c == 'D')
 		return (true);
 	else
 		return (false);

@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:55:24 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/22 15:57:04 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:41:10 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char	*detect_identifier(char *texture)
 	char	*identifier;
 
 	i = 0;
-	identifier = NULL;
 	identifier = ft_calloc(ft_strlen(texture) + 1, 1);
 	if (!identifier)
 	{

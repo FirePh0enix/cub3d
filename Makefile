@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/28 19:07:58 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/29 15:32:27 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SOURCES=\
 	src/adjust_velocity.c \
 	src/raycast.c \
 	src/collision.c \
+	src/parsing/count_fc.c \
 	src/parsing/create_map.c \
 	src/parsing/free.c \
 	src/parsing/map.c \

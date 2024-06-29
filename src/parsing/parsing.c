@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 19:03:47 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:57:19 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 
 static bool	is_map_config_valid(t_vars *vars, char **mp_conf, t_alloc_table *at)
 {
+	if (!fill_texture(&vars->map, mp_conf, at))
+		return (false);
+	if (!is_valid_rgb(&vars->map, mp_conf, at))
+		return (false);
 	if (!is_valid_char_in_map(vars->map.maps, &vars->map))
 		return (false);
 	if (!is_map_surrounded(vars->map.maps, &vars->map))
 		return (false);
 	if (!find_player_pos(vars->map.maps, &vars->map))
-		return (false);
-	if (!fill_texture(&vars->map, mp_conf, at))
-		return (false);
-	if (!is_valid_rgb(&vars->map, mp_conf, at))
 		return (false);
 	if (!map_to_tiles(&vars->map, vars->map.maps, at))
 		return (false);

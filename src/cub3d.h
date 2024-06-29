@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 19:06:51 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:31:32 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,5 +225,6 @@ void		close_hook(t_vars *vars);
 void		print_health(t_vars *vars);
 void		menu_closed(t_vars *vars);
 void		init_player(t_vars *vars);
+bool		is_valid_number_fc(char **textures);
 
 #endif

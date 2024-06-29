@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 13:50:35 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:27:43 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*which_ident_miss(int no, int so, int we, int ea)
 		return (0);
 }
 
-bool	check_nb_identifer(int no, int so, int we, int ea)
+bool	check_nb_identifier(int no, int so, int we, int ea)
 {
 	char	*miss_ident;
 
@@ -70,7 +70,7 @@ static	bool	is_valid_number_ident(char **textures, int no, int so, int we)
 		}
 		free(identifier);
 	}
-	return (check_nb_identifer(no, so, we, ea));
+	return (check_nb_identifier(no, so, we, ea));
 }
 
 static bool	load_if_valid(char *maps, char *ide, t_alloc_table *at, t_map *map)

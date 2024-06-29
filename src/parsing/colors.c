@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/22 15:56:51 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:37:13 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ bool	is_valid_rgb(t_map *map, char **map_config, t_alloc_table *at)
 	i = -1;
 	while (++i < 2)
 	{
+		if (!is_valid_number_fc(map_config))
+			return (false);
 		identifier = detect_identifier(map_config[i + 4]);
 		if (!identifier)
 			return (false);

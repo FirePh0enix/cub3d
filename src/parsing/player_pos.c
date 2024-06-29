@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   player_pos.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/27 00:04:12 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:56:01 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
 static t_v3	fill_position(int x, int y)
 {
@@ -40,8 +41,15 @@ static	bool	valid_spawn_count(int spawn_count)
 			2);
 		return (false);
 	}
-	else
+	else if (spawn_count > 0 && _BONUS)
 		return (true);
+	else
+	{
+		ft_putstr_fd(RED"Error\nToo many spawn points provided ("BRED, 2);
+		ft_putnbr_fd(spawn_count, 2);
+		ft_putstr_fd(RED"). Only one spawn point is allowed.\n"RESET, 2);
+		return (false);
+	}
 }
 
 bool	find_player_pos(char **maps, t_map *map)

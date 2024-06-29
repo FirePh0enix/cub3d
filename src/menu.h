@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 19:45:22 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/28 11:45:37 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:04:24 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,9 @@ typedef struct s_menu
 	t_state		state;
 	bool		already_pressed;
 
-	// Main
 	t_button	singleplayer;
 	t_button	multiplayer;
 
-	// Multiplayer
 	t_button	host;
 	t_button	join;
 
@@ -96,7 +94,6 @@ typedef struct s_menu
 	t_menu_img	name_img;
 	t_text_edit	name;
 
-	// Dead
 	t_button	dead_msg;
 	t_button	respawn;
 }				t_menu;
