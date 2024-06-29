@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:44:06 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 17:38:39 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/29 20:04:16 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,23 +99,31 @@ static void	loop_hook(t_vars *vars)
 
 #endif
 
-static	int	init_game(t_vars *vars)
+static	int	init_game(t_vars *v)
 {
-	vars->door = tga_load_from_file("assets/textures/DOOR2_4.tga", &vars->at);
-	init_weapons(vars);
-	if (!font_init(&vars->font, &vars->at)
-		|| !font_init_big(&vars->bffont, &vars->at))
-		return (ft_free(vars, &vars->at));
-	load_skin(vars->skin[SKIN_MARINE], vars->skin_shoot[SKIN_MARINE],
-		"player", &vars->at);
-	menu_init(&vars->menu, &vars->r3d, &vars->at);
-	init_player(vars);
-	mlx_hook(vars->win, MotionNotify, PointerMotionMask,
-		(void *) player_mouse_event, vars);
-	minimap_create(&vars->minimap, &vars->r3d, &vars->map);
-	vars->r3d.camera = vars->map.player->camera;
-	mlx_mouse_move(vars->mlx, vars->win, 1280 / 2, 720 / 2);
-	game_loop(vars);
+	v->door = tga_load_from_file("assets/textures/DOOR2_4.tga", &v->at);
+	v->tiles[0] = tga_load_from_file("assets/textures/HELL5_1.tga", &v->at);
+	v->tiles[1] = tga_load_from_file("assets/textures/MOSSBRIK.tga", &v->at);
+	v->tiles[2] = tga_load_from_file("assets/textures/RROCK05.tga", &v->at);
+	v->tiles[3] = tga_load_from_file("assets/textures/WALL72_7.tga", &v->at);
+	v->tiles[4] = tga_load_from_file("assets/textures/RROCK02.tga", &v->at);
+	v->tiles[5] = tga_load_from_file("assets/textures/AQDIRT03.tga", &v->at);
+	v->tiles[6] = tga_load_from_file("assets/textures/FENCE4.tga", &v->at);
+	v->tiles[7] = tga_load_from_file("assets/textures/CRLWDL6.tga", &v->at);
+	init_weapons(v);
+	if (!font_init(&v->font, &v->at)
+		|| !font_init_big(&v->bffont, &v->at))
+		return (ft_free(v, &v->at));
+	load_skin(v->skin[SKIN_MARINE], v->skin_shoot[SKIN_MARINE],
+		"player", &v->at);
+	menu_init(&v->menu, &v->r3d, &v->at);
+	init_player(v);
+	mlx_hook(v->win, MotionNotify, PointerMotionMask,
+		(void *) player_mouse_event, v);
+	minimap_create(&v->minimap, &v->r3d, &v->map);
+	v->r3d.camera = v->map.player->camera;
+	mlx_mouse_move(v->mlx, v->win, 1280 / 2, 720 / 2);
+	game_loop(v);
 	return (0);
 }
 
