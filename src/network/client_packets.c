@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 21:51:48 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 22:27:09 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/29 20:52:31 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void	netclient_packet_response(t_client *client, t_vars *vars,
 	client->unique_id = p->unique_id;
 	client->entity_id = p->entity_id;
 	vars->map.player->base.id = client->entity_id;
+	vars->map.player->spawn_transform = vars->map.spawns[
+		(p->unique_id + 1) % vars->map.spawn_count];
+	vars->map.player->base.transform = vars->map.player->spawn_transform;
 	client->last_pulse = getms();
 	vars->menu_open = false;
 }
@@ -40,14 +43,19 @@ void	netclient_packet_pos(t_client *client, t_vars *vars,
 	t_packet_pos *p)
 {
 	t_entity	*entity;
+	t_v3		pos;
+	t_v3		pos2;
 
 	(void) client;
 	entity = map_get_entity_by_id(&vars->map, p->eid);
 	if (entity != NULL)
 	{
+		pos = entity->transform.position;
 		entity->transform.position = p->pos;
 		entity->transform.rotation = p->rot;
-		if (entity->type == ENTITY_FAKE_PLAYER)
+		pos2 = entity->transform.position;
+		if (entity->type == ENTITY_FAKE_PLAYER && (pos.x != pos2.x
+			|| pos.z != pos2.z))
 			sprite_tick(fake_player_get_sprite((t_fake_player *) entity, vars));
 	}
 }

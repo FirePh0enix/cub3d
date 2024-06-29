@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:54:07 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 19:57:58 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/29 20:59:29 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,29 @@
 #include "../cub3d.h"
 #include "libft.h"
 
-void	netserv_move_player(t_server *server, t_packet_pos *pos, t_vars *vars)
+void	netserv_move_player(t_server *server, t_packet_pos *p, t_vars *vars)
 {
 	t_remote_client	*client;
 	int				i;
+	t_v3			pos;
+	t_v3			pos2;
 
 	(void) vars;
-	if (pos->eid < 0 || pos->eid >= 8 || !server->clients[pos->eid].present)
+	if (p->eid < 0 || p->eid >= 8 || !server->clients[p->eid].present)
 	{
 		ft_printf("Error\nInvalid packet received from client.\n");
 		return ;
 	}
-	i = pos->eid;
-	client = &server->clients[pos->eid];
-	client->entity->transform.position = pos->pos;
-	client->entity->transform.rotation = pos->rot;
-	pos->eid = client->entity->id;
-	netserv_broadcast(server, pos, sizeof(t_packet_pos), i);
-	if (client->entity->type == ENTITY_FAKE_PLAYER)
+	i = p->eid;
+	client = &server->clients[p->eid];
+	pos = client->entity->transform.position;
+	client->entity->transform.position = p->pos;
+	client->entity->transform.rotation = p->rot;
+	pos2 = client->entity->transform.position;
+	p->eid = client->entity->id;
+	netserv_broadcast(server, p, sizeof(t_packet_pos), i);
+	if (client->entity->type == ENTITY_FAKE_PLAYER
+		&& (pos.x != pos2.x || pos.z != pos2.z))
 		sprite_tick(fake_player_get_sprite((t_fake_player *) client->entity,
 				vars));
 }
@@ -66,10 +71,11 @@ void	netserv_player_hit(t_server *serv, t_packet_hit *hit, t_vars *vars)
 	{
 		((t_player *) entity)->health -= hit->damage_taken;
 	}
-	if (serv->clients[client_id].present)
+	fake_player = (t_fake_player *) map_get_entity_by_id(&vars->map, hit->source_id);
+	if (fake_player && fake_player->base.type == ENTITY_FAKE_PLAYER)
 	{
-		fp_reset_shoot_anim((t_fake_player *) serv->clients[client_id].entity);
-		((t_fake_player *) serv->clients[client_id].entity)->is_shooting = true;
+		fp_reset_shoot_anim(fake_player);
+		fake_player->is_shooting = true;
 	}
 	netserv_broadcast(serv, hit, sizeof(t_packet_hit), client_id);
 }

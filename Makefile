@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
+#    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/06/29 15:32:27 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/06/29 20:48:16 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SOURCES=\
 	src/hash.c \
 	src/skin.c \
 	src/time.c \
+	src/math/mat4.c \
 	src/entities/init_player.c \
 	src/entities/player.c \
 	src/entities/player_inputs.c \
@@ -94,6 +95,9 @@ SOURCES_NET=\
 
 OBJECTS=$(SOURCES:.c=.o)
 DEPENDENCIES=$(OBJECTS:.o=.d)
+
+BONUS_DEPS=$(SOURCES_NET:.c=.d)
+
 NAME=cub3D
 CC=clang
 
@@ -103,7 +107,7 @@ CFLAGS=-Imlx -Ilibft -MMD $(OPTS) $(DEBUG) -Wall -Wextra #-Werror
 
 all: $(NAME)
 
--include $(DEPENDENCIES)
+-include $(DEPENDENCIES) $(BONUS_DEPS)
 
 libft/libft.a:
 	make -C libft
@@ -115,7 +119,7 @@ $(NAME): $(OBJECTS) libft/libft.a mlx/libmlx.a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext $(LDFLAGS)
 
 bonus: CFLAGS+=-D_BONUS=1
-bonus: $(SOURCES_NET:.c=.o) $(OBJECTS) libft/libft.a mlx/libmlx.a
+bonus: $(OBJECTS) $(SOURCES_NET:.c=.o) libft/libft.a mlx/libmlx.a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(SOURCES_NET:.c=.o) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext $(LDFLAGS)
 
 perf: CFLAGS+=-pg
@@ -124,7 +128,7 @@ perf: bonus
 	gprof cub3D gmon.out > profile.txt
 
 clean:
-	rm -rf $(OBJECTS) $(OBJECTS:.o=.d)
+	rm -rf $(OBJECTS) $(SOURCES_NET:.c=.o) $(DEPENDENCIES) $(BONUS_DEPS)
 
 fclean: clean
 	rm -f cub3d cub3d-ip cub3d-name

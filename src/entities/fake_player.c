@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:50:40 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/28 15:12:12 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/29 20:45:36 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,6 @@ void	fake_player_tick(t_vars *vars, t_fake_player *fp)
 		sprite_tick(sp);
 		if (sprite_is_end(sp))
 			fp->is_shooting = false;
-	}
-	else
-	{
-		sp = fake_player_get_sprite(fp, vars);
-		sprite_tick(sp);
 	}
 }
 

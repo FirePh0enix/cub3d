@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:15:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 19:59:37 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/29 20:17:53 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,6 @@ void	netserv_connect_client(t_server *server, t_packet_connect *conn,
 	if (i == -1)
 	{
 		netserv_deny(server, addr, REASON_SERVER_FULL, vars);
-		return ;
-	}
-	if (conn->hash != vars->exec_hash)
-	{
-		netserv_deny(server, addr, REASON_INVALID_HASH, vars);
 		return ;
 	}
 	if (conn->map_hash != vars->map.hash)
