@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_draw.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:40:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/26 23:09:26 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/06/29 16:03:50 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	sprite_draw(t_r3d *r3d, t_sprite *sprite, t_v2i pos, float scale)
 	t_color			col;
 
 	x = -1;
+	if (!image || !sprite)
+		return ;
 	while (++x < image->w * scale)
 	{
 		y = -1;
@@ -44,6 +46,8 @@ void	sprite_draw_single(t_r3d *r3d, t_image *image, t_v2i pos, float scale)
 	t_color			col;
 
 	x = -1;
+	if (!image)
+		return ;
 	while (++x < image->w * scale)
 	{
 		y = -1;
