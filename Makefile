@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/07/01 11:24:17 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/07/01 14:47:02 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SOURCES=\
 	src/map.c \
 	src/menu.c \
 	src/menu_init.c \
+	src/menu_init_utils.c \
 	src/menu_handler.c \
 	src/menu_filter.c \
 	src/menu_data.c \
