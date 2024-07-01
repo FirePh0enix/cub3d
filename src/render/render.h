@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/01 19:59:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 23:53:35 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdint.h>
 # include <stdint.h>
 
-typedef struct	s_img
+typedef struct s_img
 {
 	XImage			*image;
 	Pixmap			pix;
@@ -36,7 +36,6 @@ typedef struct	s_img
 	char			*data;
 	XShmSegmentInfo	shm;
 }				t_img;
-
 
 typedef struct s_map	t_map;
 

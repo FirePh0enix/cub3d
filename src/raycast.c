@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 22:35:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 12:38:55 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 23:53:01 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,8 @@ t_v2i	raycast_door(t_map *map, t_transform ray, float size)
 	i = -1;
 	while (++i < size / precision)
 	{
-		v = v3_add(v3_add(ray.position, v3(0, 0, 0)),
-				v3_scale(dir, precision * i));
-		if (is_full_tile(v3_add(v, v3(0.5, 0.0, 0.5)), map))
+		v = v3_add(ray.position, v3_scale(dir, precision * i));
+		if (is_full_tile(v, map))
 			break ;
 		p.x = v.x;
 		p.y = v.z;
