@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:03:54 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/28 15:11:32 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:22:54 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	menu_draw(t_menu *menu, t_r3d *r3d, t_vars *vars)
 
 void	menu_draw(t_menu *menu, t_r3d *r3d, t_vars *vars)
 {
+	(void) vars;
 	if (menu->state == STATE_MAIN)
 	{
 		button_draw(&menu->singleplayer, r3d);
@@ -57,6 +58,8 @@ void	menu_draw(t_menu *menu, t_r3d *r3d, t_vars *vars)
 }
 
 #endif
+
+#if _BONUS == 1
 
 static void	menu_tick_multi(t_menu *menu, t_vars *vars)
 {
@@ -75,8 +78,6 @@ static void	menu_tick_multi(t_menu *menu, t_vars *vars)
 		menu->name.focused = true;
 	}
 }
-
-#if _BONUS == 1
 
 void	menu_tick(t_menu *menu, t_vars *vars)
 {
