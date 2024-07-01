@@ -6,12 +6,13 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 11:37:14 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/28 14:55:25 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 20:00:41 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "menu.h"
 #include "cub3d.h"
+#include <fcntl.h>
 
 void	save_data(t_menu *menu)
 {

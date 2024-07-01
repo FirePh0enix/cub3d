@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/01 15:42:08 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:59:49 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,27 @@
 # include "types.h"
 # include "font.h"
 # include "../mem.h"
-# include "mlx_int.h"
+# include <X11/Xlib.h>
+# include <X11/extensions/XShm.h>
 # include <stdbool.h>
 # include <stdint.h>
 # include <stdint.h>
+
+typedef struct	s_img
+{
+	XImage			*image;
+	Pixmap			pix;
+	GC				gc;
+	int				size_line;
+	int				bpp;
+	int				width;
+	int				height;
+	int				type;
+	int				format;
+	char			*data;
+	XShmSegmentInfo	shm;
+}				t_img;
+
 
 typedef struct s_map	t_map;
 

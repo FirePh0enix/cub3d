@@ -6,13 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 10:44:33 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 18:56:55 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 20:00:54 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "menu.h"
 #include "cub3d.h"
 #include "render/font.h"
+#include <X11/keysym.h>
 
 void	text_edit_draw(t_text_edit *text_edit, t_r3d *r3d, t_vars *vars)
 {

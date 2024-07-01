@@ -6,12 +6,13 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 23:14:57 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 18:54:04 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 20:00:30 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "mlx.h"
+#include <X11/keysym.h>
 
 int	key_pressed_hook(int keycode, t_vars *vars)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/01 18:28:37 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/01 20:01:17 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include "minimap.h"
 # include <stdbool.h>
 # include "./parsing/parsing.h"
+# include <X11/keysym.h>
+# include <fcntl.h>
 
 # define LIMIT_HIGH 0.0167
 # define LIMIT_LOW  0.0100
