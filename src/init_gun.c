@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:34:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 16:14:39 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:21:22 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static	bool	init_shotgun(t_vars *vars)
 				"assets/textures/SHTFA0.tga",
 				"assets/textures/SHTFB0.tga"
 				), 2, false, 100);
-	vars->shotgun.offset = (t_v2i){-18, 96};
+	vars->shotgun.offset = (t_v2i){0, 96};
+	vars->shotgun.main_offset = (t_v2i){-16, 0};
 	return (true);
 }
 
