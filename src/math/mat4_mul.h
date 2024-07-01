@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 12:13:12 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/16 12:13:40 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:25:28 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "mat4.h"
 
-static t_mat4	mat4_mul_mat4(t_mat4 a, t_mat4 b)
+static inline t_mat4	mat4_mul_mat4(t_mat4 a, t_mat4 b)
 {
 	t_mat4	m;
 
