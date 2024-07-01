@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/07/01 14:47:02 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/07/01 15:31:15 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -123,15 +123,10 @@ bonus: CFLAGS+=-D_BONUS=1
 bonus: $(OBJECTS) $(SOURCES_NET:.c=.o) libft/libft.a mlx/libmlx.a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(SOURCES_NET:.c=.o) libft/libft.a mlx/libmlx.a -lm -lX11 -lXext $(LDFLAGS)
 
-perf: CFLAGS+=-pg
-perf: bonus
-	./cub3D map3.cub
-	gprof cub3D gmon.out > profile.txt
-
 clean:
 	rm -rf $(OBJECTS) $(SOURCES_NET:.c=.o) $(DEPENDENCIES) $(BONUS_DEPS)
 
 fclean: clean
-	rm -f cub3d cub3d-ip cub3d-name
+	rm -f cub3D cub3d-ip cub3d-name
 
 re: fclean all
