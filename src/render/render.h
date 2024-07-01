@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:05:09 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 23:55:44 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:42:08 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ typedef struct s_rw_param
 
 void		r3d_raycast_world(t_r3d *r3d, t_map *map, t_vars *vars);
 void		raycast_entities(t_r3d *r3d, t_vars *vars);
-t_image		*texture_for_wall(t_map *map, int side, t_v2i p, t_v2i t);
+t_image		*texture_for_wall(t_vars *vars, int side, t_v2i p, t_v2i t);
 void		raycast_floor_and_ceiling(t_r3d *r3d, t_map *map);
 void		draw_each_pixels(t_r3d *r3d, t_image *texture, t_ep_param p);
 

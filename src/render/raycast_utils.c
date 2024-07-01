@@ -6,24 +6,27 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:19:27 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 23:45:13 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:41:56 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 #include "../cub3d.h"
 
-t_image	*texture_for_wall(t_map *map, int side, t_v2i p, t_v2i t)
+t_image	*texture_for_wall(t_vars *vars, int side, t_v2i p, t_v2i t)
 {
+	if (vars->map.tiles[p.x + p.y * vars->map.width] >= TILE_2
+		&& vars->map.tiles[p.x + p.y * vars->map.width] <= TILE_9)
+		return (vars->tiles[vars->map.tiles[p.x + p.y * vars->map.width] - '0' - 2]);
 	if (side == 0 && p.x >= t.x)
-		return (map->ea);
+		return (vars->map.ea);
 	else if (side == 0 && p.x < t.x)
-		return (map->we);
+		return (vars->map.we);
 	else if (side == 1 && p.y < t.y)
-		return (map->no);
+		return (vars->map.no);
 	else if (side == 1 && p.y >= t.y)
-		return (map->so);
-	return (map->no);
+		return (vars->map.so);
+	return (vars->map.no);
 }
 
 void	draw_each_pixels(t_r3d *r3d, t_image *texture, t_ep_param p)

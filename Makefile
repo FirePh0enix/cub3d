@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/07/01 15:31:15 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/07/01 15:34:54 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,6 +125,8 @@ bonus: $(OBJECTS) $(SOURCES_NET:.c=.o) libft/libft.a mlx/libmlx.a
 
 clean:
 	rm -rf $(OBJECTS) $(SOURCES_NET:.c=.o) $(DEPENDENCIES) $(BONUS_DEPS)
+	make -C mlx clean
+	make -C libft fclean
 
 fclean: clean
 	rm -f cub3D cub3d-ip cub3d-name

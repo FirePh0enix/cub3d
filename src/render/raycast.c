@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/28 11:30:02 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:40:13 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	draw_line(t_r3d *r3d, t_map *map, t_vars *vars, t_dl_param p)
 	if (map->tiles[p.map_x + p.map_y * map->width] == TILE_DOOR)
 		texture = vars->door;
 	else
-		texture = texture_for_wall(map, p.side,
+		texture = texture_for_wall(vars, p.side,
 				v2i(vars->map.player->base.transform.position.x,
 					vars->map.player->base.transform.position.z),
 				v2i(p.map_x, p.map_y));
