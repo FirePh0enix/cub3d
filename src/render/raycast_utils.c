@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:19:27 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/01 20:10:42 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 20:13:45 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ t_image	*texture_for_wall(t_vars *vars, int side, t_v2i p, t_v2i t)
 {
 	if (vars->map.tiles[t.x + t.y * vars->map.width] >= TILE_2
 		&& vars->map.tiles[t.x + t.y * vars->map.width] <= TILE_9)
-		return (vars->tiles[vars->map.tiles[t.x + t.y * vars->map.width] - TILE_2]);
+		return (vars->tiles[
+				vars->map.tiles[t.x + t.y * vars->map.width] - TILE_2]);
 	if (side == 0 && p.x >= t.x)
 		return (vars->map.ea);
 	else if (side == 0 && p.x < t.x)
