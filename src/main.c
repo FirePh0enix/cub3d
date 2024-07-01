@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:44:06 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 20:04:16 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:29:40 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ static void	loop_hook(t_vars *vars)
 
 #endif
 
-static	int	init_game(t_vars *v)
+static	int	init_game(t_vars *v, char **av)
 {
-	v->door = tga_load_from_file("assets/textures/DOOR2_4.tga", &v->at);
-	v->tiles[0] = tga_load_from_file("assets/textures/HELL5_1.tga", &v->at);
+	init_door(av, v);
+	v->tiles[0] = tga_load_from_file("assets/textures/AQMETL06.tga", &v->at);
 	v->tiles[1] = tga_load_from_file("assets/textures/MOSSBRIK.tga", &v->at);
 	v->tiles[2] = tga_load_from_file("assets/textures/RROCK05.tga", &v->at);
 	v->tiles[3] = tga_load_from_file("assets/textures/WALL72_7.tga", &v->at);
@@ -146,5 +146,5 @@ int	main(int argc, char *argv[])
 		(void *)mouse_button_released_hook, &vars);
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 	r3d_init(&vars.r3d, vars.mlx, v2i(1280, 720), &vars.at);
-	init_game(&vars);
+	init_game(&vars, argv);
 }
