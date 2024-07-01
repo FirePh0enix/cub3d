@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 15:37:13 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:43:15 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
 static bool	invalid_rgb_char(char *color)
 {
@@ -74,7 +75,7 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 		if (color[i] && color[i] == ',')
 			++i;
 	}
-	return (true);
+	return (ft_countchr(color, ',') == 2);
 }
 
 static bool	texture_fc(char *colors, char *iden, t_alloc_table *at, t_map *map)

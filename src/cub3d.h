@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 19:47:29 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:43:48 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,5 +228,6 @@ void		print_health(t_vars *vars);
 void		menu_closed(t_vars *vars);
 void		init_player(t_vars *vars);
 bool		is_valid_number_fc(char **textures);
+size_t		ft_countchr(char *s, char c);
 
 #endif

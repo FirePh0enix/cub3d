@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client_packets.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 21:51:48 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/29 20:52:31 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:39:06 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	netclient_packet_pos(t_client *client, t_vars *vars,
 		entity->transform.rotation = p->rot;
 		pos2 = entity->transform.position;
 		if (entity->type == ENTITY_FAKE_PLAYER && (pos.x != pos2.x
-			|| pos.z != pos2.z))
+				|| pos.z != pos2.z))
 			sprite_tick(fake_player_get_sprite((t_fake_player *) entity, vars));
 	}
 }

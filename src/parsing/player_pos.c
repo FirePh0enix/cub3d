@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 15:56:01 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:03:23 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static	bool	valid_spawn_count(int spawn_count)
 		return (false);
 	}
 	else if (spawn_count > 0 && _BONUS)
+		return (true);
+	else if (spawn_count == 1)
 		return (true);
 	else
 	{

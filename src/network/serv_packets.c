@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serv_packets.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:54:07 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/29 20:59:29 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:39:19 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	netserv_player_hit(t_server *serv, t_packet_hit *hit, t_vars *vars)
 	{
 		((t_player *) entity)->health -= hit->damage_taken;
 	}
-	fake_player = (t_fake_player *) map_get_entity_by_id(&vars->map, hit->source_id);
+	fake_player = (t_fake_player *) map_get_entity_by_id(&vars->map,
+			hit->source_id);
 	if (fake_player && fake_player->base.type == ENTITY_FAKE_PLAYER)
 	{
 		fp_reset_shoot_anim(fake_player);

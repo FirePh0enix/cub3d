@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:24:48 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 15:57:15 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:43:21 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,20 @@ bool	is_valid_number_fc(char **textures)
 		free(identifier);
 	}
 	return (check_number_fc(f, c));
+}
+
+size_t	ft_countchr(char *s, char c)
+{
+	size_t	n;
+
+	n = 0;
+	while (*s)
+	{
+		if (*s == c)
+			n++;
+		s++;
+	}
+	if (n != 2)
+		ft_putstr_fd(RED"Error\nThere is too many coma for an RGB\n"RESET, 2);
+	return (n);
 }
