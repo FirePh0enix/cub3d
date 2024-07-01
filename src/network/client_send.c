@@ -6,13 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:49:31 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 19:11:59 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:39:57 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "net.h"
 #include "../cub3d.h"
+#include <stdio.h>
 #include <sys/socket.h>
 
 void	netclient_connect(t_client *client, char *username, t_vars *vars)
@@ -48,6 +49,7 @@ void	netclient_send_pos(t_client *client, t_transform transform)
 
 	if (client->unique_id == -1)
 		return ;
+	ft_bzero(&packet, sizeof(t_packet_pos));
 	packet.type = PACKET_POS;
 	packet.pos = transform.position;
 	packet.rot = transform.rotation;

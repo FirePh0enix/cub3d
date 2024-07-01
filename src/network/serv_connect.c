@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:15:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/29 20:17:53 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:40:56 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	send_all_players(t_server *server, int i)
 	t_packet_new_entity		new_ent;
 	int						i2;
 
+	ft_bzero(&new_ent, sizeof(t_packet_new_entity));
 	new_ent.type = PACKET_NEW_ENTITY;
 	new_ent.entity_type = ENTITY_FAKE_PLAYER;
 	new_ent.entity_id = server->player_id;
