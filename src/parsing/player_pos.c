@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/02 11:28:30 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:00:48 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ bool	find_player_pos(char **maps, t_map *map)
 		x = 0;
 		while (x < map->width)
 		{
-			if (maps[y][x] == 'N' || maps[y][x] == 'S' || maps[y][x] == 'W'
-				|| maps[y][x] == 'E')
+			if ((maps[y][x] == 'N' || maps[y][x] == 'S' || maps[y][x] == 'W'
+				|| maps[y][x] == 'E') && i < MAX_CLIENT + 1)
 			{
 				map->spawns[i].position = fill_position(x, y);
 				map->spawns[i].rotation = fill_rotation(maps[y][x]);
