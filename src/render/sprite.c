@@ -3,23 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:00:36 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 14:51:27 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:55:04 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-#include <stdio.h>
+#include "libft.h"
 
 t_sprite	sprite_create(t_image *image, t_alloc_table *at)
 {
 	t_sprite	sprite;
 
+	ft_bzero(&sprite, sizeof(t_sprite));
 	sprite.current_frame = 0;
 	sprite.num_frames = 1;
 	sprite.images = scalloc(at, sizeof(t_image *), 1);
+	if (!sprite.images)
+		return (sprite);
 	sprite.images[0] = image;
 	sprite.ms = 0;
 	sprite.last_frame_tick = 0;

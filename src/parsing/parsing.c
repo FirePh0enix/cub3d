@@ -6,13 +6,14 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 15:57:19 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:53:12 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
 #include "../hash.h"
+#include "libft.h"
 
 static bool	is_map_config_valid(t_vars *vars, char **mp_conf, t_alloc_table *at)
 {
@@ -68,7 +69,10 @@ bool	parsing(t_vars *vars, char **argv, t_alloc_table *at, int ac)
 		return (false);
 	line = read_to_string(argv[1], at);
 	if (!line)
+	{
+		ft_putstr_fd(RED"Error\nMap does not exists\n"RESET, 2);
 		return (false);
+	}
 	vars->map.hash = fnv32_hash(line, ft_strlen(line));
 	if (!map_init(&vars->map))
 		return (false);

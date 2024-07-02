@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:44:06 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/02 11:56:10 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:09:26 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,14 @@ static void	loop_hook(t_vars *vars)
 static	int	init_game(t_vars *v, char **av)
 {
 	init_door(av, v);
-	v->tiles[0] = tga_load_from_file("assets/textures/egypt/STWALL.tga", &v->at);
-	v->tiles[1] = tga_load_from_file("assets/textures/egypt/DRSIDE1.tga", &v->at);
-	v->tiles[2] = tga_load_from_file("assets/textures/m4tr1x/WALL21_3.tga", &v->at);
-	v->tiles[3] = tga_load_from_file("assets/textures/m4tr1x/WALL21_5.tga", &v->at);
+	v->tiles[0] = tga_load_from_file("assets/textures/STWALL.tga", &v->at);
+	v->tiles[1] = tga_load_from_file("assets/textures/STWALL.tga", &v->at);
+	v->tiles[2] = tga_load_from_file("assets/textures/WALL21_3.tga", &v->at);
+	v->tiles[3] = tga_load_from_file("assets/textures/WALL21_5.tga", &v->at);
 	v->tiles[4] = tga_load_from_file("assets/textures/cave/WOLF6.tga", &v->at);
 	v->tiles[5] = tga_load_from_file("assets/textures/cave/WOLF7.tga", &v->at);
 	v->tiles[6] = tga_load_from_file("assets/textures/cave/WOLF7B.tga", &v->at);
-	v->tiles[7] = tga_load_from_file("assets/textures/CRLWDL6.tga", &v->at);
+	v->tiles[7] = tga_load_from_file("assets/textures/cave/WOLF7B.tga", &v->at);
 	init_weapons(v);
 	if (!font_init(&v->font, &v->at)
 		|| !font_init_big(&v->bffont, &v->at))

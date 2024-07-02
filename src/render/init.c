@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 22:47:19 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 23:08:15 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:55:33 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	r3d_init(t_r3d *r3d, void *mlx, t_v2i size, t_alloc_table *at)
 	r3d->fov = 70.0;
 	r3d->color = (void *) r3d->canvas->data;
 	r3d->depth = scalloc(at, size.x * size.y * sizeof(float), 1);
-	if (!r3d)
+	if (!r3d->depth)
 		return ;
 }
 

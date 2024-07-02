@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format_cub.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:44:33 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/27 00:04:01 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:51:55 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	err_length(int len)
 {
 	ft_putstr_fd(RED"Error\nA .cub file length should be atleast equal to 4",
 		2);
-	ft_putstr_fd("\nActual length is"BRED, 2);
+	ft_putstr_fd("\nActual length is "BRED, 2);
 	ft_putnbr_fd(len, 2);
 	ft_putstr_fd(RESET"\n", 2);
 	return (false);

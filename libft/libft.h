@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 21:48:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/20 18:38:52 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:13:45 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ typedef struct s_vecdata
 	size_t	capacity;
 	size_t	el_size;
 }	t_vecdata;
-
 
 void		*ft_vector(size_t el_size, size_t capacity);
 /*

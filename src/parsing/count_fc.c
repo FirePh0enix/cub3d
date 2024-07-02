@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:24:48 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/01 11:43:21 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:02:21 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ static	bool	check_number_fc(int f, int c)
 		ft_putstr_fd(RED"Error\n", 2);
 		ft_putstr_fd("Identifier "BRED, 2);
 		ft_putstr_fd(miss_ident, 2);
-		ft_putstr_fd(RED" is missing (only the first two ", 2);
-		ft_putstr_fd("identifiers are processed)\n"RESET, 2);
+		ft_putstr_fd(RED" is missing\n"RESET, 2);
 		return (false);
 	}
 	return (true);

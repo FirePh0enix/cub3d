@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:28 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/01 20:08:20 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:50:59 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
-#include <stdio.h>
 
 char	**create_map(char **cub_file, t_map *map, t_alloc_table *at)
 {
