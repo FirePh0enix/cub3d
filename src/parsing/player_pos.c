@@ -6,13 +6,14 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/01 11:03:23 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:28:30 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
 #include "libft.h"
+#include <linux/limits.h>
 
 static t_v3	fill_position(int x, int y)
 {
@@ -41,9 +42,9 @@ static	bool	valid_spawn_count(int spawn_count)
 			2);
 		return (false);
 	}
-	else if (spawn_count > 0 && _BONUS)
+	else if (spawn_count > 0 && _BONUS && spawn_count <= MAX_CLIENT + 1)
 		return (true);
-	else if (spawn_count == 1)
+	else if (spawn_count == 1 && !_BONUS)
 		return (true);
 	else
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/01 20:01:17 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:27:36 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_map
 	t_image		*ceilling_image;
 
 	int			*tiles;
-	t_transform	spawns[MAX_CLIENT];
+	t_transform	spawns[MAX_CLIENT + 1];
 	int			spawn_count;
 	char		**maps;
 	char		**map_config;
