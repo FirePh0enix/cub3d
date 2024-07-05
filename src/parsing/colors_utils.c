@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:05:48 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/18 13:38:25 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/05 16:05:03 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include <stddef.h>
 
 void	putstr_sep(char *str, char n)
 {
@@ -29,7 +30,7 @@ void	putstr_sep(char *str, char n)
 
 bool	is_rgb_range(char *s)
 {
-	int		i;
+	size_t	i;
 	long	nbr;
 
 	i = 0;
@@ -38,6 +39,8 @@ bool	is_rgb_range(char *s)
 	{
 		while (s[i] == ' ')
 			i++;
+		if (!s[i] || s[i] == ',')
+			return (false);
 		nbr = (nbr * 10 + s[i++] - '0');
 		if (nbr > 255)
 			return (false);

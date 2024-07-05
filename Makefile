@@ -6,7 +6,7 @@
 #    By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/07/01 18:32:28 by vopekdas         ###   ########.fr        #
+#    Updated: 2024/07/05 17:13:37 by vopekdas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SOURCES=\
 	src/parsing/parsing.c \
 	src/parsing/textures_msg.c \
 	src/parsing/colors_utils.c \
+	src/parsing/colors_utils2.c \
 	src/rasterizer/rasterizer.c \
 	src/rasterizer/rasterize_triangle.c \
 	src/main.c \

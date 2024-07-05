@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/02 11:27:36 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/05 17:14:36 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,4 +234,5 @@ size_t		ft_countchr(char *s, char c);
 
 void		init_dead(t_menu *menu, t_alloc_table *at, t_i_param p);
 void		init_door(char **av, t_vars *v);
+bool		count_rgb(char *colors);
 #endif

@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/02 12:50:54 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/05 17:29:23 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 	i = 0;
 	while (color[i])
 	{
-		if (!invalid_rgb_char(color))
+		if (!invalid_rgb_char(color) || !count_rgb(color))
 			return (false);
 		if (!is_rgb_range(color + i))
 		{
