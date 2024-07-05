@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 14:51:08 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/05 16:07:28 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:07:56 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static int	count_words(const char *str, char c)
 	count = 0;
 	while (str[i])
 	{
-		while (str[i] && str[i] == c)
-			i++;
 		if (str[i] == '\0')
 			break ;
 		count++;
+		if (str[i] == c)
+			i++;
 		while (str[i] && str[i] != c)
 			i++;
 	}
@@ -76,7 +76,7 @@ char	**ft_split(const char *s, char c)
 	while (i < slen)
 	{
 		k = offset_until_sep(s, i, c);
-		if (k > i)
+		if (k >= i)
 		{
 			res[len] = ft_calloc(1, k - i + 1);
 			if (!res[len])
