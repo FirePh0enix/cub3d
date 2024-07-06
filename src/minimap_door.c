@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:18:10 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 19:04:11 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/06 17:02:32 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,12 @@ static void	draw_x(t_minimap *minimap, t_vars *vars, t_mat4 m)
 	rasterize_triangle(&minimap->rast, tri2, NULL, hex(0x00222222));
 }
 
-void	minimap_draw_door(t_minimap *minimap, t_vars *vars, t_v3 pos)
+void	minimap_draw_door(t_minimap *minimap, t_vars *vars, t_v3 pos, float rot_y)
 {
+	(void) rot_y;
 	const t_mat4	m = mat4_mul_mat4(mat4_rotation(
 				v3(0, 0, minimap->rast.r3d->camera->rot.y)),
-			mat4_translation(pos));
+			mat4_mul_mat4(mat4_translation(pos), mat4_rotation(v3(0, 0, rot_y))));
 	t_tri			tri1;
 	t_tri			tri2;
 
