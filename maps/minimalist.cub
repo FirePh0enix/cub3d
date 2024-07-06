@@ -3,8 +3,8 @@ SO assets/textures/AQMETL06.tga
 WE assets/textures/AQMETL06.tga
 EA assets/textures/AQMETL06.tga
 
-F 255,0,0
-C 255,30,0
+F 220,100,0
+C 225,30,0
 
         1111111111111111111111111
         1000000000110000000000001

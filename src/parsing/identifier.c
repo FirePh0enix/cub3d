@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:55:24 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 15:25:47 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:27:18 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ bool	is_valid_identifier_text(char *str)
 		return (true);
 	else if (!ft_strcmp(str, "EA"))
 		return (true);
-	else
-		return (false);
+	return (false);
 }
 
 bool	is_valid_identifier_color(char *str)

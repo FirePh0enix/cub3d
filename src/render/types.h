@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 21:19:15 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 23:09:10 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:49:04 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ typedef union s_color
 	unsigned int		raw;
 	struct
 	{
-		unsigned char	r;
-		unsigned char	g;
 		unsigned char	b;
+		unsigned char	g;
+		unsigned char	r;
 		unsigned char	t;
 	};
 }	t_color;

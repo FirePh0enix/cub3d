@@ -6,33 +6,12 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:55 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/22 15:55:56 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:03:11 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
-
-char	**create_textures(char **map)
-{
-	char	**textures;
-	int		i;
-
-	i = 0;
-	textures = NULL;
-	textures = ft_calloc(5, sizeof(char *));
-	if (!textures)
-	{
-		ft_putstr_fd(RED"Error\nMalloc failed for creating textures\n"RESET, 2);
-		return (NULL);
-	}
-	while (i < 4)
-	{
-		textures[i] = map[i];
-		++i;
-	}
-	return (textures);
-}
 
 char	*texture_path(char *path)
 {

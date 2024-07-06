@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 17:06:17 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/05 17:34:16 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:41:54 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ bool	count_rgb(char *color)
 	}
 	if (count != 2)
 	{
-		ft_printf(RED"Error\nAn RGB color should contain ");
-		ft_printf("3 values separated by commas.\n"RESET);
+		ft_fprintf(2, RED"Error\nAn RGB color should contain ", 2);
+		ft_fprintf(2, "3 values separated by commas.\n"RESET);
 		return (false);
 	}
 	return (true);

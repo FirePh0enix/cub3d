@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 15:52:16 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:29:07 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
 static char	*which_ident_miss(int no, int so, int we, int ea)
 {
@@ -65,7 +66,7 @@ bool	fill_texture(t_map *map, char **maps, t_alloc_table *at)
 
 	i = 0;
 	identifier_count = 0;
-	while (maps[i] && identifier_count < 4)
+	while (maps[i])
 	{
 		identifier = detect_identifier(maps[i]);
 		if (!identifier)
@@ -76,10 +77,19 @@ bool	fill_texture(t_map *map, char **maps, t_alloc_table *at)
 				return (false);
 			identifier_count++;
 		}
+		else if (ft_strcmp(identifier, "") && !is_valid_identifier_color(identifier))
+		{
+			ft_fprintf(2, RED"Error\nFound an invalid identifier "BRED"%s\n"RESET, identifier);
+			free(identifier);
+			return (false);
+		}
 		free(identifier);
 		++i;
 	}
 	if (identifier_count != 4)
+	{
+		ft_fprintf(2, RED"Error\nFound "BRED"%d"RESET RED" identifier(s), but exactly 4 are required.\n"RESET, identifier_count);
 		return (false);
+	}
 	return (true);
 }

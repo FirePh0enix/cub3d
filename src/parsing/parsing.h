@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:49 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 18:29:45 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:03:13 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ char	*texture_path(char *path);
 								// TEXTURES //
 //############################################################################//
 void	assign_textures(char *identifier, t_map *map, t_image *image);
-char	**create_textures(char **map);
 t_image	*load_texture(char *textures, char *identifier, t_alloc_table *at);
 bool	fill_texture(t_map *map, char **maps, t_alloc_table *at);
 
