@@ -6,19 +6,61 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:40:22 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/14 15:57:37 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:26:23 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
 
+bool	valid_id(char *identifier, char *map_conf)
+{
+	if (!ft_strcmp(identifier, "NO"))
+		return (true);
+	else if (!ft_strcmp(identifier, "SO"))
+		return (true);
+	else if (!ft_strcmp(identifier, "WE"))
+		return (true);
+	else if (!ft_strcmp(identifier, "EA"))
+		return (true);
+	else if (!ft_strcmp(identifier, "F"))
+		return (true);
+	else if (!ft_strcmp(identifier, "C"))
+		return (true);
+	else if (!ft_strcmp(identifier, "") && ft_strlen(map_conf) == 0)
+		return (true);
+	return (false);
+}
+
+int	skip_until_map(char **map_conf)
+{
+	int		i;
+	char	*identifier;
+
+	i = 0;
+	while (map_conf[i])
+	{
+		identifier = detect_identifier(map_conf[i]);
+		if (valid_id(identifier, map_conf[i]))
+		{
+			free(identifier);
+			++i;
+		}
+		else
+		{
+			free(identifier);
+			break ;
+		}
+	}
+	return (i);
+}
+
 int	calc_map_height(char **maps)
 {
 	int	i;
 	int	height;
 
-	i = 6;
+	i = skip_until_map(maps);
 	height = 0;
 	while (maps[i])
 	{

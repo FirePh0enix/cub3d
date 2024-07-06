@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/05 17:29:23 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:23:15 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,26 +96,27 @@ bool	is_valid_rgb(t_map *map, char **map_config, t_alloc_table *at)
 {
 	int		i;
 	char	*identifier;
+	int		identifier_count;
 
-	i = -1;
-	while (++i < 2)
+	i = 0;
+	identifier_count = 0;
+	while (map_config[i] && identifier_count < 2)
 	{
-		if (!is_valid_number_fc(map_config))
-			return (false);
-		identifier = detect_identifier(map_config[i + 4]);
+		identifier = detect_identifier(map_config[i]);
 		if (!identifier)
 			return (false);
 		if (is_valid_identifier_color(identifier)
-			&& !check_rgb(texture_path(map_config[i + 4]), map, identifier))
+			&& !check_rgb(texture_path(map_config[i]), map, identifier))
 		{
 			if ((_BONUS != 1)
-				|| (!texture_fc(map_config[i + 4], identifier, at, map)))
+				|| (!texture_fc(map_config[i], identifier, at, map)))
 			{
 				free (identifier);
 				return (false);
 			}
 		}
 		free(identifier);
+		++i;
 	}
 	return (true);
 }

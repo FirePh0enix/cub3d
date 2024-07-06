@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:05:48 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/05 16:05:03 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:31:39 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,6 @@ bool	is_rgb_range(char *s)
 			return (false);
 	}
 	return (true);
-}
-
-char	**create_colors(char **map)
-{
-	char	**colors;
-	int		i;
-	int		j;
-
-	i = 4;
-	j = 0;
-	colors = NULL;
-	colors = ft_calloc(3, sizeof(char *));
-	if (!colors)
-	{
-		ft_putstr_fd(RED"Error\nFailed to malloc colors\n"RESET, 2);
-		return (NULL);
-	}
-	while (j < 2)
-	{
-		colors[j] = map[i];
-		++i;
-		++j;
-	}
-	return (colors);
 }
 
 int	ft_nblen(int nb)

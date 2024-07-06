@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/02 12:51:21 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 15:52:16 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,35 +43,6 @@ bool	check_nb_identifier(int no, int so, int we, int ea)
 	return (true);
 }
 
-static	bool	is_valid_number_ident(char **textures, int no, int so, int we)
-{
-	int		i;
-	int		ea;
-	char	*identifier;
-
-	i = -1;
-	ea = 0;
-	while (++i < 4)
-	{
-		identifier = detect_identifier(textures[i]);
-		if (!identifier)
-			return (false);
-		if (is_valid_identifier_text(identifier))
-		{
-			if (!ft_strcmp("NO", identifier))
-				no++;
-			else if (!ft_strcmp("SO", identifier))
-				so++;
-			else if (!ft_strcmp("WE", identifier))
-				we++;
-			else if (!ft_strcmp("EA", identifier))
-				ea++;
-		}
-		free(identifier);
-	}
-	return (check_nb_identifier(no, so, we, ea));
-}
-
 static bool	load_if_valid(char *maps, char *ide, t_alloc_table *at, t_map *map)
 {
 	t_image	*image;
@@ -90,11 +61,11 @@ bool	fill_texture(t_map *map, char **maps, t_alloc_table *at)
 {
 	int		i;
 	char	*identifier;
+	int		identifier_count;
 
-	i = -1;
-	if (!is_valid_number_ident(maps, 0, 0, 0))
-		return (false);
-	while (++i < 4)
+	i = 0;
+	identifier_count = 0;
+	while (maps[i] && identifier_count < 4)
 	{
 		identifier = detect_identifier(maps[i]);
 		if (!identifier)
@@ -103,10 +74,12 @@ bool	fill_texture(t_map *map, char **maps, t_alloc_table *at)
 		{
 			if (!load_if_valid(maps[i], identifier, at, map))
 				return (false);
+			identifier_count++;
 		}
-		else
-			return (err_identifier(identifier));
 		free(identifier);
+		++i;
 	}
+	if (identifier_count != 4)
+		return (false);
 	return (true);
 }

@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:40 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 15:51:03 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 15:31:04 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
 static	bool	error_char(char c, int y, int x)
 {

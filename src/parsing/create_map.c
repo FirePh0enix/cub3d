@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:28 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/02 12:50:59 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:15:00 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**create_map(char **cub_file, t_map *map, t_alloc_table *at)
 	int		i;
 	int		j;
 
-	i = 6;
+	i = skip_until_map(cub_file);
 	j = 0;
 	map->height = calc_map_height(cub_file);
 	maps = scalloc(at, map->height + 1, sizeof(char *));
