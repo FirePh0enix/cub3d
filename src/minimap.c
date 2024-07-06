@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 17:54:57 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 19:10:23 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/06 17:00:59 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,29 @@ static void	draw_background(t_minimap *minimap, t_r3d *r3d, t_rect rect)
 	}
 }
 
+static bool	is_full(int tile)
+{
+	return (tile >= TILE_FULL && tile <= TILE_9);
+}
+
+static void	draw_door(t_r3d *r3d, t_vars *vars, t_minimap *m, t_v2i p)
+{
+	draw_floor(m, vars, v3_sub(v3(p.x, p.y, -8),
+			v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)));
+	if (is_full(m->map->tiles[(p.x - 1) + p.y * m->map->width])
+		&& is_full(m->map->tiles[(p.x + 1) + p.y * m->map->width]))
+	{
+		minimap_draw_door(m, vars, v3_sub(v3(p.x, p.y, -8),
+				v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)), 0);
+	}
+	else
+	{
+		minimap_draw_door(m, vars, v3_sub(v3(p.x, p.y, -8),
+				v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)),
+					M_PI / 2);
+	}
+}
+
 static void	draw_something(t_r3d *r3d, t_minimap *m, t_vars *vars,
 	t_v2i p)
 {
@@ -89,12 +112,7 @@ static void	draw_something(t_r3d *r3d, t_minimap *m, t_vars *vars,
 		minimap_draw_cube(m, vars, v3_sub(v3(p.x, p.y, -8),
 				v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)));
 	else if (m->map->tiles[p.x + p.y * m->map->width] == TILE_DOOR)
-	{
-		draw_floor(m, vars, v3_sub(v3(p.x, p.y, -8),
-				v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)));
-		minimap_draw_door(m, vars, v3_sub(v3(p.x, p.y, -8),
-				v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)));
-	}
+		draw_door(r3d, vars, m, p);
 	else if (m->map->tiles[p.x + p.y * m->map->width] == TILE_DOOR_OPEN)
 		draw_floor(m, vars, v3_sub(v3(p.x, p.y, -8),
 				v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)));
