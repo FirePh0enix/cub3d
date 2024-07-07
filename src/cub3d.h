@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 18:26:36 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/07 16:27:48 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,14 @@ t_entity	*raycast_entity(t_map *map, t_transform ray, float size,
 				uint32_t entity_type);
 t_v2i		raycast_door(t_map *map, t_transform ray, float size);
 
+
+typedef struct s_count
+{
+	int	f;
+	int	c;
+	int	identifier_count;
+}		t_count;
+
 //############################################################################//
 								// BOUNDARY BOX//
 //############################################################################//
@@ -229,7 +237,6 @@ void		close_hook(t_vars *vars);
 void		print_health(t_vars *vars);
 void		menu_closed(t_vars *vars);
 void		init_player(t_vars *vars);
-bool		is_valid_number_fc(char **textures);
 size_t		ft_countchr(char *s, char c);
 
 void		init_dead(t_menu *menu, t_alloc_table *at, t_i_param p);
@@ -237,4 +244,7 @@ void		init_door(char **av, t_vars *v);
 bool		count_rgb(char *colors);
 int			skip_until_map(char **map_conf);
 bool		valid_id(char *identifier, char *map_conf);
+bool		error_rgb(t_count *count);
+void		count_fc(char *identifier, int *f, int *c, int *identifier_count);
+
 #endif

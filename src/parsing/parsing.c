@@ -6,14 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 18:39:52 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:14:58 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
 #include "../hash.h"
-#include "libft.h"
 
 static bool	is_map_config_valid(t_vars *vars, char **mp_conf, t_alloc_table *at)
 {

@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 18:43:42 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/07 16:29:52 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,9 @@ static bool	invalid_rgb_char(char *color)
 bool	create_image_fc(char *identifier, t_map *map, t_image *image)
 {
 	if (!ft_strcmp(identifier, "F"))
-	{
 		map->floor_image = image;
-	}
 	else if (!ft_strcmp(identifier, "C"))
-	{
 		map->ceilling_image = image;
-	}
 	return (true);
 }
 
@@ -96,27 +92,27 @@ bool	is_valid_rgb(t_map *map, char **map_config, t_alloc_table *at)
 {
 	int		i;
 	char	*identifier;
-	int		identifier_count;
+	t_count	count;
 
 	i = 0;
-	identifier_count = 0;
-	while (map_config[i] && identifier_count < 2)
+	count = (t_count){0};
+	while (map_config[i])
 	{
 		identifier = detect_identifier(map_config[i]);
 		if (!identifier)
 			return (false);
-		if (is_valid_identifier_color(identifier)
-			&& !check_rgb(texture_path(map_config[i]), map, identifier))
+		if (is_valid_identifier_color(identifier))
 		{
-			if ((_BONUS != 1)
-				|| (!texture_fc(map_config[i], identifier, at, map)))
-			{
-				free (identifier);
-				return (false);
+			count_fc(identifier, &count.f, &count.c, &count.identifier_count);
+			if (!check_rgb(texture_path(map_config[i]), map, identifier))
+			{			
+				if ((_BONUS != 1)
+					|| (!texture_fc(map_config[i], identifier, at, map)))
+					return (free(identifier), (false));
 			}
 		}
 		free(identifier);
 		++i;
 	}
-	return (true);
+	return (error_rgb(&count));
 }
