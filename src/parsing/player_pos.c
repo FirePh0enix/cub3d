@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:25:51 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/02 12:49:46 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:18:33 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_v3	fill_rotation(char c)
 	else if (c == 'W')
 		return (v3(0, M_PI / 2, 0));
 	else if (c == 'E')
-		return (v3(0, 3 * M_PI, 0));
+		return (v3(0, 3 * M_PI / 2, 0));
 	else
 		return (v3(0, 0, 0));
 }
