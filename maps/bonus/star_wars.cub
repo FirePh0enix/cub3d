@@ -1,24 +1,24 @@
-NO assets/textures/CRLWDL6.tga
-SO assets/textures/CRLWDL6.tga
-WE assets/textures/CRLWDL6.tga
-EA assets/textures/CRLWDL6.tga
+NO assets/textures/star_wars/DOSHA1.tga
+SO assets/textures/star_wars/DOSLVR21.tga
+WE assets/textures/star_wars/RW32_1.tga
+EA assets/textures/star_wars/DUCT1.tga
 
-F assets/textures/AQDIRT03.tga
-C 225,30,0
+F assets/textures/star_wars/YELLITE3.tga
+C assets/textures/star_wars/FLAT17.tga
 
    1                             1
   1 1                           1 1
  1 1 1                         1 1 1
 1 1 1 1                       1 1 1 1
 1 1 1 1  1111111111111111111  1 1 1 1
-1 1 1 1 110000000000000000011 1 1 1 1
-1 1 1 1 101000000000000000101 1 1 1 1
-1 1 1 1 1001000000E0000001001 1 1 1 1
-1 1 1 1 100011111101111110001 1 1 1 1
-1 1 1 1 100011111101111110001 1 1 1 1
-1 1 1 1 100100000000000001001 1 1 1 1
-1 1 1 1 101000000000000000101 1 1 1 1
-1 1 1 1 110000000000000000011 1 1 1 1
+1 1 1 1 110000000000000000111 1 1 1 1
+1 1 1 1 101000000000000000D01 1 1 1 1
+1 1 1 1 1001000000E0000001101 1 1 1 1
+1 1 1 1 100011D11101101110001 1 1 1 1
+1 1 1 1 1000110111011D1110001 1 1 1 1
+1 1 1 1 101101000000100001001 1 1 1 1
+1 1 1 1 10D000000000000000101 1 1 1 1
+1 1 1 1 111000000000000000011 1 1 1 1
 1 1 1 1  1111111111111111111  1 1 1 1
 1 1 1 1                       1 1 1 1
  1 1 1                         1 1 1
