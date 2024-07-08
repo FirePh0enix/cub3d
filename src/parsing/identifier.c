@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:55:24 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/08 16:48:06 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:54:31 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ char	*detect_identifier(char *texture)
 	}
 	while (texture[i])
 	{
-		if (texture[i] && texture[i] != ' ' && texture[i + 1]
-			&& texture[i] != ft_isdigit(i + 1))
+		if (texture[i] && texture[i] != ' ')
 		{
 			identifier[i] = texture[i];
 			++i;
