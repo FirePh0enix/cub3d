@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serv_connect.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:15:37 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/01 14:40:56 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:14:20 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	handle_connection(t_server *server, t_packet_connect *conn,
 	ft_memcpy(server->clients[i].username, conn->username, 16);
 	server->clients[i].addr = addr;
 	server->clients[i].last_pulse = getms();
-	ft_printf("info : Client `%s` connected\n", conn->username);
 	fp = fake_player_new(vars, &vars->map, next_entity_id(vars), conn->skin);
 	fp->base.transform.position = v3(0, 0, 0);
 	map_add_entity(&vars->map, fp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:22:45 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/06 16:51:08 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:07:06 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	minimap_create(t_minimap *minimap, t_r3d *r3d, t_map *map);
 void	minimap_draw(t_minimap *minimap, t_r3d *r3d, t_vars *vars);
 
 void	minimap_draw_cube(t_minimap *minimap, t_vars *vars, t_v3 pos);
-void	minimap_draw_door(t_minimap *minimap, t_vars *vars, t_v3 pos, float rot_y);
+void	minimap_draw_door(t_minimap *minimap, t_vars *vars, t_v3 pos,
+			float rot_y);
 
 void	mat4_mul_tri(t_mat4 m, t_tri *tri1, t_tri *tri2);
 

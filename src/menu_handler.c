@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 11:35:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/28 15:11:55 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:13:59 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	singleplayer_pressed(t_vars *vars)
 {
 	vars->menu_open = false;
 	vars->is_server = true;
+	if (_BONUS)
+		netserv_init(&vars->server, vars, SERVER_PORT);
 	map_reset(&vars->map);
 }
 

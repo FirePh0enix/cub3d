@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/07 16:27:48 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:29:06 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,6 @@ t_entity	*raycast_entity(t_map *map, t_transform ray, float size,
 				uint32_t entity_type);
 t_v2i		raycast_door(t_map *map, t_transform ray, float size);
 
-
 typedef struct s_count
 {
 	int	f;
@@ -226,25 +225,37 @@ int			ft_free(t_vars *vars, t_alloc_table *at);
 								// PARSING //
 //############################################################################//
 bool		parsing(t_vars *vars, char **argv, t_alloc_table *at, int ac);
-
-void		draw_crosshair(t_r3d *r3d, t_vars *vars);
-int			mouse_scroll(t_vars *vars);
-bool		init_mlx(t_vars *vars);
-bool		init_weapons(t_vars *vars);
-bool		init_mlx_settings(t_vars *vars);
-void		game_loop(t_vars *vars);
-void		close_hook(t_vars *vars);
-void		print_health(t_vars *vars);
-void		menu_closed(t_vars *vars);
-void		init_player(t_vars *vars);
-size_t		ft_countchr(char *s, char c);
-
-void		init_dead(t_menu *menu, t_alloc_table *at, t_i_param p);
-void		init_door(char **av, t_vars *v);
 bool		count_rgb(char *colors);
 int			skip_until_map(char **map_conf);
 bool		valid_id(char *identifier, char *map_conf);
 bool		error_rgb(t_count *count);
+size_t		ft_countchr(char *s, char c);
 void		count_fc(char *identifier, int *f, int *c, int *identifier_count);
+
+//############################################################################//
+								// DRAW //
+//############################################################################//
+void		draw_crosshair(t_r3d *r3d, t_vars *vars);
+void		draw_character(t_minimap *minimap, t_v3 pos);
+void		print_health(t_vars *vars);
+bool		is_full(int tile);
+
+//############################################################################//
+								// INITIALIZATION //
+//############################################################################//
+bool		init_mlx(t_vars *vars);
+bool		init_weapons(t_vars *vars);
+bool		init_mlx_settings(t_vars *vars);
+void		init_player(t_vars *vars);
+void		init_dead(t_menu *menu, t_alloc_table *at, t_i_param p);
+void		init_door(char **av, t_vars *v);
+
+//############################################################################//
+								// GAME LOOP //
+//############################################################################//
+void		game_loop(t_vars *vars);
+void		close_hook(t_vars *vars);
+int			mouse_scroll(t_vars *vars);
+void		menu_closed(t_vars *vars);
 
 #endif

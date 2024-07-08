@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serv_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:37:04 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 19:57:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:16:24 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,4 @@ void	netserv_disconnect(t_server *server, int i, t_vars *vars)
 	netserv_broadcast_del(server, client->entity->id, i);
 	map_remove_entity(&vars->map, client->entity);
 	free(client->entity);
-	ft_printf("info : Player `%s` has timed out\n", client->username);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 17:54:57 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/06 17:00:59 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:25:34 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,6 @@
 #include "render/render.h"
 #include "render/types.h"
 #include <stdio.h>
-
-static void	draw_character(t_minimap *minimap, t_v3 pos)
-{
-	const t_mat4	m = mat4_translation(pos);
-	t_tri			tri1;
-
-	tri1 = (t_tri){
-		.v0 = v3(+0.0, -0.4, +0.4),
-		.v1 = v3(+0.4, +0.4, +0.4),
-		.v2 = v3(-0.4, +0.4, +0.4),
-	};
-	tri1.v0 = mat4_multiply_v3(m, tri1.v0);
-	tri1.v1 = mat4_multiply_v3(m, tri1.v1);
-	tri1.v2 = mat4_multiply_v3(m, tri1.v2);
-	rasterize_triangle(&minimap->rast, tri1, NULL, hex(0x00FFFFFF));
-}
 
 static void	draw_floor(t_minimap *minimap, t_vars *vars, t_v3 pos)
 {
@@ -80,11 +64,6 @@ static void	draw_background(t_minimap *minimap, t_r3d *r3d, t_rect rect)
 	}
 }
 
-static bool	is_full(int tile)
-{
-	return (tile >= TILE_FULL && tile <= TILE_9);
-}
-
 static void	draw_door(t_r3d *r3d, t_vars *vars, t_minimap *m, t_v2i p)
 {
 	draw_floor(m, vars, v3_sub(v3(p.x, p.y, -8),
@@ -99,7 +78,7 @@ static void	draw_door(t_r3d *r3d, t_vars *vars, t_minimap *m, t_v2i p)
 	{
 		minimap_draw_door(m, vars, v3_sub(v3(p.x, p.y, -8),
 				v3(r3d->camera->pos.x - 0.5, r3d->camera->pos.z - 0.5, 0)),
-					M_PI / 2);
+			M_PI / 2);
 	}
 }
 

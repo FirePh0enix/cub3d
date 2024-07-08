@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:08:55 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 19:10:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:25:31 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,25 @@ t_color	calc_avg_color(t_map *map)
 		i++;
 	}
 	return (rgba(r / pixel_count, g / pixel_count, b / pixel_count, 0x99));
+}
+
+bool	is_full(int tile)
+{
+	return (tile >= TILE_FULL && tile <= TILE_9);
+}
+
+void	draw_character(t_minimap *minimap, t_v3 pos)
+{
+	const t_mat4	m = mat4_translation(pos);
+	t_tri			tri1;
+
+	tri1 = (t_tri){
+		.v0 = v3(+0.0, -0.4, +0.4),
+		.v1 = v3(+0.4, +0.4, +0.4),
+		.v2 = v3(-0.4, +0.4, +0.4),
+	};
+	tri1.v0 = mat4_multiply_v3(m, tri1.v0);
+	tri1.v1 = mat4_multiply_v3(m, tri1.v1);
+	tri1.v2 = mat4_multiply_v3(m, tri1.v2);
+	rasterize_triangle(&minimap->rast, tri1, NULL, hex(0x00FFFFFF));
 }
