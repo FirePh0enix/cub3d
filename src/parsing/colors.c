@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/08 16:56:51 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/08 20:55:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static bool	invalid_rgb_char(char *color)
 	i = 0;
 	while (color[i])
 	{
-		while (color[i] && color[i] == ' ')
-			++i;
 		if (!ft_isdigit(color[i]) && color[i] != ',')
 		{
 			if (_BONUS == 1)
@@ -56,6 +54,8 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 	i = 0;
 	while (color[i])
 	{
+		while (color[i] && color[i] == ' ')
+			++i;
 		if (!invalid_rgb_char(color) || !count_rgb(color))
 			return (false);
 		if (!is_rgb_range(color + i))
