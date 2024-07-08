@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:55:24 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 19:27:18 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:48:06 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 
 char	*detect_identifier(char *texture)
 {
@@ -27,7 +28,8 @@ char	*detect_identifier(char *texture)
 	}
 	while (texture[i])
 	{
-		if (texture[i] && texture[i] != ' ')
+		if (texture[i] && texture[i] != ' ' && texture[i + 1]
+			&& texture[i] != ft_isdigit(i + 1))
 		{
 			identifier[i] = texture[i];
 			++i;
