@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:38:23 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/22 16:29:14 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:20:26 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static	bool	is_map_border(int x, int y, t_map *map, char **maps)
 {
 	if (maps[y][x] == ' ')
 		return (false);
-	if (x <= 0 || x >= (int)ft_strlen(maps[y])
+	if (x <= 0 || x >= (int)ft_strlen(maps[y]) - 1
 		|| y <= 0 || y >= map->height - 1)
 		return (true);
 	return (is_wall(x, y, map, maps));
