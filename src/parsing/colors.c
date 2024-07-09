@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/09 11:01:10 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:33:55 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 {
 	int	i;
 	int	j;
-	int	rgb;
 
 	j = 0;
 	i = 0;
@@ -65,10 +64,9 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 			ft_putstr_fd(RED" is not in RGB range (0-255)\n"RESET, 2);
 			return (false);
 		}
-		rgb = ft_atoi(color + i);
-		fill_color(identifier, map, rgb, j);
+		fill_color(identifier, map, ft_atoi(color + i), j);
 		++j;
-		i += ft_nblen(rgb);
+		i += ft_nblen(ft_atoi(color + i));
 		if (color[i] && color[i] == ',')
 			++i;
 	}
