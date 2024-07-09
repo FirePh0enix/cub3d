@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/08 20:55:20 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/09 11:01:10 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ static bool	texture_fc(char *colors, char *iden, t_alloc_table *at, t_map *map)
 
 	image = load_texture(colors, iden, at);
 	if (!image)
-	{
-		free(iden);
 		return (false);
-	}
 	if (!create_image_fc(iden, map, image))
 		return (false);
 	return (true);
@@ -107,7 +104,7 @@ bool	is_valid_rgb(t_map *map, char **map_config, t_alloc_table *at)
 		{
 			count_fc(identifier, &count.f, &count.c, &count.identifier_count);
 			if (!check_rgb(texture_path(map_config[i]), map, identifier))
-			{			
+			{
 				if ((_BONUS != 1)
 					|| (!texture_fc(map_config[i], identifier, at, map)))
 					return (free(identifier), (false));
