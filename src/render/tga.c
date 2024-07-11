@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 12:10:27 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/11 23:55:33 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ size_t	get_file_size(char *filename)
 	while (n == 4096)
 	{
 		n = read(fd, b, 4096);
+		if (n == -1)
+			return (close(fd), 0);
 		size += n;
 	}
 	close(fd);
@@ -51,14 +53,14 @@ char	*read_to_string(char *filename, t_alloc_table *at)
 		return (NULL);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (NULL);
+		return (sfree(at, str), NULL);
 	str_size = 0;
 	n = 4096;
 	while (n == 4096)
 	{
 		n = read(fd, buffer, 4096);
 		if (n == -1)
-			return (NULL);
+			return (close(fd), NULL);
 		ft_memcpy(str + str_size, buffer, n);
 		str_size += n;
 	}

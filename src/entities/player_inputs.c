@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:36:30 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/28 15:08:14 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/11 23:43:14 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void	shoot(t_player *player, t_vars *vars)
 	t_entity		*entity;
 
 	entity = raycast_entity(&vars->map, (t_transform){
-			v3(player->camera->pos.x, 0, player->camera->pos.z),
-			player->camera->rot}, 10.0, ENTITY_FAKE_PLAYER);
+			v3(player->camera.pos.x, 0, player->camera.pos.z),
+			player->camera.rot}, 10.0, ENTITY_FAKE_PLAYER);
 	player->gun[vars->map.player->gun_index].has_shoot = true;
 	if (_BONUS && entity)
 	{
@@ -44,8 +44,8 @@ static void	toggle_door(t_player *p, t_vars *vars)
 {
 	t_v2i	d;
 
-	d = raycast_door(&vars->map, (t_transform){v3(p->camera->pos.x, 0,
-				p->camera->pos.z), p->camera->rot}, 3.0);
+	d = raycast_door(&vars->map, (t_transform){v3(p->camera.pos.x, 0,
+				p->camera.pos.z), p->camera.rot}, 3.0);
 	if (d.x >= 0 && d.y >= 0 && p->base.map->tiles[d.x
 			+ d.y * p->base.map->width] == TILE_DOOR_OPEN)
 		p->base.map->tiles[d.x + d.y * p->base.map->width] = TILE_DOOR;

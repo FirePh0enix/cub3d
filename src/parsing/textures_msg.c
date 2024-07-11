@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures_msg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 16:16:57 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/02 12:51:14 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/11 23:53:03 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,6 @@ bool	err_textures(char *identifier)
 	ft_putstr_fd(RED"Error\n"BRED, 2);
 	ft_putstr_fd(identifier, 2);
 	ft_putstr_fd(RED" has not been created\n"RESET, 2);
-	free_identifier(identifier);
-	return (false);
-}
-
-bool	err_identifier(char *identifier)
-{
-	ft_putstr_fd(RED"Error\n", 2);
-	ft_putstr_fd("Wrong identifier: "BRED, 2);
-	ft_putstr_fd(identifier, 2);
-	ft_putstr_fd(RED"\nIdentifier should be: "BRED, 2);
-	ft_putstr_fd("NO | SO | WE | EA\n"RESET, 2);
 	free_identifier(identifier);
 	return (false);
 }

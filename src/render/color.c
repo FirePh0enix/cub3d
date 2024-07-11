@@ -43,11 +43,3 @@ t_color	grayscalef(float f)
 {
 	return (rgba(f * 255, f * 255, f * 255, 1.0));
 }
-
-t_color	color_scale(t_color col, float f)
-{
-	col.r *= f;
-	col.g *= f;
-	col.b *= f;
-	return (col);
-}

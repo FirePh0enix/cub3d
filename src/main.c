@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:44:06 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/02 13:09:26 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/11 23:56:30 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "gun.h"
 #include "hash.h"
 #include "libft.h"
 #include "menu.h"
@@ -22,7 +21,6 @@
 #include "scene.h"
 #include <netinet/in.h>
 #include <pthread.h>
-#include <stdlib.h>
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -117,11 +115,12 @@ static	int	init_game(t_vars *v, char **av)
 	load_skin(v->skin[SKIN_MARINE], v->skin_shoot[SKIN_MARINE],
 		"player", &v->at);
 	menu_init(&v->menu, &v->r3d, &v->at);
-	init_player(v);
+	if (!init_player(v))
+		return (0);
 	mlx_hook(v->win, MotionNotify, PointerMotionMask,
 		(void *) player_mouse_event, v);
 	minimap_create(&v->minimap, &v->r3d, &v->map);
-	v->r3d.camera = v->map.player->camera;
+	v->r3d.camera = &v->map.player->camera;
 	mlx_mouse_move(v->mlx, v->win, 1280 / 2, 720 / 2);
 	game_loop(v);
 	return (0);
@@ -133,10 +132,10 @@ int	main(int argc, char *argv[])
 
 	ft_bzero(&vars, sizeof(t_vars));
 	if (!parsing(&vars, argv, &vars.at, argc))
-		return (ft_free(&vars, &vars.at));
-	vars.exec_hash = fnv32_hash_file("cub3D");
+		return (ft_free(&vars, &vars.at), 1);
+	// vars.exec_hash = fnv32_hash_file("cub3D");
 	if (!init_mlx_settings(&vars))
-		return (ft_free(&vars, &vars.at));
+		return (ft_free(&vars, &vars.at), 1);
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_pressed_hook, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_released_hook, &vars);
@@ -146,5 +145,6 @@ int	main(int argc, char *argv[])
 		(void *)mouse_button_released_hook, &vars);
 	mlx_loop_hook(vars.mlx, (void *) loop_hook, &vars);
 	r3d_init(&vars.r3d, vars.mlx, v2i(1280, 720), &vars.at);
-	init_game(&vars, argv);
+	if (!init_game(&vars, argv))
+		return (ft_free(&vars, &vars.at), 1);
 }

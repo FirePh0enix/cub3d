@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_vector.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 22:57:13 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/02 14:13:37 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/11 23:47:04 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	*ft_vector_add(void *_vec, void *elp)
 	if (!_vec)
 		return (NULL);
 	vec = _vec;
+	if (!*vec)
+		return (NULL);
 	vec_data = (void *)(*vec - sizeof(t_vecdata));
 	if (vec_data->size == vec_data->capacity)
 	{
@@ -61,6 +63,8 @@ void	ft_vector_del(void *_vec, size_t index)
 	void		**vec;
 
 	vec = _vec;
+	if (!*vec)
+		return ;
 	vec_data = (void *)(*vec - sizeof(t_vecdata));
 	if (index + 1 < vec_data->size)
 	{
@@ -81,6 +85,8 @@ void	ft_vector_del_swap(void *_vec, size_t index)
 	void		**vec;
 
 	vec = _vec;
+	if (!*vec)
+		return ;
 	vec_data = (void *)(*vec - sizeof(t_vecdata));
 	ft_memcpy(*vec + index * vec_data->el_size,
 		*vec + (vec_data->size - 1) * vec_data->el_size,

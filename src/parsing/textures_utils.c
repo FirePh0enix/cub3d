@@ -44,7 +44,7 @@ t_image	*load_texture(char *textures, char *identifier, t_alloc_table *at)
 		ft_putstr_fd(RED"\nPlease verify the path: "BRED, 2);
 		ft_putstr_fd(textures_path, 2);
 		ft_putstr_fd("\n"RESET, 2);
-		return (false);
+		return (NULL);
 	}
 	return (image);
 }

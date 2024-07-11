@@ -246,7 +246,7 @@ bool		is_full(int tile);
 bool		init_mlx(t_vars *vars);
 bool		init_weapons(t_vars *vars);
 bool		init_mlx_settings(t_vars *vars);
-void		init_player(t_vars *vars);
+bool		init_player(t_vars *vars);
 void		init_dead(t_menu *menu, t_alloc_table *at, t_i_param p);
 void		init_door(char **av, t_vars *v);
 

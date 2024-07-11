@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:24:50 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/29 20:50:56 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/11 23:41:48 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef enum e_gun_type
 typedef struct s_player
 {
 	t_entity	base;
-	t_camera	*camera;
+	t_camera	camera;
 	bool		has_jump;
 	bool		has_open_door;
 

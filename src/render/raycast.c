@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 11:17:32 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/01 18:19:22 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/11 23:52:08 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,16 @@ static void	raycast_world4(t_v2 *side_dist, t_rw_param *p, t_v2i step,
 
 static void	raycast_world3(t_r3d *r3d, t_map *map, t_vars *vars, t_rw_param p)
 {
-	int		hit;
+	bool	hit;
 	int		side;
 	t_v2i	step;
 	t_v2	side_dist;
+	int		i;
 
-	hit = 0;
+	hit = false;
+	i = 0;
 	raycast_world2(r3d, p, &step, &side_dist);
-	while (hit == 0)
+	while (!hit && i < 5000)
 	{
 		raycast_world4(&side_dist, &p, step, &side);
 		if (p.map_pos.x < 0 || p.map_pos.x >= map->width || p.map_pos.y < 0
@@ -107,7 +109,8 @@ static void	raycast_world3(t_r3d *r3d, t_map *map, t_vars *vars, t_rw_param p)
 		if ((map->tiles[p.map_pos.x + p.map_pos.y * map->width] >= TILE_FULL
 				&& map->tiles[p.map_pos.x + p.map_pos.y * map->width] <= TILE_9)
 			|| map->tiles[p.map_pos.x + p.map_pos.y * map->width] == TILE_DOOR)
-			hit = 1;
+			hit = true;
+		i++;
 	}
 	if (hit)
 		draw_line(r3d, map, vars, (t_dl_param){side, side_dist.x,

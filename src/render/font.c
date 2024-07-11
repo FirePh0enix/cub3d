@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:54:11 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 23:09:25 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/11 23:57:00 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ bool	font_init(t_font *font, t_alloc_table *at)
 	char	buf[64];
 	int		i;
 
+	ft_bzero(font, sizeof(t_font));
 	i = 33;
 	while (i < 126)
 	{

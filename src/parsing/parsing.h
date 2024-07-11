@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:49 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 19:03:13 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/11 23:52:47 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ bool	map_to_tiles(t_map *map, char **maps, t_alloc_table *at);
 //############################################################################//
 void	putstr_sep(char *str, char n);
 bool	err_textures(char *identifier);
-bool	err_identifier(char *identifier);
 //############################################################################//
 					// IDENTIFIER VALIDATION AND DETECTION //
 //############################################################################//

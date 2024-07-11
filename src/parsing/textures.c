@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/07 16:37:11 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/11 23:59:46 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static bool	load_if_valid(char *maps, char *ide, t_alloc_table *at, t_map *map)
 }
 
 static	bool	error_textures(char *identifier, int identifier_count)
-{		
+{
 	if (identifier_count > 4)
 	{
 		ft_fprintf(2,

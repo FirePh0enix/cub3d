@@ -14,7 +14,6 @@
 #include "render.h"
 #include "../cub3d.h"
 #include "types.h"
-#include <stdio.h>
 
 static void	_raycast_entity2(t_r3d *r3d, t_image *im, t_re_param p)
 {
