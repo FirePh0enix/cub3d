@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fake_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:50:40 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 20:45:36 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:37:20 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ t_fake_player	*fake_player_new(t_vars *vars, t_map *map, int id, t_skin skin)
 
 	(void) vars;
 	fp = ft_calloc(1, sizeof(t_fake_player));
+	if (!fp)
+		return (NULL);
 	fp->base.type = ENTITY_FAKE_PLAYER;
 	fp->base.id = id;
 	fp->base.tick = (void *) fake_player_tick;

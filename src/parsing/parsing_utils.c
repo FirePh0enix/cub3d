@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:40:22 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 18:26:23 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:39:26 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	skip_until_map(char **map_conf)
 	while (map_conf[i])
 	{
 		identifier = detect_identifier(map_conf[i]);
+		if (!identifier)
+			return (-1);
 		if (valid_id(identifier, map_conf[i]))
 		{
 			free(identifier);
@@ -61,6 +63,8 @@ int	calc_map_height(char **maps)
 	int	height;
 
 	i = skip_until_map(maps);
+	if (i == -1)
+		return (-1);
 	height = 0;
 	while (maps[i])
 	{
