@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 11:37:14 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/01 20:04:37 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:46:56 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	load_data(t_menu *menu, t_alloc_table *at)
 {
 	char	*s;
 
-	s = read_to_string("cub3d-ip", at);
+	s = read_to_string("cub3d-ip", NULL, at);
 	if (s)
 	{
 		ft_bzero(menu->ip.buffer, 16);
@@ -54,7 +54,7 @@ void	load_data(t_menu *menu, t_alloc_table *at)
 		menu->ip.buffer[strlen_max(s, 16)] = '\0';
 		menu->ip.len = ft_strlen(menu->ip.buffer);
 	}
-	s = read_to_string("cub3d-name", at);
+	s = read_to_string("cub3d-name", NULL, at);
 	if (s)
 	{
 		ft_bzero(menu->name.buffer, 16);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:00:36 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/02 12:55:04 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:27:26 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_sprite	sprite_create_anim(t_image **images, int num, bool loop,
 {
 	t_sprite	sprite;
 
+	if (!images)
+		return ((t_sprite){});
 	sprite.current_frame = 0;
 	sprite.num_frames = num;
 	sprite.last_frame_tick = getms();

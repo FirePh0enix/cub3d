@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:40:22 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/11 10:39:26 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:20:17 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	valid_id(char *identifier, char *map_conf)
 		return (true);
 	else if (!ft_strcmp(identifier, "C"))
 		return (true);
-	else if (!ft_strcmp(identifier, "") && ft_strlen(map_conf) == 0)
+	else if (ft_strlen(map_conf) == 0)
 		return (true);
 	return (false);
 }
@@ -69,7 +69,7 @@ int	calc_map_height(char **maps)
 	while (maps[i])
 	{
 		height++;
-		++i;
+		i++;
 	}
 	return (height);
 }

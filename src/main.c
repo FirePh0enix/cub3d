@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:44:06 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/11 23:56:30 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:42:53 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void	loop_hook(t_vars *vars)
 
 #endif
 
-static	int	init_game(t_vars *v, char **av)
+static int	init_game(t_vars *v, char **av)
 {
 	init_door(av, v);
 	v->tiles[0] = tga_load_from_file("assets/textures/STWALL.tga", &v->at);
@@ -110,10 +110,10 @@ static	int	init_game(t_vars *v, char **av)
 	v->tiles[7] = tga_load_from_file("assets/textures/cave/WOLF7B.tga", &v->at);
 	init_weapons(v);
 	if (!font_init(&v->font, &v->at)
-		|| !font_init_big(&v->bffont, &v->at))
-		return (ft_free(v, &v->at));
-	load_skin(v->skin[SKIN_MARINE], v->skin_shoot[SKIN_MARINE],
-		"player", &v->at);
+		|| !font_init_big(&v->bffont, &v->at)
+		|| !load_skin(v->skin[SKIN_MARINE], v->skin_shoot[SKIN_MARINE],
+			"player", &v->at))
+		return (0);
 	menu_init(&v->menu, &v->r3d, &v->at);
 	if (!init_player(v))
 		return (0);
@@ -123,17 +123,18 @@ static	int	init_game(t_vars *v, char **av)
 	v->r3d.camera = &v->map.player->camera;
 	mlx_mouse_move(v->mlx, v->win, 1280 / 2, 720 / 2);
 	game_loop(v);
-	return (0);
+	return (1);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_vars			vars;
 
+	(void) argv;
 	ft_bzero(&vars, sizeof(t_vars));
 	if (!parsing(&vars, argv, &vars.at, argc))
 		return (ft_free(&vars, &vars.at), 1);
-	// vars.exec_hash = fnv32_hash_file("cub3D");
+	vars.exec_hash = fnv32_hash_file("cub3D");
 	if (!init_mlx_settings(&vars))
 		return (ft_free(&vars, &vars.at), 1);
 	mlx_hook(vars.win, DestroyNotify, 0, (void *) close_hook, &vars);

@@ -6,7 +6,7 @@
 #    By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 20:00:09 by ledelbec          #+#    #+#              #
-#    Updated: 2024/07/11 23:48:56 by ledelbec         ###   ########.fr        #
+#    Updated: 2024/07/12 10:59:14 by ledelbec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,9 +104,9 @@ BONUS_DEPS=$(SOURCES_NET:.c=.d)
 NAME=cub3D
 CC=clang
 
-OPTS=-O3 -fno-builtin
+OPTS=-O2 -fno-builtin
 DEBUG=-g
-CFLAGS=-Imlx -Ilibft -MMD $(OPTS) $(DEBUG) -Wall -Wextra -Werror
+CFLAGS=-Imlx -Ilibft -MMD $(OPTS) $(DEBUG) -Wall -Wextra #-Werror
 
 all: $(NAME)
 

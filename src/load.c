@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:12:43 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/27 12:12:02 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:46:12 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,4 @@ t_image	**load_images(t_alloc_table *at, int num, ...)
 		images[i] = tga_load_from_file(va_arg(list, char *), at);
 	va_end(list);
 	return (images);
-}
-
-char	*read_file(char *filename, t_alloc_table *at)
-{
-	return (read_to_string(filename, at));
 }

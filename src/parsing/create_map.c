@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:28 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/11 10:39:52 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:22:06 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ static	bool	create_tile_array(t_map *map, t_alloc_table *at)
 	map->tiles = scalloc(at, map->width * map->height, sizeof(int));
 	if (!map->tiles)
 	{
-		ft_putstr_fd(RED"Error\nMalloc failed for map->tiles (map_to_tiles)",
+		ft_putstr_fd(RED"Error\nMalloc failed for map->tiles (map_to_tiles)\n"
+			RESET,
 			2);
 		return (false);
 	}

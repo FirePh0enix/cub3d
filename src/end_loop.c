@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:41:24 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/06/29 18:42:59 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:52:02 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,4 @@ void	game_loop(t_vars *vars)
 	mlx_loop(vars->mlx);
 	mlx_do_key_autorepeaton(vars->mlx);
 	ft_free(vars, &vars->at);
-	mlx_destroy_window(vars->mlx, vars->win);
-	mlx_destroy_display(vars->mlx);
-	free(vars->mlx);
-	if (vars->is_server)
-		close(vars->server.socket);
-	else
-		close(vars->client.socket);
 }

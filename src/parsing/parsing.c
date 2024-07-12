@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:44 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/07 15:14:58 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:46:43 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ bool	parsing(t_vars *vars, char **argv, t_alloc_table *at, int ac)
 {
 	char	*line;
 
-	vars->map.name = argv[1];
 	if (!check_name_and_ac(ac, argv))
 		return (false);
-	line = read_to_string(argv[1], at);
+	vars->map.name = argv[1];
+	line = read_to_string(argv[1], NULL, at);
 	if (!line)
 	{
 		ft_putstr_fd(RED"Error\nMap does not exists\n"RESET, 2);

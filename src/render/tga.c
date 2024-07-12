@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 11:42:29 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/07/11 23:55:33 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:46:30 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,7 @@
 #include <stdio.h>
 #include "../mem.h"
 
-size_t	get_file_size(char *filename)
-{
-	char	b[4096];
-	int		n;
-	size_t	size;
-	int		fd;
-
-	size = 0;
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		return (0);
-	n = 4096;
-	while (n == 4096)
-	{
-		n = read(fd, b, 4096);
-		if (n == -1)
-			return (close(fd), 0);
-		size += n;
-	}
-	close(fd);
-	return (size);
-}
-
-char	*read_to_string(char *filename, t_alloc_table *at)
+static char	*__read_to_string(char *filename, int *size)
 {
 	int		fd;
 	char	*str;
@@ -48,12 +25,10 @@ char	*read_to_string(char *filename, t_alloc_table *at)
 	int		str_size;
 	int		n;
 
-	str = salloc(at, get_file_size(filename) + 1);
-	if (!str)
-		return (NULL);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (sfree(at, str), NULL);
+		return (NULL);
+	str = NULL;
 	str_size = 0;
 	n = 4096;
 	while (n == 4096)
@@ -61,11 +36,34 @@ char	*read_to_string(char *filename, t_alloc_table *at)
 		n = read(fd, buffer, 4096);
 		if (n == -1)
 			return (close(fd), NULL);
+		str = ft_realloc(str, str_size, str_size + n);
+		if (!str)
+			return (close(fd), NULL);
 		ft_memcpy(str + str_size, buffer, n);
 		str_size += n;
 	}
-	str[str_size] = '\0';
+	*size = str_size;
 	return (close(fd), str);
+}
+
+char	*read_to_string(char *filename, int *size, t_alloc_table *at)
+{
+	char	*oldptr;
+	char	*ptr;
+	int		oldptr_size;
+
+	oldptr = __read_to_string(filename, &oldptr_size);
+	if (!oldptr)
+		return (NULL);
+	ptr = salloc(at, oldptr_size + 1);
+	if (!ptr)
+		return (free(oldptr), NULL);
+	ft_memcpy(ptr, oldptr, oldptr_size);
+	free(oldptr);
+	ptr[oldptr_size] = '\0';
+	if (size)
+		*size = oldptr_size;
+	return (ptr);
 }
 
 static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf, size_t len)
@@ -87,10 +85,12 @@ static void	read_pixels(t_image *image, t_tga_hdr *hdr, char *buf, size_t len)
 
 t_image	*tga_load_from_file(char *filename, t_alloc_table *at)
 {
-	const char	*s = read_file(filename, at);
+	char		*s;
 	t_tga_hdr	hdr;
 	t_image		*image;
+	int			size;
 
+	s = read_to_string(filename, &size, at);
 	if (!s)
 		return (NULL);
 	ft_memcpy(&hdr, s, sizeof(t_tga_hdr));
@@ -103,8 +103,7 @@ t_image	*tga_load_from_file(char *filename, t_alloc_table *at)
 	image->w = hdr.w;
 	image->h = hdr.h;
 	image->bpp = hdr.bpp;
-	read_pixels(image, &hdr, (char *)s + sizeof(t_tga_hdr),
-		get_file_size(filename));
+	read_pixels(image, &hdr, (char *)s + sizeof(t_tga_hdr), size);
 	return (image);
 }
 

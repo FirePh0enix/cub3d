@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:49 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/11 23:52:47 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:45:22 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ bool	find_player_pos(char **maps, t_map *map);
 //############################################################################//
 								// UTILS //
 //############################################################################//
-char	*read_to_string(char *filename, t_alloc_table *at);
+char	*read_to_string(char *filename, int *size, t_alloc_table *at);
 bool	free_identifier(char *identifier);
 bool	check_enough_line(char **map_config);
 

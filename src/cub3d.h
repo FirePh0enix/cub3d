@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:06:53 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/08 16:29:06 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:46:07 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ typedef struct s_vars
 	uint32_t		ticks;
 }	t_vars;
 
-void		load_skin(t_sprite *sp, t_sprite *sh, char *name,
+bool		load_skin(t_sprite *sp, t_sprite *sh, char *name,
 				t_alloc_table *at);
 
 inline int	next_entity_id(t_vars *vars)
@@ -177,8 +177,6 @@ typedef struct s_box
 	t_v3	min;
 	t_v3	max;
 }	t_box;
-
-char		*read_file(char *filename, t_alloc_table *at);
 
 t_image		**load_images(t_alloc_table *at, int num, ...);
 

@@ -6,14 +6,14 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:00:57 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/28 11:26:49 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:43:55 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "render/render.h"
 
-static void	load_shoot_anim2(t_sprite *sh, t_alloc_table *at)
+static bool	load_shoot_anim2(t_sprite *sh, t_alloc_table *at)
 {
 	sh[BACK] = sprite_create_anim(load_images(at, 3,
 				"assets/player/E/5.tga",
@@ -35,9 +35,13 @@ static void	load_shoot_anim2(t_sprite *sh, t_alloc_table *at)
 				"assets/player/F/8.tga",
 				"assets/player/G/8.tga"
 				), 3, false, 100);
+	if (!sh[BACK].images || !sh[BACK_R].images || !sh[RIGHT].images
+		|| !sh[FORW_R].images)
+		return (false);
+	return (true);
 }
 
-static void	load_shoot_anim(t_sprite *sh, t_alloc_table *at)
+static bool	load_shoot_anim(t_sprite *sh, t_alloc_table *at)
 {
 	sh[FORW] = sprite_create_anim(load_images(at, 3,
 				"assets/player/E/1.tga",
@@ -59,11 +63,15 @@ static void	load_shoot_anim(t_sprite *sh, t_alloc_table *at)
 				"assets/player/F/4.tga",
 				"assets/player/G/4.tga"
 				), 3, false, 100);
+	if (!sh[FORW].images || !sh[FORW_L].images || !sh[LEFT].images
+		|| !sh[BACK_L].images)
+		return (false);
+	return (true);
 }
 
 #define WALK_MS 100
 
-static void	load_main_anim2(t_sprite *sp, t_alloc_table *at)
+static bool	load_main_anim2(t_sprite *sp, t_alloc_table *at)
 {
 	sp[BACK] = sprite_create_anim(load_images(at, 4,
 				"assets/player/A/5.tga",
@@ -78,20 +86,20 @@ static void	load_main_anim2(t_sprite *sp, t_alloc_table *at)
 				"assets/player/D/6.tga"
 				), 4, true, WALK_MS);
 	sp[RIGHT] = sprite_create_anim(load_images(at, 4,
-				"assets/player/A/7.tga",
-				"assets/player/B/7.tga",
-				"assets/player/C/7.tga",
-				"assets/player/D/7.tga"
+				"assets/player/A/7.tga", "assets/player/B/7.tga",
+				"assets/player/C/7.tga", "assets/player/D/7.tga"
 				), 4, true, WALK_MS);
 	sp[FORW_R] = sprite_create_anim(load_images(at, 4,
-				"assets/player/A/8.tga",
-				"assets/player/B/8.tga",
-				"assets/player/C/8.tga",
-				"assets/player/D/8.tga"
+				"assets/player/A/8.tga", "assets/player/B/8.tga",
+				"assets/player/C/8.tga", "assets/player/D/8.tga"
 				), 4, true, WALK_MS);
+	if (!sp[BACK].images || !sp[BACK_R].images || !sp[RIGHT].images
+		|| !sp[FORW_R].images)
+		return (false);
+	return (true);
 }
 
-static void	load_main_anim(t_sprite *sp, t_alloc_table *at)
+static bool	load_main_anim(t_sprite *sp, t_alloc_table *at)
 {
 	sp[FORW] = sprite_create_anim(load_images(at, 4,
 				"assets/player/A/1.tga",
@@ -106,24 +114,29 @@ static void	load_main_anim(t_sprite *sp, t_alloc_table *at)
 				"assets/player/D/2.tga"
 				), 4, true, WALK_MS);
 	sp[LEFT] = sprite_create_anim(load_images(at, 4,
-				"assets/player/A/3.tga",
-				"assets/player/B/3.tga",
-				"assets/player/C/3.tga",
-				"assets/player/D/3.tga"
+				"assets/player/A/3.tga", "assets/player/B/3.tga",
+				"assets/player/C/3.tga", "assets/player/D/3.tga"
 				), 4, true, WALK_MS);
 	sp[BACK_L] = sprite_create_anim(load_images(at, 4,
-				"assets/player/A/4.tga",
-				"assets/player/B/4.tga",
-				"assets/player/C/4.tga",
-				"assets/player/D/4.tga"
+				"assets/player/A/4.tga", "assets/player/B/4.tga",
+				"assets/player/C/4.tga", "assets/player/D/4.tga"
 				), 4, true, WALK_MS);
+	if (!sp[FORW].images || !sp[FORW_L].images || !sp[LEFT].images
+		|| !sp[BACK_L].images)
+		return (false);
+	return (true);
 }
 
-void	load_skin(t_sprite *sp, t_sprite *sh, char *name, t_alloc_table *at)
+bool	load_skin(t_sprite *sp, t_sprite *sh, char *name, t_alloc_table *at)
 {
 	(void) name;
-	load_shoot_anim(sh, at);
-	load_shoot_anim2(sh, at);
-	load_main_anim(sp, at);
-	load_main_anim2(sp, at);
+	if (!load_shoot_anim(sh, at))
+		return (false);
+	if (!load_shoot_anim2(sh, at))
+		return (false);
+	if (!load_main_anim(sp, at))
+		return (false);
+	if (!load_main_anim2(sp, at))
+		return (false);
+	return (true);
 }
