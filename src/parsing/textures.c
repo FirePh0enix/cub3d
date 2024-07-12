@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/12 12:25:55 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:40:10 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ static bool	load_if_valid(char *maps, char *ide, t_alloc_table *at, t_map *map)
 
 	image = load_texture(maps, ide, at);
 	if (!image)
-	{
-		free(ide);
 		return (false);
-	}
 	assign_textures(ide, map, image);
 	return (true);
 }

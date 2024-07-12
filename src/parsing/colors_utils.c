@@ -6,12 +6,13 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:05:48 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 18:49:41 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:12:35 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../parsing/parsing.h"
+#include "libft.h"
 #include <stddef.h>
 
 void	putstr_sep(char *str, char n)
@@ -48,17 +49,15 @@ bool	is_rgb_range(char *s)
 	return (true);
 }
 
-int	ft_nblen(int nb)
+int	ft_nblen(char *s)
 {
 	int	len;
 
 	len = 0;
-	if (nb == 0)
-		return (1);
-	while (nb > 0)
+	while (ft_isdigit(*s))
 	{
 		len++;
-		nb /= 10;
+		s++;
 	}
 	return (len);
 }

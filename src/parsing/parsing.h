@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:49 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/12 11:45:22 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:12:48 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_map	t_map;
 //############################################################################//
 								// COLORS CREATION //
 //############################################################################//
-int		ft_nblen(int nb);
+int		ft_nblen(char *s);
 bool	is_rgb_range(char *s);
 void	fill_color(char *identifier, t_map *map, unsigned char color, int i);
 

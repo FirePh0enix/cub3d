@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 13:50:43 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/11 23:59:18 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:11:45 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ bool	check_rgb(char *color, t_map *map, char *identifier)
 		}
 		fill_color(identifier, map, ft_atoi(color + i), j);
 		++j;
-		i += ft_nblen(ft_atoi(color + i));
+		i += ft_nblen(color + i);
 		if (color[i] && color[i] == ',')
 			++i;
 	}

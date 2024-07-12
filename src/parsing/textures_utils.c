@@ -6,7 +6,7 @@
 /*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:55:55 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/06 19:03:11 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:58:03 by vopekdas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,18 @@ char	*texture_path(char *path)
 	i = 0;
 	while (path[i])
 	{
-		if (path[i] != ' ')
+		if (path[i] && path[i] != ' ')
 			++i;
 		else
 			break ;
 	}
-	++i;
+	while (path[i])
+	{
+		if (path[i] == ' ')
+			++i;
+		else
+			break ;
+	}
 	return (path + i);
 }
 
