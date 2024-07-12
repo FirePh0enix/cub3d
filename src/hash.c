@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 19:44:46 by ledelbec          #+#    #+#             */
-/*   Updated: 2024/06/26 13:23:24 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:22:38 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,12 @@ uint32_t	fnv32_hash_file(char *file)
 	if (fd == -1)
 		return (0);
 	h = 0x811c9dc5;
-	while (1)
+	n = 4096;
+	while (n == 4096)
 	{
 		n = read(fd, buf, 4096);
 		if (n == -1)
 			return (0);
-		else if (n == 0)
-			break ;
 		while (n--)
 		{
 			h ^= buf[4096 - n - 1];

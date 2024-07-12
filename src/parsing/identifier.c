@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   identifier.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vopekdas <vopekdas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 18:55:24 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/08 16:54:31 by vopekdas         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:23:55 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ char	*detect_identifier(char *texture)
 	}
 	while (texture[i])
 	{
-		if (texture[i] && texture[i] != ' ')
+		if (texture[i] != ' ')
 		{
 			identifier[i] = texture[i];
-			++i;
+			i++;
 		}
 		else
 			break ;

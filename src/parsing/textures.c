@@ -6,7 +6,7 @@
 /*   By: ledelbec <ledelbec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:56:59 by vopekdas          #+#    #+#             */
-/*   Updated: 2024/07/11 23:59:46 by ledelbec         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:25:55 by ledelbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ bool	fill_texture(t_map *map, char **maps, t_alloc_table *at)
 		if (is_valid_identifier_text(identifier))
 		{
 			if (!load_if_valid(maps[i], identifier, at, map))
-				return (false);
+				return (free(identifier), false);
 			identifier_count++;
 		}
 		else if (!error_textures(identifier, identifier_count))
